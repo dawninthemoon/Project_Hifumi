@@ -14,12 +14,12 @@ public class Agent : MonoBehaviour {
     public float AttackRadius {
         get { return _attackRadius; }
     }
+    public bool DoingAttack { get; private set; }
 
     public void Move(Agent target) {
         Vector3 dir = (target.transform.position - transform.position).normalized;
         Vector3 targetPosition = target.transform.position;
-        float offset = 0.1f;
-        targetPosition -= dir * (target.Radius * 2f + offset);
+        targetPosition -= dir * (target.Radius + _attackDistance);
 
         float t = (Time.deltaTime * _moveSpeed) / Vector2.Distance(transform.position, targetPosition);
         transform.position = Vector3.Lerp(transform.position, targetPosition, t);
@@ -30,25 +30,23 @@ public class Agent : MonoBehaviour {
         Vector2 attackPosition = transform.position + dir * _attackDistance;
 
         float radian = Mathf.Atan2(dir.y, dir.x);
-        DrawRect(attackPosition, _attackRectSize, radian + Mathf.PI * 0.5f, Color.blue);
+        CreateAttackTest(attackPosition, radian + Mathf.PI * 0.5f);
+    }
+
+    private void CreateAttackTest(Vector2 pos, float radian) {
+        DoingAttack = true;
+        Invoke("DisableAttackTrigger", 1f);
+        GameObject obj = new GameObject();
+        obj.AddComponent<AttackRangeTest>().Initialize(pos, _attackRectSize, radian, 1f);
+    }
+
+    private void DisableAttackTrigger() {
+        DoingAttack = false;
     }
 
     private void Update() {
         DrawCircle(_radius, Color.green);
         DrawCircle(_attackRadius, Color.blue);
-    }
-
-    private void DrawRect(Vector2 center, Vector2 size, float radian, Color color) {
-        Vector2 dir1 = new Vector2(Mathf.Cos(radian), Mathf.Sin(radian)).normalized;
-        dir1 = dir1 * _attackRectSize.x;
-
-        Vector2 dir2 = new Vector2(Mathf.Cos(radian + Mathf.PI * 0.5f), Mathf.Sin(radian + Mathf.PI * 0.5f)).normalized;
-        dir2 = dir2 * _attackRectSize.y;
-
-        Debug.DrawLine(center + dir1 + dir2, center - dir1 + dir2, color);
-        Debug.DrawLine(center - dir1 + dir2, center - dir1 - dir2, color);
-        Debug.DrawLine(center - dir1 - dir2, center + dir1 - dir2, color);
-        Debug.DrawLine(center + dir1 - dir2, center + dir1 + dir2, color);
     }
 
     private void DrawCircle(float radius, Color color) {

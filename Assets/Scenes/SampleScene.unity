@@ -252,5 +252,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _entityCount: 2
-  _allyPrefab: {fileID: 6527839627355694426, guid: ef9f3ad0ab5e68544ba1cc0d9a36a30e, type: 3}
+  _allyPrefabMelee: {fileID: 6527839627355694426, guid: f77e294070198484d92b57c27106961e, type: 3}
+  _allyPrefabRange: {fileID: 6527839627355694426, guid: ef9f3ad0ab5e68544ba1cc0d9a36a30e, type: 3}
   _enemyPrefab: {fileID: 6527839627355694426, guid: d64170a6895bb7340b7265bb6c627a5e, type: 3}

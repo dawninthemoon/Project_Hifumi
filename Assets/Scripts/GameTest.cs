@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GameTest : MonoBehaviour {
     [SerializeField] private int _entityCount = 2;
-    [SerializeField] private Agent _allyPrefab = null, _enemyPrefab = null;
+    [SerializeField] private Agent _allyPrefabMelee = null, _allyPrefabRange = null, _enemyPrefab = null;
     private KdTree<Agent> _allies;
     private KdTree<Agent> _enemies;
     private List<Agent> _allAgents;
@@ -23,13 +23,17 @@ public class GameTest : MonoBehaviour {
         for (int i = 0; i < _entityCount; ++i) {
             Vector3 randPos1 = new Vector3(Random.Range(-Width / 2f, Width / 2f), Random.Range(-Height / 2f, Height / 2f));
             Vector3 randPos2 = new Vector3(Random.Range(-Width / 2f, Width / 2f), Random.Range(-Height / 2f, Height / 2f));
+            Vector3 randPos3 = new Vector3(Random.Range(-Width / 2f, Width / 2f), Random.Range(-Height / 2f, Height / 2f));
             
-            var ally = Instantiate(_allyPrefab, randPos1, Quaternion.identity);
-            var enemy = Instantiate(_enemyPrefab, randPos2, Quaternion.identity);
+            var ally1 = Instantiate(_allyPrefabMelee, randPos1, Quaternion.identity);
+            var ally2 = Instantiate(_allyPrefabRange, randPos2, Quaternion.identity);
+            var enemy = Instantiate(_enemyPrefab, randPos3, Quaternion.identity);
 
-            _allies.Add(ally);
+            _allies.Add(ally1);
+            _allies.Add(ally2);
             _enemies.Add(enemy);
-            _allAgents.Add(ally);
+            _allAgents.Add(ally1);
+            _allAgents.Add(ally2);
             _allAgents.Add(enemy);
         }
     }
@@ -61,7 +65,8 @@ public class GameTest : MonoBehaviour {
         foreach (Agent ally in _allies) {
             Agent target = _enemies.FindClosest(ally.transform.position);
 
-            if (IsIntersects(target.transform.position, ally.transform.position, target.AttackRadius, ally.Radius)) {
+            if (IsIntersects(target.transform.position, ally.transform.position, target.Radius, ally.AttackRadius)) {
+                if (ally.DoingAttack) continue;
                 ally.Attack(target);
             }
         }

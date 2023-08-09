@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6527839627355694426}
   - component: {fileID: 7593683741539087582}
   m_Layer: 0
-  m_Name: Ally
+  m_Name: AllyRange
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -47,9 +47,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _moveSpeed: 1
   _radius: 0.5
-  _attackRadius: 0.7
-  _attackDistance: 0.5
-  _attackRectSize: {x: 1, y: 0.1}
+  _attackRadius: 3.2
+  _attackDistance: 3
+  _attackRectSize: {x: 0.2, y: 0.2}
 --- !u!212 &7593683741539087582
 SpriteRenderer:
   m_ObjectHideFlags: 0
