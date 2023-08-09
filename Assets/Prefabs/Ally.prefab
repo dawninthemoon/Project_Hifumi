@@ -47,6 +47,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _moveSpeed: 1
   _radius: 0.5
+  _attackRadius: 0.7
+  _attackDistance: 0.5
+  _attackRectSize: {x: 1, y: 0.1}
 --- !u!212 &7593683741539087582
 SpriteRenderer:
   m_ObjectHideFlags: 0
