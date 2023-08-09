@@ -251,7 +251,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfcca9941f59c804ab1928f2c2389aab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _entityCount: 2
+  _entityCount: 5
   _allyPrefabMelee: {fileID: 6527839627355694426, guid: f77e294070198484d92b57c27106961e, type: 3}
   _allyPrefabRange: {fileID: 6527839627355694426, guid: ef9f3ad0ab5e68544ba1cc0d9a36a30e, type: 3}
-  _enemyPrefab: {fileID: 6527839627355694426, guid: d64170a6895bb7340b7265bb6c627a5e, type: 3}
+  _enemyPrefabMelee: {fileID: 6527839627355694426, guid: e2ff6a68c00db0549bc22af5a364f959, type: 3}
+  _enemyPrefabRange: {fileID: 6527839627355694426, guid: b3863518cdcd73b4391a45a1d80c86c7, type: 3}

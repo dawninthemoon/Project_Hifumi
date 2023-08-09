@@ -4,12 +4,18 @@ using UnityEngine;
 
 public class GameTest : MonoBehaviour {
     [SerializeField] private int _entityCount = 2;
-    [SerializeField] private Agent _allyPrefabMelee = null, _allyPrefabRange = null, _enemyPrefab = null;
+    [SerializeField] private Agent _allyPrefabMelee = null, _allyPrefabRange = null;
+    [SerializeField] private Agent _enemyPrefabMelee = null, _enemyPrefabRange = null;
     private KdTree<Agent> _allies;
     private KdTree<Agent> _enemies;
     private List<Agent> _allAgents;
     public static readonly float Width = 18f;
-    public static readonly float Height = 18f;
+    public static readonly float Height = 10f;
+    private float _maxWidth;
+    private float _minWidth;
+    private float _maxHeight;
+    private float _minHeight;
+
 
     private void Awake() {
         InitializeCombat();
@@ -21,25 +27,32 @@ public class GameTest : MonoBehaviour {
         _allAgents = new List<Agent>();
 
         for (int i = 0; i < _entityCount; ++i) {
-            Vector3 randPos1 = new Vector3(Random.Range(-Width / 2f, Width / 2f), Random.Range(-Height / 2f, Height / 2f));
-            Vector3 randPos2 = new Vector3(Random.Range(-Width / 2f, Width / 2f), Random.Range(-Height / 2f, Height / 2f));
-            Vector3 randPos3 = new Vector3(Random.Range(-Width / 2f, Width / 2f), Random.Range(-Height / 2f, Height / 2f));
-            
-            var ally1 = Instantiate(_allyPrefabMelee, randPos1, Quaternion.identity);
-            var ally2 = Instantiate(_allyPrefabRange, randPos2, Quaternion.identity);
-            var enemy = Instantiate(_enemyPrefab, randPos3, Quaternion.identity);
+            _minWidth = -Width / 2f + _allyPrefabMelee.Radius;
+            _maxWidth = Width / 2f - _allyPrefabMelee.Radius;
 
-            _allies.Add(ally1);
-            _allies.Add(ally2);
+            _minHeight = -Height / 2f + _allyPrefabMelee.Radius;
+            _maxHeight = Height / 2f - _allyPrefabMelee.Radius;
+
+            Vector3 randPos1 = new Vector3(Random.Range(_minWidth, _maxWidth), Random.Range(_minHeight, _maxHeight));
+            Vector3 randPos2 = new Vector3(Random.Range(_minWidth, _maxWidth), Random.Range(_minHeight, _maxHeight));
+            
+            Agent allyPrefab = _allyPrefabMelee;
+            if (Random.Range(0, 2) > 0) {
+                allyPrefab = _allyPrefabRange;
+            }
+            Agent enemyPrefab = _enemyPrefabMelee;
+            if (Random.Range(0, 2) > 0) {
+                enemyPrefab = _enemyPrefabRange;
+            }
+
+            var ally = Instantiate(allyPrefab, randPos1, Quaternion.identity);
+            var enemy = Instantiate(enemyPrefab, randPos2, Quaternion.identity);
+
+            _allies.Add(ally);
             _enemies.Add(enemy);
-            _allAgents.Add(ally1);
-            _allAgents.Add(ally2);
+            _allAgents.Add(ally);
             _allAgents.Add(enemy);
         }
-    }
-    
-    private void Start() {
-
     }
 
     private void Update() {
@@ -58,7 +71,15 @@ public class GameTest : MonoBehaviour {
                     EdgeOut(ally, other);
                 }
             }
+            ClampPosition(ally);
         }
+    }
+
+    private void ClampPosition(Agent agent) {
+        Vector2 pos = agent.transform.position;
+        pos.x = Mathf.Clamp(pos.x, _minWidth, _maxWidth);
+        pos.y = Mathf.Clamp(pos.y, _minHeight, _maxHeight);
+        agent.transform.position = pos;
     }
 
     private void AttackProgress() {
