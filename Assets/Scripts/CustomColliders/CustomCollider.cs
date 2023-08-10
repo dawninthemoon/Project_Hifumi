@@ -5,12 +5,19 @@ using UnityEngine.Events;
 
 namespace CustomPhysics {
     public enum ColliderLayerMask {
-        Default
+        None,
+        AllyBody,
+        EnemyBody,
+        AllyBodyCheck,
+        EnemyBodyCheck,
     }
+
     public abstract class CustomCollider : MonoBehaviour, IQuadTreeObject {
-        [SerializeField] ColliderLayerMask _colliderLayer = ColliderLayerMask.Default;
+        [SerializeField] ColliderLayerMask _colliderLayer = ColliderLayerMask.None;
         public ColliderLayerMask Layer { 
-            get { return _colliderLayer; }
+            get { 
+                return _colliderLayer;
+            }
             set {
                 if (_colliderLayer == value) return;
                 _colliderLayer = value;
@@ -18,22 +25,41 @@ namespace CustomPhysics {
             }
         }
         public string Tag { get; set; }
-        private readonly UnityEvent _onCollisionEvent = new UnityEvent();
-        public UnityEvent OnCollisionEvent {
+        private readonly UnityEvent<CustomCollider, CustomCollider> _onCollisionEvent = new UnityEvent<CustomCollider, CustomCollider>();
+        public UnityEvent<CustomCollider, CustomCollider> OnCollisionEvent {
             get { return _onCollisionEvent; }
         }
-        int _layerMask;
+        private int _layerMask;
         [SerializeField] protected Color _gizmoColor = Color.red;
 
-        protected virtual void Start() {
-            CollisionManager.Instance.AddCollider(this);
+        protected virtual void Awake() {
             InitalizeLayerMask();
         }
 
+        protected virtual void OnEnable() {
+            CollisionManager.Instance.AddCollider(this);
+        }
+
+        protected virtual void OnDisable() {
+            CollisionManager.Instance.RemoveCollider(this);
+        }
+
         void InitalizeLayerMask() {
+            _layerMask = 0;
             switch (_colliderLayer) {
-            case ColliderLayerMask.Default:
-                _layerMask = 1;
+            case ColliderLayerMask.None:
+                _layerMask = 0;
+                break;
+            case ColliderLayerMask.AllyBody:
+            case ColliderLayerMask.EnemyBody:
+                AddBitMask(ColliderLayerMask.AllyBody);
+                AddBitMask(ColliderLayerMask.EnemyBody);
+                break;
+            case ColliderLayerMask.AllyBodyCheck:
+                AddBitMask(ColliderLayerMask.AllyBody);
+                break;
+            case ColliderLayerMask.EnemyBodyCheck:
+                AddBitMask(ColliderLayerMask.EnemyBody);
                 break;
             }
         }
@@ -49,7 +75,7 @@ namespace CustomPhysics {
         }
         public abstract bool IsCollision(CustomCollider collider);
         public void OnCollision(CustomCollider collider) {
-            OnCollisionEvent.Invoke();
+            OnCollisionEvent?.Invoke(this, collider);
         }
         public abstract Rectangle GetBounds();
     }

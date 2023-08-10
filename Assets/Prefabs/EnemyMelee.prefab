@@ -1,5 +1,103 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2977770239878651701
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7355837470879247580}
+  - component: {fileID: 5040320830998930795}
+  m_Layer: 0
+  m_Name: attackRange
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7355837470879247580
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2977770239878651701}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7563314166462180939}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5040320830998930795
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2977770239878651701}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d22afe0b5151f134e99114a177232966, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _colliderLayer: 3
+  _gizmoColor: {r: 1, g: 0, b: 0.047058824, a: 1}
+  _circle:
+    center: {x: 0, y: -0.15}
+    radius: 0.4
+--- !u!1 &4532784737661602824
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1081633468804350588}
+  - component: {fileID: 4492411474652957216}
+  m_Layer: 0
+  m_Name: bodyCollider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1081633468804350588
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4532784737661602824}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7563314166462180939}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4492411474652957216
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4532784737661602824}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d22afe0b5151f134e99114a177232966, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _colliderLayer: 2
+  _gizmoColor: {r: 0, g: 1, b: 0.011764706, a: 1}
+  _circle:
+    center: {x: 0, y: -0.15}
+    radius: 0.2
 --- !u!1 &5868386700078837287
 GameObject:
   m_ObjectHideFlags: 0
@@ -30,7 +128,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7563314166462180939}
-  m_RootOrder: 0
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &5408945955363852963
 SpriteRenderer:
@@ -115,6 +213,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1081633468804350588}
+  - {fileID: 7355837470879247580}
   - {fileID: 4942333973161368202}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -132,16 +232,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _moveSpeed: 1
-  _collisionRange:
-    radius: 0.2
-    offset: {x: 0, y: -0.15}
-    color: {r: 0.21549666, g: 1, b: 0, a: 1}
-  _attackRange:
-    radius: 0.4
-    offset: {x: 0, y: -0.15}
-    color: {r: 1, g: 0, b: 0.121525764, a: 1}
-  _attackDistance: 0.4
-  _attackRectSize: {x: 0.5, y: 0.05}
+  _bodyCollider: {fileID: 4492411474652957216}
+  _attackRange: {fileID: 5040320830998930795}
+  _attackDamage: 5
 --- !u!212 &7563314166462180936
 SpriteRenderer:
   m_ObjectHideFlags: 0

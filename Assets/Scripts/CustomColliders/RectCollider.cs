@@ -40,8 +40,14 @@ namespace CustomPhysics {
 
     public class RectCollider : CustomCollider {
         [SerializeField] Rectangle _rect;
-        protected override void Start() {
-            base.Start();
+        protected override void Awake() {
+            base.Awake();
+        }
+        protected override void OnEnable() {
+            base.OnEnable();
+        }
+        protected override void OnDisable() {
+            base.OnDisable();
         }
         public override Rectangle GetBounds() {
             Rectangle newRectangle = _rect;
@@ -53,7 +59,13 @@ namespace CustomPhysics {
         }
 
         public override bool IsCollision(CustomCollider other) {
-            return IsCollision(other);
+            if (other is CircleCollider) {
+                return IsCollision(other as CircleCollider);
+            }
+            else if (other is RectCollider) {
+                return IsCollision(other as RectCollider);
+            }
+            return false;
         }
         public bool IsCollision(RectCollider other) {
             return CollisionManager.Instance.IsCollision(this, other);
@@ -61,7 +73,6 @@ namespace CustomPhysics {
         public bool IsCollision(CircleCollider other) {
             return CollisionManager.Instance.IsCollision(this, other);
         }
-        public bool IsCollision(PolygonCollider other) => false;
 
         public Vector2 GetWidthVector() {
             Vector2 ret;

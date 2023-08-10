@@ -16,11 +16,15 @@ namespace CustomPhysics {
         }
     }
 
-    public class CollisionManager : Singleton<CollisionManager> {
+    public class CollisionManager : SingletonWithMonoBehaviour<CollisionManager> {
         static Vector2[] _cachedVectorArr;
         List<CustomCollider> _colliders;
         QuadTree<CustomCollider> _quadTree;
         List<CustomCollider> _adjustObjectsList;
+
+        private void Awake() {
+            Initalize();
+        }
         
         public void Initalize() {
             _quadTree = new QuadTree<CustomCollider>(0, new Rectangle(0f, 0f, 1000f, 1000f));
@@ -29,7 +33,7 @@ namespace CustomPhysics {
             _adjustObjectsList = new List<CustomCollider>();
         }
 
-        public void Progress() {
+        public void Update() {
             _quadTree.Clear();
 
             int numOfColliders = _colliders.Count;
@@ -43,7 +47,7 @@ namespace CustomPhysics {
 
                 int numOfAdjustObjects = _adjustObjectsList.Count;
                 for (int j = 0; j < numOfAdjustObjects; ++j) {
-                    if (_colliders[i].CannotCollision(_adjustObjectsList[i].Layer)) continue;
+                    if (_colliders[i].CannotCollision(_adjustObjectsList[j].Layer)) continue;
                     if (_colliders[i].IsCollision(_adjustObjectsList[j])) {
                         _colliders[i].OnCollision(_adjustObjectsList[j]);
                     }
@@ -52,6 +56,9 @@ namespace CustomPhysics {
         }
         public void AddCollider(CustomCollider collider) {
             _colliders.Add(collider);
+        }
+        public void RemoveCollider(CustomCollider collider) {
+            _colliders.Remove(collider);
         }
         public bool IsCollision(Polygon p1, Vector2 p1Pos, Polygon p2, Vector2 p2Pos) {
             int p1Length = p1.points.Length;

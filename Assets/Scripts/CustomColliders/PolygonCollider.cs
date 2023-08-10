@@ -34,6 +34,12 @@ namespace CustomPhysics {
 
     public class PolygonCollider : CustomCollider {
         [SerializeField] Polygon _polygon = null;
+        protected override void OnEnable() {
+            base.OnEnable();
+        }
+        protected override void OnDisable() {
+            base.OnDisable();
+        }
         public void Initalize(Vector2[] points) {
             if (_polygon == null)
                 _polygon = new Polygon();
@@ -44,7 +50,9 @@ namespace CustomPhysics {
         }
         public Polygon GetPolygon() => _polygon;
         public override bool IsCollision(CustomCollider other) {
-            return IsCollision(other);
+            if (other is PolygonCollider)
+                return IsCollision(other as PolygonCollider);
+            return false;
         }
         public bool IsCollision(PolygonCollider other) {
             return CollisionManager.Instance.IsCollision(_polygon, transform.position, other.GetPolygon(), other.transform.position);

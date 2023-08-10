@@ -15,10 +15,21 @@ namespace CustomPhysics {
     }
 
     public class CircleCollider : CustomCollider {
-        [SerializeField] Circle _circle;
-        public Circle CircleShape { get { return _circle; } }
-        protected override void Start() {
-            base.Start();
+        [SerializeField] private Circle _circle;
+        public Circle CircleShape { 
+            get {
+                Circle newCircleShape = new Circle((Vector2)transform.position + _circle.center, _circle.radius);
+                return newCircleShape; 
+            }
+        }
+        protected override void Awake() {
+            base.Awake();
+        }
+        protected override void OnEnable() {
+            base.OnEnable();
+        }
+        protected override void OnDisable() {
+            base.OnDisable();
         }
         public override Rectangle GetBounds() {
             Vector2 pos = _circle.center;
@@ -28,7 +39,13 @@ namespace CustomPhysics {
             return bounds;
         }
         public override bool IsCollision(CustomCollider other) {
-            return IsCollision(other);
+            if (other is CircleCollider) {
+                return IsCollision(other as CircleCollider);
+            }
+            else if (other is RectCollider) {
+                return IsCollision(other as RectCollider);
+            }
+            return false;
         }
         public bool IsCollision(RectCollider other) {
             return CollisionManager.Instance.IsCollision(other, this);
