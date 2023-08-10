@@ -13,8 +13,7 @@ public class Agent : MonoBehaviour {
     [SerializeField] private float _moveSpeed = 1f;
     [SerializeField] private CircleColliderConfig _collisionRange;
     [SerializeField] private CircleColliderConfig _attackRange;
-    [SerializeField] private float _attackDistance = 0.2f;
-    [SerializeField] private Vector2 _attackRectSize = Vector2.one;
+    [SerializeField] private int _attackDamage = 5;
     public int Hp { get; set; } = 100;
     public float _movedTime;
     private static readonly float RequireMoveTime = 0.5f;
@@ -42,7 +41,7 @@ public class Agent : MonoBehaviour {
 
         Vector3 dir = (target.transform.position - transform.position).normalized;
         Vector3 targetPosition = target.transform.position;
-        targetPosition -= dir * (target.Radius + _attackDistance - 0.1f);
+        targetPosition -= dir * (target.Radius + _attackRange.radius - 0.1f);
 
         float t = (Time.deltaTime * _moveSpeed) / Vector2.Distance(transform.position, targetPosition);
         Vector3 nextPosition = Vector3.Lerp(transform.position, targetPosition, t);
@@ -59,21 +58,13 @@ public class Agent : MonoBehaviour {
         _movedTime = 0f;
 
         Vector3 dir = (target.transform.position - transform.position).normalized;
-        Vector2 attackPosition = transform.position + dir * _attackDistance;
-
         float radian = Mathf.Atan2(dir.y, dir.x);
-        CreateAttackTest(attackPosition, radian + Mathf.PI * 0.5f);
 
+        DoingAttack = true;
+        Invoke("DisableAttackTrigger", 0.5f);
         target.Hp -= 10;
 
         _animatorController.SetTrigger("doAttack");
-    }
-
-    private void CreateAttackTest(Vector2 pos, float radian) {
-        DoingAttack = true;
-        Invoke("DisableAttackTrigger", 0.5f);
-        GameObject obj = new GameObject();
-        obj.AddComponent<AttackRangeTest>().Initialize(pos, _attackRectSize, radian, 1f);
     }
 
     private void DisableAttackTrigger() {
