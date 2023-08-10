@@ -16,12 +16,17 @@ public class GameTest : MonoBehaviour {
     private float _maxHeight;
     private float _minHeight;
 
-
     private void Awake() {
         InitializeCombat();
     }
 
     private void InitializeCombat() {
+        if (_allAgents != null) {
+            foreach (var toRemove in _allAgents) {
+                Destroy(toRemove.gameObject);
+            }
+        }
+
         _allies = new KdTree<Agent>(true);
         _enemies = new KdTree<Agent>(true);
         _allAgents = new List<Agent>();
@@ -58,13 +63,43 @@ public class GameTest : MonoBehaviour {
     private void Update() {
         MoveProgress();
         AttackProgress();
+
+        for (int i = 0; i < _allAgents.Count; ++i) {
+            var agent = _allAgents[i];
+            if (agent.Hp <= 0) {
+                _allAgents.RemoveAt(i--);
+                agent.gameObject.SetActive(false);
+            }
+        }
+
+        for (int i = 0; i < _enemies.Count; ++i) {
+            var enemy = _enemies[i];
+            if (!enemy.gameObject.activeSelf) {
+                _enemies.RemoveAt(i--);
+                Destroy(enemy.gameObject);
+            }
+        }
+
+        for (int i = 0; i < _allies.Count; ++i) {
+            var ally = _allies[i];
+            if (!ally.gameObject.activeSelf) {
+                _allies.RemoveAt(i--);
+                Destroy(ally.gameObject);
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.Z)) {
+            InitializeCombat();
+        }
     }
 
     private void MoveProgress() {
         foreach (Agent ally in _allies) {
             Agent target = _enemies.FindClosest(ally.transform.position);
+            if (ally.DoingAttack || target == null) continue;
 
             ally.Move(target);
+            Vector3 dir = (target.transform.position - transform.position).normalized;
 
             foreach (Agent other in _allAgents) {
                 if (!other.Equals(ally) && IsIntersects(ally, other)) {
@@ -72,6 +107,20 @@ public class GameTest : MonoBehaviour {
                 }
             }
             ClampPosition(ally);
+        }
+
+        foreach (Agent enemy in _enemies) {
+            Agent target = _allies.FindClosest(enemy.transform.position);
+            if (enemy.DoingAttack || target == null) continue;
+
+            enemy.Move(target);
+
+            foreach (Agent other in _allAgents) {
+                if (!other.Equals(enemy) && IsIntersects(enemy, other)) {
+                    EdgeOut(enemy, other);
+                }
+            }
+            ClampPosition(enemy);
         }
     }
 
@@ -85,10 +134,20 @@ public class GameTest : MonoBehaviour {
     private void AttackProgress() {
         foreach (Agent ally in _allies) {
             Agent target = _enemies.FindClosest(ally.transform.position);
+            if (ally.DoingAttack || ally.DoingMove || target == null) continue;
 
             if (IsIntersects(target.transform.position, ally.transform.position, target.Radius, ally.AttackRadius)) {
-                if (ally.DoingAttack) continue;
                 ally.Attack(target);
+            }
+        }
+
+        foreach (Agent enemy in _enemies) {
+            Agent target = _allies.FindClosest(enemy.transform.position);
+            if (enemy.DoingAttack || enemy.DoingMove || target == null) continue;
+
+            if (IsIntersects(target.transform.position, enemy.transform.position, target.Radius, enemy.AttackRadius)) {
+                if (enemy.DoingAttack) continue;
+                enemy.Attack(target);
             }
         }
     }
