@@ -5,17 +5,17 @@ using CustomPhysics;
 
 public class GameTest : MonoBehaviour {
     [SerializeField] private int _entityCount = 2;
-    [SerializeField] private Agent _allyPrefabMelee = null, _allyPrefabRange = null;
-    [SerializeField] private Agent _enemyPrefabMelee = null, _enemyPrefabRange = null;
-    private KdTree<Agent> _allies;
-    private KdTree<Agent> _enemies;
-    private List<Agent> _allAgents;
+    [SerializeField] private EntityBase _allyPrefabMelee = null, _allyPrefabRange = null;
+    [SerializeField] private EntityBase _enemyPrefabMelee = null, _enemyPrefabRange = null;
+    private KdTree<EntityBase> _allies;
+    private KdTree<EntityBase> _enemies;
+    private List<EntityBase> _allEntityBases;
     public static readonly float Width = 18f;
     public static readonly float Height = 10f;
-    private float _maxWidth;
-    private float _minWidth;
-    private float _maxHeight;
-    private float _minHeight;
+    private static Vector2 _stageMinSize;
+    private static Vector2 _stageMaxSize;
+    public static Vector2 StageMinSize { get { return _stageMinSize; } }
+    public static Vector2 StageMaxSize { get { return _stageMaxSize; } }
 
     private void Awake() {
     }
@@ -25,31 +25,28 @@ public class GameTest : MonoBehaviour {
     }
 
     private void InitializeCombat() {
-        if (_allAgents != null) {
-            foreach (var toRemove in _allAgents) {
+        if (_allEntityBases != null) {
+            foreach (var toRemove in _allEntityBases) {
                 Destroy(toRemove.gameObject);
             }
         }
 
-        _allies = new KdTree<Agent>(true);
-        _enemies = new KdTree<Agent>(true);
-        _allAgents = new List<Agent>();
+        _allies = new KdTree<EntityBase>(true);
+        _enemies = new KdTree<EntityBase>(true);
+        _allEntityBases = new List<EntityBase>();
 
         for (int i = 0; i < _entityCount; ++i) {
-            _minWidth = -Width / 2f + _allyPrefabMelee.Radius;
-            _maxWidth = Width / 2f - _allyPrefabMelee.Radius;
+            _stageMinSize = new Vector2(-Width / 2f, -Height / 2f);
+            _stageMaxSize = new Vector2(Width / 2f, Height / 2f);
 
-            _minHeight = -Height / 2f + _allyPrefabMelee.Radius;
-            _maxHeight = Height / 2f - _allyPrefabMelee.Radius;
+            Vector3 randPos1 = new Vector3(Random.Range(_stageMinSize.x, _stageMaxSize.x), Random.Range(_stageMinSize.y, _stageMaxSize.y));
+            Vector3 randPos2 = new Vector3(Random.Range(_stageMinSize.x, _stageMaxSize.x), Random.Range(_stageMinSize.y, _stageMaxSize.y));
 
-            Vector3 randPos1 = new Vector3(Random.Range(_minWidth, _maxWidth), Random.Range(_minHeight, _maxHeight));
-            Vector3 randPos2 = new Vector3(Random.Range(_minWidth, _maxWidth), Random.Range(_minHeight, _maxHeight));
-            
-            Agent allyPrefab = _allyPrefabMelee;
+            EntityBase allyPrefab = _allyPrefabMelee;
             if (Random.Range(0, 2) > 0) {
                 allyPrefab = _allyPrefabRange;
             }
-            Agent enemyPrefab = _enemyPrefabMelee;
+            EntityBase enemyPrefab = _enemyPrefabMelee;
             if (Random.Range(0, 2) > 0) {
                 enemyPrefab = _enemyPrefabRange;
             }
@@ -59,19 +56,19 @@ public class GameTest : MonoBehaviour {
 
             _allies.Add(ally);
             _enemies.Add(enemy);
-            _allAgents.Add(ally);
-            _allAgents.Add(enemy);
+            _allEntityBases.Add(ally);
+            _allEntityBases.Add(enemy);
         }
     }
 
     private void Update() {
         MoveProgress();
 
-        for (int i = 0; i < _allAgents.Count; ++i) {
-            var agent = _allAgents[i];
-            if (agent.Hp <= 0) {
-                _allAgents.RemoveAt(i--);
-                agent.gameObject.SetActive(false);
+        for (int i = 0; i < _allEntityBases.Count; ++i) {
+            var EntityBase = _allEntityBases[i];
+            if (EntityBase.Health <= 0) {
+                _allEntityBases.RemoveAt(i--);
+                EntityBase.gameObject.SetActive(false);
             }
         }
 
@@ -97,8 +94,8 @@ public class GameTest : MonoBehaviour {
     }
 
     private void MoveProgress() {
-        foreach (Agent ally in _allies) {
-            Agent target = _enemies.FindClosest(ally.transform.position);
+        foreach (EntityBase ally in _allies) {
+            EntityBase target = _enemies.FindClosest(ally.transform.position);
             if (ally.DoingAttack || target == null) {
                 ally.SetMoveAnimationState(false);
                 continue;
@@ -109,8 +106,8 @@ public class GameTest : MonoBehaviour {
             ClampPosition(ally);
         }
 
-        foreach (Agent enemy in _enemies) {
-            Agent target = _allies.FindClosest(enemy.transform.position);
+        foreach (EntityBase enemy in _enemies) {
+            EntityBase target = _allies.FindClosest(enemy.transform.position);
             if (enemy.DoingAttack || target == null) {
                 enemy.SetMoveAnimationState(true);
                 continue;
@@ -122,10 +119,10 @@ public class GameTest : MonoBehaviour {
         }
     }
 
-    private void ClampPosition(Agent agent) {
-        Vector2 pos = agent.transform.position;
-        pos.x = Mathf.Clamp(pos.x, _minWidth, _maxWidth);
-        pos.y = Mathf.Clamp(pos.y, _minHeight, _maxHeight);
-        agent.transform.position = pos;
+    private void ClampPosition(EntityBase entity) {
+        Vector2 pos = entity.transform.position;
+        pos.x = Mathf.Clamp(pos.x, _stageMinSize.x + entity.Radius, _stageMaxSize.x - entity.Radius);
+        pos.y = Mathf.Clamp(pos.y, _stageMinSize.y + entity.Radius, _stageMaxSize.y - entity.Radius);
+        entity.transform.position = pos;
     }
 }

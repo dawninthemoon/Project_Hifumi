@@ -107,7 +107,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 319058429060391706}
-  - component: {fileID: 319058429060391781}
+  - component: {fileID: 5067655892966695724}
   - component: {fileID: 319058429060391707}
   - component: {fileID: 319058429060391704}
   m_Layer: 0
@@ -135,7 +135,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &319058429060391781
+--- !u!114 &5067655892966695724
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -144,12 +144,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 319058429060391705}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c4c455c24e2826d4998534fe4f7dd3e6, type: 3}
+  m_Script: {fileID: 11500000, guid: ca2d1818300961149aeaf4659667ece9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _moveSpeed: 1
   _bodyCollider: {fileID: 7441921500558977887}
   _attackRange: {fileID: 7739738138611410012}
+  _hpBarTransform: {fileID: 1205864999029432626}
+  _moveSpeed: 1
+  _maxHealth: 100
   _attackDamage: 5
 --- !u!212 &319058429060391707
 SpriteRenderer:
@@ -300,7 +302,7 @@ SpriteRenderer:
   m_Color: {r: 1, g: 0, b: 0.08196211, a: 1}
   m_FlipX: 0
   m_FlipY: 0
-  m_DrawMode: 1
+  m_DrawMode: 0
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0

@@ -142,7 +142,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7563314166462180939}
-  - component: {fileID: 7563314166462180938}
+  - component: {fileID: 7163469659208089624}
   - component: {fileID: 7563314166462180936}
   - component: {fileID: 7563314166462180937}
   m_Layer: 0
@@ -170,7 +170,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7563314166462180938
+--- !u!114 &7163469659208089624
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -179,12 +179,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 7563314166462180942}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c4c455c24e2826d4998534fe4f7dd3e6, type: 3}
+  m_Script: {fileID: 11500000, guid: ca2d1818300961149aeaf4659667ece9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _moveSpeed: 1
   _bodyCollider: {fileID: 2061503599519584549}
   _attackRange: {fileID: 6818479287258832727}
+  _hpBarTransform: {fileID: 9100749336996969131}
+  _moveSpeed: 1
+  _maxHealth: 100
   _attackDamage: 5
 --- !u!212 &7563314166462180936
 SpriteRenderer:

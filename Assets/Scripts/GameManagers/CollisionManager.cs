@@ -22,12 +22,13 @@ namespace CustomPhysics {
         QuadTree<CustomCollider> _quadTree;
         List<CustomCollider> _adjustObjectsList;
 
-        private void Awake() {
+        protected override void Awake() {
+            base.Awake();
             Initalize();
         }
         
         public void Initalize() {
-            _quadTree = new QuadTree<CustomCollider>(0, new Rectangle(0f, 0f, 100f, 100f));
+            _quadTree = new QuadTree<CustomCollider>(0, new Rectangle(-50f, -50f, 50f, 50f));
             _cachedVectorArr = new Vector2[4];
             _colliders = new List<CustomCollider>();
             _adjustObjectsList = new List<CustomCollider>();
