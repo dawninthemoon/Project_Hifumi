@@ -65,30 +65,6 @@ public class GameTest : MonoBehaviour {
     private void Update() {
         MoveProgress();
 
-        for (int i = 0; i < _allEntityBases.Count; ++i) {
-            var EntityBase = _allEntityBases[i];
-            if (EntityBase.Health <= 0) {
-                _allEntityBases.RemoveAt(i--);
-                EntityBase.gameObject.SetActive(false);
-            }
-        }
-
-        for (int i = 0; i < _enemies.Count; ++i) {
-            var enemy = _enemies[i];
-            if (!enemy.gameObject.activeSelf) {
-                _enemies.RemoveAt(i--);
-                Destroy(enemy.gameObject);
-            }
-        }
-
-        for (int i = 0; i < _allies.Count; ++i) {
-            var ally = _allies[i];
-            if (!ally.gameObject.activeSelf) {
-                _allies.RemoveAt(i--);
-                Destroy(ally.gameObject);
-            }
-        }
-
         if (Input.GetKeyDown(KeyCode.Z)) {
             InitializeCombat();
         }
@@ -99,6 +75,29 @@ public class GameTest : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.C)) {
             _gameSpeed = Mathf.Min(10f, _gameSpeed + 0.5f);
             Time.timeScale = _gameSpeed;
+        }
+    }
+
+    private void LateUpdate() {
+        for (int i = 0; i < _allEntityBases.Count; ++i) {
+            var entity = _allEntityBases[i];
+            if (entity.Health <= 0) {
+                _allEntityBases.RemoveAt(i--);
+            }
+        }
+
+        for (int i = 0; i < _enemies.Count; ++i) {
+            var enemy = _enemies[i];
+            if (enemy.Health <= 0) {
+                _enemies.RemoveAt(i--);
+            }
+        }
+
+        for (int i = 0; i < _allies.Count; ++i) {
+            var ally = _allies[i];
+            if (ally.Health <= 0) {
+                _allies.RemoveAt(i--);
+            }
         }
     }
 

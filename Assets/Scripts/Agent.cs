@@ -56,7 +56,7 @@ public class Agent {
 
         float radius = (self as CircleCollider).CircleShape.radius;
         Vector3 dir = (selfObj.transform.position - otherObj.transform.position).normalized;
-        selfObj.transform.position += dir * (radius * 0.1f);
-        otherObj.transform.position -= dir * (radius * 0.1f);
+        selfObj.transform.position += dir * (radius * 0.2f);
+        //otherObj.transform.position -= dir * (radius * 0.1f);
     }
 }

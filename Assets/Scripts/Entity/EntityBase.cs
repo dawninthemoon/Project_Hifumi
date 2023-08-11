@@ -46,6 +46,8 @@ public class EntityBase : MonoBehaviour {
     }
 
     private void Update() {
+        if (Health <= 0) return;
+
         var hpBarScale = _hpBarTransform.localScale;
         hpBarScale.x = (float)Health / _maxHealth * 0.7f;
         _hpBarTransform.localScale = hpBarScale;
@@ -60,6 +62,10 @@ public class EntityBase : MonoBehaviour {
     private void LateUpdate() {
         Attack();
         _entitiesInAttackRange.Clear();
+        if (Health <= 0) {
+            _bodyCollider.Layer = ColliderLayerMask.Obstacle;
+            _attackRange.gameObject.SetActive(false);
+        }
     }
 
     public void Move(EntityBase target) {
@@ -96,8 +102,19 @@ public class EntityBase : MonoBehaviour {
     }
 
     public void ReceiveDamage(int damage) {
+        if (Health <= 0) return;
+
         Mana = Mathf.Min(Mana + 10, _maxMana);
         Health -= damage;
+        if (Health <= 0) {
+           OnEntityDead();
+        }
+    }
+
+    private void OnEntityDead() {
+         _animatorController.SetBool("isDead", true);
+        _hpBarTransform.gameObject.SetActive(false);
+        _mpBarTransform.gameObject.SetActive(false);
     }
 
     private void DisableAttackTrigger() {

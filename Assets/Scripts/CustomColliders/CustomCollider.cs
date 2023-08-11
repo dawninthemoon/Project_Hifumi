@@ -10,6 +10,7 @@ namespace CustomPhysics {
         EnemyBody,
         AllyBodyCheck,
         EnemyBodyCheck,
+        Obstacle,
     }
 
     public abstract class CustomCollider : MonoBehaviour, IQuadTreeObject {
@@ -19,7 +20,7 @@ namespace CustomPhysics {
                 return _colliderLayer;
             }
             set {
-                if (_colliderLayer == value) return;
+                if (_colliderLayer.Equals(value)) return;
                 _colliderLayer = value;
                 InitalizeLayerMask();
             }
@@ -54,11 +55,16 @@ namespace CustomPhysics {
             case ColliderLayerMask.EnemyBody:
                 AddBitMask(ColliderLayerMask.AllyBody);
                 AddBitMask(ColliderLayerMask.EnemyBody);
+                AddBitMask(ColliderLayerMask.Obstacle);
                 break;
             case ColliderLayerMask.AllyBodyCheck:
                 AddBitMask(ColliderLayerMask.AllyBody);
                 break;
             case ColliderLayerMask.EnemyBodyCheck:
+                AddBitMask(ColliderLayerMask.EnemyBody);
+                break;
+            case ColliderLayerMask.Obstacle:
+                AddBitMask(ColliderLayerMask.AllyBody);
                 AddBitMask(ColliderLayerMask.EnemyBody);
                 break;
             }
