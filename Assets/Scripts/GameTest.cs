@@ -99,7 +99,10 @@ public class GameTest : MonoBehaviour {
     private void MoveProgress() {
         foreach (Agent ally in _allies) {
             Agent target = _enemies.FindClosest(ally.transform.position);
-            if (ally.DoingAttack || target == null) continue;
+            if (ally.DoingAttack || target == null) {
+                ally.SetMoveAnimationState(false);
+                continue;
+            }
 
             ally.Move(target);
 
@@ -108,7 +111,10 @@ public class GameTest : MonoBehaviour {
 
         foreach (Agent enemy in _enemies) {
             Agent target = _allies.FindClosest(enemy.transform.position);
-            if (enemy.DoingAttack || target == null) continue;
+            if (enemy.DoingAttack || target == null) {
+                enemy.SetMoveAnimationState(true);
+                continue;
+            }
 
             enemy.Move(target);
             

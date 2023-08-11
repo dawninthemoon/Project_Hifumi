@@ -44,6 +44,10 @@ public class Agent : MonoBehaviour {
         );
     }
 
+    public void SetMoveAnimationState(bool isMoving) {
+        _animatorController.SetBool("isMoving", isMoving);
+    }
+
     public void Move(Agent target) {
         _movedTime += Time.deltaTime;
 
@@ -54,7 +58,7 @@ public class Agent : MonoBehaviour {
         float t = (Time.deltaTime * _moveSpeed) / Vector2.Distance(transform.position, targetPosition);
         Vector3 nextPosition = Vector3.Lerp(transform.position, targetPosition, t);
 
-        _animatorController.SetBool("isMoving", !nextPosition.Equals(transform.position));
+        SetMoveAnimationState(!nextPosition.Equals(transform.position));
         GetComponent<SpriteRenderer>().flipX = (dir.x < 0f);
 
         transform.position = nextPosition;
