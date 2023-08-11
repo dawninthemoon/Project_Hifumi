@@ -33,7 +33,7 @@ public class Agent {
         _bodyCollider.OnCollisionEvent.AddListener(EdgeOut);
     }
 
-    public (float, bool) Move(Transform transform, EntityBase target, float attackRangeRadius) {
+    public (Vector2, bool) Move(Transform transform, EntityBase target, float attackRangeRadius) {
         bool isAgentMoved;
         MovedTime += Time.deltaTime;
 
@@ -47,7 +47,7 @@ public class Agent {
         isAgentMoved = nextPosition.Equals(transform.position);
         transform.position = nextPosition;
 
-        return (moveDirection.x, isAgentMoved);
+        return (moveDirection, isAgentMoved);
     }
 
     private void EdgeOut(CustomCollider self, CustomCollider other) {

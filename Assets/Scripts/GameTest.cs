@@ -16,6 +16,7 @@ public class GameTest : MonoBehaviour {
     private static Vector2 _stageMaxSize;
     public static Vector2 StageMinSize { get { return _stageMinSize; } }
     public static Vector2 StageMaxSize { get { return _stageMaxSize; } }
+    private float _gameSpeed;
 
     private void Awake() {
     }
@@ -91,6 +92,14 @@ public class GameTest : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.Z)) {
             InitializeCombat();
         }
+        if (Input.GetKeyDown(KeyCode.X)) {
+            _gameSpeed = Mathf.Max(0.5f, _gameSpeed - 0.5f);
+            Time.timeScale = _gameSpeed;
+        }
+        if (Input.GetKeyDown(KeyCode.C)) {
+            _gameSpeed = Mathf.Min(10f, _gameSpeed + 0.5f);
+            Time.timeScale = _gameSpeed;
+        }
     }
 
     private void MoveProgress() {
@@ -109,7 +118,7 @@ public class GameTest : MonoBehaviour {
         foreach (EntityBase enemy in _enemies) {
             EntityBase target = _allies.FindClosest(enemy.transform.position);
             if (enemy.DoingAttack || target == null) {
-                enemy.SetMoveAnimationState(true);
+                enemy.SetMoveAnimationState(false);
                 continue;
             }
 

@@ -15,6 +15,7 @@ public class EntityBase : MonoBehaviour {
     private Animator _animatorController;
     private SpriteRenderer _spriteRenderer;
     private List<EntityBase> _entitiesInAttackRange;
+    private Vector2 _faceDir;
     public float Radius {
         get { return _bodyCollider.CircleShape.radius; }
     }
@@ -44,6 +45,8 @@ public class EntityBase : MonoBehaviour {
         var hpBarScale = _hpBarTransform.localScale;
         hpBarScale.x = (float)Health / _maxHealth * 0.7f;
         _hpBarTransform.localScale = hpBarScale;
+
+        Debug.DrawRay(transform.position, _faceDir * 1f, Color.cyan);
     }
 
     private void LateUpdate() {
@@ -53,8 +56,9 @@ public class EntityBase : MonoBehaviour {
 
     public void Move(EntityBase target) {
         var movedEntityInfo = _agent.Move(transform, target, _attackRange.CircleShape.radius);
+        _faceDir = movedEntityInfo.Item1;
         SetMoveAnimationState(!movedEntityInfo.Item2);
-        _spriteRenderer.flipX = (movedEntityInfo.Item1 < 0f);
+        _spriteRenderer.flipX = (_faceDir.x < 0f);
     }
 
     public void Attack() {
