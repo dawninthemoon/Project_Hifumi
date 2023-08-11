@@ -16,6 +16,7 @@ public class TraceProjectile : ProjectileBase {
 
         _projectileBody = GetComponent<CustomCollider>();
         _projectileBody.OnCollisionEvent.AddListener((CustomCollider c1, CustomCollider c2) => {
+            if (c2 == null) return;
             var other = c2.transform.parent;
             if (!other.Equals(target.transform)) return;
 
