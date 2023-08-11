@@ -52,7 +52,7 @@ MonoBehaviour:
   _bodyCollider: {fileID: 8642157327147164403}
   _attackRange: {fileID: 308007521878007856}
   _attackConfig:
-    attackBehaviour: {fileID: 11400000, guid: e6413384cc387974c8e330821ec72015, type: 2}
+    attackBehaviour: {fileID: 11400000, guid: 03fa495c8f831c44db8f223b6a066095, type: 2}
     attackEffects:
     - {fileID: 11400000, guid: 15f55f9361eb44444ae06c473833c453, type: 2}
   _hpBarTransform: {fileID: 7324762287338166175}

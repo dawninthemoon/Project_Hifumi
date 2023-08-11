@@ -1,8 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using AttackBehaviours.Effects;
+using CustomPhysics;
 
 public abstract class ProjectileBase : MonoBehaviour {
-    public abstract void Initialize(Transform target, float moveSpeed);
+    protected CustomCollider _projectileBody;
+    public abstract void Initialize(EntityBase caster, EntityBase target, float moveSpeed, IAttackEffect[] effects);
     protected abstract void Update();
 }
