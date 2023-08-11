@@ -184,6 +184,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _bodyCollider: {fileID: 2061503599519584549}
   _attackRange: {fileID: 6818479287258832727}
+  _attackConfig:
+    attackBehaviour: {fileID: 11400000, guid: e6413384cc387974c8e330821ec72015, type: 2}
+    attackEffects:
+    - {fileID: 11400000, guid: 15f55f9361eb44444ae06c473833c453, type: 2}
   _hpBarTransform: {fileID: 9100749336996969131}
   _moveSpeed: 1
   _maxHealth: 100

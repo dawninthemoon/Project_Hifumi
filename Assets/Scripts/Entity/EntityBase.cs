@@ -6,6 +6,7 @@ using CustomPhysics;
 public class EntityBase : MonoBehaviour {
     [SerializeField] private CircleCollider _bodyCollider = null;
     [SerializeField] private CircleCollider _attackRange = null;
+    [SerializeField] private AttackConfig _attackConfig;
     [SerializeField] private Transform _hpBarTransform = null;
     [SerializeField] private float _moveSpeed = 1f;
     [SerializeField] private int _maxHealth = 100;
@@ -13,16 +14,19 @@ public class EntityBase : MonoBehaviour {
     private Agent _agent;
     private Animator _animatorController;
     private SpriteRenderer _spriteRenderer;
+    private List<EntityBase> _entitiesInAttackRange;
     public float Radius {
         get { return _bodyCollider.CircleShape.radius; }
     }
     public bool DoingAttack { get; private set; }
     public int Health { get; private set; }
+    public int AttackDamage { get { return _attackDamage; } }
 
     private void Awake() {
         _agent = new Agent(_bodyCollider, _moveSpeed);
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _animatorController = GetComponent<Animator>();
+        _entitiesInAttackRange = new List<EntityBase>();
     }
 
     private void Start() {
@@ -31,7 +35,7 @@ public class EntityBase : MonoBehaviour {
         _attackRange.OnCollisionEvent.AddListener(
             (CustomCollider self, CustomCollider other) => {
                 if (DoingAttack || _agent.DoingMove) return;
-                Attack(other.transform.parent.GetComponent<EntityBase>());
+                _entitiesInAttackRange.Add(other.transform.parent.GetComponent<EntityBase>());
             }
         );
     }
@@ -42,24 +46,28 @@ public class EntityBase : MonoBehaviour {
         _hpBarTransform.localScale = hpBarScale;
     }
 
+    private void LateUpdate() {
+        Attack();
+        _entitiesInAttackRange.Clear();
+    }
+
     public void Move(EntityBase target) {
         var movedEntityInfo = _agent.Move(transform, target, _attackRange.CircleShape.radius);
         SetMoveAnimationState(!movedEntityInfo.Item2);
         _spriteRenderer.flipX = (movedEntityInfo.Item1 < 0f);
     }
 
-    public void Attack(EntityBase target) {
+    public void Attack() {
+        if (_entitiesInAttackRange.Count == 0) return;
         _agent.MovedTime = 0f;
-
-        Vector3 dir = (target.transform.position - transform.position).normalized;
-        float radian = Mathf.Atan2(dir.y, dir.x);
 
         DoingAttack = true;
         Invoke("DisableAttackTrigger", 0.5f);
 
-        target.Health -= _attackDamage;
-
         _animatorController.SetTrigger("doAttack");
+
+        var attackEffects = _attackConfig.attackEffects;
+        _attackConfig.attackBehaviour.Behaviour(this, _entitiesInAttackRange, attackEffects);
     }
 
     public void SetMoveAnimationState(bool isMoving) {
