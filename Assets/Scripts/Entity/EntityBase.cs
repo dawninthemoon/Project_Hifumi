@@ -7,9 +7,12 @@ public class EntityBase : MonoBehaviour {
     [SerializeField] private CircleCollider _bodyCollider = null;
     [SerializeField] private CircleCollider _attackRange = null;
     [SerializeField] private AttackConfig _attackConfig;
+    [SerializeField] private AttackConfig _skillConfig;
     [SerializeField] private Transform _hpBarTransform = null;
+    [SerializeField] private Transform _mpBarTransform = null;
     [SerializeField] private float _moveSpeed = 1f;
     [SerializeField] private int _maxHealth = 100;
+    [SerializeField] private int _maxMana = 100;
     [SerializeField] private int _attackDamage = 5;
     private Agent _agent;
     private Animator _animatorController;
@@ -21,6 +24,7 @@ public class EntityBase : MonoBehaviour {
     }
     public bool DoingAttack { get; private set; }
     public int Health { get; private set; }
+    public int Mana { get; private set; }
     public int AttackDamage { get { return _attackDamage; } }
 
     private void Awake() {
@@ -46,7 +50,11 @@ public class EntityBase : MonoBehaviour {
         hpBarScale.x = (float)Health / _maxHealth * 0.7f;
         _hpBarTransform.localScale = hpBarScale;
 
-        Debug.DrawRay(transform.position, _faceDir * 1f, Color.cyan);
+        var mpBarScale = _mpBarTransform.localScale;
+        mpBarScale.x = (float)Mana / _maxMana * 0.7f;
+        _mpBarTransform.localScale = mpBarScale;
+
+        Debug.DrawRay(transform.position, _faceDir * 0.5f, Color.cyan);
     }
 
     private void LateUpdate() {
@@ -64,14 +72,23 @@ public class EntityBase : MonoBehaviour {
     public void Attack() {
         if (_entitiesInAttackRange.Count == 0) return;
         _agent.MovedTime = 0f;
+        Mana = Mathf.Min(Mana + 10, _maxMana);
 
         DoingAttack = true;
         Invoke("DisableAttackTrigger", 0.5f);
 
-        _animatorController.SetTrigger("doAttack");
+        string triggerName = "doAttack";
+        AttackConfig config = _attackConfig;
+        if (Mana == _maxMana) {
+            Mana = 0;
+            triggerName = "doSkill";
+            config = _skillConfig;
+        }
 
-        var attackEffects = _attackConfig.attackEffects;
-        _attackConfig.attackBehaviour.Behaviour(this, _entitiesInAttackRange, attackEffects);
+        _animatorController.SetTrigger(triggerName);
+
+        var effects = config.attackEffects;
+        config.attackBehaviour.Behaviour(this, _entitiesInAttackRange, effects);
     }
 
     public void SetMoveAnimationState(bool isMoving) {
@@ -79,6 +96,7 @@ public class EntityBase : MonoBehaviour {
     }
 
     public void ReceiveDamage(int damage) {
+        Mana = Mathf.Min(Mana + 10, _maxMana);
         Health -= damage;
     }
 
