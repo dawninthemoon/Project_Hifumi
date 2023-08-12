@@ -19,6 +19,8 @@ public class GameTest : MonoBehaviour {
     private float _gameSpeed;
 
     private void Awake() {
+        var memberUITest = GameObject.FindObjectOfType<MemberUITest>();
+        memberUITest.OnEntityCreated = OnEntityCreated;
     }
 
     private void Start() {
@@ -132,5 +134,10 @@ public class GameTest : MonoBehaviour {
         pos.x = Mathf.Clamp(pos.x, _stageMinSize.x + entity.Radius, _stageMaxSize.x - entity.Radius);
         pos.y = Mathf.Clamp(pos.y, _stageMinSize.y + entity.Radius, _stageMaxSize.y - entity.Radius);
         entity.transform.position = pos;
+    }
+
+    private void OnEntityCreated(EntityBase entity) {
+        _allies.Add(entity);
+        _allEntityBases.Add(entity);
     }
 }

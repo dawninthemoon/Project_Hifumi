@@ -220,6 +220,26 @@ namespace CustomPhysics {
 
             return !((boxToCircleMagnitude - max - circle.radius > 0f) && (boxToCircleMagnitude > 0f));
         }
+        public bool IsCollision(RectCollider c1, Circle circle) {
+            Rectangle rect = c1.GetBounds();
+
+            float max = -Mathf.Infinity;
+            Vector2 boxToCircle = circle.center - rect.position;
+            float boxToCircleMagnitude = boxToCircle.magnitude;
+            Vector2 normalizedBoxToCircle = boxToCircle.normalized;
+
+            _cachedVectorArr[0] = rect.GetP00();
+            _cachedVectorArr[1] = rect.GetP01();
+            _cachedVectorArr[2] = rect.GetP11();
+            _cachedVectorArr[3] = rect.GetP10();
+
+            for (int i = 0; i < 4; ++i) {
+                float currentProjection = Vector2.Dot(_cachedVectorArr[i], normalizedBoxToCircle);
+                max = Mathf.Max(max, currentProjection);
+            }
+
+            return !((boxToCircleMagnitude - max - circle.radius > 0f) && (boxToCircleMagnitude > 0f));
+        }
         Vector2 GetUnitVector(Vector2 vec) {
             Vector2 ret;
             float size = Mathf.Sqrt(vec.x * vec.x + vec.y * vec.y);

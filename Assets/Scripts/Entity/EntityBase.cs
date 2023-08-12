@@ -4,6 +4,7 @@ using UnityEngine;
 using CustomPhysics;
 
 public class EntityBase : MonoBehaviour {
+    [SerializeField] private string _id = null;
     [SerializeField] private SpriteRenderer _bodyRenderer = null;
     [SerializeField] private CircleCollider _bodyCollider = null;
     [SerializeField] private CircleCollider _attackRange = null;
@@ -22,6 +23,9 @@ public class EntityBase : MonoBehaviour {
     private Vector2 _faceDir;
     public float Radius {
         get { return _bodyCollider.CircleShape.radius; }
+    }
+    public string ID {
+        get { return _id; }
     }
     public bool DoingAttack { get; private set; }
     public int Health { get; private set; }
