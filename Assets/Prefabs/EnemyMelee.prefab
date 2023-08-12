@@ -561,6 +561,7 @@ MonoBehaviour:
     attackBehaviour: {fileID: 11400000, guid: e6413384cc387974c8e330821ec72015, type: 2}
     attackEffects:
     - {fileID: 11400000, guid: 15f55f9361eb44444ae06c473833c453, type: 2}
+  _handTransform: {fileID: 8589544129359176537}
   _hpBarTransform: {fileID: 2863251678379950189}
   _mpBarTransform: {fileID: 415993465750348160}
   _moveSpeed: 30

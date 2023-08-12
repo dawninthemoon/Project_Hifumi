@@ -9,6 +9,7 @@ public class EntityBase : MonoBehaviour {
     [SerializeField] private CircleCollider _attackRange = null;
     [SerializeField] private AttackConfig _attackConfig;
     [SerializeField] private AttackConfig _skillConfig;
+    [SerializeField] private Transform _handTransform = null;
     [SerializeField] private Transform _hpBarTransform = null;
     [SerializeField] private Transform _mpBarTransform = null;
     [SerializeField] private float _moveSpeed = 1f;
@@ -55,7 +56,8 @@ public class EntityBase : MonoBehaviour {
         mpBarScale.x = (float)Mana / _maxMana * 0.7f;
         _mpBarTransform.localScale = mpBarScale;
 
-        Debug.DrawRay(transform.position, _faceDir * 0.5f, Color.cyan);
+        Debug.DrawRay(transform.position, _faceDir * 10f, Color.cyan);
+        _handTransform.rotation = VectorToQuaternion(_faceDir);
     }
 
     private void LateUpdate() {
@@ -71,7 +73,9 @@ public class EntityBase : MonoBehaviour {
         var movedEntityInfo = _agent.Move(transform, target, _attackRange.CircleShape.radius);
         _faceDir = movedEntityInfo.Item1;
         SetMoveAnimationState(!movedEntityInfo.Item2);
+
         _bodyRenderer.flipX = (_faceDir.x < 0f);
+        _handTransform.localScale = new Vector3(1f, Mathf.Sign(_faceDir.x), 1f);
     }
 
     public void Attack() {
@@ -118,5 +122,10 @@ public class EntityBase : MonoBehaviour {
 
     private void DisableAttackTrigger() {
         DoingAttack = false;
+    }
+
+    private Quaternion VectorToQuaternion(Vector2 direction) {
+        float theta = Mathf.Atan2(direction.y, direction.x);
+        return Quaternion.Euler(0f, 0f, theta * Mathf.Rad2Deg);
     }
 }
