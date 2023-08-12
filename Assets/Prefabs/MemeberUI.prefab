@@ -179,7 +179,7 @@ GameObject:
   - component: {fileID: 2763993080313773913}
   - component: {fileID: 2814454870100462658}
   m_Layer: 0
-  m_Name: MemeberUI 1
+  m_Name: MemeberUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -219,9 +219,9 @@ SortingGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 994844054875235987}
   m_Enabled: 1
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: -1738356269
+  m_SortingLayer: 1
+  m_SortingOrder: 1
 --- !u!1 &2054016616556487482
 GameObject:
   m_ObjectHideFlags: 0

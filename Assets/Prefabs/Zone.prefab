@@ -131,7 +131,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bf73016e98afff4d81aa1f8da24797f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _memberUIPrefab: {fileID: 8401113533005292493, guid: d2b770471a4623348abd11ca6105e749, type: 3}
+  _memberUIPrefab: {fileID: 994844054875235987, guid: 73d9e327dd064f741939e8e9990aa15b, type: 3}
   _additionalWindow: {fileID: 5004384873076546765}
 --- !u!212 &5004384873428679326
 SpriteRenderer:
