@@ -33,7 +33,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -47,7 +47,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 20
+  spritePixelsToUnits: 16
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -108,10 +108,10 @@ TextureImporter:
       name: icon_0
       rect:
         serializedVersion: 2
-        x: 40
-        y: 1928
-        width: 423
-        height: 424
+        x: 31
+        y: 1919
+        width: 442
+        height: 442
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -129,10 +129,10 @@ TextureImporter:
       name: icon_1
       rect:
         serializedVersion: 2
-        x: 512
-        y: 2218
-        width: 196
-        height: 135
+        x: 496
+        y: 2197
+        width: 226
+        height: 186
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -150,10 +150,10 @@ TextureImporter:
       name: icon_2
       rect:
         serializedVersion: 2
-        x: 743
-        y: 2210
-        width: 138
-        height: 124
+        x: 734
+        y: 2200
+        width: 157
+        height: 143
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -171,10 +171,10 @@ TextureImporter:
       name: icon_3
       rect:
         serializedVersion: 2
-        x: 932
-        y: 2213
-        width: 140
-        height: 133
+        x: 922
+        y: 2204
+        width: 160
+        height: 151
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
