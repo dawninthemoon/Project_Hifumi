@@ -123,6 +123,57 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &79655277
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 79655278}
+  - component: {fileID: 79655279}
+  m_Layer: 0
+  m_Name: ObstacleArea
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &79655278
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 79655277}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -199, y: -54.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &79655279
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 79655277}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5513ba8b86840bb4d8341ba339c61e63, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _colliderLayer: 5
+  _gizmoColor: {r: 1, g: 0, b: 0, a: 1}
+  _rect:
+    position: {x: -10, y: 40}
+    width: 220
+    height: 200
+    rotation: 0
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -242,8 +293,8 @@ MonoBehaviour:
   _gizmoColor: {r: 1, g: 0, b: 0, a: 1}
   _rect:
     position: {x: 0, y: 0}
-    width: 0.5
-    height: 0.5
+    width: 1
+    height: 1
     rotation: 0
   _onMouseOver:
     m_PersistentCalls:
@@ -388,6 +439,8 @@ MonoBehaviour:
   _allyPrefabRange: {fileID: 5067655892966695724, guid: ef9f3ad0ab5e68544ba1cc0d9a36a30e, type: 3}
   _enemyPrefabMelee: {fileID: 3257395650604171983, guid: fbb11515525e607408a2c60468c52e57, type: 3}
   _enemyPrefabRange: {fileID: -2483350518945898091, guid: cf0628170f3eae4429da007fb34bc1a1, type: 3}
+  _obstacleArea:
+  - {fileID: 79655279}
 --- !u!1 &1147839828
 GameObject:
   m_ObjectHideFlags: 0
@@ -483,6 +536,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MemeberUI
       objectReference: {fileID: 0}
+    - target: {fileID: 2581703891177616530, guid: 73d9e327dd064f741939e8e9990aa15b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2763993080313773913, guid: 73d9e327dd064f741939e8e9990aa15b, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -534,6 +591,10 @@ PrefabInstance:
     - target: {fileID: 5515409719866554080, guid: 73d9e327dd064f741939e8e9990aa15b, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5587426979779349206, guid: 73d9e327dd064f741939e8e9990aa15b, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 73d9e327dd064f741939e8e9990aa15b, type: 3}

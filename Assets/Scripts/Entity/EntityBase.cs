@@ -118,6 +118,10 @@ public class EntityBase : MonoBehaviour {
         }
     }
 
+    public bool IsCollision(CustomCollider other) {
+        return other.IsCollision(_bodyCollider);
+    }
+
     private void OnEntityDead() {
          _animatorController.SetBool("isDead", true);
         _hpBarTransform.gameObject.SetActive(false);

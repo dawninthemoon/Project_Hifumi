@@ -53,6 +53,8 @@ public class Agent {
     private void EdgeOut(CustomCollider self, CustomCollider other) {
         Transform selfObj = self.transform.parent;
         Transform otherObj = other.transform.parent;
+        if (otherObj == null)
+            otherObj = other.transform;
 
         float radius = (self as CircleCollider).CircleShape.radius;
         Vector3 dir = (selfObj.transform.position - otherObj.transform.position).normalized;

@@ -64,8 +64,8 @@ namespace CustomPhysics {
                 AddBitMask(ColliderLayerMask.EnemyBody);
                 break;
             case ColliderLayerMask.Obstacle:
-                AddBitMask(ColliderLayerMask.AllyBody);
-                AddBitMask(ColliderLayerMask.EnemyBody);
+                //AddBitMask(ColliderLayerMask.AllyBody);
+                //AddBitMask(ColliderLayerMask.EnemyBody);
                 break;
             }
         }

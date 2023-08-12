@@ -200,9 +200,9 @@ namespace CustomPhysics {
             return true;
         }
         public bool IsCollision(CircleCollider c1, CircleCollider c2) {
-            Circle circle1 = c1.CircleShape;
-            Circle circle2 = c2.CircleShape;
-
+            return IsCollision(c1.CircleShape, c2.CircleShape);
+        }
+        public bool IsCollision(Circle circle1, Circle circle2) {
             float xPow = (circle1.center.x - circle2.center.x) * (circle1.center.x - circle2.center.x);
             float yPow = (circle1.center.y - circle2.center.y) * (circle1.center.y - circle2.center.y);
             float radiusPow = (circle1.radius + circle2.radius) * (circle1.radius + circle2.radius);
@@ -338,7 +338,7 @@ namespace CustomPhysics {
         }
         private void CheckUICollisions() {
             Vector2 mousePosition = RieslingUtils.MouseUtils.GetMouseWorldPosition();
-            Circle mouseBounds = new Circle(mousePosition, 10f);
+            Circle mouseBounds = new Circle(mousePosition, 1f);
             for (int i = 0; i < _uiColliders.Count; ++i) {
                 UICollider uiCollider = _uiColliders[i];
                 if (IsCollision(uiCollider, mouseBounds)) {
