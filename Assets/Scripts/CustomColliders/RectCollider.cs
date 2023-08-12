@@ -22,20 +22,6 @@ namespace CustomPhysics {
             this.height = height;
             this.rotation = rotation;
         }
-
-        public Vector2 GetP11() {
-            return new Vector2(Mathf.Cos(rotation * Mathf.Deg2Rad), Mathf.Sin(rotation * Mathf.Deg2Rad)) * width;
-        }
-
-        public Vector2 GetP01() {
-            return new Vector2(Mathf.Cos(rotation * Mathf.Deg2Rad + Mathf.PI), Mathf.Sin(rotation * Mathf.Deg2Rad + Mathf.PI)) * width * 0.5f;
-        }
-        public Vector2 GetP10() {
-            return GetP11() + new Vector2(Mathf.Cos(rotation * Mathf.Deg2Rad + Mathf.PI * 0.5f), Mathf.Sin(rotation * Mathf.Deg2Rad + Mathf.PI * 0.5f)) * height;
-        }
-        public Vector2 GetP00() {
-            return new Vector2(Mathf.Cos(rotation * Mathf.Deg2Rad + Mathf.PI * 0.5f), Mathf.Sin(rotation * Mathf.Deg2Rad + Mathf.PI * 0.5f)) * height;
-        }
     }
 
     public class RectCollider : CustomCollider {

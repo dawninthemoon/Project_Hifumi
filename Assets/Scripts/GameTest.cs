@@ -47,7 +47,7 @@ public class GameTest : MonoBehaviour {
             EntityBase ally = null;
             EntityBase enemy = null;
 
-            for (int j = 0; j < 100; ++j) {
+            while (true) {
                 Vector3 randPos1 = new Vector3(Random.Range(_stageMinSize.x, _stageMaxSize.x), Random.Range(_stageMinSize.y, _stageMaxSize.y));
                 Vector3 randPos2 = new Vector3(Random.Range(_stageMinSize.x, _stageMaxSize.x), Random.Range(_stageMinSize.y, _stageMaxSize.y));
 
