@@ -95,7 +95,6 @@ GameObject:
   - component: {fileID: 5004384873428679325}
   - component: {fileID: 5004384873428679324}
   - component: {fileID: 5004384873428679326}
-  - component: {fileID: 5004384873428679323}
   m_Layer: 0
   m_Name: Zone
   m_TagString: Untagged
@@ -185,22 +184,3 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &5004384873428679323
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5004384873428679327}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5513ba8b86840bb4d8341ba339c61e63, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _colliderLayer: 0
-  _gizmoColor: {r: 1, g: 0, b: 0, a: 1}
-  _rect:
-    position: {x: 0, y: 0}
-    width: 0.5
-    height: 0.5
-    rotation: 0

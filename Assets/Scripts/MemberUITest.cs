@@ -5,11 +5,9 @@ using CustomPhysics;
 using RieslingUtils;
 
 public class MemberUIElement {
-    public string targetID;
     public GameObject gameObject;
-    public RectCollider collider;
-    public MemberUIElement(string id, GameObject gameObject, RectCollider collider) {
-        this.targetID = id;
+    public UICollider collider;
+    public MemberUIElement(GameObject gameObject, UICollider collider) {
         this.gameObject = gameObject;
         this.collider = collider;
     }
@@ -24,35 +22,25 @@ public class MemberUITest : MonoBehaviour {
     private MemberUIElement _selectedUI;
     private EntityBase _selectedEntity;
     public System.Action<EntityBase> OnEntityCreated { get; set; }
-    private RectCollider _zoneCollider;
+    private UICollider _zoneCollider;
 
     private void Awake() {
         _currentMemberUI = new List<MemberUIElement>();
-        _zoneCollider = GetComponent<RectCollider>();
+        _zoneCollider = GetComponent<UICollider>();
+
+        _zoneCollider.OnMouseDown.AddListener(() => {  SetUIActive(!_additionalWindow.gameObject.activeSelf); });
 
         _entityPrefabDictionary = new Dictionary<string, EntityBase>();
         var entityPrefabs = Resources.LoadAll<EntityBase>("Prefabs/");
         foreach (EntityBase entity in entityPrefabs) {
             _entityPrefabDictionary.Add(entity.ID, entity);
-
-            var uiObj = Instantiate(_memberUIPrefab, _additionalWindow);
-            var collider = uiObj.GetComponentInChildren<RectCollider>();
-
-            uiObj.transform.localPosition = GetUIPosition(_currentMemberUI.Count);
-            uiObj.transform.SetParent(null);
-            uiObj.transform.localScale = Vector3.one;
-
-            _currentMemberUI.Add(new MemberUIElement(entity.ID, uiObj, collider));
+            CreateUIElement(entity);
         }
 
         SetUIActive(false);
     }
 
     private void Update() {
-        if (IsMouseDownWithCollider(_zoneCollider)) {
-            SetUIActive(!_additionalWindow.gameObject.activeSelf);
-        }
-
         Vector2 mousePosition = MouseUtils.GetMouseWorldPosition();
         if (_selectedEntity) {
             _selectedEntity.transform.position = mousePosition;
@@ -60,20 +48,7 @@ public class MemberUITest : MonoBehaviour {
                 SpawnEntity();
             }
         }
-
-        foreach (MemberUIElement memberUI in _currentMemberUI) {
-            if (IsMouseOverWithCollider(memberUI.collider)) {
-                memberUI.gameObject.transform.localScale = new Vector3(1.5f, 1.5f, 1f);
-                if (Input.GetMouseButtonDown(0)) {
-                    _selectedUI = memberUI;
-                    _selectedEntity = Instantiate(_entityPrefabDictionary[memberUI.targetID], mousePosition, Quaternion.identity);
-                }
-            }
-            else {
-                memberUI.gameObject.transform.localScale = Vector3.one;
-            }
-        }
-
+        
         if (_selectedUI != null) {
             _selectedUI.gameObject.transform.localScale = new Vector3(1.5f, 1.5f, 1f);
         }
@@ -102,6 +77,32 @@ public class MemberUITest : MonoBehaviour {
         return new Vector3(-0.3f + column * 0.3f, 0.25f - row * 0.5f);
     }
 
+    private void CreateUIElement(EntityBase target) {
+        var uiObj = Instantiate(_memberUIPrefab, _additionalWindow);
+        var collider = uiObj.GetComponentInChildren<UICollider>();
+
+        uiObj.transform.localPosition = GetUIPosition(_currentMemberUI.Count);
+        uiObj.transform.SetParent(null);
+        uiObj.transform.localScale = Vector3.one;
+
+        MemberUIElement element = new MemberUIElement(uiObj, collider);
+        _currentMemberUI.Add(element);
+
+        collider.OnMouseOver.AddListener(() => {
+            uiObj.transform.localScale = new Vector3(1.5f, 1.5f, 1f);
+        });
+        collider.OnMouseDown.AddListener(() => {
+            Vector3 mousePosition = MouseUtils.GetMouseWorldPosition().ChangeZPos(0f);
+            _selectedUI = element;
+            _selectedEntity = Instantiate(_entityPrefabDictionary[target.ID], mousePosition, Quaternion.identity);
+        });
+        collider.OnMouseExit.AddListener(() => {
+            if (_selectedUI != element) {
+                uiObj.transform.localScale = Vector3.one;
+            }
+        });
+    }
+
     private void SpawnEntity() {
         OnEntityCreated.Invoke(_selectedEntity);
         _selectedUI.gameObject.transform.localScale = Vector3.one;
@@ -113,15 +114,5 @@ public class MemberUITest : MonoBehaviour {
         _selectedUI = null;
 
         AlignUIPosition();
-    }
-
-    private bool IsMouseOverWithCollider(RectCollider collider) {
-        Vector2 mousePosition = MouseUtils.GetMouseWorldPosition();
-        Circle mouseShape = new Circle(mousePosition, 10f);
-        return CollisionManager.Instance.IsCollision(collider, mouseShape);
-    }
-
-    private bool IsMouseDownWithCollider(RectCollider collider) {
-        return IsMouseOverWithCollider(collider) && Input.GetMouseButtonDown(0);
     }
 }

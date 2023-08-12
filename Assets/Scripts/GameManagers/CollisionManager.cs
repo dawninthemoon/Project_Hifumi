@@ -17,10 +17,11 @@ namespace CustomPhysics {
     }
 
     public class CollisionManager : SingletonWithMonoBehaviour<CollisionManager> {
-        static Vector2[] _cachedVectorArr;
-        List<CustomCollider> _colliders;
-        QuadTree<CustomCollider> _quadTree;
-        List<CustomCollider> _adjustObjectsList;
+        private static Vector2[] _cachedVectorArr;
+        private List<CustomCollider> _colliders;
+        private QuadTree<CustomCollider> _quadTree;
+        private List<CustomCollider> _adjustObjectsList;
+        private List<UICollider> _uiColliders;
 
         private void Awake() {
             Initalize();
@@ -31,9 +32,12 @@ namespace CustomPhysics {
             _cachedVectorArr = new Vector2[4];
             _colliders = new List<CustomCollider>();
             _adjustObjectsList = new List<CustomCollider>();
+            _uiColliders = new List<UICollider>();
         }
 
         public void Update() {
+            CheckUICollisions();
+
             _quadTree.Clear();
 
             int numOfColliders = _colliders.Count;
@@ -57,8 +61,14 @@ namespace CustomPhysics {
         public void AddCollider(CustomCollider collider) {
             _colliders.Add(collider);
         }
+        public void AddUICollider(UICollider collider) {
+            _uiColliders.Add(collider);
+        }
         public void RemoveCollider(CustomCollider collider) {
             _colliders.Remove(collider);
+        }
+        public void RemoveUICollider(UICollider collider) {
+            _uiColliders.Remove(collider);
         }
         public bool IsCollision(Polygon p1, Vector2 p1Pos, Polygon p2, Vector2 p2Pos) {
             int p1Length = p1.points.Length;
@@ -78,7 +88,7 @@ namespace CustomPhysics {
             
             return isCollision;
         }
-        bool CheckProjection(Polygon p1, Polygon p2) {
+        private bool CheckProjection(Polygon p1, Polygon p2) {
             int p1Length = p1.points.Length;
             int p2Length = p2.points.Length;
 
@@ -240,7 +250,7 @@ namespace CustomPhysics {
 
             return !((boxToCircleMagnitude - max - circle.radius > 0f) && (boxToCircleMagnitude > 0f));
         }
-        Vector2 GetUnitVector(Vector2 vec) {
+        private Vector2 GetUnitVector(Vector2 vec) {
             Vector2 ret;
             float size = Mathf.Sqrt(vec.x * vec.x + vec.y * vec.y);
             ret.x = vec.x / size;
@@ -284,7 +294,7 @@ namespace CustomPhysics {
 
             return (info.distance < Mathf.Infinity);
         }
-        void UpdateRaycastInfo(Vector2 origin, Vector2 p1, Vector2 p2, Vector2 c, ref RaycastInfo info) {
+        private void UpdateRaycastInfo(Vector2 origin, Vector2 p1, Vector2 p2, Vector2 c, ref RaycastInfo info) {
             float dist = Vector2.Distance(origin, c);
             if (dist < info.distance) {
                 float ibl = 1f / Vector2.Distance(p1, p2);
@@ -294,7 +304,7 @@ namespace CustomPhysics {
                 info.distance = dist;
             }
         }
-        bool RayLineIntersection(Vector2 a1, Vector2 a2, Vector2 b1, Vector2 b2, ref Vector2 c) {
+        private bool RayLineIntersection(Vector2 a1, Vector2 a2, Vector2 b1, Vector2 b2, ref Vector2 c) {
             var dax = (a1.x - a2.x);
             var dbx = (b1.x - b2.x);
             var day = (a1.y - a2.y);
@@ -317,7 +327,7 @@ namespace CustomPhysics {
             if ((dax > 0f && i.x > a1.x) || (dax < 0f && i.x < a1.x)) return false; 
             return true;
 	    }
-        bool IsInRect(Vector2 a, Vector2 b, Vector2 c) {
+        private bool IsInRect(Vector2 a, Vector2 b, Vector2 c) {
             float minX = Mathf.Min(b.x, c.x), maxX = Mathf.Max(b.x, c.x);
             float minY = Mathf.Min(b.y, c.y), maxY = Mathf.Max(b.y, c.y);
             
@@ -325,6 +335,25 @@ namespace CustomPhysics {
             if	(minY == maxY) return (minX <= a.x && a.x <= maxX);
             
             return (minX <= a.x + 1e-10 && a.x - 1e-10 <= maxX && minY <= a.y + 1e-10 && a.y - 1e-10 <= maxY) ;		
+        }
+        private void CheckUICollisions() {
+            Vector2 mousePosition = RieslingUtils.MouseUtils.GetMouseWorldPosition();
+            Circle mouseBounds = new Circle(mousePosition, 10f);
+            for (int i = 0; i < _uiColliders.Count; ++i) {
+                UICollider uiCollider = _uiColliders[i];
+                if (IsCollision(uiCollider, mouseBounds)) {
+                    uiCollider.OnMouseOver?.Invoke();
+                    if (Input.GetMouseButtonDown(0)) {
+                        uiCollider.OnMouseDown?.Invoke();
+                    }
+                    if (Input.GetMouseButtonUp(0)) {
+                        uiCollider.OnMouseUp?.Invoke();
+                    }
+                }
+                else if (uiCollider.MouseOverlapedAtLastFrame) {
+                    uiCollider.OnMouseExit?.Invoke();
+                }
+            }
         }
 /*
         static bool Contains(Rectangle rect, Vector2 point) {
