@@ -381,7 +381,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5513ba8b86840bb4d8341ba339c61e63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _colliderLayer: 1
+  _colliderLayer: 0
   _gizmoColor: {r: 1, g: 0, b: 0, a: 1}
   _rect:
     position: {x: 0, y: 0}
@@ -431,6 +431,6 @@ SortingGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8401113533005292493}
   m_Enabled: 1
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: -1738356269
+  m_SortingLayer: 1
+  m_SortingOrder: 1
