@@ -432,7 +432,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5515409719866554080}
-  - component: {fileID: 4390574902518894515}
+  - component: {fileID: 5587426979779349206}
   m_Layer: 0
   m_Name: collider
   m_TagString: Untagged
@@ -455,7 +455,7 @@ Transform:
   m_Father: {fileID: 2763993080313773913}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4390574902518894515
+--- !u!114 &5587426979779349206
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -464,7 +464,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2581703891177616530}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5513ba8b86840bb4d8341ba339c61e63, type: 3}
+  m_Script: {fileID: 11500000, guid: 961221cbb07547b47aec464483aeab05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _colliderLayer: 0
@@ -474,6 +474,18 @@ MonoBehaviour:
     width: 13
     height: 13
     rotation: 45
+  _onMouseOver:
+    m_PersistentCalls:
+      m_Calls: []
+  _onMouseDown:
+    m_PersistentCalls:
+      m_Calls: []
+  _onMouseUp:
+    m_PersistentCalls:
+      m_Calls: []
+  _onMouseExit:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &4423535918227881524
 GameObject:
   m_ObjectHideFlags: 0
