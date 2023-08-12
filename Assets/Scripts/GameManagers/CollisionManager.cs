@@ -27,7 +27,7 @@ namespace CustomPhysics {
         }
         
         public void Initalize() {
-            _quadTree = new QuadTree<CustomCollider>(0, new Rectangle(-50f, -50f, 50f, 50f));
+            _quadTree = new QuadTree<CustomCollider>(0, new Rectangle(-650f, -650f, 650f, 650f));
             _cachedVectorArr = new Vector2[4];
             _colliders = new List<CustomCollider>();
             _adjustObjectsList = new List<CustomCollider>();
@@ -301,8 +301,8 @@ namespace CustomPhysics {
             float minX = Mathf.Min(b.x, c.x), maxX = Mathf.Max(b.x, c.x);
             float minY = Mathf.Min(b.y, c.y), maxY = Mathf.Max(b.y, c.y);
             
-            if	(minX == maxX) return (minY<=a.y && a.y<=maxY);
-            if	(minY == maxY) return (minX<=a.x && a.x<=maxX);
+            if	(minX == maxX) return (minY <= a.y && a.y <= maxY);
+            if	(minY == maxY) return (minX <= a.x && a.x <= maxX);
             
             return (minX <= a.x + 1e-10 && a.x - 1e-10 <= maxX && minY <= a.y + 1e-10 && a.y - 1e-10 <= maxY) ;		
         }

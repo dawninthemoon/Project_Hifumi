@@ -10,8 +10,8 @@ public class GameTest : MonoBehaviour {
     private KdTree<EntityBase> _allies;
     private KdTree<EntityBase> _enemies;
     private List<EntityBase> _allEntityBases;
-    public static readonly float Width = 18f;
-    public static readonly float Height = 10f;
+    public static readonly float Width = 640;
+    public static readonly float Height = 380f;
     private static Vector2 _stageMinSize;
     private static Vector2 _stageMaxSize;
     public static Vector2 StageMinSize { get { return _stageMinSize; } }

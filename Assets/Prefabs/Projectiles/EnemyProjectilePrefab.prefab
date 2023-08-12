@@ -114,6 +114,6 @@ MonoBehaviour:
   _gizmoColor: {r: 1, g: 0, b: 0, a: 1}
   _rect:
     position: {x: 0, y: 0}
-    width: 0.5
-    height: 0.5
+    width: 30
+    height: 30
     rotation: 0

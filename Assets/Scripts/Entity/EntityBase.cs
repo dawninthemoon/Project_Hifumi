@@ -4,6 +4,7 @@ using UnityEngine;
 using CustomPhysics;
 
 public class EntityBase : MonoBehaviour {
+    [SerializeField] private SpriteRenderer _bodyRenderer = null;
     [SerializeField] private CircleCollider _bodyCollider = null;
     [SerializeField] private CircleCollider _attackRange = null;
     [SerializeField] private AttackConfig _attackConfig;
@@ -16,7 +17,6 @@ public class EntityBase : MonoBehaviour {
     [SerializeField] private int _attackDamage = 5;
     private Agent _agent;
     private Animator _animatorController;
-    private SpriteRenderer _spriteRenderer;
     private List<EntityBase> _entitiesInAttackRange;
     private Vector2 _faceDir;
     public float Radius {
@@ -29,7 +29,6 @@ public class EntityBase : MonoBehaviour {
 
     private void Awake() {
         _agent = new Agent(_bodyCollider, _moveSpeed);
-        _spriteRenderer = GetComponent<SpriteRenderer>();
         _animatorController = GetComponent<Animator>();
         _entitiesInAttackRange = new List<EntityBase>();
     }
@@ -72,7 +71,7 @@ public class EntityBase : MonoBehaviour {
         var movedEntityInfo = _agent.Move(transform, target, _attackRange.CircleShape.radius);
         _faceDir = movedEntityInfo.Item1;
         SetMoveAnimationState(!movedEntityInfo.Item2);
-        _spriteRenderer.flipX = (_faceDir.x < 0f);
+        _bodyRenderer.flipX = (_faceDir.x < 0f);
     }
 
     public void Attack() {

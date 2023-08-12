@@ -194,7 +194,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3663613339387914291}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.35, y: 0.19, z: 0}
+  m_LocalPosition: {x: -24.3, y: 19.4, z: 0}
   m_LocalScale: {x: 0.7, y: 0.05, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -385,8 +385,8 @@ MonoBehaviour:
   _colliderLayer: 1
   _gizmoColor: {r: 0, g: 1, b: 0.011764706, a: 1}
   _circle:
-    center: {x: 0, y: -0.15}
-    radius: 0.2
+    center: {x: 0, y: -2}
+    radius: 12
 --- !u!1 &6137065905238589466
 GameObject:
   m_ObjectHideFlags: 0
@@ -412,7 +412,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6137065905238589466}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.35, y: 0.24, z: 0}
+  m_LocalPosition: {x: -24.3, y: 22.71, z: 0}
   m_LocalScale: {x: 0.7, y: 0.05, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -522,6 +522,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca2d1818300961149aeaf4659667ece9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _bodyRenderer: {fileID: 1269893135007115034}
   _bodyCollider: {fileID: 2061503599519584549}
   _attackRange: {fileID: 6818479287258832727}
   _attackConfig:
@@ -534,7 +535,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 15f55f9361eb44444ae06c473833c453, type: 2}
   _hpBarTransform: {fileID: 9100749336996969131}
   _mpBarTransform: {fileID: 7869432828650510218}
-  _moveSpeed: 1
+  _moveSpeed: 30
   _maxHealth: 100
   _maxMana: 100
   _attackDamage: 5
@@ -616,5 +617,5 @@ MonoBehaviour:
   _colliderLayer: 4
   _gizmoColor: {r: 0.12941177, g: 0, b: 1, a: 1}
   _circle:
-    center: {x: 0, y: -0.15}
-    radius: 0.4
+    center: {x: 0, y: -2}
+    radius: 24
