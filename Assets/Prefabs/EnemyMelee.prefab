@@ -128,7 +128,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d22afe0b5151f134e99114a177232966, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _colliderLayer: 4
+  _colliderLayer: 3
   _gizmoColor: {r: 0.12941177, g: 0, b: 1, a: 1}
   _circle:
     center: {x: 0, y: -2}
@@ -177,7 +177,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d22afe0b5151f134e99114a177232966, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _colliderLayer: 1
+  _colliderLayer: 2
   _gizmoColor: {r: 0, g: 1, b: 0.011764706, a: 1}
   _circle:
     center: {x: 0, y: -2}
