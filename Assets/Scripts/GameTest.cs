@@ -7,6 +7,7 @@ public class GameTest : MonoBehaviour {
     [SerializeField] private int _entityCount = 2;
     [SerializeField] private EntityBase _allyPrefabMelee = null, _allyPrefabRange = null;
     [SerializeField] private EntityBase _enemyPrefabMelee = null, _enemyPrefabRange = null;
+    [SerializeField] private CustomCollider[] _obstacleArea = null;
     private KdTree<EntityBase> _allies;
     private KdTree<EntityBase> _enemies;
     private List<EntityBase> _allEntityBases;
@@ -21,6 +22,7 @@ public class GameTest : MonoBehaviour {
     private void Awake() {
         var memberUITest = GameObject.FindObjectOfType<MemberUITest>();
         memberUITest.OnEntityCreated = OnEntityCreated;
+        memberUITest.CanCreateEnemyCallback = CanCreateEntity;
     }
 
     private void Start() {
@@ -42,20 +44,30 @@ public class GameTest : MonoBehaviour {
             _stageMinSize = new Vector2(-Width / 2f, -Height / 2f);
             _stageMaxSize = new Vector2(Width / 2f, Height / 2f);
 
-            Vector3 randPos1 = new Vector3(Random.Range(_stageMinSize.x, _stageMaxSize.x), Random.Range(_stageMinSize.y, _stageMaxSize.y));
-            Vector3 randPos2 = new Vector3(Random.Range(_stageMinSize.x, _stageMaxSize.x), Random.Range(_stageMinSize.y, _stageMaxSize.y));
+            EntityBase ally = null;
+            EntityBase enemy = null;
 
-            EntityBase allyPrefab = _allyPrefabMelee;
-            if (Random.Range(0, 2) > 0) {
-                allyPrefab = _allyPrefabRange;
-            }
-            EntityBase enemyPrefab = _enemyPrefabMelee;
-            if (Random.Range(0, 2) > 0) {
-                enemyPrefab = _enemyPrefabRange;
-            }
+            while (true) {
+                Vector3 randPos1 = new Vector3(Random.Range(_stageMinSize.x, _stageMaxSize.x), Random.Range(_stageMinSize.y, _stageMaxSize.y));
+                Vector3 randPos2 = new Vector3(Random.Range(_stageMinSize.x, _stageMaxSize.x), Random.Range(_stageMinSize.y, _stageMaxSize.y));
 
-            var ally = Instantiate(allyPrefab, randPos1, Quaternion.identity);
-            var enemy = Instantiate(enemyPrefab, randPos2, Quaternion.identity);
+                EntityBase allyPrefab = _allyPrefabMelee;
+                if (Random.Range(0, 2) > 0) {
+                    allyPrefab = _allyPrefabRange;
+                }
+                if (!CanCreateEntity(randPos1, allyPrefab)) continue;
+
+                EntityBase enemyPrefab = _enemyPrefabMelee;
+                if (Random.Range(0, 2) > 0) {
+                    enemyPrefab = _enemyPrefabRange;
+                }
+                if (!CanCreateEntity(randPos2, enemyPrefab)) continue;
+
+                ally = Instantiate(allyPrefab, randPos1, Quaternion.identity);
+                enemy = Instantiate(enemyPrefab, randPos2, Quaternion.identity);
+
+                break;
+            }
 
             _allies.Add(ally);
             _enemies.Add(enemy);
@@ -139,5 +151,21 @@ public class GameTest : MonoBehaviour {
     private void OnEntityCreated(EntityBase entity) {
         _allies.Add(entity);
         _allEntityBases.Add(entity);
+    }
+
+    private bool CanCreateEntity(Vector3 position, EntityBase entity) {
+        if (_obstacleArea == null) return true;
+
+        Vector3 prevPosition = entity.transform.position;
+        entity.transform.position = position;
+        foreach (CustomCollider obstacle in _obstacleArea) {
+            if (entity.IsCollision(obstacle)) {
+                entity.transform.position = prevPosition;
+                return false;
+            }
+        }
+        entity.transform.position = prevPosition;
+
+        return true;
     }
 }

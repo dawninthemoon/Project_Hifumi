@@ -22,20 +22,6 @@ namespace CustomPhysics {
             this.height = height;
             this.rotation = rotation;
         }
-
-        public Vector2 GetP11() {
-            return new Vector2(Mathf.Cos(rotation * Mathf.Deg2Rad), Mathf.Sin(rotation * Mathf.Deg2Rad)) * width;
-        }
-
-        public Vector2 GetP01() {
-            return new Vector2(Mathf.Cos(rotation * Mathf.Deg2Rad + Mathf.PI), Mathf.Sin(rotation * Mathf.Deg2Rad + Mathf.PI)) * width * 0.5f;
-        }
-        public Vector2 GetP10() {
-            return GetP11() + new Vector2(Mathf.Cos(rotation * Mathf.Deg2Rad + Mathf.PI * 0.5f), Mathf.Sin(rotation * Mathf.Deg2Rad + Mathf.PI * 0.5f)) * height;
-        }
-        public Vector2 GetP00() {
-            return new Vector2(Mathf.Cos(rotation * Mathf.Deg2Rad + Mathf.PI * 0.5f), Mathf.Sin(rotation * Mathf.Deg2Rad + Mathf.PI * 0.5f)) * height;
-        }
     }
 
     public class RectCollider : CustomCollider {
@@ -73,7 +59,6 @@ namespace CustomPhysics {
         public bool IsCollision(CircleCollider other) {
             return CollisionManager.Instance.IsCollision(this, other);
         }
-
         public Vector2 GetWidthVector() {
             Vector2 ret;
             ret.x = _rect.width * Mathf.Abs(transform.localScale.x) * Mathf.Cos(_rect.rotation) * 0.5f;
@@ -95,11 +80,11 @@ namespace CustomPhysics {
 
             float width = _rect.width * Mathf.Abs(transform.localScale.x);
             Vector2 dir1 = new Vector2(Mathf.Cos(radian), Mathf.Sin(radian)).normalized;
-            dir1 = dir1 * width;
+            dir1 = dir1 * width * 0.5f;
 
             float height = _rect.height * Mathf.Abs(transform.localScale.y);
             Vector2 dir2 = new Vector2(Mathf.Cos(radian + Mathf.PI * 0.5f), Mathf.Sin(radian + Mathf.PI * 0.5f)).normalized;
-            dir2 = dir2 * height;
+            dir2 = dir2 * height * 0.5f;
 
             Gizmos.color = _gizmoColor;
             Gizmos.DrawLine(center + dir1 + dir2, center - dir1 + dir2);

@@ -200,9 +200,9 @@ namespace CustomPhysics {
             return true;
         }
         public bool IsCollision(CircleCollider c1, CircleCollider c2) {
-            Circle circle1 = c1.CircleShape;
-            Circle circle2 = c2.CircleShape;
-
+            return IsCollision(c1.CircleShape, c2.CircleShape);
+        }
+        public bool IsCollision(Circle circle1, Circle circle2) {
             float xPow = (circle1.center.x - circle2.center.x) * (circle1.center.x - circle2.center.x);
             float yPow = (circle1.center.y - circle2.center.y) * (circle1.center.y - circle2.center.y);
             float radiusPow = (circle1.radius + circle2.radius) * (circle1.radius + circle2.radius);
@@ -210,45 +210,40 @@ namespace CustomPhysics {
             return (xPow + yPow) < radiusPow;
         }
         public bool IsCollision(RectCollider c1, CircleCollider c2) {
-            Rectangle rect = c1.GetBounds();
             Circle circle = c2.CircleShape;
-
-            float max = -Mathf.Infinity;
-            Vector2 boxToCircle = circle.center - rect.position;
-            float boxToCircleMagnitude = boxToCircle.magnitude;
-            Vector2 normalizedBoxToCircle = boxToCircle.normalized;
-
-            _cachedVectorArr[0] = rect.GetP00();
-            _cachedVectorArr[1] = rect.GetP01();
-            _cachedVectorArr[2] = rect.GetP11();
-            _cachedVectorArr[3] = rect.GetP10();
-
-            for (int i = 0; i < 4; ++i) {
-                float currentProjection = Vector2.Dot(_cachedVectorArr[i], normalizedBoxToCircle);
-                max = Mathf.Max(max, currentProjection);
-            }
-
-            return !((boxToCircleMagnitude - max - circle.radius > 0f) && (boxToCircleMagnitude > 0f));
+            return IsCollision(c1, circle);
         }
+
         public bool IsCollision(RectCollider c1, Circle circle) {
             Rectangle rect = c1.GetBounds();
+            circle.center = GetRotatedPos(rect.position, circle.center, rect.rotation * Mathf.Deg2Rad);
 
-            float max = -Mathf.Infinity;
-            Vector2 boxToCircle = circle.center - rect.position;
-            float boxToCircleMagnitude = boxToCircle.magnitude;
-            Vector2 normalizedBoxToCircle = boxToCircle.normalized;
+            Vector2 closestPos;
 
-            _cachedVectorArr[0] = rect.GetP00();
-            _cachedVectorArr[1] = rect.GetP01();
-            _cachedVectorArr[2] = rect.GetP11();
-            _cachedVectorArr[3] = rect.GetP10();
+            if (circle.center.x < rect.position.x - rect.width * 0.5f)
+                closestPos.x = rect.position.x - rect.width * 0.5f;
+            else if (circle.center.x > rect.position.x + rect.width * 0.5f)
+                closestPos.x = rect.position.x + rect.width * 0.5f;
+            else
+                closestPos.x = circle.center.x;
+            
+            if (circle.center.y < rect.position.y - rect.height * 0.5f)
+                closestPos.y = rect.position.y - rect.height * 0.5f;
+            else if (circle.center.y > rect.position.y + rect.height * 0.5f)
+                closestPos.y = rect.position.y + rect.height * 0.5f;
+            else
+                closestPos.y = circle.center.y;
 
-            for (int i = 0; i < 4; ++i) {
-                float currentProjection = Vector2.Dot(_cachedVectorArr[i], normalizedBoxToCircle);
-                max = Mathf.Max(max, currentProjection);
-            }
+            float distX = Mathf.Abs(circle.center.x - closestPos.x);
+            float distY = Mathf.Abs(circle.center.y - closestPos.y);
+            float distance = Mathf.Sqrt(distX * distX + distY * distY);
 
-            return !((boxToCircleMagnitude - max - circle.radius > 0f) && (boxToCircleMagnitude > 0f));
+            return distance < circle.radius;
+        }
+        private Vector2 GetRotatedPos(Vector2 origin, Vector2 point, float radian) {
+            float rotatedX = (Mathf.Cos(radian) * (point.x - origin.x)) + (Mathf.Sin(radian) * (point.y - origin.y)) + origin.x;
+            float rotatedY = (Mathf.Cos(radian) * (point.y - origin.y)) - (Mathf.Sin(radian) * (point.x - origin.x)) + origin.y;
+            return new Vector2(rotatedX, rotatedY);
         }
         private Vector2 GetUnitVector(Vector2 vec) {
             Vector2 ret;
@@ -338,7 +333,7 @@ namespace CustomPhysics {
         }
         private void CheckUICollisions() {
             Vector2 mousePosition = RieslingUtils.MouseUtils.GetMouseWorldPosition();
-            Circle mouseBounds = new Circle(mousePosition, 10f);
+            Circle mouseBounds = new Circle(mousePosition, 1f);
             for (int i = 0; i < _uiColliders.Count; ++i) {
                 UICollider uiCollider = _uiColliders[i];
                 if (IsCollision(uiCollider, mouseBounds)) {

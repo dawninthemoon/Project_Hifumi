@@ -22,6 +22,7 @@ public class MemberUITest : MonoBehaviour {
     private MemberUIElement _selectedUI;
     private EntityBase _selectedEntity;
     public System.Action<EntityBase> OnEntityCreated { get; set; }
+    public System.Func<Vector3, EntityBase, bool> CanCreateEnemyCallback { get; set; }
     private UICollider _zoneCollider;
 
     private void Awake() {
@@ -45,10 +46,10 @@ public class MemberUITest : MonoBehaviour {
         if (_selectedEntity) {
             _selectedEntity.transform.position = mousePosition;
             if (Input.GetMouseButtonUp(0)) {
-                SpawnEntity();
+                SpawnEntity(mousePosition);
             }
         }
-        
+
         if (_selectedUI != null) {
             _selectedUI.gameObject.transform.localScale = new Vector3(1.5f, 1.5f, 1f);
         }
@@ -103,12 +104,17 @@ public class MemberUITest : MonoBehaviour {
         });
     }
 
-    private void SpawnEntity() {
-        OnEntityCreated.Invoke(_selectedEntity);
-        _selectedUI.gameObject.transform.localScale = Vector3.one;
+    private void SpawnEntity(Vector3 position) {
+        if (CanCreateEnemyCallback(position, _selectedEntity)) {
+            OnEntityCreated.Invoke(_selectedEntity);
+            _currentMemberUI.Remove(_selectedUI);
+            Destroy(_selectedUI.gameObject);
+        }
+        else {
+            Destroy(_selectedEntity.gameObject);
+        }
 
-        _currentMemberUI.Remove(_selectedUI);
-        Destroy(_selectedUI.gameObject);
+        _selectedUI.gameObject.transform.localScale = Vector3.one;
 
         _selectedEntity = null;
         _selectedUI = null;
