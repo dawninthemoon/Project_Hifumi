@@ -61,6 +61,15 @@ namespace RieslingUtils {
             float rotatedY = (Mathf.Cos(radian) * (point.y - origin.y)) - (Mathf.Sin(radian) * (point.x - origin.x)) + origin.y;
             return new Vector2(rotatedX, rotatedY);
         }
+
+        public static int AddBitMask(this int mask, int targetMask) {
+            int newmMask = mask | (1 << targetMask);
+            return newmMask;
+        }
+
+        public static bool BitmaskContains(this int mask, int other) {
+            return ((mask & (1 << other)) != 0);
+        }
     }
 
     public static class EnumUtil {

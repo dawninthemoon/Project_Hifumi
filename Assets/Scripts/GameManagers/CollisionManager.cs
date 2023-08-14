@@ -53,10 +53,11 @@ namespace CustomPhysics {
             for (int i = 0; i < numOfColliders; ++i) {
                 _adjustObjectsList.Clear();
                 _quadTree.GetObjects(_adjustObjectsList, _colliders[i].GetBounds());
+                Debug.Log(_adjustObjectsList.Count);
 
                 int numOfAdjustObjects = _adjustObjectsList.Count;
                 for (int j = 0; j < numOfAdjustObjects; ++j) {
-                    if (_colliders[i].CannotCollision(_adjustObjectsList[j].Layer)) continue;
+                    if (_colliders[i].Equals(_adjustObjectsList[j]) || _colliders[i].CannotCollision(_adjustObjectsList[j].Layer)) continue;
                     if (_colliders[i].IsCollision(_adjustObjectsList[j])) {
                         _colliders[i].OnCollision(_adjustObjectsList[j]);
                     }
@@ -74,6 +75,26 @@ namespace CustomPhysics {
         }
         public void RemoveUICollider(UICollider collider) {
             _uiColliders.Remove(collider);
+        }
+        public CustomCollider OverlapCircle(Vector2 point, float radius, ColliderLayerMask layerMask) {
+            _cachedListForOverlapCircle.Clear();
+
+            Circle collisionArea = new Circle(point, radius);
+            _quadTree.GetObjects(_cachedListForOverlapCircle, collisionArea.GetBounds());
+            foreach (CustomCollider collider in _cachedListForOverlapCircle) {
+                if (!collider.Layer.Equals(layerMask)) continue;
+                if (collider is CircleCollider) {
+                    if (IsCollision((collider as CircleCollider).CircleShape, collisionArea)) {
+                        return collider;
+                    }
+                }
+                else if (collider is RectCollider) {
+                    if (IsCollision((collider as RectCollider), collisionArea)) {
+                        return collider;
+                    }
+                }
+            }
+            return null;
         }
         public CustomCollider[] OverlapCircleAll(Vector2 point, float radius, ColliderLayerMask layerMask) {
             _cachedListForOverlapCircle.Clear();
@@ -262,9 +283,9 @@ namespace CustomPhysics {
 
             float distX = Mathf.Abs(circle.center.x - closestPos.x);
             float distY = Mathf.Abs(circle.center.y - closestPos.y);
-            float distance = Mathf.Sqrt(distX * distX + distY * distY);
+            float distanceSqr = distX * distX + distY * distY;
 
-            return distance < circle.radius;
+            return distanceSqr < circle.radius * circle.radius;
         }
         
         private Vector2 GetUnitVector(Vector2 vec) {

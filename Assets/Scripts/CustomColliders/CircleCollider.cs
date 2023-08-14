@@ -41,7 +41,6 @@ namespace CustomPhysics {
         public override Rectangle GetBounds() {
             Circle circle = CircleShape;
             Vector2 pos = circle.center;
-            pos.y -= circle.radius;
             Rectangle bounds = new Rectangle(pos, circle.radius * 2f, circle.radius * 2f);
             return bounds;
         }

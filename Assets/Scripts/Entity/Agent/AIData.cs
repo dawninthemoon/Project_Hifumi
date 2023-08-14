@@ -5,7 +5,7 @@ using CustomPhysics;
 
 public class AIData : MonoBehaviour {
     public List<Transform> targets = null;
-    public Vector2[] closestPointWithObstacles = null;
+    public CustomCollider[] obstacles = null;
     public Transform currentTarget = null;
 
     public int TargetsCount {

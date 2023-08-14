@@ -72,7 +72,7 @@ namespace CustomPhysics {
             ret.y = -_rect.height * transform.localScale.y * Mathf.Sin(_rect.rotation) * 0.5f;
             return ret;
         }
-        public Vector2 GetClosestPoint(Vector2 point) {
+        public override Vector2 GetClosestPoint(Vector2 point) {
             Rectangle bounds = GetBounds();
             float radian = bounds.rotation * Mathf.Deg2Rad;
             Vector2 rotatedPoint = ExMath.GetRotatedPos(bounds.position, point, radian);
@@ -98,17 +98,16 @@ namespace CustomPhysics {
 
         void OnDrawGizmos() {
             Color prevGizmoColor = Gizmos.color;
+            Rectangle rect = GetBounds();
 
-            Vector2 center = (Vector2)transform.position + _rect.position;
-            float radian = (transform.eulerAngles.z + _rect.rotation) * Mathf.Deg2Rad;
+            Vector2 center = rect.position;
+            float radian = rect.rotation * Mathf.Deg2Rad;
 
-            float width = _rect.width * Mathf.Abs(transform.localScale.x);
             Vector2 dir1 = new Vector2(Mathf.Cos(radian), Mathf.Sin(radian)).normalized;
-            dir1 = dir1 * width * 0.5f;
+            dir1 = dir1 * rect.width * 0.5f;
 
-            float height = _rect.height * Mathf.Abs(transform.localScale.y);
             Vector2 dir2 = new Vector2(Mathf.Cos(radian + Mathf.PI * 0.5f), Mathf.Sin(radian + Mathf.PI * 0.5f)).normalized;
-            dir2 = dir2 * height * 0.5f;
+            dir2 = dir2 * rect.height * 0.5f;
 
             Gizmos.color = _gizmoColor;
             Gizmos.DrawLine(center + dir1 + dir2, center - dir1 + dir2);
