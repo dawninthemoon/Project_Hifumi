@@ -4,32 +4,44 @@ using UnityEngine;
 using CustomPhysics;
 
 public class TargetDetector : Detector {
+    [SerializeField] private Transform _targetTransform = null;
     [SerializeField] private float _targetDetectionRange = 100f;
-    [SerializeField] private ColliderLayerMask _obstaclesLayerMask;
-    [SerializeField] private ColliderLayerMask _playerLayerMask;
+    [SerializeField] private LayerMask _obstaclesLayerMask;
+    [SerializeField] private LayerMask _playerLayerMask;
     [SerializeField] private bool _showGizmos = true;
     private List<Transform> _colliders;
+    private Transform _cachedTargetTransform;
+
+    private void Awake() {
+        _cachedTargetTransform = new GameObject().transform;
+    }
+
     public override void Detect(AIData aiData) {
-        CustomCollider playerCollider = CollisionManager.Instance.OverlapCircle(transform.position, _targetDetectionRange, _playerLayerMask);
+        if (_targetTransform != null) {
+            Vector2 direction = (_targetTransform.transform.position - transform.position).normalized;
+            var hit = Physics2D.Raycast(transform.position, direction, _targetDetectionRange, _obstaclesLayerMask);
 
-        if (playerCollider != null) {
-            Vector2 direction = (playerCollider.transform.position - transform.position).normalized;
-            /*CollisionManager.Instance.Raycast(transform.position, direction, _targetDetectionRange, _obstaclesLayerMask);
-            RaycastHit2D hit
-                = Physics2D.Raycast(transform.position, direction, _targetDetectionRange, _obstaclesLayerMask);
-
-            if (hit.collider != null && (_playerLayerMask & (1 << hit.collider.gameObject.layer)) != 0) {*/
+            if (hit.collider != null && (_playerLayerMask & (1 << hit.collider.gameObject.layer)) != 0) {
                 Debug.DrawRay(transform.position, direction * _targetDetectionRange, Color.magenta);
-                _colliders = new List<Transform>() { playerCollider.transform };
-            /*}
+                _cachedTargetTransform.position = _targetTransform.position;
+                aiData.currentTarget = _cachedTargetTransform;
+            }
             else {
-                _colliders = null;
-            }*/
+                foreach (Vector2 scentPosition in ScentTest.ScentTrail) {
+                    direction = (scentPosition - (Vector2)transform.position).normalized;
+                    hit = Physics2D.Raycast(transform.position, direction, _targetDetectionRange, _obstaclesLayerMask);
+                    Debug.DrawRay(transform.position, direction * _targetDetectionRange, Color.cyan);
+                    if (hit.collider == null) {
+                        _cachedTargetTransform.position = scentPosition;
+                        aiData.currentTarget = _cachedTargetTransform;
+                        break;
+                    }
+                }
+            }
         }
         else {
-            _colliders = null;
+            aiData.currentTarget = null;
         }
-        aiData.targets = _colliders;
     }
 
     private void OnGizmoSelected() {

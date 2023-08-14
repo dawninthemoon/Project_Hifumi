@@ -53,7 +53,6 @@ namespace CustomPhysics {
             for (int i = 0; i < numOfColliders; ++i) {
                 _adjustObjectsList.Clear();
                 _quadTree.GetObjects(_adjustObjectsList, _colliders[i].GetBounds());
-                Debug.Log(_adjustObjectsList.Count);
 
                 int numOfAdjustObjects = _adjustObjectsList.Count;
                 for (int j = 0; j < numOfAdjustObjects; ++j) {
@@ -304,10 +303,70 @@ namespace CustomPhysics {
                         return true;
                     }
                 }
+                else if (_colliders[i] is RectCollider) {
+                    Rectangle rect = (_colliders[i] as RectCollider).GetBounds();
+                    PolygonCollider pc = new GameObject().AddComponent<PolygonCollider>();
+                    Vector2[] points = new Vector2[4] { 
+                        new Vector2(rect.position.x - rect.width / 2, rect.position.x + rect.height / 2),
+                        new Vector2(rect.position.x + rect.width / 2, rect.position.y + rect.height / 2),
+                        new Vector2(rect.position.x + rect.width / 2, rect.position.y - rect.height / 2),
+                        new Vector2(rect.position.x - rect.width / 2, rect.position.y - rect.height / 2)
+                    };
+                    pc.Initalize(points);
+                    if (Raycast(origin, dir, pc, out info)) {
+                        Destroy(pc.gameObject);
+                        if (length < info.distance) continue;
+                        return true;
+                    }
+                    else {
+                        Destroy(pc.gameObject);
+                    }
+                }
+                else if (_colliders[i] is CircleCollider) {
+                    if (Raycast(origin, dir * length, _colliders[i] as CircleCollider, out info)) {
+                        return true;
+                    }
+                }
             }
             info = new RaycastInfo();
             return false;
         }
+
+        public bool Raycast(Vector2 origin, Vector2 dir, CircleCollider collider, out RaycastInfo info) {
+            Circle circle = collider.CircleShape;
+            Vector2 f = origin - circle.center;
+
+            float a = Vector2.Dot(dir, dir);
+            float b = Vector2.Dot(f, dir) * 2f;
+            float c = Vector2.Dot(f, f) - circle.radius * circle.radius;
+
+            float discriminant = b*b-4*a*c;
+            if (discriminant < 0) {
+                info = new RaycastInfo();
+            }
+            else {
+                discriminant = Mathf.Sqrt(discriminant);
+
+                float t1 = (-b - discriminant) / (2 * a);
+                float t2 = (-b + discriminant) / (2 * a);
+
+                if (t1 >= 0 && t1 <= 1) {
+                    info = new RaycastInfo();
+                    info.collider = collider;
+                    return true;
+                }
+
+                if (t2 >= 0 && t2 <= 1) {
+                    info = new RaycastInfo();
+                    info.collider = collider;
+                    return true;
+                }
+            }
+
+            info = new RaycastInfo();
+            return false;
+        }
+
         public bool Raycast(Vector2 origin, Vector2 dir, PolygonCollider collider, out RaycastInfo info) {
             var polygon = collider.GetPolygon();
             var points = polygon.points;

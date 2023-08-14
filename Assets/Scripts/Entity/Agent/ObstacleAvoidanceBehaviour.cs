@@ -21,9 +21,10 @@ public class ObstacleAvoidanceBehaviour : SteeringBehaviour {
     [SerializeField] private float _agentColliderSize = 20f;
     private float[] _dangersResultTemp;
     public override (float[] danger, float[] interest) GetSteering(float[] danger, float[] interest, AIData aiData) {
-        foreach (CustomCollider obstacleCollider in aiData.obstacles) {
+        foreach (Collider2D obstacleCollider in aiData.obstacles) {
+            if (obstacleCollider.gameObject.Equals(gameObject)) continue;
             Vector2 directionToObstacle
-                = obstacleCollider.GetClosestPoint(transform.position) - (Vector2)transform.position;
+                = obstacleCollider.ClosestPoint(transform.position) - (Vector2)transform.position;
             float distanceToObstacle = directionToObstacle.magnitude;
 
             float weight = (distanceToObstacle <= _agentColliderSize) ? 1 : (_radius - distanceToObstacle) / _radius;
@@ -41,18 +42,5 @@ public class ObstacleAvoidanceBehaviour : SteeringBehaviour {
         }
         _dangersResultTemp = danger;
         return (danger, interest);
-    }
-
-    private void OnDrawGizmos() {
-        if (Application.isPlaying && _dangersResultTemp != null) {
-            Gizmos.color = Color.red;
-            for (int i = 0; i < _dangersResultTemp.Length; ++i) {
-                Gizmos.DrawRay(transform.position, 36f * Directions.EightDirections[i] * _dangersResultTemp[i]);
-            }
-        }
-        else {
-            Gizmos.color = Color.cyan;
-            Gizmos.DrawWireSphere(transform.position, _radius);
-        }
     }
 }

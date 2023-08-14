@@ -51,6 +51,9 @@ public class QuadTree<T> where T : IQuadTreeObject {
 	
 	    double verticalMidpoint = _bounds.position.x + (_bounds.width / 2);
 	    double horizontalMidpoint = _bounds.position.y + (_bounds.height / 2);
+
+		rect.position.x -= rect.width / 2;
+		rect.position.y -= rect.height / 2;
 	
 		bool topQuadrant = rect.position.y >= horizontalMidpoint;
 		bool bottomQuadrant = (rect.position.y - rect.height) <= horizontalMidpoint;

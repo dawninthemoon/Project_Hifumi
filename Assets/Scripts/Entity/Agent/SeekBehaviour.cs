@@ -10,22 +10,9 @@ public class SeekBehaviour : SteeringBehaviour {
     private float[] _interestsTemp;
 
     public override (float[] danger, float[] interest) GetSteering(float[] danger, float[] interest, AIData aiData) {
-        if (_reachedLastTarget) {
-            if (aiData.targets == null || aiData.targets.Count <= 0) {
-                aiData.currentTarget = null;
-                return (danger, interest);
-            }
-            else {
-                _reachedLastTarget = false;
-                aiData.currentTarget = aiData.targets.OrderBy(target => Vector2.Distance(target.position, transform.position)).FirstOrDefault();
-            }
-        }    
-
-        if (aiData.currentTarget != null && aiData.targets != null && aiData.targets.Contains(aiData.currentTarget)) {
+        if (aiData.currentTarget != null) {
             _targetPositionCached = aiData.currentTarget.position;
         }
-        //GameObject target = GameObject.Find("AllyMelee");
-        //_targetPositionCached = target.transform.position;
 
         if (Vector2.Distance(transform.position, _targetPositionCached) < _targetReachedThresold) {
             _reachedLastTarget = true;

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ContextSolver : MonoBehaviour {
-    private float[] _interestGizmo = new float[0];
+    private float[] _interestGizmo;
     private Vector2 _resultDirection = Vector2.zero;
     private float _rayLength = 32f;
 
