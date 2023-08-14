@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using CustomPhysics;
 
-public class AgentTest : MonoBehaviour {
+public class Agent : MonoBehaviour {
     [SerializeField] private float _moveSpeed = 30f;
     [SerializeField] private List<SteeringBehaviour> _steeringBehaviours = null;
     [SerializeField] private List<Detector> _detectors = null;
@@ -22,6 +22,10 @@ public class AgentTest : MonoBehaviour {
         InvokeRepeating("PerformDetection", 0f, _detectionDelay);
         OnAttackRequested.AddListener(() => Debug.Log("Attack!"));
         OnMovementInput.AddListener((direction) => transform.position += (Vector3)direction * Time.deltaTime * _moveSpeed);
+    }
+
+    public void SetTarget(Transform target) {
+        _aiData.selectedTarget = target;
     }
 
     private void PerformDetection() {

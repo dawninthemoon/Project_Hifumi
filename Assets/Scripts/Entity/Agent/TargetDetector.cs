@@ -4,10 +4,9 @@ using UnityEngine;
 using CustomPhysics;
 
 public class TargetDetector : Detector {
-    [SerializeField] private Transform _targetTransform = null;
     [SerializeField] private float _targetDetectionRange = 100f;
     [SerializeField] private LayerMask _obstaclesLayerMask;
-    [SerializeField] private LayerMask _playerLayerMask;
+    [SerializeField] private LayerMask _targetLayerMask;
     [SerializeField] private bool _showGizmos = true;
     private List<Transform> _colliders;
     private Transform _cachedTargetTransform;
@@ -17,13 +16,13 @@ public class TargetDetector : Detector {
     }
 
     public override void Detect(AIData aiData) {
-        if (_targetTransform != null) {
-            Vector2 direction = (_targetTransform.transform.position - transform.position).normalized;
+        if (aiData.selectedTarget != null) {
+            Vector2 direction = (aiData.selectedTarget.position - transform.position).normalized;
             var hit = Physics2D.Raycast(transform.position, direction, _targetDetectionRange, _obstaclesLayerMask);
 
-            if (hit.collider != null && (_playerLayerMask & (1 << hit.collider.gameObject.layer)) != 0) {
+            if (hit.collider != null && (_targetLayerMask & (1 << hit.collider.gameObject.layer)) != 0) {
                 Debug.DrawRay(transform.position, direction * _targetDetectionRange, Color.magenta);
-                _cachedTargetTransform.position = _targetTransform.position;
+                _cachedTargetTransform.position = aiData.selectedTarget.position;
                 aiData.currentTarget = _cachedTargetTransform;
             }
             else {
