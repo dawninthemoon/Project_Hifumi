@@ -21,8 +21,6 @@ public class GameTest : MonoBehaviour {
 
     private void Awake() {
         var memberUITest = GameObject.FindObjectOfType<MemberUITest>();
-        memberUITest.OnEntityCreated = OnEntityCreated;
-        memberUITest.CanCreateEnemyCallback = CanCreateEntity;
     }
 
     private void Start() {
@@ -148,12 +146,12 @@ public class GameTest : MonoBehaviour {
         entity.transform.position = pos;
     }
 
-    private void OnEntityCreated(EntityBase entity) {
+    public void OnEntityCreated(EntityBase entity) {
         _allies.Add(entity);
         _allEntityBases.Add(entity);
     }
 
-    private bool CanCreateEntity(Vector3 position, EntityBase entity) {
+    public bool CanCreateEntity(Vector3 position, EntityBase entity) {
         if (_obstacleArea == null) return true;
 
         Vector3 prevPosition = entity.transform.position;

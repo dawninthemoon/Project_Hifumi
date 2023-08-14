@@ -85,4 +85,10 @@ namespace RieslingUtils {
             return isOverlaped.HasValue ? isOverlaped.Value : false;
         }
     }
+
+    public static class UnityUtils {
+        public static void ToggleGameObject(this GameObject obj) {
+            obj.SetActive(!obj.activeSelf);
+        }
+    }
 }
