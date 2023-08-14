@@ -36,6 +36,7 @@ Transform:
   - {fileID: 4910456215132279841}
   - {fileID: 2351084300961365648}
   - {fileID: 8847112298801097196}
+  - {fileID: 2093186715076519514}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -52,6 +53,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _id: 4
+  _uiCollider: {fileID: 939177668354272045}
   _bodyRenderer: {fileID: 2547035552314002537}
   _bodyCollider: {fileID: 8642157327147164403}
   _attackRange: {fileID: 308007521878007856}
@@ -653,6 +655,69 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &8086974601341818212
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2093186715076519514}
+  - component: {fileID: 939177668354272045}
+  m_Layer: 0
+  m_Name: uiCollider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2093186715076519514
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8086974601341818212}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 319058429060391706}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &939177668354272045
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8086974601341818212}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 961221cbb07547b47aec464483aeab05, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _colliderLayer: 0
+  _gizmoColor: {r: 1, g: 0, b: 0, a: 1}
+  _rect:
+    position: {x: 0, y: 0}
+    width: 20
+    height: 30
+    rotation: 0
+  _onMouseOver:
+    m_PersistentCalls:
+      m_Calls: []
+  _onMouseDown:
+    m_PersistentCalls:
+      m_Calls: []
+  _onMouseUp:
+    m_PersistentCalls:
+      m_Calls: []
+  _onMouseExit:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &8279026680199670845
 GameObject:
   m_ObjectHideFlags: 0

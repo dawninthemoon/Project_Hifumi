@@ -5,6 +5,7 @@ using CustomPhysics;
 
 public class EntityBase : MonoBehaviour {
     [SerializeField] private string _id = null;
+    [SerializeField] private UICollider _uiCollider = null;
     [SerializeField] private SpriteRenderer _bodyRenderer = null;
     [SerializeField] private CircleCollider _bodyCollider = null;
     [SerializeField] private CircleCollider _attackRange = null;
@@ -21,6 +22,9 @@ public class EntityBase : MonoBehaviour {
     private Animator _animatorController;
     private List<EntityBase> _entitiesInAttackRange;
     private Vector2 _faceDir;
+    public UICollider UICollider {
+        get { return _uiCollider; }
+    }
     public float Radius {
         get { return _bodyCollider.CircleShape.radius; }
     }

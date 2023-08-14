@@ -250,6 +250,7 @@ Transform:
   - {fileID: 7457503049725690902}
   - {fileID: 4509399817880320346}
   - {fileID: 4662417126145413159}
+  - {fileID: 8599624707751654804}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -266,6 +267,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _id: 2
+  _uiCollider: {fileID: 8060179029233471346}
   _bodyRenderer: {fileID: 1070087472471134}
   _bodyCollider: {fileID: 7441921500558977887}
   _attackRange: {fileID: 7739738138611410012}
@@ -685,3 +687,66 @@ Transform:
   m_Father: {fileID: 7457503049725690902}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &8588199167630233846
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8599624707751654804}
+  - component: {fileID: 8060179029233471346}
+  m_Layer: 0
+  m_Name: uiCollider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8599624707751654804
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8588199167630233846}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 319058429060391706}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8060179029233471346
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8588199167630233846}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 961221cbb07547b47aec464483aeab05, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _colliderLayer: 0
+  _gizmoColor: {r: 1, g: 0, b: 0, a: 1}
+  _rect:
+    position: {x: 0, y: 0}
+    width: 20
+    height: 30
+    rotation: 0
+  _onMouseOver:
+    m_PersistentCalls:
+      m_Calls: []
+  _onMouseDown:
+    m_PersistentCalls:
+      m_Calls: []
+  _onMouseUp:
+    m_PersistentCalls:
+      m_Calls: []
+  _onMouseExit:
+    m_PersistentCalls:
+      m_Calls: []

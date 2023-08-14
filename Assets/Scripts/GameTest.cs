@@ -5,7 +5,6 @@ using CustomPhysics;
 
 public class GameTest : MonoBehaviour {
     [SerializeField] private int _entityCount = 2;
-    [SerializeField] private EntityBase _allyPrefabMelee = null, _allyPrefabRange = null;
     [SerializeField] private EntityBase _enemyPrefabMelee = null, _enemyPrefabRange = null;
     [SerializeField] private CustomCollider[] _obstacleArea = null;
     private KdTree<EntityBase> _allies;
@@ -42,34 +41,23 @@ public class GameTest : MonoBehaviour {
             _stageMinSize = new Vector2(-Width / 2f, -Height / 2f);
             _stageMaxSize = new Vector2(Width / 2f, Height / 2f);
 
-            EntityBase ally = null;
             EntityBase enemy = null;
 
             while (true) {
-                Vector3 randPos1 = new Vector3(Random.Range(_stageMinSize.x, _stageMaxSize.x), Random.Range(_stageMinSize.y, _stageMaxSize.y));
-                Vector3 randPos2 = new Vector3(Random.Range(_stageMinSize.x, _stageMaxSize.x), Random.Range(_stageMinSize.y, _stageMaxSize.y));
-
-                EntityBase allyPrefab = _allyPrefabMelee;
-                if (Random.Range(0, 2) > 0) {
-                    allyPrefab = _allyPrefabRange;
-                }
-                if (!CanCreateEntity(randPos1, allyPrefab)) continue;
+                Vector3 randPos = new Vector3(Random.Range(_stageMinSize.x, _stageMaxSize.x), Random.Range(_stageMinSize.y, _stageMaxSize.y));
 
                 EntityBase enemyPrefab = _enemyPrefabMelee;
                 if (Random.Range(0, 2) > 0) {
                     enemyPrefab = _enemyPrefabRange;
                 }
-                if (!CanCreateEntity(randPos2, enemyPrefab)) continue;
+                if (!CanCreateEntity(randPos, enemyPrefab)) continue;
 
-                ally = Instantiate(allyPrefab, randPos1, Quaternion.identity);
-                enemy = Instantiate(enemyPrefab, randPos2, Quaternion.identity);
+                enemy = Instantiate(enemyPrefab, randPos, Quaternion.identity);
 
                 break;
             }
 
-            _allies.Add(ally);
             _enemies.Add(enemy);
-            _allEntityBases.Add(ally);
             _allEntityBases.Add(enemy);
         }
     }
@@ -93,21 +81,21 @@ public class GameTest : MonoBehaviour {
     private void LateUpdate() {
         for (int i = 0; i < _allEntityBases.Count; ++i) {
             var entity = _allEntityBases[i];
-            if (entity.Health <= 0) {
+            if (entity.Health <= 0 || !entity.gameObject.activeSelf) {
                 _allEntityBases.RemoveAt(i--);
             }
         }
 
         for (int i = 0; i < _enemies.Count; ++i) {
             var enemy = _enemies[i];
-            if (enemy.Health <= 0) {
+            if (enemy.Health <= 0 || !enemy.gameObject.activeSelf) {
                 _enemies.RemoveAt(i--);
             }
         }
 
         for (int i = 0; i < _allies.Count; ++i) {
             var ally = _allies[i];
-            if (ally.Health <= 0) {
+            if (ally.Health <= 0 || !ally.gameObject.activeSelf) {
                 _allies.RemoveAt(i--);
             }
         }

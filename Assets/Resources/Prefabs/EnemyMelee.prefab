@@ -535,6 +535,7 @@ Transform:
   - {fileID: 1400717164381446380}
   - {fileID: 2863251678379950189}
   - {fileID: 415993465750348160}
+  - {fileID: 8498572031479522502}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -551,6 +552,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _id: 3
+  _uiCollider: {fileID: 1458520645605297722}
   _bodyRenderer: {fileID: 8362562634550720676}
   _bodyCollider: {fileID: 4492411474652957216}
   _attackRange: {fileID: 5040320830998930795}
@@ -685,3 +687,66 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &9176704550292603810
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8498572031479522502}
+  - component: {fileID: 1458520645605297722}
+  m_Layer: 0
+  m_Name: uiCollider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8498572031479522502
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9176704550292603810}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7563314166462180939}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1458520645605297722
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9176704550292603810}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 961221cbb07547b47aec464483aeab05, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _colliderLayer: 0
+  _gizmoColor: {r: 1, g: 0, b: 0, a: 1}
+  _rect:
+    position: {x: 0, y: 0}
+    width: 20
+    height: 30
+    rotation: 0
+  _onMouseOver:
+    m_PersistentCalls:
+      m_Calls: []
+  _onMouseDown:
+    m_PersistentCalls:
+      m_Calls: []
+  _onMouseUp:
+    m_PersistentCalls:
+      m_Calls: []
+  _onMouseExit:
+    m_PersistentCalls:
+      m_Calls: []
