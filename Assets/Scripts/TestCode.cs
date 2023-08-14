@@ -4,20 +4,19 @@ using UnityEngine;
 using CustomPhysics;
 
 public class TestCode : MonoBehaviour {
-    private CircleCollider _collider;
-    void Awake() {
-        _collider = GetComponent<CircleCollider>();
+    CircleCollider collider;
+    // Start is called before the first frame update
+    void Start()
+    {
+        collider = GetComponent<CircleCollider>();
+        collider.OnCollisionEvent.AddListener((c1, c2) => {
+            Debug.Log("Collision!" + Time.time);
+        });
     }
 
-    void Update() {
-        CustomCollider[] colliders = CollisionManager.Instance.OverlapCircleAll(_collider.CircleShape.center, _collider.CircleShape.radius, ColliderLayerMask.None);
+    // Update is called once per frame
+    void Update()
+    {
         
-        foreach (CustomCollider collider in colliders) {
-            RectCollider rect = collider as RectCollider;
-            if (rect) {
-                Vector2 pos = rect.GetClosestPoint(transform.position);
-                Debug.DrawLine(transform.position, pos, Color.green);
-            }
-        }
     }
 }

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using RieslingUtils;
 
 namespace CustomPhysics {
     public enum ColliderLayerMask {
@@ -70,10 +71,10 @@ namespace CustomPhysics {
             }
         }
 
-        void AddBitMask(ColliderLayerMask targetMask) {
-            _layerMask |= (1 << (int)targetMask);
+        private void AddBitMask(ColliderLayerMask targetMask) {
+            _layerMask = _layerMask.AddBitMask((int)targetMask);
         }
-        void RemoveBitMask(ColliderLayerMask targetMask) {
+        private void RemoveBitMask(ColliderLayerMask targetMask) {
             _layerMask &= ~(1 << (int)targetMask);
         }
         public bool CannotCollision(ColliderLayerMask other) {
@@ -84,5 +85,6 @@ namespace CustomPhysics {
             OnCollisionEvent?.Invoke(this, collider);
         }
         public abstract Rectangle GetBounds();
+        public virtual Vector2 GetClosestPoint(Vector2 point) { return point; } // TODO
     }
 }

@@ -167,11 +167,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5441ee127f43de94ea21e1fa5db65883, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _detectionRadius: 300
-  _layerMask:
-    serializedVersion: 2
-    m_Bits: 256
-  _showGizmos: 1
+  _detectionRadius: 800
+  _layerMask: 5
 --- !u!1 &306606493
 GameObject:
   m_ObjectHideFlags: 0
@@ -318,8 +315,8 @@ MonoBehaviour:
   _gizmoColor: {r: 1, g: 0, b: 0, a: 1}
   _rect:
     position: {x: 0, y: 0}
-    width: 0
-    height: 0
+    width: 1
+    height: 1
     rotation: 0
 --- !u!1 &971460125
 GameObject:
@@ -388,6 +385,68 @@ Transform:
   m_Father: {fileID: 8541109600503853913}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1384015881
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1384015883}
+  - component: {fileID: 1384015882}
+  - component: {fileID: 1384015884}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1384015882
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1384015881}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d22afe0b5151f134e99114a177232966, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _colliderLayer: 2
+  _gizmoColor: {r: 1, g: 0, b: 0, a: 1}
+  _circle:
+    center: {x: 0, y: 0}
+    radius: 10
+--- !u!4 &1384015883
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1384015881}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -47.2, y: 35.9, z: -11.404075}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1384015884
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1384015881}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfa85d3bc25ba5a4ea2951e2309ec51d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1594824046
 GameObject:
   m_ObjectHideFlags: 0
@@ -432,13 +491,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b0726afc93f55d48bd3734d2eab5a75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _targetDetectionRange: 300
-  _obstaclesLayerMask:
-    serializedVersion: 2
-    m_Bits: 64
-  _playerLayerMask:
-    serializedVersion: 2
-    m_Bits: 64
+  _targetDetectionRange: 800
+  _obstaclesLayerMask: 5
+  _playerLayerMask: 1
   _showGizmos: 1
 --- !u!1 &1781823875
 GameObject:
@@ -568,7 +623,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab15a8e94986ae34093cfb4d44e313d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _radius: 49
+  _radius: 80
   _agentColliderSize: 10
 --- !u!1 &2068478396
 GameObject:
@@ -1278,7 +1333,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &7964382927053583949
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1294,8 +1349,8 @@ MonoBehaviour:
   _colliderLayer: 1
   _gizmoColor: {r: 1, g: 0, b: 0, a: 1}
   _circle:
-    center: {x: 0, y: 0}
-    radius: 0
+    center: {x: 0, y: -5}
+    radius: 10
 --- !u!4 &8111939055080892240
 Transform:
   m_ObjectHideFlags: 0
@@ -1337,7 +1392,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8541109600503853916}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -69.1, y: 42, z: 0}
+  m_LocalPosition: {x: 47, y: 124, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1387,7 +1442,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &8541109600503853919
 MonoBehaviour:
   m_ObjectHideFlags: 0

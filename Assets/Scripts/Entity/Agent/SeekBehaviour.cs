@@ -24,8 +24,8 @@ public class SeekBehaviour : SteeringBehaviour {
         if (aiData.currentTarget != null && aiData.targets != null && aiData.targets.Contains(aiData.currentTarget)) {
             _targetPositionCached = aiData.currentTarget.position;
         }
-        GameObject target = GameObject.Find("AllyMelee");
-        _targetPositionCached = target.transform.position;
+        //GameObject target = GameObject.Find("AllyMelee");
+        //_targetPositionCached = target.transform.position;
 
         if (Vector2.Distance(transform.position, _targetPositionCached) < _targetReachedThresold) {
             _reachedLastTarget = true;

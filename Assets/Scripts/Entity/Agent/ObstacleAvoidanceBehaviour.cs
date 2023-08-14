@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using CustomPhysics;
 
 public static class Directions {
     public static readonly List<Vector2> EightDirections = new List<Vector2> {
@@ -20,9 +21,9 @@ public class ObstacleAvoidanceBehaviour : SteeringBehaviour {
     [SerializeField] private float _agentColliderSize = 20f;
     private float[] _dangersResultTemp;
     public override (float[] danger, float[] interest) GetSteering(float[] danger, float[] interest, AIData aiData) {
-        /*foreach (Collider2D obstacleCollider in aiData.closestPointWithObstacles) {
+        foreach (CustomCollider obstacleCollider in aiData.obstacles) {
             Vector2 directionToObstacle
-                = obstacleCollider.ClosestPoint(transform.position) - (Vector2)transform.position;
+                = obstacleCollider.GetClosestPoint(transform.position) - (Vector2)transform.position;
             float distanceToObstacle = directionToObstacle.magnitude;
 
             float weight = (distanceToObstacle <= _agentColliderSize) ? 1 : (_radius - distanceToObstacle) / _radius;
@@ -38,7 +39,7 @@ public class ObstacleAvoidanceBehaviour : SteeringBehaviour {
                 }
             }
         }
-        _dangersResultTemp = danger;*/
+        _dangersResultTemp = danger;
         return (danger, interest);
     }
 
