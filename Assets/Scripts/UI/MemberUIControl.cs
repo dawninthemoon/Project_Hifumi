@@ -82,13 +82,13 @@ public class MemberUIControl : MonoBehaviour {
         });
         pointDown.callback.AddListener((pointData) => {
             var newEntity = Instantiate(_entityPrefabDictionary[target.ID], _memberSpawnPosition.position, Quaternion.identity);
-            
+            /*
             newEntity.UICollider.OnMouseDown.AddListener(() => {
                 _selectedEntity = newEntity;
             });
             newEntity.UICollider.OnMouseUp.AddListener(() => {
                 _selectedEntity = null;
-            });
+            });*/
 
             _onEntityCreated.Invoke(newEntity);
             _currentMemberUI.Remove(_selectedUI);

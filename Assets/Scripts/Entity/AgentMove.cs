@@ -10,7 +10,7 @@ public struct CircleColliderConfig {
     public Color color;
 }
 
-public class Agent {
+public class AgentMove {
     private CircleCollider _bodyCollider;
     private float _moveSpeed;
 
@@ -26,7 +26,7 @@ public class Agent {
         MovedTime = RequireMoveTime;
     }
 
-    public Agent(CircleCollider bodyCollider, float moveSpeed) {
+    public AgentMove(CircleCollider bodyCollider, float moveSpeed) {
         _bodyCollider = bodyCollider;
         _moveSpeed = moveSpeed;
 

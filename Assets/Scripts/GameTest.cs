@@ -141,7 +141,7 @@ public class GameTest : MonoBehaviour {
 
     public bool CanCreateEntity(Vector3 position, EntityBase entity) {
         if (_obstacleArea == null) return true;
-
+/*
         Vector3 prevPosition = entity.transform.position;
         entity.transform.position = position;
         foreach (CustomCollider obstacle in _obstacleArea) {
@@ -150,7 +150,7 @@ public class GameTest : MonoBehaviour {
                 return false;
             }
         }
-        entity.transform.position = prevPosition;
+        entity.transform.position = prevPosition;*/
 
         return true;
     }

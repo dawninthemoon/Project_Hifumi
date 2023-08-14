@@ -5,5 +5,6 @@ using CustomPhysics;
 
 public class AIData : MonoBehaviour {
     public Collider2D[] obstacles = null;
+    public Transform selectedTarget = null;
     public Transform currentTarget = null;
 }
