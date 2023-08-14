@@ -9,6 +9,7 @@ using RieslingUtils;
 public class MemberUIControl : MonoBehaviour {
     [SerializeField] private EventTrigger _memberUIPrefab = null;
     [SerializeField] private Transform _additionalWindow = null;
+    [SerializeField] private Transform _memberSpawnPosition = null;
     private Dictionary<string, EntityBase> _entityPrefabDictionary;
     private List<GameObject> _currentMemberUI;
     private EntityBase _selectedEntity;
@@ -26,14 +27,14 @@ public class MemberUIControl : MonoBehaviour {
         var uiCollider = GetComponent<UICollider>();
         uiCollider.OnMouseDown.AddListener(() => { 
             _additionalWindow.gameObject.ToggleGameObject();
-        });/*
+        });
         uiCollider.OnMouseUp.AddListener(() => {
             if (_selectedEntity) {
                 CreateUIElement(_selectedEntity);
                 _selectedEntity.gameObject.SetActive(false);
                 _selectedEntity = null;
             }
-        });*/
+        });
 
         _entityPrefabDictionary = new Dictionary<string, EntityBase>();
         var entityPrefabs = Resources.LoadAll<EntityBase>("Prefabs/");
@@ -47,50 +48,51 @@ public class MemberUIControl : MonoBehaviour {
         Vector2 mousePosition = MouseUtils.GetMouseWorldPosition();
         if (_selectedEntity) {
             _selectedEntity.transform.position = mousePosition;
-            if (Input.GetMouseButtonUp(0)) {
-                SpawnEntity(mousePosition);
-            }
+        }
+
+        foreach (GameObject obj in _currentMemberUI) {
+            Image image = obj.GetComponent<Image>();
+            Color uiColor = (_selectedUI == null || obj.Equals(_selectedUI)) ? Color.white : Color.gray;
+            image.color = uiColor;
         }
     }
 
     private void CreateUIElement(EntityBase target) {
         EventTrigger trigger = Instantiate(_memberUIPrefab, _additionalWindow);
-        EventTrigger.Entry entry = new EventTrigger.Entry();
-        entry.eventID = EventTriggerType.PointerDown;
-        trigger.triggers.Add(entry);
+        EventTrigger.Entry pointEnter = new EventTrigger.Entry();
+        pointEnter.eventID = EventTriggerType.PointerEnter;
+
+        EventTrigger.Entry pointExit = new EventTrigger.Entry();
+        pointExit.eventID = EventTriggerType.PointerExit;
+
+        EventTrigger.Entry pointDown = new EventTrigger.Entry();
+        pointDown.eventID = EventTriggerType.PointerDown;
+
+        trigger.triggers.Add(pointEnter);
+        trigger.triggers.Add(pointExit);
+        trigger.triggers.Add(pointDown);
 
         _currentMemberUI.Add(trigger.gameObject);
 
-        entry.callback.AddListener((pointData) => {
-            Vector3 mousePosition = MouseUtils.GetMouseWorldPosition().ChangeZPos(0f);
-            var newEntity = Instantiate(_entityPrefabDictionary[target.ID], mousePosition, Quaternion.identity);
-            
-            _selectedEntity = newEntity;
-            _selectedEntity.UICollider.OnMouseDown.AddListener(() => {
-                _selectedEntity = newEntity;
-                Vector3 mousePosition = MouseUtils.GetMouseWorldPosition();
-                newEntity.transform.position = mousePosition;
-            });
-
+        pointEnter.callback.AddListener((pointData) => {
             _selectedUI = trigger.gameObject;
         });
-    }
+        pointExit.callback.AddListener((pointData) => {
+            _selectedUI = null;
+        });
+        pointDown.callback.AddListener((pointData) => {
+            var newEntity = Instantiate(_entityPrefabDictionary[target.ID], _memberSpawnPosition.position, Quaternion.identity);
+            
+            newEntity.UICollider.OnMouseDown.AddListener(() => {
+                _selectedEntity = newEntity;
+            });
+            newEntity.UICollider.OnMouseUp.AddListener(() => {
+                _selectedEntity = null;
+            });
 
-    private void SpawnEntity(Vector3 position) {
-        if (_canCreateEnemyCallback(position, _selectedEntity)) {
-            _onEntityCreated.Invoke(_selectedEntity);
+            _onEntityCreated.Invoke(newEntity);
             _currentMemberUI.Remove(_selectedUI);
             Destroy(_selectedUI);
-        }
-        else {
-            if (_selectedUI) {
-                Destroy(_selectedUI);
-            }
-            CreateUIElement(_selectedEntity);
-            _selectedEntity.gameObject.SetActive(false);
-        }
-
-        _selectedEntity = null;
-        _selectedUI = null;
+        });
     }
 }
