@@ -73,7 +73,7 @@ public class EntityBase : MonoBehaviour {
     }
 
     public void Move(EntityBase target) {
-        _agent.SetTarget(target.transform);
+        _agent.SetTarget(target.GetComponent<Agent>());
         /*
         var movedEntityInfo = _agent.Move(transform, target, _attackRange.CircleShape.radius);
         _faceDir = movedEntityInfo.Item1;

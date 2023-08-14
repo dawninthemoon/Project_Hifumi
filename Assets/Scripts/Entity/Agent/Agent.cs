@@ -14,17 +14,26 @@ public class Agent : MonoBehaviour {
     [SerializeField] private float _attackDistance = 18f;
     [SerializeField] private Vector2 _movementInput;
     private CustomCollider _bodyCollider;
+    private bool _following;
     public UnityEvent OnAttackRequested;
     public UnityEvent<Vector2> OnMovementInput, OnPointerInput;
-    private bool _following;
+    public AgentScent Scent { get; private set; }
+
+    private void Awake() {
+        Scent = new AgentScent();
+    }
 
     private void Start() {
         InvokeRepeating("PerformDetection", 0f, _detectionDelay);
+        InvokeRepeating("ScentProgress", 0f, 0.3f);
         OnAttackRequested.AddListener(() => Debug.Log("Attack!"));
-        OnMovementInput.AddListener((direction) => transform.position += (Vector3)direction * Time.deltaTime * _moveSpeed);
+        OnMovementInput.AddListener((direction) => {
+            Vector3 nextPosition = transform.position + (Vector3)direction * Time.deltaTime * _moveSpeed;
+            GetComponent<Rigidbody2D>().MovePosition(nextPosition);
+        });
     }
 
-    public void SetTarget(Transform target) {
+    public void SetTarget(Agent target) {
         _aiData.selectedTarget = target;
     }
 
@@ -32,6 +41,10 @@ public class Agent : MonoBehaviour {
         foreach (Detector detector in _detectors) {
             detector.Detect(_aiData);
         }
+    }
+
+    private void ScentProgress() {
+        Scent.AddScent(transform.position);
     }
 
     private void Update() {

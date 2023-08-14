@@ -55,7 +55,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc7f79a822c1cfd4aaf357fc6f2c9fb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _moveSpeed: 30
+  _moveSpeed: 45
   _steeringBehaviours:
   - {fileID: 7871982210488167843}
   - {fileID: 656608639545298956}
@@ -912,7 +912,7 @@ MonoBehaviour:
   _detectionRadius: 100
   _layerMask:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 384
 --- !u!1 &8090959822256031682
 GameObject:
   m_ObjectHideFlags: 0

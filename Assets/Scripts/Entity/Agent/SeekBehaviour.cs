@@ -13,6 +13,8 @@ public class SeekBehaviour : SteeringBehaviour {
         if (aiData.currentTarget != null) {
             _targetPositionCached = aiData.currentTarget.position;
         }
+        else
+            return (danger, interest);
 
         if (Vector2.Distance(transform.position, _targetPositionCached) < _targetReachedThresold) {
             _reachedLastTarget = true;

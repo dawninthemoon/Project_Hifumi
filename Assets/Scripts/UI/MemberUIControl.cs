@@ -37,7 +37,7 @@ public class MemberUIControl : MonoBehaviour {
         });
 
         _entityPrefabDictionary = new Dictionary<string, EntityBase>();
-        var entityPrefabs = Resources.LoadAll<EntityBase>("Prefabs/");
+        var entityPrefabs = Resources.LoadAll<EntityBase>("Prefabs/Allies");
         foreach (EntityBase entity in entityPrefabs) {
             _entityPrefabDictionary.Add(entity.ID, entity);
             CreateUIElement(entity);
