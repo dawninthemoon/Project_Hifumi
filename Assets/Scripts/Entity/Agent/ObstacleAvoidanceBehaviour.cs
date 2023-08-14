@@ -20,7 +20,7 @@ public class ObstacleAvoidanceBehaviour : SteeringBehaviour {
     [SerializeField] private float _agentColliderSize = 20f;
     private float[] _dangersResultTemp;
     public override (float[] danger, float[] interest) GetSteering(float[] danger, float[] interest, AIData aiData) {
-        foreach (Collider2D obstacleCollider in aiData.obstacles) {
+        /*foreach (Collider2D obstacleCollider in aiData.closestPointWithObstacles) {
             Vector2 directionToObstacle
                 = obstacleCollider.ClosestPoint(transform.position) - (Vector2)transform.position;
             float distanceToObstacle = directionToObstacle.magnitude;
@@ -38,7 +38,7 @@ public class ObstacleAvoidanceBehaviour : SteeringBehaviour {
                 }
             }
         }
-        _dangersResultTemp = danger;
+        _dangersResultTemp = danger;*/
         return (danger, interest);
     }
 

@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using RieslingUtils;
 
 namespace CustomPhysics {
     [System.Serializable]
@@ -70,6 +71,29 @@ namespace CustomPhysics {
             ret.x = _rect.height * transform.localScale.y * Mathf.Cos(_rect.rotation) * 0.5f;
             ret.y = -_rect.height * transform.localScale.y * Mathf.Sin(_rect.rotation) * 0.5f;
             return ret;
+        }
+        public Vector2 GetClosestPoint(Vector2 point) {
+            Rectangle bounds = GetBounds();
+            float radian = bounds.rotation * Mathf.Deg2Rad;
+            Vector2 rotatedPoint = ExMath.GetRotatedPos(bounds.position, point, radian);
+            
+            Vector2 rotatedClosest = Vector2.zero;
+            if (rotatedPoint.x > bounds.position.x + bounds.width * 0.5f)
+                rotatedClosest.x = bounds.position.x + bounds.width * 0.5f;
+            else if (rotatedPoint.x < bounds.position.x - bounds.width * 0.5f)
+                rotatedClosest.x = bounds.position.x - bounds.width * 0.5f;
+            else
+                rotatedClosest.x = rotatedPoint.x;
+
+            if (rotatedPoint.y > bounds.position.y + bounds.height * 0.5f)
+                rotatedClosest.y = bounds.position.y + bounds.height * 0.5f;
+            else if (rotatedPoint.y < bounds.position.y - bounds.height * 0.5f)
+                rotatedClosest.y = bounds.position.y - bounds.height * 0.5f;
+            else
+                rotatedClosest.y = rotatedPoint.y;
+
+            Vector2 closestPosition = ExMath.GetRotatedPos(bounds.position, rotatedClosest, -radian);
+            return closestPosition;
         }
 
         void OnDrawGizmos() {

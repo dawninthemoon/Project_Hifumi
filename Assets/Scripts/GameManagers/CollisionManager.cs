@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using RieslingUtils;
 
 namespace CustomPhysics {
     public struct RaycastInfo {
@@ -21,6 +22,8 @@ namespace CustomPhysics {
         private List<CustomCollider> _colliders;
         private QuadTree<CustomCollider> _quadTree;
         private List<CustomCollider> _adjustObjectsList;
+        private List<CustomCollider> _cachedListForOverlapCircle;
+        private List<CustomCollider> _cachedOverlapedColliderList;
         private List<UICollider> _uiColliders;
 
         private void Awake() {
@@ -32,6 +35,8 @@ namespace CustomPhysics {
             _cachedVectorArr = new Vector2[4];
             _colliders = new List<CustomCollider>();
             _adjustObjectsList = new List<CustomCollider>();
+            _cachedListForOverlapCircle = new List<CustomCollider>();
+            _cachedOverlapedColliderList = new List<CustomCollider>();
             _uiColliders = new List<UICollider>();
         }
 
@@ -69,6 +74,27 @@ namespace CustomPhysics {
         }
         public void RemoveUICollider(UICollider collider) {
             _uiColliders.Remove(collider);
+        }
+        public CustomCollider[] OverlapCircleAll(Vector2 point, float radius, ColliderLayerMask layerMask) {
+            _cachedListForOverlapCircle.Clear();
+            _cachedOverlapedColliderList.Clear();
+
+            Circle collisionArea = new Circle(point, radius);
+            _quadTree.GetObjects(_cachedListForOverlapCircle, collisionArea.GetBounds());
+            foreach (CustomCollider collider in _cachedListForOverlapCircle) {
+                if (!collider.Layer.Equals(layerMask)) continue;
+                if (collider is CircleCollider) {
+                    if (IsCollision((collider as CircleCollider).CircleShape, collisionArea)) {
+                        _cachedOverlapedColliderList.Add(collider);
+                    }
+                }
+                else if (collider is RectCollider) {
+                    if (IsCollision((collider as RectCollider), collisionArea)) {
+                        _cachedOverlapedColliderList.Add(collider);
+                    }
+                }
+            }
+            return _cachedOverlapedColliderList.ToArray();
         }
         public bool IsCollision(Polygon p1, Vector2 p1Pos, Polygon p2, Vector2 p2Pos) {
             int p1Length = p1.points.Length;
@@ -216,7 +242,7 @@ namespace CustomPhysics {
 
         public bool IsCollision(RectCollider c1, Circle circle) {
             Rectangle rect = c1.GetBounds();
-            circle.center = GetRotatedPos(rect.position, circle.center, rect.rotation * Mathf.Deg2Rad);
+            circle.center = ExMath.GetRotatedPos(rect.position, circle.center, rect.rotation * Mathf.Deg2Rad);
 
             Vector2 closestPos;
 
@@ -240,11 +266,7 @@ namespace CustomPhysics {
 
             return distance < circle.radius;
         }
-        private Vector2 GetRotatedPos(Vector2 origin, Vector2 point, float radian) {
-            float rotatedX = (Mathf.Cos(radian) * (point.x - origin.x)) + (Mathf.Sin(radian) * (point.y - origin.y)) + origin.x;
-            float rotatedY = (Mathf.Cos(radian) * (point.y - origin.y)) - (Mathf.Sin(radian) * (point.x - origin.x)) + origin.y;
-            return new Vector2(rotatedX, rotatedY);
-        }
+        
         private Vector2 GetUnitVector(Vector2 vec) {
             Vector2 ret;
             float size = Mathf.Sqrt(vec.x * vec.x + vec.y * vec.y);

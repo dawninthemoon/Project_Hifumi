@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using CustomPhysics;
 
 public class AIData : MonoBehaviour {
     public List<Transform> targets = null;
-    public Collider2D[] obstacles = null;
+    public Vector2[] closestPointWithObstacles = null;
     public Transform currentTarget = null;
 
     public int TargetsCount {

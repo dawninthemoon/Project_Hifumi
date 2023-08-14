@@ -12,6 +12,13 @@ namespace CustomPhysics {
             this.center = center;
             this.radius = radius;
         }
+
+        public Rectangle GetBounds() {
+            Vector2 pos = center;
+            pos.y -= radius;
+            Rectangle bounds = new Rectangle(pos, radius * 2f, radius * 2f);
+            return bounds;
+        }
     }
 
     public class CircleCollider : CustomCollider {
@@ -32,10 +39,10 @@ namespace CustomPhysics {
             base.OnDisable();
         }
         public override Rectangle GetBounds() {
-            Vector2 pos = _circle.center;
-            pos.y -= _circle.radius;
-            Rectangle bounds = new Rectangle(pos, _circle.radius * 2f, _circle.radius * 2f);
-            bounds.position += (Vector2)transform.position;
+            Circle circle = CircleShape;
+            Vector2 pos = circle.center;
+            pos.y -= circle.radius;
+            Rectangle bounds = new Rectangle(pos, circle.radius * 2f, circle.radius * 2f);
             return bounds;
         }
         public override bool IsCollision(CustomCollider other) {
@@ -54,17 +61,18 @@ namespace CustomPhysics {
             return CollisionManager.Instance.IsCollision(other, this);
         }
         void OnDrawGizmos() {
-            Vector2 position = (Vector2)transform.position + _circle.center;
-            Vector2 cur = position + _circle.radius * new Vector2(Mathf.Cos(0f), Mathf.Sin(0f));
+            Circle circle = CircleShape;
+            Vector2 position = circle.center;
+            Vector2 cur = position + circle.radius * new Vector2(Mathf.Cos(0f), Mathf.Sin(0f));
             Vector2 prev = cur;
             
             Gizmos.color = _gizmoColor;
             for (float theta = 0.1f; theta < Mathf.PI * 2f; theta += 0.1f) {
-                cur = position + _circle.radius * new Vector2(Mathf.Cos(theta), Mathf.Sin(theta));
+                cur = position + circle.radius * new Vector2(Mathf.Cos(theta), Mathf.Sin(theta));
                 Gizmos.DrawLine(cur, prev);
                 prev = cur;
             }
-            cur = position + _circle.radius * new Vector2(Mathf.Cos(0f), Mathf.Sin(0f));
+            cur = position + circle.radius * new Vector2(Mathf.Cos(0f), Mathf.Sin(0f));
             Gizmos.DrawLine(cur, prev);
         }
     }

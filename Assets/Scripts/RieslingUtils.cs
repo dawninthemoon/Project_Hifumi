@@ -55,6 +55,12 @@ namespace RieslingUtils {
             float radian = Mathf.Atan2(diff.y, diff.x);
             return radian * Mathf.Rad2Deg;
         }
+
+        public static Vector2 GetRotatedPos(Vector2 origin, Vector2 point, float radian) {
+            float rotatedX = (Mathf.Cos(radian) * (point.x - origin.x)) + (Mathf.Sin(radian) * (point.y - origin.y)) + origin.x;
+            float rotatedY = (Mathf.Cos(radian) * (point.y - origin.y)) - (Mathf.Sin(radian) * (point.x - origin.x)) + origin.y;
+            return new Vector2(rotatedX, rotatedY);
+        }
     }
 
     public static class EnumUtil {
