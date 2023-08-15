@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8324293121755720202}
   - component: {fileID: 3211034325056905874}
-  m_Layer: 7
+  m_Layer: 6
   m_Name: ObstacleDetector
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -58,7 +58,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8566413486117650258}
   - component: {fileID: 1269893135007115034}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -143,7 +143,7 @@ GameObject:
   m_Component:
   - component: {fileID: 103760758875521920}
   - component: {fileID: 7639899686240100445}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: hand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -226,7 +226,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1627383007621313967}
-  m_Layer: 7
+  m_Layer: 6
   m_Name: Detectors
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -260,7 +260,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7869432828650510218}
   - component: {fileID: 2557673011407065761}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: MpBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -344,7 +344,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6244015553851370827}
   - component: {fileID: 3051448423667409104}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -429,7 +429,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9100749336996969131}
   - component: {fileID: 5860293249618776841}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: HpBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -513,7 +513,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3658777802280825658}
   - component: {fileID: 5167906755132261554}
-  m_Layer: 7
+  m_Layer: 6
   m_Name: ContextSolver
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -556,7 +556,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6765631571866528326}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: torque
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -589,7 +589,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1788867292128948459}
   - component: {fileID: 5548152561739969643}
-  m_Layer: 7
+  m_Layer: 6
   m_Name: TargetDetector
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -640,7 +640,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5879802968770584942}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: weapon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -673,7 +673,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8493856195555849727}
   - component: {fileID: 1886358404995584571}
-  m_Layer: 7
+  m_Layer: 6
   m_Name: ObstacleAvoidanceBehaviour
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -727,7 +727,8 @@ GameObject:
   - component: {fileID: 3922538929615135082}
   - component: {fileID: 1666005879478970121}
   - component: {fileID: 166338467933781668}
-  m_Layer: 0
+  - component: {fileID: -9030611433701684554}
+  m_Layer: 6
   m_Name: AllyMelee
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -794,10 +795,16 @@ MonoBehaviour:
   _id: 1
   _bodyRadius: 20
   _attackConfig:
+    targetLayerMask:
+      serializedVersion: 2
+      m_Bits: 0
     attackBehaviour: {fileID: 11400000, guid: e6413384cc387974c8e330821ec72015, type: 2}
     attackEffects:
     - {fileID: 11400000, guid: 15f55f9361eb44444ae06c473833c453, type: 2}
   _skillConfig:
+    targetLayerMask:
+      serializedVersion: 2
+      m_Bits: 0
     attackBehaviour: {fileID: 11400000, guid: e6413384cc387974c8e330821ec72015, type: 2}
     attackEffects:
     - {fileID: 11400000, guid: 15f55f9361eb44444ae06c473833c453, type: 2}
@@ -909,9 +916,33 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -2}
+  m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 12
+  m_Radius: 16
+--- !u!114 &-9030611433701684554
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7563314166462180942}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22f70e48cdbbb35409b6465330bd4c4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _onMouseOverEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  _onMouseDownEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  _onMouseUpEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  _onMouseExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &7829540392786360678
 GameObject:
   m_ObjectHideFlags: 0
@@ -922,7 +953,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6757561857931197309}
   - component: {fileID: 4998986651724670811}
-  m_Layer: 7
+  m_Layer: 6
   m_Name: SeekBehaviour
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -966,7 +997,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7877899836400111075}
-  m_Layer: 7
+  m_Layer: 6
   m_Name: SteeringBehaviours
   m_TagString: Untagged
   m_Icon: {fileID: 0}

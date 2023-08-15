@@ -4,6 +4,10 @@ using UnityEngine;
 using CustomPhysics;
 
 public class AIData : MonoBehaviour {
+    public float attackDistance {
+        get;
+        set;
+    }
     public Collider2D[] Obstacles {
         get;
         set;

@@ -22,7 +22,10 @@ public class TargetDetector : Detector {
 
             if (hit.collider != null && (_targetLayerMask & (1 << hit.collider.gameObject.layer)) != 0) {
                 Debug.DrawRay(transform.position, direction * _targetDetectionRange, Color.magenta);
-                _cachedTargetTransform.position = aiData.SelectedTarget.transform.position;
+
+                Vector3 targetPosition = aiData.SelectedTarget.transform.position;
+                _cachedTargetTransform.position = CalculateDestination(targetPosition, direction, aiData.attackDistance);
+
                 aiData.CurrentTarget = _cachedTargetTransform;
             }
             else {
@@ -31,7 +34,7 @@ public class TargetDetector : Detector {
                     hit = Physics2D.Raycast(transform.position, direction, _targetDetectionRange, _obstaclesLayerMask);
                     Debug.DrawRay(transform.position, direction * _targetDetectionRange, Color.cyan);
                     if (hit.collider == null) {
-                        _cachedTargetTransform.position = scentPosition;
+                        _cachedTargetTransform.position = CalculateDestination(scentPosition, direction, aiData.attackDistance);
                         aiData.CurrentTarget = _cachedTargetTransform;
                         break;
                     }
@@ -41,6 +44,11 @@ public class TargetDetector : Detector {
         else {
             aiData.CurrentTarget = null;
         }
+    }
+
+    private Vector3 CalculateDestination(Vector3 origin, Vector2 dir, float distance) {
+        Vector3 difference = -dir * distance;
+        return difference + origin;
     }
 
     private void OnGizmoSelected() {

@@ -16,6 +16,7 @@ public class MemberUIControl : MonoBehaviour {
     private GameObject _selectedUI;
     private System.Action<EntityBase> _onEntityCreated;
     private System.Func<Vector3, EntityBase, bool> _canCreateEnemyCallback;
+    private InteractiveEntity _interactiveZone;
 
     private void Awake() {
         GameTest test = GameObject.FindObjectOfType<GameTest>();
@@ -24,16 +25,9 @@ public class MemberUIControl : MonoBehaviour {
 
         _currentMemberUI = new List<GameObject>();
 
-        var uiCollider = GetComponent<UICollider>();
-        uiCollider.OnMouseDown.AddListener(() => { 
+        _interactiveZone = GetComponent<InteractiveEntity>();
+        _interactiveZone.OnMouseDownEvent.AddListener(() => { 
             _additionalWindow.gameObject.ToggleGameObject();
-        });
-        uiCollider.OnMouseUp.AddListener(() => {
-            if (_selectedEntity) {
-                CreateUIElement(_selectedEntity);
-                _selectedEntity.gameObject.SetActive(false);
-                _selectedEntity = null;
-            }
         });
 
         _entityPrefabDictionary = new Dictionary<string, EntityBase>();
@@ -82,13 +76,19 @@ public class MemberUIControl : MonoBehaviour {
         });
         pointDown.callback.AddListener((pointData) => {
             var newEntity = Instantiate(_entityPrefabDictionary[target.ID], _memberSpawnPosition.position, Quaternion.identity);
-            /*
-            newEntity.UICollider.OnMouseDown.AddListener(() => {
+            var entityInteractiveCallback = newEntity.GetComponent<InteractiveEntity>();
+            
+            entityInteractiveCallback.OnMouseDownEvent.AddListener(() => {
                 _selectedEntity = newEntity;
             });
-            newEntity.UICollider.OnMouseUp.AddListener(() => {
+            entityInteractiveCallback.OnMouseUpEvent.AddListener(() => {
+                var hit = Physics2D.GetRayIntersection(Camera.main.ScreenPointToRay(Input.mousePosition), 100f, (1 << gameObject.layer));
+                if (hit.collider != null) {
+                    CreateUIElement(_selectedEntity);
+                    _selectedEntity.gameObject.SetActive(false);
+                }
                 _selectedEntity = null;
-            });*/
+            });
 
             _onEntityCreated.Invoke(newEntity);
             _currentMemberUI.Remove(_selectedUI);

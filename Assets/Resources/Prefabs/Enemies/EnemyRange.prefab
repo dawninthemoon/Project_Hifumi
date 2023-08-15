@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: -7953772124917713630}
   - component: {fileID: -4923943012130038767}
   - component: {fileID: 3866328938510227786}
+  - component: {fileID: 8741937937687406775}
   m_Layer: 7
   m_Name: EnemyRange
   m_TagString: Untagged
@@ -185,9 +186,9 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -2}
+  m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 12
+  m_Radius: 16
 --- !u!50 &3866328938510227786
 Rigidbody2D:
   serializedVersion: 4
@@ -209,6 +210,27 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &8741937937687406775
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 319058429060391705}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22f70e48cdbbb35409b6465330bd4c4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _onMouseOverEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  _onMouseDownEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  _onMouseUpEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1115183820103426287
 GameObject:
   m_ObjectHideFlags: 0

@@ -30,6 +30,8 @@ public class Agent : MonoBehaviour {
         OnAttackRequested = new UnityEvent();
         OnMovementInput = new UnityEvent<Vector2>();
         OnPointerInput = new UnityEvent<Vector2>();
+        
+        _aiData.attackDistance = _attackDistance;
     }
 
     private void Start() {

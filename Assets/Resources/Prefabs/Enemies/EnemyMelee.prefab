@@ -688,6 +688,7 @@ GameObject:
   - component: {fileID: 3632095415549420733}
   - component: {fileID: 9171948919997775683}
   - component: {fileID: -378373790608198248}
+  - component: {fileID: 2917872870216406593}
   m_Layer: 7
   m_Name: EnemyMelee
   m_TagString: Untagged
@@ -755,10 +756,16 @@ MonoBehaviour:
   _id: 3
   _bodyRadius: 20
   _attackConfig:
+    targetLayerMask:
+      serializedVersion: 2
+      m_Bits: 0
     attackBehaviour: {fileID: 11400000, guid: e6413384cc387974c8e330821ec72015, type: 2}
     attackEffects:
     - {fileID: 11400000, guid: 15f55f9361eb44444ae06c473833c453, type: 2}
   _skillConfig:
+    targetLayerMask:
+      serializedVersion: 2
+      m_Bits: 0
     attackBehaviour: {fileID: 11400000, guid: e6413384cc387974c8e330821ec72015, type: 2}
     attackEffects:
     - {fileID: 11400000, guid: 15f55f9361eb44444ae06c473833c453, type: 2}
@@ -849,9 +856,9 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -2}
+  m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 12
+  m_Radius: 16
 --- !u!50 &-378373790608198248
 Rigidbody2D:
   serializedVersion: 4
@@ -873,6 +880,27 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &2917872870216406593
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7563314166462180942}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22f70e48cdbbb35409b6465330bd4c4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _onMouseOverEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  _onMouseDownEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  _onMouseUpEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &7684824133015684061
 GameObject:
   m_ObjectHideFlags: 0
