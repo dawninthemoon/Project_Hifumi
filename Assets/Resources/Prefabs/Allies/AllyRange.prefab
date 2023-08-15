@@ -164,6 +164,8 @@ GameObject:
   - component: {fileID: 319058429060391704}
   - component: {fileID: 5503157082166524444}
   - component: {fileID: 1832497701593038850}
+  - component: {fileID: 1647920444633533814}
+  - component: {fileID: 2523932432409439824}
   - component: {fileID: -4601259745752784191}
   - component: {fileID: -7228451189094809235}
   m_Layer: 6
@@ -217,17 +219,7 @@ MonoBehaviour:
   _detectionDelay: 0.05
   _aiUpdateDelay: 0.06
   _attackDelay: 1
-  _attackDistance: 18
-  _movementInput: {x: 0, y: 0}
-  OnAttackRequested:
-    m_PersistentCalls:
-      m_Calls: []
-  OnMovementInput:
-    m_PersistentCalls:
-      m_Calls: []
-  OnPointerInput:
-    m_PersistentCalls:
-      m_Calls: []
+  _attackDistance: 100
 --- !u!114 &5067655892966695724
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -241,20 +233,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _id: 2
-  _bodyRenderer: {fileID: 1070087472471134}
   _bodyRadius: 20
-  _attackRangeRadius: 30
   _attackConfig:
+    targetLayerMask:
+      serializedVersion: 2
+      m_Bits: 0
     attackBehaviour: {fileID: 11400000, guid: e6413384cc387974c8e330821ec72015, type: 2}
     attackEffects:
     - {fileID: 11400000, guid: 15f55f9361eb44444ae06c473833c453, type: 2}
   _skillConfig:
+    targetLayerMask:
+      serializedVersion: 2
+      m_Bits: 0
     attackBehaviour: {fileID: 11400000, guid: e6413384cc387974c8e330821ec72015, type: 2}
     attackEffects:
     - {fileID: 11400000, guid: 15f55f9361eb44444ae06c473833c453, type: 2}
-  _handTransform: {fileID: 1512475941945319990}
-  _hpBarTransform: {fileID: 4509399817880320346}
-  _mpBarTransform: {fileID: 4662417126145413159}
   _maxHealth: 100
   _maxMana: 100
   _attackDamage: 5
@@ -301,9 +294,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4058b09ed124044caa790d65e60cc9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  obstacles: []
-  selectedTarget: {fileID: 0}
-  currentTarget: {fileID: 0}
+--- !u!114 &1647920444633533814
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 319058429060391705}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be88b935194e186478c78919596a3d29, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _bodyRenderer: {fileID: 1070087472471134}
+  _handTransform: {fileID: 1512475941945319990}
+--- !u!114 &2523932432409439824
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 319058429060391705}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9bb8f3cf56467e45a5dbf1fe5cfc406, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _hpBarTransform: {fileID: 4509399817880320346}
+  _mpBarTransform: {fileID: 4662417126145413159}
 --- !u!58 &-4601259745752784191
 CircleCollider2D:
   m_ObjectHideFlags: 0

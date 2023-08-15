@@ -1,25 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class EntityBase : MonoBehaviour {
     [SerializeField] private string _id = null;
-    [SerializeField] private SpriteRenderer _bodyRenderer = null;
     [SerializeField] private float _bodyRadius = 20f;
-    [SerializeField] private float _attackRangeRadius = 30f;
     [SerializeField] private AttackConfig _attackConfig;
     [SerializeField] private AttackConfig _skillConfig;
-    [SerializeField] private Transform _handTransform = null;
-    [SerializeField] private Transform _hpBarTransform = null;
-    [SerializeField] private Transform _mpBarTransform = null;
     [SerializeField] private int _maxHealth = 100;
     [SerializeField] private int _maxMana = 100;
     [SerializeField] private int _attackDamage = 5;
     private Agent _agent;
-    private CircleCollider2D _bodyCollider;
-    private Animator _animatorController;
-    private List<EntityBase> _entitiesInAttackRange;
-    private Vector2 _faceDir;
+    private EntityAnimationControl _animationControl;
+    private EntityUIControl _uiControl;
+    private int _health;
+    private int _mana;
     public float Radius {
         get { return _bodyRadius; }
     }
@@ -27,88 +23,61 @@ public class EntityBase : MonoBehaviour {
         get { return _id; }
     }
     public bool DoingAttack { get; private set; }
-    public int Health { get; private set; }
-    public int Mana { get; private set; }
+    public int Health { 
+        get { return _health; }
+        set { 
+            _health = value;
+            _uiControl.UpdateHealthBar(_health, _maxHealth);
+        }
+    }
+    public int Mana { 
+        get { return _mana; }
+        set { 
+            _mana = value;
+            _uiControl.UpdateManaBar(_mana, _maxMana);
+        }
+    }
     public int AttackDamage { get { return _attackDamage; } }
 
     private void Awake() {
         _agent = GetComponent<Agent>();
-        _bodyCollider = GetComponent<CircleCollider2D>();
-        _animatorController = GetComponent<Animator>();
-        _entitiesInAttackRange = new List<EntityBase>();
+        _animationControl = GetComponent<EntityAnimationControl>();
+        _uiControl = GetComponent<EntityUIControl>();
+
+        _agent.OnMovementInput.AddListener((direction) => {
+            _animationControl.SetMoveAnimationState(!direction.Equals(Vector2.zero));
+            _animationControl.SetFaceDir(direction);
+        });
+        _agent.OnAttackRequested.AddListener(Attack);
     }
 
     private void Start() {
         Health = _maxHealth;
-/*
-        _attackRange.OnCollisionEvent.AddListener(
-            (CustomCollider self, CustomCollider other) => {
-                if (DoingAttack || _agent.DoingMove) return;
-                _entitiesInAttackRange.Add(other.transform.parent.GetComponent<EntityBase>());
-            }
-        );*/
-    }
-
-    private void Update() {
-        if (Health <= 0) return;
-
-        var hpBarScale = _hpBarTransform.localScale;
-        hpBarScale.x = (float)Health / _maxHealth * 0.7f;
-        _hpBarTransform.localScale = hpBarScale;
-
-        var mpBarScale = _mpBarTransform.localScale;
-        mpBarScale.x = (float)Mana / _maxMana * 0.7f;
-        _mpBarTransform.localScale = mpBarScale;
-
-        Debug.DrawRay(transform.position, _faceDir * 10f, Color.cyan);
-        _handTransform.rotation = VectorToQuaternion(_faceDir);
-    }
-
-    private void LateUpdate() {
-        Attack();
-        _entitiesInAttackRange.Clear();
-        if (Health <= 0) {
-            
-        }
     }
 
     public void Move(EntityBase target) {
         _agent.SetTarget(target.GetComponent<Agent>());
-        /*
-        var movedEntityInfo = _agent.Move(transform, target, _attackRange.CircleShape.radius);
-        _faceDir = movedEntityInfo.Item1;
-        SetMoveAnimationState(!movedEntityInfo.Item2);
-
-        _bodyRenderer.flipX = (_faceDir.x < 0f);
-        _handTransform.localScale = new Vector3(1f, Mathf.Sign(_faceDir.x), 1f);*/
     }
 
     public void Attack() {
-        /*
-        if (_entitiesInAttackRange.Count == 0) return;
-        _agent.MovedTime = 0f;
         Mana = Mathf.Min(Mana + 10, _maxMana);
 
-        DoingAttack = true;
-        Invoke("DisableAttackTrigger", 0.5f);
+        //DoingAttack = true;
 
-        string triggerName = "doAttack";
         AttackConfig config = _attackConfig;
-        if (Mana == _maxMana) {
+        /*if (Mana == _maxMana) {
+            // Use Skill
             Mana = 0;
-            triggerName = "doSkill";
             config = _skillConfig;
-        }
-
-        _animatorController.SetTrigger(triggerName);
+        }*/
+        _animationControl.PlayAttackAnimation();
 
         var effects = config.attackEffects;
-        config.attackBehaviour.Behaviour(this, _entitiesInAttackRange, effects);
-        */
-    }
-
-    public void SetMoveAnimationState(bool isMoving) {
-        _animatorController.SetBool("isMoving", isMoving);
+        List<EntityBase> targets 
+            = Physics2D.OverlapCircleAll(transform.position, _agent.AttackDistance, config.targetLayerMask)
+                .Select(x => x.GetComponent<EntityBase>())
+                .ToList();
+        config.attackBehaviour.Behaviour(this, targets, effects);
     }
 
     public void ReceiveDamage(int damage) {
@@ -117,22 +86,7 @@ public class EntityBase : MonoBehaviour {
         Mana = Mathf.Min(Mana + 10, _maxMana);
         Health -= damage;
         if (Health <= 0) {
-           OnEntityDead();
+           //OnEntityDead();
         }
-    }
-
-    private void OnEntityDead() {
-         _animatorController.SetBool("isDead", true);
-        _hpBarTransform.gameObject.SetActive(false);
-        _mpBarTransform.gameObject.SetActive(false);
-    }
-
-    private void DisableAttackTrigger() {
-        DoingAttack = false;
-    }
-
-    private Quaternion VectorToQuaternion(Vector2 direction) {
-        float theta = Mathf.Atan2(direction.y, direction.x);
-        return Quaternion.Euler(0f, 0f, theta * Mathf.Rad2Deg);
     }
 }

@@ -720,7 +720,9 @@ GameObject:
   - component: {fileID: 7563314166462180939}
   - component: {fileID: 1332132110147236233}
   - component: {fileID: 7163469659208089624}
+  - component: {fileID: 5452822171537124122}
   - component: {fileID: 7563314166462180937}
+  - component: {fileID: 5070841771996470668}
   - component: {fileID: 6756375924567392600}
   - component: {fileID: 3922538929615135082}
   - component: {fileID: 1666005879478970121}
@@ -777,16 +779,6 @@ MonoBehaviour:
   _aiUpdateDelay: 0.06
   _attackDelay: 1
   _attackDistance: 18
-  _movementInput: {x: 0, y: 0}
-  OnAttackRequested:
-    m_PersistentCalls:
-      m_Calls: []
-  OnMovementInput:
-    m_PersistentCalls:
-      m_Calls: []
-  OnPointerInput:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &7163469659208089624
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -800,9 +792,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _id: 1
-  _bodyRenderer: {fileID: 1269893135007115034}
   _bodyRadius: 20
-  _attackRangeRadius: 30
   _attackConfig:
     attackBehaviour: {fileID: 11400000, guid: e6413384cc387974c8e330821ec72015, type: 2}
     attackEffects:
@@ -811,12 +801,23 @@ MonoBehaviour:
     attackBehaviour: {fileID: 11400000, guid: e6413384cc387974c8e330821ec72015, type: 2}
     attackEffects:
     - {fileID: 11400000, guid: 15f55f9361eb44444ae06c473833c453, type: 2}
-  _handTransform: {fileID: 6765631571866528326}
-  _hpBarTransform: {fileID: 9100749336996969131}
-  _mpBarTransform: {fileID: 7869432828650510218}
   _maxHealth: 100
   _maxMana: 100
   _attackDamage: 5
+--- !u!114 &5452822171537124122
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7563314166462180942}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be88b935194e186478c78919596a3d29, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _bodyRenderer: {fileID: 1269893135007115034}
+  _handTransform: {fileID: 6765631571866528326}
 --- !u!95 &7563314166462180937
 Animator:
   serializedVersion: 4
@@ -837,6 +838,20 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &5070841771996470668
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7563314166462180942}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9bb8f3cf56467e45a5dbf1fe5cfc406, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _hpBarTransform: {fileID: 9100749336996969131}
+  _mpBarTransform: {fileID: 7869432828650510218}
 --- !u!210 &6756375924567392600
 SortingGroup:
   m_ObjectHideFlags: 0
@@ -860,9 +875,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4058b09ed124044caa790d65e60cc9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  obstacles: []
-  selectedTarget: {fileID: 0}
-  currentTarget: {fileID: 0}
 --- !u!50 &1666005879478970121
 Rigidbody2D:
   serializedVersion: 4

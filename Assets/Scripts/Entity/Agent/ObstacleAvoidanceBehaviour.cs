@@ -21,7 +21,7 @@ public class ObstacleAvoidanceBehaviour : SteeringBehaviour {
     [SerializeField] private float _agentColliderSize = 20f;
     private float[] _dangersResultTemp;
     public override (float[] danger, float[] interest) GetSteering(float[] danger, float[] interest, AIData aiData) {
-        foreach (Collider2D obstacleCollider in aiData.obstacles) {
+        foreach (Collider2D obstacleCollider in aiData.Obstacles) {
             if (obstacleCollider.gameObject.Equals(gameObject)) continue;
             Vector2 directionToObstacle
                 = obstacleCollider.ClosestPoint(transform.position) - (Vector2)transform.position;

@@ -105,7 +105,7 @@ public class GameTest : MonoBehaviour {
         foreach (EntityBase ally in _allies) {
             EntityBase target = _enemies.FindClosest(ally.transform.position);
             if (ally.DoingAttack || target == null) {
-                ally.SetMoveAnimationState(false);
+                //ally.SetMoveAnimationState(false);
                 continue;
             }
 
@@ -117,7 +117,7 @@ public class GameTest : MonoBehaviour {
         foreach (EntityBase enemy in _enemies) {
             EntityBase target = _allies.FindClosest(enemy.transform.position);
             if (enemy.DoingAttack || target == null) {
-                enemy.SetMoveAnimationState(false);
+                //enemy.SetMoveAnimationState(false);
                 continue;
             }
 

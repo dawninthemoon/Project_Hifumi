@@ -16,30 +16,30 @@ public class TargetDetector : Detector {
     }
 
     public override void Detect(AIData aiData) {
-        if (aiData.selectedTarget != null) {
-            Vector2 direction = (aiData.selectedTarget.transform.position - transform.position).normalized;
+        if (aiData.SelectedTarget != null) {
+            Vector2 direction = (aiData.SelectedTarget.transform.position - transform.position).normalized;
             var hit = Physics2D.Raycast(transform.position, direction, _targetDetectionRange, _obstaclesLayerMask);
 
             if (hit.collider != null && (_targetLayerMask & (1 << hit.collider.gameObject.layer)) != 0) {
                 Debug.DrawRay(transform.position, direction * _targetDetectionRange, Color.magenta);
-                _cachedTargetTransform.position = aiData.selectedTarget.transform.position;
-                aiData.currentTarget = _cachedTargetTransform;
+                _cachedTargetTransform.position = aiData.SelectedTarget.transform.position;
+                aiData.CurrentTarget = _cachedTargetTransform;
             }
             else {
-                foreach (Vector2 scentPosition in aiData.selectedTarget.Scent.ScentTrail) {
+                foreach (Vector2 scentPosition in aiData.SelectedTarget.Scent.ScentTrail) {
                     direction = (scentPosition - (Vector2)transform.position).normalized;
                     hit = Physics2D.Raycast(transform.position, direction, _targetDetectionRange, _obstaclesLayerMask);
                     Debug.DrawRay(transform.position, direction * _targetDetectionRange, Color.cyan);
                     if (hit.collider == null) {
                         _cachedTargetTransform.position = scentPosition;
-                        aiData.currentTarget = _cachedTargetTransform;
+                        aiData.CurrentTarget = _cachedTargetTransform;
                         break;
                     }
                 }
             }
         }
         else {
-            aiData.currentTarget = null;
+            aiData.CurrentTarget = null;
         }
     }
 

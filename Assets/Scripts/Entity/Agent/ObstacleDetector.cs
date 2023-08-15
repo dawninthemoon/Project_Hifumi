@@ -10,6 +10,6 @@ public class ObstacleDetector : Detector {
     
     public override void Detect(AIData aiData) {
         _colliders = Physics2D.OverlapCircleAll(transform.position, _detectionRadius, _layerMask);
-        aiData.obstacles = _colliders;
+        aiData.Obstacles = _colliders;
     }
 }

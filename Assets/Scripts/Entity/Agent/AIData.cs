@@ -4,7 +4,16 @@ using UnityEngine;
 using CustomPhysics;
 
 public class AIData : MonoBehaviour {
-    public Collider2D[] obstacles = null;
-    public Agent selectedTarget = null;
-    public Transform currentTarget = null;
+    public Collider2D[] Obstacles {
+        get;
+        set;
+    }
+    public Agent SelectedTarget {
+        get;
+        set;
+    }
+    public Transform CurrentTarget {
+        get;
+        set;
+    }
 }

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-using CustomPhysics;
+using RieslingUtils;
 
 public class Agent : MonoBehaviour {
     [SerializeField] private float _moveSpeed = 30f;
@@ -12,29 +12,38 @@ public class Agent : MonoBehaviour {
     [SerializeField] private ContextSolver _movementDirectionSolver = null;
     [SerializeField] private float _detectionDelay = 0.05f, _aiUpdateDelay = 0.06f, _attackDelay = 1f;
     [SerializeField] private float _attackDistance = 18f;
-    [SerializeField] private Vector2 _movementInput;
-    private CustomCollider _bodyCollider;
+    private Vector2 _movementInput;
     private bool _following;
-    public UnityEvent OnAttackRequested;
-    public UnityEvent<Vector2> OnMovementInput, OnPointerInput;
+    private Rigidbody2D _rigidbody;
+    public UnityEvent OnAttackRequested { get; set; }
+    public UnityEvent<Vector2> OnMovementInput { get; set; }
+    public UnityEvent<Vector2> OnPointerInput { get; set; }
     public AgentScent Scent { get; private set; }
+    public float AttackDistance { 
+        get { return _attackDistance; }
+    }
 
     private void Awake() {
         Scent = new AgentScent();
+        _rigidbody = GetComponent<Rigidbody2D>();
+
+        OnAttackRequested = new UnityEvent();
+        OnMovementInput = new UnityEvent<Vector2>();
+        OnPointerInput = new UnityEvent<Vector2>();
     }
 
     private void Start() {
         InvokeRepeating("PerformDetection", 0f, _detectionDelay);
         InvokeRepeating("ScentProgress", 0f, 0.3f);
-        OnAttackRequested.AddListener(() => Debug.Log("Attack!"));
+
         OnMovementInput.AddListener((direction) => {
             Vector3 nextPosition = transform.position + (Vector3)direction * Time.deltaTime * _moveSpeed;
-            GetComponent<Rigidbody2D>().MovePosition(nextPosition);
+            _rigidbody.MovePosition(nextPosition);
         });
     }
 
     public void SetTarget(Agent target) {
-        _aiData.selectedTarget = target;
+        _aiData.SelectedTarget = target;
     }
 
     private void PerformDetection() {
@@ -48,8 +57,8 @@ public class Agent : MonoBehaviour {
     }
 
     private void Update() {
-        if (_aiData.currentTarget) {
-            OnPointerInput?.Invoke(_aiData.currentTarget.position);
+        if (_aiData.CurrentTarget) {
+            OnPointerInput?.Invoke(_aiData.CurrentTarget.position);
             if (!_following) {
                 _following = true;
                 StartCoroutine(ChaseAndAttack());
@@ -60,21 +69,21 @@ public class Agent : MonoBehaviour {
 
     private IEnumerator ChaseAndAttack() {
         while (true) {
-            if (!_aiData.currentTarget) {
+            if (!_aiData.CurrentTarget) {
                 _movementInput = Vector2.zero;
                 _following = false;
                 yield break;
             }
             else {
-                float distance = Vector2.Distance(_aiData.currentTarget.position, transform.position);
+                float distance = Vector2.Distance(_aiData.CurrentTarget.position, transform.position);
                 if (distance < _attackDistance) {
                     _movementInput = Vector2.zero;
                     OnAttackRequested?.Invoke();
-                    yield return new WaitForSeconds(_attackDelay);
+                    yield return YieldInstructionCache.WaitForSeconds(_attackDelay);
                 }
                 else {
                     _movementInput = _movementDirectionSolver.GetDirectionToMove(_steeringBehaviours, _aiData);
-                    yield return new WaitForSeconds(_aiUpdateDelay);
+                    yield return YieldInstructionCache.WaitForSeconds(_aiUpdateDelay);
                 }
             }
         }

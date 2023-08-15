@@ -10,15 +10,15 @@ public class SeekBehaviour : SteeringBehaviour {
     private float[] _interestsTemp;
 
     public override (float[] danger, float[] interest) GetSteering(float[] danger, float[] interest, AIData aiData) {
-        if (aiData.currentTarget != null) {
-            _targetPositionCached = aiData.currentTarget.position;
+        if (aiData.CurrentTarget != null) {
+            _targetPositionCached = aiData.CurrentTarget.position;
         }
         else
             return (danger, interest);
 
         if (Vector2.Distance(transform.position, _targetPositionCached) < _targetReachedThresold) {
             _reachedLastTarget = true;
-            aiData.currentTarget = null;
+            aiData.CurrentTarget = null;
             return (danger, interest);
         }
 
