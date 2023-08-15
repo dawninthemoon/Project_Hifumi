@@ -6,7 +6,6 @@ using CustomPhysics;
 public class GameTest : MonoBehaviour {
     [SerializeField] private int _entityCount = 2;
     [SerializeField] private EntityBase _enemyPrefabMelee = null, _enemyPrefabRange = null;
-    [SerializeField] private CustomCollider[] _obstacleArea = null;
     private KdTree<EntityBase> _allies;
     private KdTree<EntityBase> _enemies;
     private List<EntityBase> _allEntityBases;
@@ -19,7 +18,7 @@ public class GameTest : MonoBehaviour {
     private float _gameSpeed;
 
     private void Awake() {
-        var memberUITest = GameObject.FindObjectOfType<MemberUITest>();
+        
     }
 
     private void Start() {
@@ -37,29 +36,10 @@ public class GameTest : MonoBehaviour {
         _enemies = new KdTree<EntityBase>(true);
         _allEntityBases = new List<EntityBase>();
 
-        for (int i = 0; i < _entityCount; ++i) {
-            _stageMinSize = new Vector2(-Width / 2f, -Height / 2f);
-            _stageMaxSize = new Vector2(Width / 2f, Height / 2f);
-
-            EntityBase enemy = null;
-
-            while (true) {
-                Vector3 randPos = new Vector3(Random.Range(_stageMinSize.x, _stageMaxSize.x), Random.Range(_stageMinSize.y, _stageMaxSize.y));
-
-                EntityBase enemyPrefab = _enemyPrefabMelee;
-                if (Random.Range(0, 2) > 0) {
-                    enemyPrefab = _enemyPrefabRange;
-                }
-                if (!CanCreateEntity(randPos, enemyPrefab)) continue;
-
-                enemy = Instantiate(enemyPrefab, randPos, Quaternion.identity);
-
-                break;
-            }
-
-            _enemies.Add(enemy);
-            _allEntityBases.Add(enemy);
-        }
+        _stageMinSize = new Vector2(-Width / 2f, -Height / 2f);
+        _stageMaxSize = new Vector2(Width / 2f, Height / 2f);
+    
+        SpawnEnemy(_entityCount);
     }
 
     private void Update() {
@@ -104,24 +84,16 @@ public class GameTest : MonoBehaviour {
     private void MoveProgress() {
         foreach (EntityBase ally in _allies) {
             EntityBase target = _enemies.FindClosest(ally.transform.position);
-            if (ally.DoingAttack || target == null) {
-                //ally.SetMoveAnimationState(false);
-                continue;
-            }
-
-            ally.Move(target);
+            if (target == null) break;
+            ally.SetTarget(target);
 
             ClampPosition(ally);
         }
 
         foreach (EntityBase enemy in _enemies) {
             EntityBase target = _allies.FindClosest(enemy.transform.position);
-            if (enemy.DoingAttack || target == null) {
-                //enemy.SetMoveAnimationState(false);
-                continue;
-            }
-
-            enemy.Move(target);
+            if (target == null) break;
+            enemy.SetTarget(target);
             
             ClampPosition(enemy);
         }
@@ -139,19 +111,20 @@ public class GameTest : MonoBehaviour {
         _allEntityBases.Add(entity);
     }
 
-    public bool CanCreateEntity(Vector3 position, EntityBase entity) {
-        if (_obstacleArea == null) return true;
-/*
-        Vector3 prevPosition = entity.transform.position;
-        entity.transform.position = position;
-        foreach (CustomCollider obstacle in _obstacleArea) {
-            if (entity.IsCollision(obstacle)) {
-                entity.transform.position = prevPosition;
-                return false;
+    private void SpawnEnemy(int amount) {
+        for (int i = 0; i < amount; ++i) {
+            EntityBase enemyPrefab = _enemyPrefabMelee;
+            if (Random.Range(0, 2) > 0) {
+                enemyPrefab = _enemyPrefabRange;
             }
-        }
-        entity.transform.position = prevPosition;*/
 
-        return true;
+            float randX = Random.Range(_stageMinSize.x, _stageMaxSize.x);
+            float y = Random.Range(0, 2) > 0 ? _stageMaxSize.y + enemyPrefab.Radius : _stageMinSize.y - enemyPrefab.Radius;
+            Vector3 randPos = new Vector3(randX, y);
+
+            EntityBase enemy = Instantiate(enemyPrefab, randPos, Quaternion.identity);
+            _enemies.Add(enemy);
+            _allEntityBases.Add(enemy);
+        }
     }
 }

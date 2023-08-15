@@ -22,7 +22,6 @@ public class EntityBase : MonoBehaviour {
     public string ID {
         get { return _id; }
     }
-    public bool DoingAttack { get; private set; }
     public int Health { 
         get { return _health; }
         set { 
@@ -56,7 +55,7 @@ public class EntityBase : MonoBehaviour {
         Mana = 0;
     }
 
-    public void Move(EntityBase target) {
+    public void SetTarget(EntityBase target) {
         _agent.SetTarget(target.GetComponent<Agent>());
     }
 

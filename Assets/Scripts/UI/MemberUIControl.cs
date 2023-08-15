@@ -15,13 +15,11 @@ public class MemberUIControl : MonoBehaviour {
     private EntityBase _selectedEntity;
     private GameObject _selectedUI;
     private System.Action<EntityBase> _onEntityCreated;
-    private System.Func<Vector3, EntityBase, bool> _canCreateEnemyCallback;
     private InteractiveEntity _interactiveZone;
 
     private void Awake() {
         GameTest test = GameObject.FindObjectOfType<GameTest>();
         _onEntityCreated = test.OnEntityCreated;
-        _canCreateEnemyCallback = test.CanCreateEntity;
 
         _currentMemberUI = new List<GameObject>();
 
@@ -43,16 +41,11 @@ public class MemberUIControl : MonoBehaviour {
         if (_selectedEntity) {
             _selectedEntity.transform.position = mousePosition;
         }
-
-        foreach (GameObject obj in _currentMemberUI) {
-            Image image = obj.GetComponent<Image>();
-            Color uiColor = (_selectedUI == null || obj.Equals(_selectedUI)) ? Color.white : Color.gray;
-            image.color = uiColor;
-        }
     }
 
     private void CreateUIElement(EntityBase target) {
         EventTrigger trigger = Instantiate(_memberUIPrefab, _additionalWindow);
+        Animator animator = trigger.GetComponent<Animator>();
         EventTrigger.Entry pointEnter = new EventTrigger.Entry();
         pointEnter.eventID = EventTriggerType.PointerEnter;
 
@@ -70,9 +63,11 @@ public class MemberUIControl : MonoBehaviour {
 
         pointEnter.callback.AddListener((pointData) => {
             _selectedUI = trigger.gameObject;
+            animator.SetTrigger("highlight");
         });
         pointExit.callback.AddListener((pointData) => {
             _selectedUI = null;
+            animator.SetTrigger("normal");
         });
         pointDown.callback.AddListener((pointData) => {
             var newEntity = Instantiate(_entityPrefabDictionary[target.ID], _memberSpawnPosition.position, Quaternion.identity);
