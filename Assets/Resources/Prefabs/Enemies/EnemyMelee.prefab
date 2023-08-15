@@ -758,14 +758,14 @@ MonoBehaviour:
   _attackConfig:
     targetLayerMask:
       serializedVersion: 2
-      m_Bits: 0
+      m_Bits: 64
     attackBehaviour: {fileID: 11400000, guid: e6413384cc387974c8e330821ec72015, type: 2}
     attackEffects:
     - {fileID: 11400000, guid: 15f55f9361eb44444ae06c473833c453, type: 2}
   _skillConfig:
     targetLayerMask:
       serializedVersion: 2
-      m_Bits: 0
+      m_Bits: 64
     attackBehaviour: {fileID: 11400000, guid: e6413384cc387974c8e330821ec72015, type: 2}
     attackEffects:
     - {fileID: 11400000, guid: 15f55f9361eb44444ae06c473833c453, type: 2}
@@ -899,6 +899,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   _onMouseUpEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  _onMouseExitEvent:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1 &7684824133015684061

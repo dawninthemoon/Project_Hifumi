@@ -21,7 +21,7 @@ public class TargetDetector : Detector {
             var hit = Physics2D.Raycast(transform.position, direction, _targetDetectionRange, _obstaclesLayerMask);
 
             if (hit.collider != null && (_targetLayerMask & (1 << hit.collider.gameObject.layer)) != 0) {
-                Debug.DrawRay(transform.position, direction * _targetDetectionRange, Color.magenta);
+                //Debug.DrawRay(transform.position, direction * _targetDetectionRange, Color.magenta);
 
                 Vector3 targetPosition = aiData.SelectedTarget.transform.position;
                 _cachedTargetTransform.position = CalculateDestination(targetPosition, direction, aiData.attackDistance);
@@ -32,7 +32,7 @@ public class TargetDetector : Detector {
                 foreach (Vector2 scentPosition in aiData.SelectedTarget.Scent.ScentTrail) {
                     direction = (scentPosition - (Vector2)transform.position).normalized;
                     hit = Physics2D.Raycast(transform.position, direction, _targetDetectionRange, _obstaclesLayerMask);
-                    Debug.DrawRay(transform.position, direction * _targetDetectionRange, Color.cyan);
+                    //Debug.DrawRay(transform.position, direction * _targetDetectionRange, Color.cyan);
                     if (hit.collider == null) {
                         _cachedTargetTransform.position = CalculateDestination(scentPosition, direction, aiData.attackDistance);
                         aiData.CurrentTarget = _cachedTargetTransform;

@@ -5,6 +5,8 @@ using AttackBehaviours.Effects;
 using CustomPhysics;
 
 public class TraceProjectile : ProjectileBase {
+    private EntityBase _caster;
+    private IAttackEffect[] _effects;
     private List<EntityBase> _cachedEntityList = new List<EntityBase>(1);
     private Transform _target;
     private float _moveSpeed;
@@ -13,22 +15,7 @@ public class TraceProjectile : ProjectileBase {
     public override void Initialize(EntityBase caster, EntityBase target, float moveSpeed, IAttackEffect[] effects) {
         _target = target.transform;
         _moveSpeed = moveSpeed;
-
-        _projectileBody = GetComponent<CustomCollider>();
-        _projectileBody.OnCollisionEvent.AddListener((CustomCollider c1, CustomCollider c2) => {
-            if (c2 == null) return;
-            var other = c2.transform.parent;
-            if (!other.Equals(target.transform)) return;
-
-            _cachedEntityList.Clear();
-            _cachedEntityList.Add(target);
-
-            foreach (IAttackEffect effect in effects) {
-                effect.ApplyEffect(caster, _cachedEntityList);
-            }
-
-            _removeSelf = true;
-        });
+        _effects = effects;
     }
 
     protected override void Update() {
@@ -48,8 +35,16 @@ public class TraceProjectile : ProjectileBase {
         transform.rotation = Quaternion.Euler(0f, 0f, angle - 90f);
     }
 
-    private void LateUpdate() {
-        if (_removeSelf)
-            Destroy(gameObject);
+    private void OnTriggerEnter2D(Collider2D other) {
+        if (!other.transform.Equals(_target)) return;
+
+        _cachedEntityList.Clear();
+        _cachedEntityList.Add(other.GetComponent<EntityBase>());
+
+        foreach (IAttackEffect effect in _effects) {
+            effect.ApplyEffect(_caster, _cachedEntityList);
+        }
+
+        Destroy(gameObject);
     }
 }

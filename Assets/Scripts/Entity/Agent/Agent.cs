@@ -15,9 +15,8 @@ public class Agent : MonoBehaviour {
     private Vector2 _movementInput;
     private bool _following;
     private Rigidbody2D _rigidbody;
-    public UnityEvent OnAttackRequested { get; set; }
+    public UnityEvent<Vector2> OnAttackRequested { get; set; }
     public UnityEvent<Vector2> OnMovementInput { get; set; }
-    public UnityEvent<Vector2> OnPointerInput { get; set; }
     public AgentScent Scent { get; private set; }
     public float AttackDistance { 
         get { return _attackDistance; }
@@ -27,9 +26,8 @@ public class Agent : MonoBehaviour {
         Scent = new AgentScent();
         _rigidbody = GetComponent<Rigidbody2D>();
 
-        OnAttackRequested = new UnityEvent();
+        OnAttackRequested = new UnityEvent<Vector2>();
         OnMovementInput = new UnityEvent<Vector2>();
-        OnPointerInput = new UnityEvent<Vector2>();
         
         _aiData.attackDistance = _attackDistance;
     }
@@ -60,13 +58,13 @@ public class Agent : MonoBehaviour {
 
     private void Update() {
         if (_aiData.CurrentTarget) {
-            OnPointerInput?.Invoke(_aiData.CurrentTarget.position);
             if (!_following) {
                 _following = true;
                 StartCoroutine(ChaseAndAttack());
             }
         }
-        OnMovementInput?.Invoke(_movementInput);
+        if (_movementInput.sqrMagnitude > 0f)
+            OnMovementInput?.Invoke(_movementInput);
     }
 
     private IEnumerator ChaseAndAttack() {
@@ -80,7 +78,7 @@ public class Agent : MonoBehaviour {
                 float distance = Vector2.Distance(_aiData.CurrentTarget.position, transform.position);
                 if (distance < _attackDistance) {
                     _movementInput = Vector2.zero;
-                    OnAttackRequested?.Invoke();
+                    OnAttackRequested?.Invoke((_aiData.CurrentTarget.position - transform.position).normalized);
                     yield return YieldInstructionCache.WaitForSeconds(_attackDelay);
                 }
                 else {

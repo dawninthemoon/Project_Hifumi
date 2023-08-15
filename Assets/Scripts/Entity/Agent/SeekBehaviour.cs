@@ -5,7 +5,6 @@ using System.Linq;
 
 public class SeekBehaviour : SteeringBehaviour {
     [SerializeField] private float _targetReachedThresold = 18f;
-    private bool _reachedLastTarget = true;
     private Vector2 _targetPositionCached;
     private float[] _interestsTemp;
 
@@ -17,7 +16,6 @@ public class SeekBehaviour : SteeringBehaviour {
             return (danger, interest);
 
         if (Vector2.Distance(transform.position, _targetPositionCached) < _targetReachedThresold) {
-            _reachedLastTarget = true;
             aiData.CurrentTarget = null;
             return (danger, interest);
         }

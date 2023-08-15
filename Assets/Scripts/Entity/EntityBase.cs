@@ -53,13 +53,14 @@ public class EntityBase : MonoBehaviour {
 
     private void Start() {
         Health = _maxHealth;
+        Mana = 0;
     }
 
     public void Move(EntityBase target) {
         _agent.SetTarget(target.GetComponent<Agent>());
     }
 
-    public void Attack() {
+    public void Attack(Vector2 direction) {
         Mana = Mathf.Min(Mana + 10, _maxMana);
 
         //DoingAttack = true;
@@ -71,11 +72,13 @@ public class EntityBase : MonoBehaviour {
             config = _skillConfig;
         }*/
         _animationControl.PlayAttackAnimation();
+        _animationControl.SetFaceDir(direction);
 
         var effects = config.attackEffects;
         List<EntityBase> targets 
             = Physics2D.OverlapCircleAll(transform.position, _agent.AttackDistance, config.targetLayerMask)
                 .Select(x => x.GetComponent<EntityBase>())
+                .OrderBy(x => (x.transform.position - transform.position).sqrMagnitude)
                 .ToList();
         config.attackBehaviour.Behaviour(this, targets, effects);
     }
