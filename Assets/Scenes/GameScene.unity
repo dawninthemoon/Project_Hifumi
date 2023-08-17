@@ -376,7 +376,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90a42e2682648644ebb42f4460a372af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _memberUIPrefab: {fileID: 5446704108364156131, guid: a0e1214c26646fb4faafb543b2100efa, type: 3}
+  _memberUIPrefab: {fileID: 7909764449741852936, guid: a0e1214c26646fb4faafb543b2100efa, type: 3}
   _additionalWindow: {fileID: 1982263971}
   _memberSpawnPosition: {fileID: 2005910149}
 --- !u!50 &674347049
@@ -595,6 +595,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfcca9941f59c804ab1928f2c2389aab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _memberUIControl: {fileID: 674347048}
   _entityCount: 4
   _enemyPrefabMelee: {fileID: 3257395650604171983, guid: fbb11515525e607408a2c60468c52e57, type: 3}
   _enemyPrefabRange: {fileID: -2483350518945898091, guid: cf0628170f3eae4429da007fb34bc1a1, type: 3}

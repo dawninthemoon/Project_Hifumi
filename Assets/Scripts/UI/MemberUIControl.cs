@@ -1,37 +1,34 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.UI;
-using CustomPhysics;
+using UnityEngine.Events;
 using RieslingUtils;
 
 public class MemberUIControl : MonoBehaviour {
-    [SerializeField] private EventTrigger _memberUIPrefab = null;
+    [SerializeField] private MemberUIElement _memberUIPrefab = null;
     [SerializeField] private Transform _additionalWindow = null;
     [SerializeField] private Transform _memberSpawnPosition = null;
-    private Dictionary<string, EntityBase> _entityPrefabDictionary;
-    private List<GameObject> _currentMemberUI;
+    private Dictionary<string, MemberUIElement> _currentMemberUI;
     private EntityBase _selectedEntity;
     private GameObject _selectedUI;
-    private System.Action<EntityBase> _onEntityCreated;
+    private UnityAction<EntityBase> _onEntityActive;
+    private UnityAction<EntityBase> _onEntityInactive;
     private InteractiveEntity _interactiveZone;
 
     private void Awake() {
-        GameTest test = GameObject.FindObjectOfType<GameTest>();
-        _onEntityCreated = test.OnEntityCreated;
-
-        _currentMemberUI = new List<GameObject>();
+        _currentMemberUI = new Dictionary<string, MemberUIElement>();
 
         _interactiveZone = GetComponent<InteractiveEntity>();
         _interactiveZone.OnMouseDownEvent.AddListener(() => {
             _additionalWindow.gameObject.ToggleGameObject();
         });
+    }
 
-        _entityPrefabDictionary = new Dictionary<string, EntityBase>();
-        var entityPrefabs = Resources.LoadAll<EntityBase>("Prefabs/Allies");
-        foreach (EntityBase entity in entityPrefabs) {
-            _entityPrefabDictionary.Add(entity.ID, entity);
+    public void InitializeEntityUI(UnityAction<EntityBase> onEntityActive, UnityAction<EntityBase> onEntityInactive, List<EntityBase> inactiveEntities) {
+        _onEntityActive = onEntityActive;
+        _onEntityInactive = onEntityInactive;
+
+        foreach (EntityBase entity in inactiveEntities) {
             CreateUIElement(entity);
         }
     }
@@ -44,50 +41,50 @@ public class MemberUIControl : MonoBehaviour {
     }
 
     private void CreateUIElement(EntityBase target) {
-        EventTrigger trigger = Instantiate(_memberUIPrefab, _additionalWindow);
-        Animator animator = trigger.GetComponent<Animator>();
-        EventTrigger.Entry pointEnter = new EventTrigger.Entry();
-        pointEnter.eventID = EventTriggerType.PointerEnter;
+        MemberUIElement uiElement = Instantiate(_memberUIPrefab, _additionalWindow);
+        Animator animator = uiElement.GetComponent<Animator>();
 
-        EventTrigger.Entry pointExit = new EventTrigger.Entry();
-        pointExit.eventID = EventTriggerType.PointerExit;
+        _currentMemberUI.Add(target.ID, uiElement);
 
-        EventTrigger.Entry pointDown = new EventTrigger.Entry();
-        pointDown.eventID = EventTriggerType.PointerDown;
-
-        trigger.triggers.Add(pointEnter);
-        trigger.triggers.Add(pointExit);
-        trigger.triggers.Add(pointDown);
-
-        _currentMemberUI.Add(trigger.gameObject);
-
-        pointEnter.callback.AddListener((pointData) => {
-            _selectedUI = trigger.gameObject;
+        uiElement.PointEnter.callback.AddListener((pointData) => {
+            _selectedUI = uiElement.gameObject;
             animator.SetTrigger("highlight");
         });
-        pointExit.callback.AddListener((pointData) => {
+        uiElement.PointExit.callback.AddListener((pointData) => {
             _selectedUI = null;
             animator.SetTrigger("normal");
         });
-        pointDown.callback.AddListener((pointData) => {
-            var newEntity = Instantiate(_entityPrefabDictionary[target.ID], _memberSpawnPosition.position, Quaternion.identity);
-            var entityInteractiveCallback = newEntity.GetComponent<InteractiveEntity>();
+        uiElement.PointDown.callback.AddListener((pointData) => {
+            var entityInteractiveCallback = target.GetComponent<InteractiveEntity>();
             
             entityInteractiveCallback.OnMouseDownEvent.AddListener(() => {
-                _selectedEntity = newEntity;
+                _selectedEntity = target;
             });
             entityInteractiveCallback.OnMouseUpEvent.AddListener(() => {
                 var hit = Physics2D.GetRayIntersection(Camera.main.ScreenPointToRay(Input.mousePosition), 100f, (1 << gameObject.layer));
                 if (hit.collider != null) {
                     CreateUIElement(_selectedEntity);
-                    _selectedEntity.gameObject.SetActive(false);
+                    _onEntityInactive.Invoke(target);
                 }
                 _selectedEntity = null;
             });
 
-            _onEntityCreated.Invoke(newEntity);
-            _currentMemberUI.Remove(_selectedUI);
+            target.transform.position = _memberSpawnPosition.position;
+            _onEntityActive.Invoke(target);
+            _currentMemberUI.Remove(target.ID);
             Destroy(_selectedUI);
         });
+    }
+
+    public void UpdateMemberElement(EntityBase entity) {
+        if (_currentMemberUI.TryGetValue(entity.ID, out MemberUIElement uiElement)) {
+            uiElement.UpdateHealthText(entity.Health);
+            uiElement.UpdateManaText(entity.Mana);
+            uiElement.UpdateStressText(entity.Stress);
+            uiElement.UpdateManaText(entity.AttackDamage);
+        }
+        else {
+            Debug.LogError("Member UI Not Exits!");
+        }
     }
 }

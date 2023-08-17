@@ -4,11 +4,12 @@ using UnityEngine;
 using CustomPhysics;
 
 public class GameTest : MonoBehaviour {
+    [SerializeField] private MemberUIControl _memberUIControl = null;
     [SerializeField] private int _entityCount = 2;
     [SerializeField] private EntityBase _enemyPrefabMelee = null, _enemyPrefabRange = null;
-    private KdTree<EntityBase> _allies;
-    private KdTree<EntityBase> _enemies;
-    private List<EntityBase> _allEntityBases;
+    private KdTree<EntityBase> _activeAllies;
+    private KdTree<EntityBase> _activeEnemies;
+    private List<EntityBase> _inactiveAllies;
     public static readonly float Width = 640;
     public static readonly float Height = 380f;
     private static Vector2 _stageMinSize;
@@ -18,28 +19,34 @@ public class GameTest : MonoBehaviour {
     private float _gameSpeed;
 
     private void Awake() {
-        
+        _inactiveAllies = InitalizeEntities();
     }
 
     private void Start() {
+        _memberUIControl.InitializeEntityUI(OnEntityActive, OnEntityInactive, _inactiveAllies);
         InitializeCombat();
     }
 
     private void InitializeCombat() {
-        if (_allEntityBases != null) {
-            foreach (var toRemove in _allEntityBases) {
-                Destroy(toRemove.gameObject);
-            }
-        }
-
-        _allies = new KdTree<EntityBase>(true);
-        _enemies = new KdTree<EntityBase>(true);
-        _allEntityBases = new List<EntityBase>();
+        _activeAllies = new KdTree<EntityBase>(true);
+        _activeEnemies = new KdTree<EntityBase>(true);
 
         _stageMinSize = new Vector2(-Width / 2f, -Height / 2f);
         _stageMaxSize = new Vector2(Width / 2f, Height / 2f);
     
         SpawnEnemy(_entityCount);
+    }
+
+    private List<EntityBase> InitalizeEntities() {
+        List<EntityBase> inactiveAllies = new List<EntityBase>();
+        var entityPrefabs = Resources.LoadAll<EntityBase>("Prefabs/Allies");
+        foreach (EntityBase prefab in entityPrefabs) {
+            EntityBase newEntity = Instantiate(prefab);
+            newEntity.Initialize();
+            newEntity.gameObject.SetActive(false);
+            inactiveAllies.Add(newEntity);
+        }
+        return inactiveAllies;
     }
 
     private void Update() {
@@ -58,44 +65,41 @@ public class GameTest : MonoBehaviour {
         }
     }
 
-    private void LateUpdate() {
-        for (int i = 0; i < _allEntityBases.Count; ++i) {
-            var entity = _allEntityBases[i];
-            if (entity.Health <= 0 || !entity.gameObject.activeSelf) {
-                _allEntityBases.RemoveAt(i--);
-            }
-        }
-
-        for (int i = 0; i < _enemies.Count; ++i) {
-            var enemy = _enemies[i];
-            if (enemy.Health <= 0 || !enemy.gameObject.activeSelf) {
-                _enemies.RemoveAt(i--);
-            }
-        }
-
-        for (int i = 0; i < _allies.Count; ++i) {
-            var ally = _allies[i];
-            if (ally.Health <= 0 || !ally.gameObject.activeSelf) {
-                _allies.RemoveAt(i--);
-            }
-        }
-    }
-
     private void MoveProgress() {
-        foreach (EntityBase ally in _allies) {
-            EntityBase target = _enemies.FindClosest(ally.transform.position);
+        foreach (EntityBase ally in _activeAllies) {
+            EntityBase target = _activeEnemies.FindClosest(ally.transform.position);
             if (target == null) break;
             ally.SetTarget(target);
 
             ClampPosition(ally);
         }
 
-        foreach (EntityBase enemy in _enemies) {
-            EntityBase target = _allies.FindClosest(enemy.transform.position);
+        foreach (EntityBase enemy in _activeEnemies) {
+            EntityBase target = _activeAllies.FindClosest(enemy.transform.position);
             if (target == null) break;
             enemy.SetTarget(target);
             
             ClampPosition(enemy);
+        }
+    }
+
+    private void LateUpdate() {
+        foreach (EntityBase inactiveAlly in _inactiveAllies) {
+            _memberUIControl.UpdateMemberElement(inactiveAlly);
+        }
+
+        for (int i = 0; i < _activeAllies.Count; ++i) {
+            var ally = _activeAllies[i];
+            if (ally.Health <= 0 || !ally.gameObject.activeSelf) {
+                _activeAllies.RemoveAt(i--);
+            }
+        }
+
+        for (int i = 0; i < _activeEnemies.Count; ++i) {
+            var enemy = _activeEnemies[i];
+            if (enemy.Health <= 0 || !enemy.gameObject.activeSelf) {
+                _activeEnemies.RemoveAt(i--);
+            }
         }
     }
 
@@ -106,9 +110,15 @@ public class GameTest : MonoBehaviour {
         entity.transform.position = pos;
     }
 
-    public void OnEntityCreated(EntityBase entity) {
-        _allies.Add(entity);
-        _allEntityBases.Add(entity);
+    public void OnEntityActive(EntityBase entity) {
+        entity.gameObject.SetActive(true);
+        _inactiveAllies.Remove(entity);
+        _activeAllies.Add(entity);
+    }
+
+    public void OnEntityInactive(EntityBase entity) {
+        _inactiveAllies.Add(entity);
+        entity.gameObject.SetActive(false);
     }
 
     private void SpawnEnemy(int amount) {
@@ -123,8 +133,8 @@ public class GameTest : MonoBehaviour {
             Vector3 randPos = new Vector3(randX, y);
 
             EntityBase enemy = Instantiate(enemyPrefab, randPos, Quaternion.identity);
-            _enemies.Add(enemy);
-            _allEntityBases.Add(enemy);
+            enemy.Initialize();
+            _activeEnemies.Add(enemy);
         }
     }
 }

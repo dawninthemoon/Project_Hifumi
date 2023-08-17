@@ -36,9 +36,10 @@ public class EntityBase : MonoBehaviour {
             _uiControl.UpdateManaBar(_mana, _maxMana);
         }
     }
+    public int Stress { get; set; }
     public int AttackDamage { get { return _attackDamage; } }
 
-    private void Awake() {
+    public void Initialize() {
         _agent = GetComponent<Agent>();
         _animationControl = GetComponent<EntityAnimationControl>();
         _uiControl = GetComponent<EntityUIControl>();
@@ -48,9 +49,11 @@ public class EntityBase : MonoBehaviour {
             _animationControl.SetFaceDir(direction);
         });
         _agent.OnAttackRequested.AddListener(Attack);
+
+        InitalizeStatus();
     }
 
-    private void Start() {
+    private void InitalizeStatus() {
         Health = _maxHealth;
         Mana = 0;
     }
