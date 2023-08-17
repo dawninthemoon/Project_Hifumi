@@ -29,6 +29,7 @@ public class MemberUIControl : MonoBehaviour {
         _onEntityInactive = onEntityInactive;
 
         foreach (EntityBase entity in inactiveEntities) {
+            SetEntityInteraction(entity);
             CreateUIElement(entity);
         }
     }
@@ -38,6 +39,23 @@ public class MemberUIControl : MonoBehaviour {
         if (_selectedEntity) {
             _selectedEntity.transform.position = mousePosition;
         }
+    }
+
+    private void SetEntityInteraction(EntityBase target) {
+        var entityInteractiveCallback = target.GetComponent<InteractiveEntity>();
+
+        entityInteractiveCallback.OnMouseDownEvent.AddListener(() => {
+            _selectedEntity = target;
+        });
+
+        entityInteractiveCallback.OnMouseUpEvent.AddListener(() => {
+            var hit = Physics2D.GetRayIntersection(Camera.main.ScreenPointToRay(Input.mousePosition), 100f, (1 << gameObject.layer));
+            if (hit.collider != null) {
+                CreateUIElement(_selectedEntity);
+                _onEntityInactive.Invoke(target);
+            }
+            _selectedEntity = null;
+        });
     }
 
     private void CreateUIElement(EntityBase target) {
@@ -55,20 +73,6 @@ public class MemberUIControl : MonoBehaviour {
             animator.SetTrigger("normal");
         });
         uiElement.PointDown.callback.AddListener((pointData) => {
-            var entityInteractiveCallback = target.GetComponent<InteractiveEntity>();
-            
-            entityInteractiveCallback.OnMouseDownEvent.AddListener(() => {
-                _selectedEntity = target;
-            });
-            entityInteractiveCallback.OnMouseUpEvent.AddListener(() => {
-                var hit = Physics2D.GetRayIntersection(Camera.main.ScreenPointToRay(Input.mousePosition), 100f, (1 << gameObject.layer));
-                if (hit.collider != null) {
-                    CreateUIElement(_selectedEntity);
-                    _onEntityInactive.Invoke(target);
-                }
-                _selectedEntity = null;
-            });
-
             target.transform.position = _memberSpawnPosition.position;
             _onEntityActive.Invoke(target);
             _currentMemberUI.Remove(target.ID);

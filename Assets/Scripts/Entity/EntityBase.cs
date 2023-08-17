@@ -59,7 +59,7 @@ public class EntityBase : MonoBehaviour {
     }
 
     public void SetTarget(EntityBase target) {
-        _agent.SetTarget(target.GetComponent<Agent>());
+        _agent.SetTarget(target?.GetComponent<Agent>());
     }
 
     public void Attack() {

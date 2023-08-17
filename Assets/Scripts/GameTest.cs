@@ -68,7 +68,6 @@ public class GameTest : MonoBehaviour {
     private void MoveProgress() {
         foreach (EntityBase ally in _activeAllies) {
             EntityBase target = _activeEnemies.FindClosest(ally.transform.position);
-            if (target == null) break;
             ally.SetTarget(target);
 
             ClampPosition(ally);
@@ -76,7 +75,6 @@ public class GameTest : MonoBehaviour {
 
         foreach (EntityBase enemy in _activeEnemies) {
             EntityBase target = _activeAllies.FindClosest(enemy.transform.position);
-            if (target == null) break;
             enemy.SetTarget(target);
             
             ClampPosition(enemy);
@@ -118,6 +116,7 @@ public class GameTest : MonoBehaviour {
 
     public void OnEntityInactive(EntityBase entity) {
         _inactiveAllies.Add(entity);
+        entity.SetTarget(null);
         entity.gameObject.SetActive(false);
     }
 
