@@ -15,7 +15,7 @@ public class Agent : MonoBehaviour {
     private Vector2 _movementInput;
     private bool _following;
     private Rigidbody2D _rigidbody;
-    public UnityEvent<Vector2> OnAttackRequested { get; set; }
+    public UnityEvent OnAttackRequested { get; set; }
     public UnityEvent<Vector2> OnMovementInput { get; set; }
     public AgentScent Scent { get; private set; }
     public float AttackDistance { 
@@ -26,7 +26,7 @@ public class Agent : MonoBehaviour {
         Scent = new AgentScent();
         _rigidbody = GetComponent<Rigidbody2D>();
 
-        OnAttackRequested = new UnityEvent<Vector2>();
+        OnAttackRequested = new UnityEvent();
         OnMovementInput = new UnityEvent<Vector2>();
         
         _aiData.attackDistance = _attackDistance;
@@ -78,7 +78,7 @@ public class Agent : MonoBehaviour {
                 float distance = Vector2.Distance(_aiData.CurrentTarget.position, transform.position);
                 if (distance < _attackDistance) {
                     _movementInput = Vector2.zero;
-                    OnAttackRequested?.Invoke((_aiData.CurrentTarget.position - transform.position).normalized);
+                    OnAttackRequested?.Invoke();
                     yield return YieldInstructionCache.WaitForSeconds(_attackDelay);
                 }
                 else {

@@ -220,7 +220,7 @@ MonoBehaviour:
   _detectionDelay: 0.05
   _aiUpdateDelay: 0.06
   _attackDelay: 1
-  _attackDistance: 50
+  _attackDistance: 60
 --- !u!114 &5067655892966695724
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -239,14 +239,14 @@ MonoBehaviour:
     targetLayerMask:
       serializedVersion: 2
       m_Bits: 128
-    attackBehaviour: {fileID: 11400000, guid: e6413384cc387974c8e330821ec72015, type: 2}
+    attackBehaviour: {fileID: 11400000, guid: a5364f18f103e384b8f7c7b07cbe5c4d, type: 2}
     attackEffects:
     - {fileID: 11400000, guid: 15f55f9361eb44444ae06c473833c453, type: 2}
   _skillConfig:
     targetLayerMask:
       serializedVersion: 2
       m_Bits: 128
-    attackBehaviour: {fileID: 11400000, guid: e6413384cc387974c8e330821ec72015, type: 2}
+    attackBehaviour: {fileID: 11400000, guid: a5364f18f103e384b8f7c7b07cbe5c4d, type: 2}
     attackEffects:
     - {fileID: 11400000, guid: 15f55f9361eb44444ae06c473833c453, type: 2}
   _maxHealth: 100

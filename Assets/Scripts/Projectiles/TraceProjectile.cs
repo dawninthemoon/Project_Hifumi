@@ -13,6 +13,7 @@ public class TraceProjectile : ProjectileBase {
     private bool _removeSelf;
 
     public override void Initialize(EntityBase caster, EntityBase target, float moveSpeed, IAttackEffect[] effects) {
+        _caster = caster;
         _target = target.transform;
         _moveSpeed = moveSpeed;
         _effects = effects;

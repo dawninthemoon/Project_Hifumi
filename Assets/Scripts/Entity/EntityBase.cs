@@ -59,7 +59,7 @@ public class EntityBase : MonoBehaviour {
         _agent.SetTarget(target.GetComponent<Agent>());
     }
 
-    public void Attack(Vector2 direction) {
+    public void Attack() {
         Mana = Mathf.Min(Mana + 10, _maxMana);
 
         //DoingAttack = true;
@@ -71,14 +71,19 @@ public class EntityBase : MonoBehaviour {
             config = _skillConfig;
         }*/
         _animationControl.PlayAttackAnimation();
-        _animationControl.SetFaceDir(direction);
 
         var effects = config.attackEffects;
         List<EntityBase> targets 
-            = Physics2D.OverlapCircleAll(transform.position, _agent.AttackDistance, config.targetLayerMask)
+            = Physics2D.OverlapCircleAll(transform.position, _agent.AttackDistance + Radius * 2.5f, config.targetLayerMask)
                 .Select(x => x.GetComponent<EntityBase>())
                 .OrderBy(x => (x.transform.position - transform.position).sqrMagnitude)
                 .ToList();
+
+        if (targets.Count > 0) {
+            Vector2 direction = (targets[0].transform.position - transform.position).normalized;
+            _animationControl.SetFaceDir(direction);
+        }
+        
         config.attackBehaviour.Behaviour(this, targets, effects);
     }
 

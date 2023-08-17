@@ -24,7 +24,7 @@ public class MemberUIControl : MonoBehaviour {
         _currentMemberUI = new List<GameObject>();
 
         _interactiveZone = GetComponent<InteractiveEntity>();
-        _interactiveZone.OnMouseDownEvent.AddListener(() => { 
+        _interactiveZone.OnMouseDownEvent.AddListener(() => {
             _additionalWindow.gameObject.ToggleGameObject();
         });
 

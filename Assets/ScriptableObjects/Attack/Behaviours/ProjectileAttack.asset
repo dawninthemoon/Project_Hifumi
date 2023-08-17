@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9c98d58d230196d4f9ad58b1fe51344c, type: 3}
-  m_Name: AllyProjectileAttack
+  m_Name: ProjectileAttack
   m_EditorClassIdentifier: 
   _projectilePrefab: {fileID: 5467489847732251240, guid: 29c012cdac6eac7479f97c55934131cb, type: 3}
-  _projectileSpeed: 100
+  _projectileSpeed: 40
