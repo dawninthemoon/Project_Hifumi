@@ -4,15 +4,15 @@ using UnityEngine;
 using UnityEngine.Events;
 using RieslingUtils;
 
-public class Agent : MonoBehaviour {
+public class Agent : MonoBehaviour, ITargetable {
     [SerializeField] private float _moveSpeed = 30f;
     [SerializeField] private List<SteeringBehaviour> _steeringBehaviours = null;
     [SerializeField] private List<Detector> _detectors = null;
-    [SerializeField] private AIData _aiData = null;
     [SerializeField] private ContextSolver _movementDirectionSolver = null;
-    [SerializeField] private float _aiUpdateDelay = 0.06f, _attackDelay = 1f;
+    [SerializeField] private float _detectionDelay = 0.05f, _aiUpdateDelay = 0.06f, _attackDelay = 1f;
     [SerializeField] private float _scentDelay = 0.3f;
     [SerializeField] private float _attackDistance = 18f;
+    private AIData _aiData;
     private Vector2 _movementInput;
     private float _scentCounter;
     private bool _following;
@@ -20,12 +20,17 @@ public class Agent : MonoBehaviour {
     public UnityEvent OnAttackRequested { get; set; }
     public UnityEvent<Vector2> OnMovementInput { get; set; }
     public AgentScent Scent { get; private set; }
+    public Vector3 Position {
+        get { return transform.position; }
+    }
     public float AttackDistance { 
         get { return _attackDistance; }
     }
 
     private void Awake() {
+        _aiData = new AIData();
         Scent = new AgentScent();
+
         _rigidbody = GetComponent<Rigidbody2D>();
 
         OnAttackRequested = new UnityEvent();
@@ -41,13 +46,21 @@ public class Agent : MonoBehaviour {
         });
     }
 
+    private void Start() {
+        InvokeRepeating("PerformDetection", 0f, _detectionDelay);
+    }
+
     private void OnDisable() {
         _following = false;
         Scent.Reset();
     }
 
-    public void SetTarget(Agent target) {
+    public void SetTarget(ITargetable target) {
         _aiData.SelectedTarget = target;
+    }
+
+    public List<Vector2> GetScentTrail() {
+        return Scent.ScentTrail;
     }
 
     private void PerformDetection() {
@@ -66,8 +79,6 @@ public class Agent : MonoBehaviour {
             _scentCounter -= _scentCounter;
             ScentProgress();
         }
-
-        PerformDetection();
 
         if (_aiData.CurrentTarget) {
             if (!_following) {

@@ -24,13 +24,12 @@ public class MemberUIControl : MonoBehaviour {
         });
     }
 
-    public void InitializeEntityUI(UnityAction<EntityBase> onEntityActive, UnityAction<EntityBase> onEntityInactive, List<EntityBase> inactiveEntities) {
+    public void InitializeEntityUI(UnityAction<EntityBase> onEntityActive, UnityAction<EntityBase> onEntityInactive, List<EntityBase> entities) {
         _onEntityActive = onEntityActive;
         _onEntityInactive = onEntityInactive;
 
-        foreach (EntityBase entity in inactiveEntities) {
+        foreach (EntityBase entity in entities) {
             SetEntityInteraction(entity);
-            CreateUIElement(entity);
         }
     }
 

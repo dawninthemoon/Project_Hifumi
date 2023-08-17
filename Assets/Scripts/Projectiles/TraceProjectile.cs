@@ -20,7 +20,7 @@ public class TraceProjectile : ProjectileBase {
     }
 
     protected override void Update() {
-        if (_target == null) {
+        if (_target == null || !_target.gameObject.activeSelf) {
             Destroy(gameObject);
             return;
         }

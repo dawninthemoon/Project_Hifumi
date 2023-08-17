@@ -683,7 +683,6 @@ GameObject:
   - component: {fileID: 3257395650604171983}
   - component: {fileID: 7563314166462180937}
   - component: {fileID: 4058063636512415462}
-  - component: {fileID: 1228903870894435257}
   - component: {fileID: 5748994771436185984}
   - component: {fileID: 3632095415549420733}
   - component: {fileID: 9171948919997775683}
@@ -735,8 +734,8 @@ MonoBehaviour:
   _detectors:
   - {fileID: 5015573407580749863}
   - {fileID: 6428367586612677971}
-  _aiData: {fileID: 1228903870894435257}
   _movementDirectionSolver: {fileID: 4477610433740179850}
+  _detectionDelay: 0.05
   _aiUpdateDelay: 0.06
   _attackDelay: 1
   _scentDelay: 0.5
@@ -803,18 +802,6 @@ SortingGroup:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!114 &1228903870894435257
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7563314166462180942}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a4058b09ed124044caa790d65e60cc9c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &5748994771436185984
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -853,7 +840,7 @@ CircleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}

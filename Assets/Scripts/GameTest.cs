@@ -5,6 +5,7 @@ using CustomPhysics;
 
 public class GameTest : MonoBehaviour {
     [SerializeField] private MemberUIControl _memberUIControl = null;
+    [SerializeField, Range(0.5f, 10f)] private float _timeScale = 1f;
     [SerializeField] private int _entityCount = 2;
     [SerializeField] private EntityBase _enemyPrefabMelee = null, _enemyPrefabRange = null;
     private KdTree<EntityBase> _activeAllies;
@@ -19,62 +20,76 @@ public class GameTest : MonoBehaviour {
     private float _gameSpeed;
 
     private void Awake() {
-        _inactiveAllies = InitalizeEntities();
+        _activeAllies = new KdTree<EntityBase>(true);
+        _activeEnemies = new KdTree<EntityBase>(true);
+        _inactiveAllies = new List<EntityBase>();
+        InitalizeEntities();
     }
 
     private void Start() {
-        _memberUIControl.InitializeEntityUI(OnEntityActive, OnEntityInactive, _inactiveAllies);
+        _memberUIControl.InitializeEntityUI(OnEntityActive, OnEntityInactive, _activeAllies.ToList());
         InitializeCombat();
     }
 
     private void InitializeCombat() {
-        _activeAllies = new KdTree<EntityBase>(true);
-        _activeEnemies = new KdTree<EntityBase>(true);
-
         _stageMinSize = new Vector2(-Width / 2f, -Height / 2f);
         _stageMaxSize = new Vector2(Width / 2f, Height / 2f);
     
         SpawnEnemy(_entityCount);
     }
 
-    private List<EntityBase> InitalizeEntities() {
-        List<EntityBase> inactiveAllies = new List<EntityBase>();
+    private void InitalizeEntities() {
         var entityPrefabs = Resources.LoadAll<EntityBase>("Prefabs/Allies");
         foreach (EntityBase prefab in entityPrefabs) {
-            EntityBase newEntity = Instantiate(prefab);
+            float radius = 100f;
+            Vector3 randomPos = Random.insideUnitCircle.normalized * radius;
+
+            EntityBase newEntity = Instantiate(prefab, randomPos, Quaternion.identity);
             newEntity.Initialize();
-            newEntity.gameObject.SetActive(false);
-            inactiveAllies.Add(newEntity);
+            
+            _activeAllies.Add(newEntity);
         }
-        return inactiveAllies;
     }
 
     private void Update() {
-        MoveProgress();
-
-        if (Input.GetKeyDown(KeyCode.Z)) {
-            InitializeCombat();
-        }
+        Time.timeScale = _timeScale;
         if (Input.GetKeyDown(KeyCode.X)) {
             _gameSpeed = Mathf.Max(0.5f, _gameSpeed - 0.5f);
-            Time.timeScale = _gameSpeed;
+            Time.timeScale = _timeScale = _gameSpeed;
         }
         if (Input.GetKeyDown(KeyCode.C)) {
             _gameSpeed = Mathf.Min(10f, _gameSpeed + 0.5f);
-            Time.timeScale = _gameSpeed;
+            Time.timeScale = _timeScale = _gameSpeed;
+        }
+
+        MoveProgress();
+        
+        if (_activeAllies.Count == 0) {
+            _memberUIControl.gameObject.layer = LayerMask.NameToLayer("Ally");
+        }
+        else {
+            _memberUIControl.gameObject.layer = LayerMask.NameToLayer("Obstacle");
+        }
+
+        if (_activeEnemies.Count == 0) {
+            SpawnEnemy(_entityCount);
         }
     }
 
     private void MoveProgress() {
         foreach (EntityBase ally in _activeAllies) {
-            EntityBase target = _activeEnemies.FindClosest(ally.transform.position);
+            ITargetable target = _activeEnemies.FindClosest(ally.transform.position)?.GetComponent<Agent>();
             ally.SetTarget(target);
 
             ClampPosition(ally);
         }
 
         foreach (EntityBase enemy in _activeEnemies) {
-            EntityBase target = _activeAllies.FindClosest(enemy.transform.position);
+            ITargetable target = _activeAllies.FindClosest(enemy.transform.position)?.GetComponent<Agent>();
+            if (target == null) {
+                target = _memberUIControl.GetComponent<Truck>();
+            }
+
             enemy.SetTarget(target);
             
             ClampPosition(enemy);

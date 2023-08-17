@@ -27,6 +27,10 @@ public class EntityAnimationControl : MonoBehaviour {
         _animatorController.SetTrigger(AttackTriggerKey);
     }
 
+    public void PlayDeadAnimation() {
+        _animatorController.SetTrigger("die");
+    }
+
     private Quaternion VectorToQuaternion(Vector2 direction) {
         float theta = Mathf.Atan2(direction.y, direction.x);
         return Quaternion.Euler(0f, 0f, theta * Mathf.Rad2Deg);

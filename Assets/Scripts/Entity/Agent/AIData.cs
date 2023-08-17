@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using CustomPhysics;
 
-public class AIData : MonoBehaviour {
+public class AIData {
     public float attackDistance {
         get;
         set;
@@ -12,7 +12,7 @@ public class AIData : MonoBehaviour {
         get;
         set;
     }
-    public Agent SelectedTarget {
+    public ITargetable SelectedTarget {
         get;
         set;
     }

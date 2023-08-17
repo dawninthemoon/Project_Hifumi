@@ -19,6 +19,9 @@ public class EntityBase : MonoBehaviour {
     public float Radius {
         get { return _bodyRadius; }
     }
+    public int MaxMana {
+        get { return _maxMana; }
+    }
     public string ID {
         get { return _id; }
     }
@@ -59,11 +62,11 @@ public class EntityBase : MonoBehaviour {
         Mana = 0;
     }
 
-    public void SetTarget(EntityBase target) {
-        _agent.SetTarget(target?.GetComponent<Agent>());
+    public void SetTarget(ITargetable target) {
+        _agent.SetTarget(target);
     }
 
-    public void Attack() {
+    private void Attack() {
         Mana = Mathf.Min(Mana + 10, _maxMana);
 
         //DoingAttack = true;
@@ -80,6 +83,7 @@ public class EntityBase : MonoBehaviour {
         List<EntityBase> targets 
             = Physics2D.OverlapCircleAll(transform.position, _agent.AttackDistance + Radius * 2.5f, config.targetLayerMask)
                 .Select(x => x.GetComponent<EntityBase>())
+                .Where(x => x.Health > 0)
                 .OrderBy(x => (x.transform.position - transform.position).sqrMagnitude)
                 .ToList();
 
@@ -97,7 +101,26 @@ public class EntityBase : MonoBehaviour {
         Mana = Mathf.Min(Mana + 10, _maxMana);
         Health -= damage;
         if (Health <= 0) {
-           //OnEntityDead();
+           OnEntityDead();
+        }
+    }
+
+    private void OnEntityDead() {
+        gameObject.SetActive(false);
+        /*
+        SetTarget(null);
+        Destroy(_agent);
+        //_agent.enabled = false;
+        _animationControl.PlayDeadAnimation();*/
+    }
+
+    private void OnTriggerStay2D(Collider2D other) {
+        if (this is Truck || other.name.Equals("Truck")) return;
+        GameObject otherObj = other.gameObject;
+        if (otherObj.layer.Equals(LayerMask.NameToLayer("Ally")) || otherObj.layer.Equals(LayerMask.NameToLayer("Enemy"))) {
+            Vector3 direction = (transform.position - other.transform.position).normalized;
+            float force = 10f;
+            transform.position += direction * force * Time.deltaTime;
         }
     }
 }
