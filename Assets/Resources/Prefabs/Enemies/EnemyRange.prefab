@@ -58,7 +58,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc7f79a822c1cfd4aaf357fc6f2c9fb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _moveSpeed: 45
+  _moveSpeed: 60
   _steeringBehaviours:
   - {fileID: 7871982210488167843}
   - {fileID: 656608639545298956}
@@ -67,9 +67,9 @@ MonoBehaviour:
   - {fileID: 4409607070510171224}
   _aiData: {fileID: 6054126528811834987}
   _movementDirectionSolver: {fileID: 6340993988601340558}
-  _detectionDelay: 0.05
   _aiUpdateDelay: 0.06
   _attackDelay: 1
+  _scentDelay: 0.5
   _attackDistance: 60
 --- !u!114 &-2483350518945898091
 MonoBehaviour:

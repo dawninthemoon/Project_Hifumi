@@ -43,6 +43,7 @@ public class Agent : MonoBehaviour {
 
     private void OnDisable() {
         _following = false;
+        Scent.Reset();
     }
 
     public void SetTarget(Agent target) {

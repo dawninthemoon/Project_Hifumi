@@ -46,7 +46,8 @@ public class EntityBase : MonoBehaviour {
 
         _agent.OnMovementInput.AddListener((direction) => {
             _animationControl.SetMoveAnimationState(!direction.Equals(Vector2.zero));
-            _animationControl.SetFaceDir(direction);
+            if (direction.sqrMagnitude > 0f)
+                _animationControl.SetFaceDir(direction);
         });
         _agent.OnAttackRequested.AddListener(Attack);
 
