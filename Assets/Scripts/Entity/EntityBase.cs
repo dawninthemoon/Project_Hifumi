@@ -8,58 +8,59 @@ public class EntityBase : MonoBehaviour {
     [SerializeField] private float _bodyRadius = 20f;
     [SerializeField] private AttackConfig _attackConfig;
     [SerializeField] private AttackConfig _skillConfig;
-    [SerializeField] private int _maxHealth = 100;
-    [SerializeField] private int _maxMana = 100;
-    [SerializeField] private int _attackDamage = 5;
     private Agent _agent;
+    private EntityInfo _entityInfo = null;
     private EntityAnimationControl _animationControl;
     private EntityUIControl _uiControl;
-    private int _health;
-    private int _mana;
+    private EntityStatusDecorator _statusDecorator;
+    private int _currentHealth;
+    private int _currentMana;
     public float Radius {
         get { return _bodyRadius; }
-    }
-    public int MaxMana {
-        get { return _maxMana; }
     }
     public string ID {
         get { return _id; }
     }
     public int Health { 
-        get { return _health; }
+        get { return _currentHealth; }
         set { 
-            _health = value;
-            _uiControl.UpdateHealthBar(_health, _maxHealth);
+            _currentHealth = value;
+            _uiControl.UpdateHealthBar(_currentHealth, _statusDecorator.Health);
         }
     }
     public int Mana { 
-        get { return _mana; }
+        get { return _currentMana; }
         set { 
-            _mana = value;
-            _uiControl.UpdateManaBar(_mana, _maxMana);
+            _currentMana = value;
+            _uiControl.UpdateManaBar(_currentMana, _statusDecorator.Mana);
         }
     }
     public int Stress { get; set; }
-    public int AttackDamage { get { return _attackDamage; } }
+    public int AttackDamage { get { return _statusDecorator.AttackDamage; } }
 
-    public void Initialize() {
+    private void Awake() {
         _agent = GetComponent<Agent>();
         _animationControl = GetComponent<EntityAnimationControl>();
         _uiControl = GetComponent<EntityUIControl>();
 
+        _agent.OnAttackRequested.AddListener(Attack);
+    }
+
+    public void Initialize(EntityInfo entityInfo) {
+        _entityInfo = entityInfo;
+        _statusDecorator = new EntityStatusDecorator(_entityInfo);
+
+        _animationControl.Initialize(_entityInfo.BodySprite, _entityInfo.WeaponSprite, _entityInfo.AnimatorController);
+        
+        _agent.Initialize(_statusDecorator.MoveSpeed, _statusDecorator.AttackRange);
         _agent.OnMovementInput.AddListener((direction) => {
             _animationControl.SetMoveAnimationState(!direction.Equals(Vector2.zero));
             if (direction.sqrMagnitude > 0f)
                 _animationControl.SetFaceDir(direction);
         });
-        _agent.OnAttackRequested.AddListener(Attack);
 
-        InitalizeStatus();
-    }
-
-    private void InitalizeStatus() {
-        Health = _maxHealth;
-        Mana = 0;
+        _currentHealth = _statusDecorator.Health;
+        _currentMana = _statusDecorator.Mana;
     }
 
     public void SetTarget(ITargetable target) {
@@ -67,7 +68,7 @@ public class EntityBase : MonoBehaviour {
     }
 
     private void Attack() {
-        Mana = Mathf.Min(Mana + 10, _maxMana);
+        Mana = Mathf.Min(Mana + 10, _statusDecorator.Mana);
 
         //DoingAttack = true;
 
@@ -98,7 +99,7 @@ public class EntityBase : MonoBehaviour {
     public void ReceiveDamage(int damage) {
         if (Health <= 0) return;
 
-        Mana = Mathf.Min(Mana + 10, _maxMana);
+        Mana = Mathf.Min(Mana + 10, _statusDecorator.Mana);
         Health -= damage;
         if (Health <= 0) {
            OnEntityDead();

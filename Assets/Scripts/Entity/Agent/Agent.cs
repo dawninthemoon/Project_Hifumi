@@ -5,20 +5,20 @@ using UnityEngine.Events;
 using RieslingUtils;
 
 public class Agent : MonoBehaviour, ITargetable {
-    [SerializeField] private float _moveSpeed = 30f;
     [SerializeField] private List<SteeringBehaviour> _steeringBehaviours = null;
     [SerializeField] private List<Detector> _detectors = null;
     [SerializeField] private ContextSolver _movementDirectionSolver = null;
     [SerializeField] private float _detectionDelay = 0.05f, _aiUpdateDelay = 0.06f, _attackDelay = 1f;
     [SerializeField] private float _scentDelay = 0.3f;
-    [SerializeField] private float _attackDistance = 18f;
+    private float _moveSpeed = 30f;
+    private float _attackDistance = 18f;
     private AIData _aiData;
     private Vector2 _movementInput;
     private float _scentCounter;
     private bool _following;
     private Rigidbody2D _rigidbody;
-    public UnityEvent OnAttackRequested { get; set; }
-    public UnityEvent<Vector2> OnMovementInput { get; set; }
+    public UnityEvent OnAttackRequested { get; set; } = new UnityEvent();
+    public UnityEvent<Vector2> OnMovementInput { get; set; } = new UnityEvent<Vector2>();
     public AgentScent Scent { get; private set; }
     public Vector3 Position {
         get { return transform.position; }
@@ -32,12 +32,13 @@ public class Agent : MonoBehaviour, ITargetable {
         Scent = new AgentScent();
 
         _rigidbody = GetComponent<Rigidbody2D>();
+    }
 
-        OnAttackRequested = new UnityEvent();
-        OnMovementInput = new UnityEvent<Vector2>();
-        
-        _aiData.attackDistance = _attackDistance;
+    public void Initialize(int moveSpeed, int attackDistance) {
+        _moveSpeed = moveSpeed;
+        _attackDistance = attackDistance;
 
+        OnMovementInput.RemoveAllListeners();
         OnMovementInput.AddListener((direction) => {
             if (direction.sqrMagnitude > 0f) {
                 Vector3 nextPosition = transform.position + (Vector3)direction * Time.deltaTime * _moveSpeed;

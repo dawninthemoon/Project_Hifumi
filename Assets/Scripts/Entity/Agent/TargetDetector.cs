@@ -24,7 +24,7 @@ public class TargetDetector : Detector {
                 //Debug.DrawRay(transform.position, direction * _targetDetectionRange, Color.magenta);
 
                 Vector3 targetPosition = aiData.SelectedTarget.Position;
-                _cachedTargetTransform.position = CalculateDestination(targetPosition, direction, aiData.attackDistance);
+                _cachedTargetTransform.position = targetPosition;
 
                 aiData.CurrentTarget = _cachedTargetTransform;
             }
@@ -34,7 +34,7 @@ public class TargetDetector : Detector {
                     hit = Physics2D.Raycast(transform.position, direction, _targetDetectionRange, _obstaclesLayerMask);
                     //Debug.DrawRay(transform.position, direction * _targetDetectionRange, Color.cyan);
                     if (hit.collider == null) {
-                        _cachedTargetTransform.position = CalculateDestination(scentPosition, direction, aiData.attackDistance);
+                        _cachedTargetTransform.position = scentPosition;
                         aiData.CurrentTarget = _cachedTargetTransform;
                         break;
                     }
@@ -43,24 +43,6 @@ public class TargetDetector : Detector {
         }
         else {
             aiData.CurrentTarget = null;
-        }
-    }
-
-    private Vector3 CalculateDestination(Vector3 origin, Vector2 dir, float distance) {
-        return origin;
-        //Vector3 difference = -dir * distance;
-        //return difference + origin;
-    }
-
-    private void OnGizmoSelected() {
-        if (!_showGizmos) return;
-
-        Gizmos.DrawWireSphere(transform.position, _targetDetectionRange);
-
-        if (_colliders == null) return;
-        Gizmos.color = Color.magenta;
-        foreach (var item in _colliders) {
-            Gizmos.DrawSphere(item.position, 20f);
         }
     }
 }

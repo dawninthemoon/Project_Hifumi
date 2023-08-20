@@ -17,4 +17,8 @@ public class Truck : EntityBase, ITargetable {
     public List<Vector2> GetScentTrail() {
         return new List<Vector2>();
     }
+
+    private void Awake() {
+        
+    }
 }

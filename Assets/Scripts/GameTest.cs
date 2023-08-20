@@ -7,7 +7,6 @@ public class GameTest : MonoBehaviour {
     [SerializeField] private MemberUIControl _memberUIControl = null;
     [SerializeField, Range(0.5f, 10f)] private float _timeScale = 1f;
     [SerializeField] private int _entityCount = 2;
-    [SerializeField] private EntityBase _enemyPrefabMelee = null, _enemyPrefabRange = null;
     private KdTree<EntityBase> _activeAllies;
     private KdTree<EntityBase> _activeEnemies;
     private List<EntityBase> _inactiveAllies;
@@ -39,13 +38,14 @@ public class GameTest : MonoBehaviour {
     }
 
     private void InitalizeEntities() {
-        var entityPrefabs = Resources.LoadAll<EntityBase>("Prefabs/Allies");
-        foreach (EntityBase prefab in entityPrefabs) {
+        var entityPrefab = Resources.Load<EntityBase>("Prefabs/Allies/AllyPrefab");
+        var entityInformation = Resources.LoadAll<EntityInfo>("ScriptableObjects/Allies");
+        foreach (EntityInfo info in entityInformation) {
             float radius = 100f;
             Vector3 randomPos = Random.insideUnitCircle.normalized * radius;
 
-            EntityBase newEntity = Instantiate(prefab, randomPos, Quaternion.identity);
-            newEntity.Initialize();
+            EntityBase newEntity = Instantiate(entityPrefab, randomPos, Quaternion.identity);
+            newEntity.Initialize(info);
             
             _activeAllies.Add(newEntity);
         }
@@ -136,18 +136,17 @@ public class GameTest : MonoBehaviour {
     }
 
     private void SpawnEnemy(int amount) {
+        EntityBase enemyPrefab = Resources.Load<EntityBase>("Prefabs/Enemies/EnemyPrefab");
+        var entityInformation = Resources.LoadAll<EntityInfo>("ScriptableObjects/Enemies");
         for (int i = 0; i < amount; ++i) {
-            EntityBase enemyPrefab = _enemyPrefabMelee;
-            if (Random.Range(0, 2) > 0) {
-                enemyPrefab = _enemyPrefabRange;
-            }
+            int randomIndex = Random.Range(0, entityInformation.Length);
 
             float randX = Random.Range(_stageMinSize.x, _stageMaxSize.x);
             float y = Random.Range(0, 2) > 0 ? _stageMaxSize.y + enemyPrefab.Radius : _stageMinSize.y - enemyPrefab.Radius;
             Vector3 randPos = new Vector3(randX, y);
 
             EntityBase enemy = Instantiate(enemyPrefab, randPos, Quaternion.identity);
-            enemy.Initialize();
+            enemy.Initialize(entityInformation[randomIndex]);
             _activeEnemies.Add(enemy);
         }
     }
