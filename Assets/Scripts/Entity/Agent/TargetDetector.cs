@@ -47,8 +47,9 @@ public class TargetDetector : Detector {
     }
 
     private Vector3 CalculateDestination(Vector3 origin, Vector2 dir, float distance) {
-        Vector3 difference = -dir * distance;
-        return difference + origin;
+        return origin;
+        //Vector3 difference = -dir * distance;
+        //return difference + origin;
     }
 
     private void OnGizmoSelected() {

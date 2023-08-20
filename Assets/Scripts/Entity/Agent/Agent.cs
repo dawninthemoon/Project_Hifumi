@@ -80,7 +80,7 @@ public class Agent : MonoBehaviour, ITargetable {
             ScentProgress();
         }
 
-        if (_aiData.CurrentTarget) {
+        if (_aiData.CurrentTarget != null) {
             if (!_following) {
                 _following = true;
                 StartCoroutine(ChaseAndAttack());
@@ -92,13 +92,13 @@ public class Agent : MonoBehaviour, ITargetable {
 
     private IEnumerator ChaseAndAttack() {
         while (true) {
-            if (!_aiData.CurrentTarget) {
+            if (_aiData.SelectedTarget == null) {
                 _movementInput = Vector2.zero;
                 _following = false;
                 yield break;
             }
             else {
-                float distance = Vector2.Distance(_aiData.CurrentTarget.position, transform.position);
+                float distance = Vector2.Distance(_aiData.SelectedTarget.Position, transform.position);
                 if (distance < _attackDistance) {
                     _movementInput = Vector2.zero;
                     OnAttackRequested?.Invoke();
