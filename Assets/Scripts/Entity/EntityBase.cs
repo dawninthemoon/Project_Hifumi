@@ -5,8 +5,6 @@ using System.Linq;
 
 public class EntityBase : MonoBehaviour {
     [SerializeField] private float _bodyRadius = 20f;
-    [SerializeField] private AttackConfig _attackConfig;
-    [SerializeField] private AttackConfig _skillConfig;
     private Agent _agent;
     private EntityInfo _entityInfo = null;
     private EntityAnimationControl _animationControl;
@@ -51,7 +49,7 @@ public class EntityBase : MonoBehaviour {
 
         _animationControl.Initialize(_entityInfo.BodySprite, _entityInfo.WeaponSprite, _entityInfo.AnimatorController);
         
-        _agent.Initialize(_statusDecorator.MoveSpeed, _statusDecorator.AttackRange);
+        _agent.Initialize(_statusDecorator);
         _agent.OnMovementInput.AddListener((direction) => {
             _animationControl.SetMoveAnimationState(!direction.Equals(Vector2.zero));
             if (direction.sqrMagnitude > 0f)
@@ -71,17 +69,17 @@ public class EntityBase : MonoBehaviour {
 
         //DoingAttack = true;
 
-        AttackConfig config = _attackConfig;
+        AttackConfig config = _entityInfo.EntityAttackConfig;
         /*if (Mana == _maxMana) {
             // Use Skill
             Mana = 0;
-            config = _skillConfig;
+            config = _entityInfo.EntitySkillConfig;
         }*/
         _animationControl.PlayAttackAnimation();
 
         var effects = config.attackEffects;
         List<EntityBase> targets 
-            = Physics2D.OverlapCircleAll(transform.position, _agent.AttackDistance + Radius * 2.5f, config.targetLayerMask)
+            = Physics2D.OverlapCircleAll(transform.position, _statusDecorator.AttackRange + Radius * 2.5f, config.targetLayerMask)
                 .Select(x => x.GetComponent<EntityBase>())
                 .Where(x => x.Health > 0)
                 .OrderBy(x => (x.transform.position - transform.position).sqrMagnitude)

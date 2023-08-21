@@ -10,21 +10,17 @@ public class Agent : MonoBehaviour, ITargetable {
     [SerializeField] private ContextSolver _movementDirectionSolver = null;
     [SerializeField] private float _detectionDelay = 0.05f, _aiUpdateDelay = 0.06f, _attackDelay = 1f;
     [SerializeField] private float _scentDelay = 0.3f;
-    private float _moveSpeed = 30f;
-    private float _attackDistance = 18f;
     private AIData _aiData;
     private Vector2 _movementInput;
     private float _scentCounter;
     private bool _following;
+    private EntityStatusDecorator _entityStatus;
     private Rigidbody2D _rigidbody;
     public UnityEvent OnAttackRequested { get; set; } = new UnityEvent();
     public UnityEvent<Vector2> OnMovementInput { get; set; } = new UnityEvent<Vector2>();
     public AgentScent Scent { get; private set; }
     public Vector3 Position {
         get { return transform.position; }
-    }
-    public float AttackDistance { 
-        get { return _attackDistance; }
     }
 
     private void Awake() {
@@ -34,14 +30,13 @@ public class Agent : MonoBehaviour, ITargetable {
         _rigidbody = GetComponent<Rigidbody2D>();
     }
 
-    public void Initialize(int moveSpeed, int attackDistance) {
-        _moveSpeed = moveSpeed;
-        _attackDistance = attackDistance;
+    public void Initialize(EntityStatusDecorator status) {
+        _entityStatus = status;
 
         OnMovementInput.RemoveAllListeners();
         OnMovementInput.AddListener((direction) => {
             if (direction.sqrMagnitude > 0f) {
-                Vector3 nextPosition = transform.position + (Vector3)direction * Time.deltaTime * _moveSpeed;
+                Vector3 nextPosition = transform.position + (Vector3)direction * Time.deltaTime * _entityStatus.MoveSpeed;
                 _rigidbody.MovePosition(nextPosition);
             }
         });
@@ -100,7 +95,7 @@ public class Agent : MonoBehaviour, ITargetable {
             }
             else {
                 float distance = Vector2.Distance(_aiData.SelectedTarget.Position, transform.position);
-                if (distance < _attackDistance) {
+                if (distance < _entityStatus.AttackRange) {
                     _movementInput = Vector2.zero;
                     OnAttackRequested?.Invoke();
                     yield return YieldInstructionCache.WaitForSeconds(_attackDelay);

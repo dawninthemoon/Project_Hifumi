@@ -23,3 +23,17 @@ MonoBehaviour:
   _attackSpeed: 0
   _moveSpeed: 50
   _attackRange: 60
+  _attackConfig:
+    targetLayerMask:
+      serializedVersion: 2
+      m_Bits: 128
+    attackBehaviour: {fileID: 11400000, guid: a5364f18f103e384b8f7c7b07cbe5c4d, type: 2}
+    attackEffects:
+    - {fileID: 11400000, guid: 15f55f9361eb44444ae06c473833c453, type: 2}
+  _skillConfig:
+    targetLayerMask:
+      serializedVersion: 2
+      m_Bits: 128
+    attackBehaviour: {fileID: 11400000, guid: a5364f18f103e384b8f7c7b07cbe5c4d, type: 2}
+    attackEffects:
+    - {fileID: 11400000, guid: 15f55f9361eb44444ae06c473833c453, type: 2}

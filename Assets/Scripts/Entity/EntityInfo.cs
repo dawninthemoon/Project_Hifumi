@@ -19,6 +19,9 @@ public class EntityInfo : ScriptableObject, IEntityStatus {
     [SerializeField] private int _moveSpeed = 0;
     [SerializeField] private int _attackRange = 0;
 
+    [SerializeField] private AttackConfig _attackConfig;
+    [SerializeField] private AttackConfig _skillConfig;
+
     public string EntityID { get { return _entityID; } }
 
     public Sprite BodySprite { get { return _bodySprite; } }
@@ -32,4 +35,7 @@ public class EntityInfo : ScriptableObject, IEntityStatus {
     public int AttackSpeed { get { return _attackSpeed; } }
     public int MoveSpeed { get { return _moveSpeed; } }
     public int AttackRange { get { return _attackRange; } }
+
+    public AttackConfig EntityAttackConfig { get { return _attackConfig; } }
+    public AttackConfig EntitySkillConfig { get { return _skillConfig; } }
 }
