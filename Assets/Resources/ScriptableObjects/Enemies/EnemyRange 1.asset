@@ -19,10 +19,10 @@ MonoBehaviour:
   _health: 100
   _mana: 100
   _stress: 0
-  _attackDamage: 0
+  _attackDamage: 3
   _attackSpeed: 0
   _moveSpeed: 50
-  _attackRange: 60
+  _attackRange: 80
   _attackConfig:
     targetLayerMask:
       serializedVersion: 2

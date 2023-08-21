@@ -19,7 +19,7 @@ MonoBehaviour:
   _health: 100
   _mana: 100
   _stress: 0
-  _attackDamage: 0
+  _attackDamage: 3
   _attackSpeed: 0
   _moveSpeed: 60
   _attackRange: 25
