@@ -7,6 +7,7 @@ using UnityEngine.UI;
 using TMPro;
 
 public class MemberUIElement : MonoBehaviour {
+    [SerializeField] private Animator _animator = null;
     [SerializeField] private TMP_Text _healthText = null;
     [SerializeField] private TMP_Text _manaText = null;
     [SerializeField] private TMP_Text _stressText = null;
@@ -22,6 +23,10 @@ public class MemberUIElement : MonoBehaviour {
         get; private set;
     } = new EventTrigger.Entry();
 
+    private static readonly string HighlightTriggerName = "highlight";
+    private static readonly string NormalTriggerName = "normal";
+    private static readonly string LockedVariableName = "locked";
+
     private void Awake() {
         InitalizeEventTrigger();
     }
@@ -36,6 +41,20 @@ public class MemberUIElement : MonoBehaviour {
         _eventTrigger.triggers.Add(PointEnter);
         _eventTrigger.triggers.Add(PointExit);
         _eventTrigger.triggers.Add(PointDown);
+    }
+
+    public void SetHighlight() {
+        _animator.SetTrigger(HighlightTriggerName);
+    }
+
+    public void SetNormal() {
+        _animator.SetTrigger(NormalTriggerName);
+    }
+
+    public void SetLocked(bool isLocked) {
+        if (_animator.GetBool(LockedVariableName).Equals(isLocked))
+            return;
+        _animator.SetBool(LockedVariableName, isLocked);
     }
 
     public void UpdateHealthText(int health) {

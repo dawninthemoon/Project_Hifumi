@@ -34,8 +34,8 @@ public class MemberUIControl : MonoBehaviour {
     }
 
     private void Update() {
-        Vector2 mousePosition = MouseUtils.GetMouseWorldPosition();
         if (_selectedEntity) {
+            Vector2 mousePosition = MouseUtils.GetMouseWorldPosition();
             _selectedEntity.transform.position = mousePosition;
         }
     }
@@ -65,19 +65,20 @@ public class MemberUIControl : MonoBehaviour {
 
     private void CreateUIElement(EntityBase target) {
         MemberUIElement uiElement = Instantiate(_memberUIPrefab, _additionalWindow);
-        Animator animator = uiElement.GetComponent<Animator>();
 
         _currentMemberUI.Add(target.ID, uiElement);
 
         uiElement.PointEnter.callback.AddListener((pointData) => {
             _selectedUI = uiElement.gameObject;
-            animator.SetTrigger("highlight");
+            uiElement.SetHighlight();
         });
         uiElement.PointExit.callback.AddListener((pointData) => {
             _selectedUI = null;
-            animator.SetTrigger("normal");
+            uiElement.SetNormal();
         });
         uiElement.PointDown.callback.AddListener((pointData) => {
+            if (target.Morale < 20) return;
+
             target.transform.position = _memberSpawnPosition.position;
             _onEntityActive.Invoke(target);
             _currentMemberUI.Remove(target.ID);
@@ -87,6 +88,9 @@ public class MemberUIControl : MonoBehaviour {
 
     public void UpdateMemberElement(EntityBase entity) {
         if (_currentMemberUI.TryGetValue(entity.ID, out MemberUIElement uiElement)) {
+            uiElement.SetLocked(entity.Morale <= 20);
+
+            entity.Morale += Time.deltaTime;
             uiElement.UpdateHealthText(entity.Health);
             uiElement.UpdateManaText(entity.Mana);
             uiElement.UpdateMoraleText(Mathf.FloorToInt(entity.Morale));
