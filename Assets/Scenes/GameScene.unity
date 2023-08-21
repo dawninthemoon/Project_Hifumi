@@ -463,23 +463,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4413dd7355feaf447a3348edbaba79ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _id: 999
   _bodyRadius: 100
-  _attackConfig:
-    targetLayerMask:
-      serializedVersion: 2
-      m_Bits: 0
-    attackBehaviour: {fileID: 0}
-    attackEffects: []
-  _skillConfig:
-    targetLayerMask:
-      serializedVersion: 2
-      m_Bits: 0
-    attackBehaviour: {fileID: 0}
-    attackEffects: []
-  _maxHealth: 300
-  _maxMana: 0
-  _attackDamage: 0
   _width: 1
   _height: 1
 --- !u!1 &684099333
@@ -628,10 +612,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _memberUIControl: {fileID: 674347048}
-  _defaultTimeScale: 2
-  _entityCount: 4
-  _enemyPrefabMelee: {fileID: 3257395650604171983, guid: fbb11515525e607408a2c60468c52e57, type: 3}
-  _enemyPrefabRange: {fileID: -2483350518945898091, guid: cf0628170f3eae4429da007fb34bc1a1, type: 3}
+  _timeScale: 1
+  _entityCount: 10
 --- !u!1 &1982263970
 GameObject:
   m_ObjectHideFlags: 0
