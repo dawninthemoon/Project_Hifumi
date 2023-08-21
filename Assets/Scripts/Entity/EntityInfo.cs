@@ -5,6 +5,8 @@ using UnityEditor.Animations;
 
 [CreateAssetMenu(menuName = "ScriptableObjects/EntityInfo", fileName = "NewEntityInfo")]
 public class EntityInfo : ScriptableObject, IEntityStatus {
+    [SerializeField] private string _entityID = null;
+
     [SerializeField] private Sprite _bodySprite = null;
     [SerializeField] private Sprite _weaponSprite = null;
     [SerializeField] private RuntimeAnimatorController _animatorController = null;
@@ -16,6 +18,8 @@ public class EntityInfo : ScriptableObject, IEntityStatus {
     [SerializeField] private int _attackSpeed = 0;
     [SerializeField] private int _moveSpeed = 0;
     [SerializeField] private int _attackRange = 0;
+
+    public string EntityID { get { return _entityID; } }
 
     public Sprite BodySprite { get { return _bodySprite; } }
     public Sprite WeaponSprite { get { return _weaponSprite; } }

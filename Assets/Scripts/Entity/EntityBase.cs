@@ -4,7 +4,6 @@ using UnityEngine;
 using System.Linq;
 
 public class EntityBase : MonoBehaviour {
-    [SerializeField] private string _id = null;
     [SerializeField] private float _bodyRadius = 20f;
     [SerializeField] private AttackConfig _attackConfig;
     [SerializeField] private AttackConfig _skillConfig;
@@ -19,7 +18,7 @@ public class EntityBase : MonoBehaviour {
         get { return _bodyRadius; }
     }
     public string ID {
-        get { return _id; }
+        get { return _entityInfo.EntityID; }
     }
     public int Health { 
         get { return _currentHealth; }
