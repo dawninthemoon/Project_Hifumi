@@ -12,6 +12,7 @@ public class EntityBase : MonoBehaviour {
     private EntityStatusDecorator _statusDecorator;
     private int _currentHealth;
     private int _currentMana;
+    private float _currentMorale;
     public float Radius {
         get { return _bodyRadius; }
     }
@@ -32,7 +33,13 @@ public class EntityBase : MonoBehaviour {
             _uiControl.UpdateManaBar(_currentMana, _statusDecorator.Mana);
         }
     }
-    public int Stress { get; set; }
+    public float Morale {
+        get { return _currentMorale; }
+        set {
+            _currentMorale = value;
+            _uiControl.UpdateMoraleUI(Mathf.FloorToInt(_currentMorale), _statusDecorator.Morale);
+        }
+    }
     public int AttackDamage { get { return _statusDecorator.AttackDamage; } }
 
     private void Awake() {
@@ -56,8 +63,17 @@ public class EntityBase : MonoBehaviour {
                 _animationControl.SetFaceDir(direction);
         });
 
+        InitalizeStatus();
+    }
+
+    public void SetEntitySelected(bool active) {
+        _uiControl.SetMoraleUIActive(active);
+    }
+
+    private void InitalizeStatus() {
         _currentHealth = _statusDecorator.Health;
         _currentMana = _statusDecorator.Mana;
+        _currentMorale = _statusDecorator.Morale;
     }
 
     public void SetTarget(ITargetable target) {

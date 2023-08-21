@@ -37,11 +37,11 @@ public class EntityStatusDecorator : IEntityStatus {
             return finalMana;
         }
     }
-    public int Stress { 
+    public int Morale { 
         get {
-            int finalStress = _entityInfo.Stress;
+            int finalStress = _entityInfo.Morale;
             foreach (Augments augments in _augmentsList) {
-                finalStress += augments.Stress;
+                finalStress += augments.Morale;
             } 
             return finalStress;
         }

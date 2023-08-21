@@ -46,7 +46,7 @@ public class MemberUIElement : MonoBehaviour {
         _manaText.text = mana.ToString();
     }
 
-    public void UpdateStressText(int stress) {
+    public void UpdateMoraleText(int stress) {
         _stressText.text = stress.ToString();
     }
 

@@ -45,6 +45,11 @@ public class MemberUIControl : MonoBehaviour {
 
         entityInteractiveCallback.OnMouseDownEvent.AddListener(() => {
             _selectedEntity = target;
+            target.SetEntitySelected(true);
+        });
+
+        entityInteractiveCallback.OnMouseDragEvent.AddListener(() => {
+            target.Morale -= 2f * Time.deltaTime;
         });
 
         entityInteractiveCallback.OnMouseUpEvent.AddListener(() => {
@@ -53,6 +58,7 @@ public class MemberUIControl : MonoBehaviour {
                 CreateUIElement(_selectedEntity);
                 _onEntityInactive.Invoke(target);
             }
+            target.SetEntitySelected(false);
             _selectedEntity = null;
         });
     }
@@ -83,7 +89,7 @@ public class MemberUIControl : MonoBehaviour {
         if (_currentMemberUI.TryGetValue(entity.ID, out MemberUIElement uiElement)) {
             uiElement.UpdateHealthText(entity.Health);
             uiElement.UpdateManaText(entity.Mana);
-            uiElement.UpdateStressText(entity.Stress);
+            uiElement.UpdateMoraleText(Mathf.FloorToInt(entity.Morale));
             uiElement.UpdateManaText(entity.AttackDamage);
         }
         else {

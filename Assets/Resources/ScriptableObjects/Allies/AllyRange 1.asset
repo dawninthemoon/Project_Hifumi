@@ -18,7 +18,7 @@ MonoBehaviour:
   _animatorController: {fileID: 9100000, guid: 4daa8176453237943ba054e5ab71c47c, type: 2}
   _health: 500
   _mana: 100
-  _stress: 0
+  _morale: 100
   _attackDamage: 10
   _attackSpeed: 0
   _moveSpeed: 50

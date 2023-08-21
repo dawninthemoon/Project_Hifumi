@@ -7,7 +7,6 @@ public class TargetDetector : Detector {
     [SerializeField] private float _targetDetectionRange = 100f;
     [SerializeField] private LayerMask _obstaclesLayerMask;
     [SerializeField] private LayerMask _targetLayerMask;
-    [SerializeField] private bool _showGizmos = true;
     private List<Transform> _colliders;
     private Transform _cachedTargetTransform;
     private Vector2 _rightDirection;
@@ -47,7 +46,7 @@ public class TargetDetector : Detector {
                 }
 
                 if (isTargetSelected) return;
-                
+
                 // 상대의 이전 위치가 존재하지 않을 때, 이동할 수 있는 방향을 하나 선택
                 for (int i = 1; i < 32; ++i) {
                         Vector3 left = (direction - _rightDirection * i).normalized;

@@ -38,7 +38,7 @@ public class GameTest : MonoBehaviour {
     }
 
     private void InitalizeEntities() {
-        var entityPrefab = Resources.Load<EntityBase>("Prefabs/Allies/AllyPrefab");
+        var entityPrefab = Resources.Load<EntityBase>("Prefabs/AllyPrefab");
         var entityInformation = Resources.LoadAll<EntityInfo>("ScriptableObjects/Allies");
         foreach (EntityInfo info in entityInformation) {
             float radius = 100f;
@@ -136,7 +136,7 @@ public class GameTest : MonoBehaviour {
     }
 
     private void SpawnEnemy(int amount) {
-        EntityBase enemyPrefab = Resources.Load<EntityBase>("Prefabs/Enemies/EnemyPrefab");
+        EntityBase enemyPrefab = Resources.Load<EntityBase>("Prefabs/EnemyPrefab");
         var entityInformation = Resources.LoadAll<EntityInfo>("ScriptableObjects/Enemies");
         for (int i = 0; i < amount; ++i) {
             int randomIndex = Random.Range(0, entityInformation.Length);
