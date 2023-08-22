@@ -889,6 +889,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04062530fd28c2d47ac0097530819bff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _truckObject: {fileID: 674347054}
 --- !u!1 &1474569459
 GameObject:
   m_ObjectHideFlags: 0
