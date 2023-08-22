@@ -9,9 +9,10 @@ public class MapGenerator : MonoBehaviour {
     [SerializeField] private Transform _mapSceneParent = null;
     [SerializeField] private float _offsetX = 10f;
     [SerializeField] private float _offsetY = 10f;
+    [SerializeField, Range(2, 6)] private int _executeTime = 2;
 
     public CustomGrid<EncounterMarker> GenerateMap(int width, int height, EncounterMarker.OnMarkerSelected onMarkerSelected) {
-        List<int>[] pathList = new List<int>[6];
+        List<int>[] pathList = new List<int>[_executeTime];
 
         CustomGrid<EncounterMarker> mapGrid = GeneratePath(pathList, width, height);
         GenerateNodes(mapGrid, pathList, width, height, onMarkerSelected);
@@ -45,7 +46,7 @@ public class MapGenerator : MonoBehaviour {
 
     public void GenerateNodes(CustomGrid<EncounterMarker> mapGrid, List<int>[] pathList, int width, int height, EncounterMarker.OnMarkerSelected callback) {
         // Instantiate Nodes
-        for (int t = 0; t < 6; ++t) {
+        for (int t = 0; t < _executeTime; ++t) {
             for (int floor = 0; floor < height; ++floor) {
                 int x = pathList[t][floor];
                 if (!mapGrid.GetElement(floor, x)) {
@@ -56,7 +57,7 @@ public class MapGenerator : MonoBehaviour {
             }
         }
 
-        for (int t = 0; t < 6; ++t) {
+        for (int t = 0; t < _executeTime; ++t) {
             for (int floor = 0; floor < height - 1; ++floor) {
                 int x = pathList[t][floor];
                 int nextX = pathList[t][floor + 1];
@@ -81,7 +82,7 @@ public class MapGenerator : MonoBehaviour {
     public void GenerateVertices(CustomGrid<EncounterMarker> mapGrid, List<int>[] pathList) {
         Queue<Rowcol> bfsQueue = new Queue<Rowcol>();
 
-        for (int t = 0; t < 6; ++t) {
+        for (int t = 0; t < _executeTime; ++t) {
             Rowcol initialRowcol = new Rowcol(0, pathList[t][0]);
             MakeVertex(mapGrid, initialRowcol, new Rowcol(1, pathList[t][1]));
         }

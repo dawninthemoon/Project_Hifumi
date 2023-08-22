@@ -178,6 +178,7 @@ MonoBehaviour:
   _mapSceneParent: {fileID: 679250003}
   _offsetX: 64
   _offsetY: 96
+  _executeTime: 6
 --- !u!114 &679250005
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -190,8 +191,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a55e0628db4e01c4a82e18e1218853a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _width: 7
-  _height: 15
+  _width: 4
+  _height: 7
 --- !u!1 &1319709899
 GameObject:
   m_ObjectHideFlags: 0
