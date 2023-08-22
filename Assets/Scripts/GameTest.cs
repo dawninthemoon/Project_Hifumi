@@ -7,6 +7,7 @@ public class GameTest : MonoBehaviour {
     [SerializeField] private MemberUIControl _memberUIControl = null;
     [SerializeField, Range(0.5f, 10f)] private float _timeScale = 1f;
     [SerializeField] private int _entityCount = 2;
+    [SerializeField] private int _waveCount = 3;
     [SerializeField] private UnityEvent _onStageEnd = null;
     private KdTree<EntityBase> _activeAllies;
     private KdTree<EntityBase> _activeEnemies;
@@ -141,7 +142,7 @@ public class GameTest : MonoBehaviour {
     }
 
     private void StartNewWave(int amount) {
-        if (++_currentWave > 3) {
+        if (++_currentWave > _waveCount) {
             _onStageEnd.Invoke();
             return;
         }
