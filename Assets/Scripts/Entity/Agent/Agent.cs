@@ -4,46 +4,59 @@ using UnityEngine;
 using UnityEngine.Events;
 using RieslingUtils;
 
-public class Agent : MonoBehaviour {
-    [SerializeField] private float _moveSpeed = 30f;
+public class Agent : MonoBehaviour, ITargetable {
     [SerializeField] private List<SteeringBehaviour> _steeringBehaviours = null;
     [SerializeField] private List<Detector> _detectors = null;
-    [SerializeField] private AIData _aiData = null;
     [SerializeField] private ContextSolver _movementDirectionSolver = null;
     [SerializeField] private float _detectionDelay = 0.05f, _aiUpdateDelay = 0.06f, _attackDelay = 1f;
-    [SerializeField] private float _attackDistance = 18f;
+    [SerializeField] private float _scentDelay = 0.3f;
+    private AIData _aiData;
     private Vector2 _movementInput;
+    private float _scentCounter;
     private bool _following;
+    private EntityStatusDecorator _entityStatus;
     private Rigidbody2D _rigidbody;
-    public UnityEvent<Vector2> OnAttackRequested { get; set; }
-    public UnityEvent<Vector2> OnMovementInput { get; set; }
+    public UnityEvent OnAttackRequested { get; set; } = new UnityEvent();
+    public UnityEvent<Vector2> OnMovementInput { get; set; } = new UnityEvent<Vector2>();
     public AgentScent Scent { get; private set; }
-    public float AttackDistance { 
-        get { return _attackDistance; }
+    public Vector3 Position {
+        get { return transform.position; }
     }
 
     private void Awake() {
+        _aiData = new AIData();
         Scent = new AgentScent();
-        _rigidbody = GetComponent<Rigidbody2D>();
 
-        OnAttackRequested = new UnityEvent<Vector2>();
-        OnMovementInput = new UnityEvent<Vector2>();
-        
-        _aiData.attackDistance = _attackDistance;
+        _rigidbody = GetComponent<Rigidbody2D>();
+    }
+
+    public void Initialize(EntityStatusDecorator status) {
+        _entityStatus = status;
+
+        OnMovementInput.RemoveAllListeners();
+        OnMovementInput.AddListener((direction) => {
+            if (direction.sqrMagnitude > 0f) {
+                Vector3 nextPosition = transform.position + (Vector3)direction * Time.deltaTime * _entityStatus.MoveSpeed;
+                _rigidbody.MovePosition(nextPosition);
+            }
+        });
     }
 
     private void Start() {
         InvokeRepeating("PerformDetection", 0f, _detectionDelay);
-        InvokeRepeating("ScentProgress", 0f, 0.3f);
-
-        OnMovementInput.AddListener((direction) => {
-            Vector3 nextPosition = transform.position + (Vector3)direction * Time.deltaTime * _moveSpeed;
-            _rigidbody.MovePosition(nextPosition);
-        });
     }
 
-    public void SetTarget(Agent target) {
+    private void OnDisable() {
+        _following = false;
+        Scent.Reset();
+    }
+
+    public void SetTarget(ITargetable target) {
         _aiData.SelectedTarget = target;
+    }
+
+    public List<Vector2> GetScentTrail() {
+        return Scent.ScentTrail;
     }
 
     private void PerformDetection() {
@@ -57,28 +70,34 @@ public class Agent : MonoBehaviour {
     }
 
     private void Update() {
-        if (_aiData.CurrentTarget) {
+        _scentCounter += Time.deltaTime;
+        if (_scentCounter > _scentDelay) {
+            _scentCounter -= _scentCounter;
+            ScentProgress();
+        }
+
+        if (_aiData.CurrentTarget != null) {
             if (!_following) {
                 _following = true;
                 StartCoroutine(ChaseAndAttack());
             }
         }
-        if (_movementInput.sqrMagnitude > 0f)
-            OnMovementInput?.Invoke(_movementInput);
+
+        OnMovementInput?.Invoke(_movementInput);
     }
 
     private IEnumerator ChaseAndAttack() {
         while (true) {
-            if (!_aiData.CurrentTarget) {
+            if (_aiData.SelectedTarget == null) {
                 _movementInput = Vector2.zero;
                 _following = false;
                 yield break;
             }
             else {
-                float distance = Vector2.Distance(_aiData.CurrentTarget.position, transform.position);
-                if (distance < _attackDistance) {
+                float distance = Vector2.Distance(_aiData.SelectedTarget.Position, transform.position);
+                if (distance < _entityStatus.AttackRange) {
                     _movementInput = Vector2.zero;
-                    OnAttackRequested?.Invoke((_aiData.CurrentTarget.position - transform.position).normalized);
+                    OnAttackRequested?.Invoke();
                     yield return YieldInstructionCache.WaitForSeconds(_attackDelay);
                 }
                 else {

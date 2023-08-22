@@ -1239,6 +1239,7 @@ GameObject:
   - component: {fileID: 8553464097756947188}
   - component: {fileID: 8553464097756947190}
   - component: {fileID: 8553464097756947191}
+  - component: {fileID: 7909764449741852936}
   - component: {fileID: 5446704108364156131}
   - component: {fileID: 7779138746376556120}
   - component: {fileID: 5524481926208065160}
@@ -1299,6 +1300,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ShowMaskGraphic: 1
+--- !u!114 &7909764449741852936
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8553464097756947187}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46c9afe8b322765419893a96b5036662, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _animator: {fileID: 7779138746376556120}
+  _healthText: {fileID: 3995821250217736088}
+  _manaText: {fileID: 6996470251235464158}
+  _stressText: {fileID: 6020682441793656791}
+  _attackText: {fileID: 9003358301645918974}
 --- !u!114 &5446704108364156131
 MonoBehaviour:
   m_ObjectHideFlags: 0

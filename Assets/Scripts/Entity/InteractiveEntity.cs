@@ -6,35 +6,40 @@ using RieslingUtils;
 
 [RequireComponent(typeof(Collider2D))]
 public class InteractiveEntity : MonoBehaviour {
-    [SerializeField] private UnityEvent _onMouseOverEvent;
-    [SerializeField] private UnityEvent _onMouseDownEvent;
-    [SerializeField] private UnityEvent _onMouseUpEvent;
-    [SerializeField] private UnityEvent _onMouseExitEvent;
+    [SerializeField] private UnityEvent _onMouseOverEvent = new UnityEvent();
+    [SerializeField] private UnityEvent _onMouseDownEvent = new UnityEvent();
+    [SerializeField] private UnityEvent _onMouseDragEvent = new UnityEvent();
+    [SerializeField] private UnityEvent _onMouseUpEvent = new UnityEvent();
+    [SerializeField] private UnityEvent _onMouseExitEvent = new UnityEvent();
     public UnityEvent OnMouseOverEvent { get { return _onMouseOverEvent; } }
     public UnityEvent OnMouseDownEvent { get { return _onMouseDownEvent; } }
+    public UnityEvent OnMouseDragEvent { get { return _onMouseDragEvent; } }
     public UnityEvent OnMouseUpEvent { get { return _onMouseUpEvent; } }
     public UnityEvent OnMouseExitEvent { get { return _onMouseUpEvent; } }
-
-    private void Awake() {
-        _onMouseOverEvent = new UnityEvent();
-        _onMouseDownEvent = new UnityEvent();
-        _onMouseUpEvent = new UnityEvent();
-        _onMouseExitEvent = new UnityEvent();
-    }
+    public static bool IsInteractive = true;
 
     private void OnMouseOver() {
-        _onMouseOverEvent?.Invoke();
+        if (IsInteractive)
+            _onMouseOverEvent?.Invoke();
     }
 
     private void OnMouseDown() {
-        _onMouseDownEvent?.Invoke();
+        if (IsInteractive)
+            _onMouseDownEvent?.Invoke();
+    }
+
+    private void OnMouseDrag() {
+        if (IsInteractive)
+            _onMouseDragEvent?.Invoke();
     }
 
     private void OnMouseUp() {
-        _onMouseUpEvent?.Invoke();
+        if (IsInteractive)
+            _onMouseUpEvent?.Invoke();
     }
 
     private void OnMouseExit() {
-        _onMouseExitEvent?.Invoke();
+        if (IsInteractive)
+            _onMouseExitEvent?.Invoke();
     }
 }

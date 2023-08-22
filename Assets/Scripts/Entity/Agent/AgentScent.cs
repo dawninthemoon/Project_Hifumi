@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class AgentScent {
-    private static readonly int MaxScentCount = 50;
+    private static readonly int MaxScentCount = 200;
     public List<Vector2> ScentTrail { 
         get;
         private set;
@@ -11,6 +11,10 @@ public class AgentScent {
 
     public AgentScent() {
         ScentTrail = new List<Vector2>();
+    }
+
+    public void Reset() {
+        ScentTrail.Clear();
     }
 
     public void AddScent(Vector2 position) {

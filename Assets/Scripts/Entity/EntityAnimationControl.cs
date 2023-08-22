@@ -1,16 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor.Animations;
 
 public class EntityAnimationControl : MonoBehaviour {
     [SerializeField] private SpriteRenderer _bodyRenderer = null;
+    [SerializeField] private SpriteRenderer _weaponRenderer = null;
     [SerializeField] private Transform _handTransform = null;
-    private Animator _animatorController;
+    private Animator _animator;
     private static readonly string MovingParameterKey = "isMoving";
     private static readonly string AttackTriggerKey = "doAttack";
     //private static readonly string SkillTriggerKey = "doSkill";
     void Awake() {
-        _animatorController = GetComponent<Animator>();
+        _animator = GetComponent<Animator>();
+    }
+
+    public void Initialize(Sprite bodySprite, Sprite weaponSprite, RuntimeAnimatorController controller) {
+        _bodyRenderer.sprite = bodySprite;
+        _weaponRenderer.sprite = weaponSprite;
+        _animator.runtimeAnimatorController = controller;
     }
 
     public void SetFaceDir(Vector2 direction) {
@@ -20,11 +28,15 @@ public class EntityAnimationControl : MonoBehaviour {
     }
 
     public void SetMoveAnimationState(bool isMoving) {
-        _animatorController.SetBool(MovingParameterKey, isMoving);
+        _animator.SetBool(MovingParameterKey, isMoving);
     }
 
     public void PlayAttackAnimation() {
-        _animatorController.SetTrigger(AttackTriggerKey);
+        _animator.SetTrigger(AttackTriggerKey);
+    }
+
+    public void PlayDeadAnimation() {
+        _animator.SetTrigger("die");
     }
 
     private Quaternion VectorToQuaternion(Vector2 direction) {
