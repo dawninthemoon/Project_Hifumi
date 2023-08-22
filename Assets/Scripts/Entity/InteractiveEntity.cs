@@ -16,24 +16,30 @@ public class InteractiveEntity : MonoBehaviour {
     public UnityEvent OnMouseDragEvent { get { return _onMouseDragEvent; } }
     public UnityEvent OnMouseUpEvent { get { return _onMouseUpEvent; } }
     public UnityEvent OnMouseExitEvent { get { return _onMouseUpEvent; } }
+    public static bool IsInteractive = true;
 
     private void OnMouseOver() {
-        _onMouseOverEvent?.Invoke();
+        if (IsInteractive)
+            _onMouseOverEvent?.Invoke();
     }
 
     private void OnMouseDown() {
-        _onMouseDownEvent?.Invoke();
+        if (IsInteractive)
+            _onMouseDownEvent?.Invoke();
     }
 
     private void OnMouseDrag() {
-        _onMouseDragEvent?.Invoke();
+        if (IsInteractive)
+            _onMouseDragEvent?.Invoke();
     }
 
     private void OnMouseUp() {
-        _onMouseUpEvent?.Invoke();
+        if (IsInteractive)
+            _onMouseUpEvent?.Invoke();
     }
 
     private void OnMouseExit() {
-        _onMouseExitEvent?.Invoke();
+        if (IsInteractive)
+            _onMouseExitEvent?.Invoke();
     }
 }

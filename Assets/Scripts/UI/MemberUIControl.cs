@@ -32,7 +32,7 @@ public class MemberUIControl : MonoBehaviour {
             SetEntityInteraction(entity);
         }
     }
-
+    
     private void Update() {
         if (_selectedEntity) {
             Vector2 mousePosition = MouseUtils.GetMouseWorldPosition();

@@ -1,12 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using CustomPhysics;
+using UnityEngine.Events;
 
 public class GameTest : MonoBehaviour {
     [SerializeField] private MemberUIControl _memberUIControl = null;
     [SerializeField, Range(0.5f, 10f)] private float _timeScale = 1f;
     [SerializeField] private int _entityCount = 2;
+    [SerializeField] private UnityEvent _onStageEnd = null;
     private KdTree<EntityBase> _activeAllies;
     private KdTree<EntityBase> _activeEnemies;
     private List<EntityBase> _inactiveAllies;
@@ -16,12 +17,14 @@ public class GameTest : MonoBehaviour {
     private static Vector2 _stageMaxSize;
     public static Vector2 StageMinSize { get { return _stageMinSize; } }
     public static Vector2 StageMaxSize { get { return _stageMaxSize; } }
+    private int _currentWave = 0;
     private float _gameSpeed;
 
     private void Awake() {
         _activeAllies = new KdTree<EntityBase>(true);
         _activeEnemies = new KdTree<EntityBase>(true);
         _inactiveAllies = new List<EntityBase>();
+        _onStageEnd.AddListener(() => InteractiveEntity.IsInteractive = false);
         InitalizeEntities();
     }
 
@@ -31,10 +34,12 @@ public class GameTest : MonoBehaviour {
     }
 
     private void InitializeCombat() {
+        InteractiveEntity.IsInteractive = true;
+
         _stageMinSize = new Vector2(-Width / 2f, -Height / 2f);
         _stageMaxSize = new Vector2(Width / 2f, Height / 2f);
     
-        SpawnEnemy(_entityCount);
+        StartNewWave(_entityCount);
     }
 
     private void InitalizeEntities() {
@@ -72,7 +77,7 @@ public class GameTest : MonoBehaviour {
         }
 
         if (_activeEnemies.Count == 0) {
-            SpawnEnemy(_entityCount);
+            StartNewWave(_entityCount);
         }
     }
 
@@ -135,7 +140,12 @@ public class GameTest : MonoBehaviour {
         entity.gameObject.SetActive(false);
     }
 
-    private void SpawnEnemy(int amount) {
+    private void StartNewWave(int amount) {
+        if (++_currentWave > 3) {
+            _onStageEnd.Invoke();
+            return;
+        }
+
         EntityBase enemyPrefab = Resources.Load<EntityBase>("Prefabs/EnemyPrefab");
         var entityInformation = Resources.LoadAll<EntityInfo>("ScriptableObjects/Enemies");
         for (int i = 0; i < amount; ++i) {
