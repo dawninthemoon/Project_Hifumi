@@ -22,7 +22,7 @@ MonoBehaviour:
   _attackDamage: 3
   _attackSpeed: 0
   _moveSpeed: 60
-  _attackRange: 25
+  _attackRange: 40
   _attackConfig:
     targetLayerMask:
       serializedVersion: 2

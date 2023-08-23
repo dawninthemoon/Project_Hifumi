@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using RieslingUtils;
 
 public class GameTest : MonoBehaviour {
     [SerializeField] private MemberUIControl _memberUIControl = null;
@@ -34,11 +35,14 @@ public class GameTest : MonoBehaviour {
         InitializeCombat();
     }
 
+    public static void SetMapView(Vector3 origin) {
+        _stageMinSize = (Vector2)origin + new Vector2(-Width / 2f, -Height / 2f);
+        _stageMaxSize = (Vector2)origin + new Vector2(Width / 2f, Height / 2f);
+    }
+
     private void InitializeCombat() {
         InteractiveEntity.IsInteractive = true;
-
-        _stageMinSize = new Vector2(-Width / 2f, -Height / 2f);
-        _stageMaxSize = new Vector2(Width / 2f, Height / 2f);
+        SetMapView(Vector3.zero);
     
         StartNewWave(_entityCount);
     }
@@ -93,7 +97,7 @@ public class GameTest : MonoBehaviour {
         foreach (EntityBase enemy in _activeEnemies) {
             ITargetable target = _activeAllies.FindClosest(enemy.transform.position)?.GetComponent<Agent>();
             if (target == null) {
-                target = _memberUIControl.GetComponent<Truck>();
+                //target = _memberUIControl.GetComponent<Truck>();
             }
 
             enemy.SetTarget(target);
@@ -154,6 +158,11 @@ public class GameTest : MonoBehaviour {
 
             float randX = Random.Range(_stageMinSize.x, _stageMaxSize.x);
             float y = Random.Range(0, 2) > 0 ? _stageMaxSize.y + enemyPrefab.Radius : _stageMinSize.y - enemyPrefab.Radius;
+            
+            if (_currentWave == 1) {
+                y = Random.Range(_stageMinSize.y / 4f, _stageMaxSize.y / 4f);
+            }
+            
             Vector3 randPos = new Vector3(randX, y);
 
             EntityBase enemy = Instantiate(enemyPrefab, randPos, Quaternion.identity);

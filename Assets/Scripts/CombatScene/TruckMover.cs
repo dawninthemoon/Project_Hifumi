@@ -34,8 +34,11 @@ public class TruckMover : MonoBehaviour {
 
     private void SetTruckMoveConfig() {
         float degree = GetAngle(_startPosition.Value, _endPosition);
-        _truckObject.transform.eulerAngles = new Vector3(0f, 0f, degree);
-        _truckObject.transform.position = GetStartPoint(_startPosition.Value, _endPosition, degree);
+        Vector2 direction = (_endPosition - _startPosition.Value).normalized;
+
+        Vector2 startPoint = GetStartPoint(_startPosition.Value, _endPosition, degree);
+        startPoint = startPoint - direction * _truckObject.Width * 0.5f;
+        _truckObject.StartMove(startPoint, direction, degree);
     }
 
     public float GetAngle(Vector2 start, Vector2 end) {

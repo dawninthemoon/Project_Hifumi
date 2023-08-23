@@ -127,14 +127,4 @@ public class EntityBase : MonoBehaviour {
         //_agent.enabled = false;
         _animationControl.PlayDeadAnimation();*/
     }
-
-    private void OnTriggerStay2D(Collider2D other) {
-        if (this is Truck || other.name.Equals("Truck")) return;
-        GameObject otherObj = other.gameObject;
-        if (otherObj.layer.Equals(LayerMask.NameToLayer("Ally")) || otherObj.layer.Equals(LayerMask.NameToLayer("Enemy"))) {
-            Vector3 direction = (transform.position - other.transform.position).normalized;
-            float force = 10f;
-            transform.position += direction * force * Time.deltaTime;
-        }
-    }
 }
