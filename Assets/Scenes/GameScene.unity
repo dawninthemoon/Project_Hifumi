@@ -285,6 +285,7 @@ GameObject:
   m_Component:
   - component: {fileID: 674347047}
   - component: {fileID: 674347048}
+  - component: {fileID: 674347052}
   - component: {fileID: 674347045}
   - component: {fileID: 674347051}
   - component: {fileID: 674347050}
@@ -453,6 +454,21 @@ MonoBehaviour:
   _onMouseExitEvent:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &674347052
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 674347043}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4413dd7355feaf447a3348edbaba79ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _bodyRadius: 20
+  _width: 1
+  _height: 1
 --- !u!1 &684099333
 GameObject:
   m_ObjectHideFlags: 0
@@ -599,13 +615,58 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfcca9941f59c804ab1928f2c2389aab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _memberUIControl: {fileID: 0}
+  _memberUIControl: {fileID: 674347048}
   _timeScale: 1
   _entityCount: 4
   _waveCount: 3
   _onStageEnd:
     m_PersistentCalls:
       m_Calls: []
+--- !u!1 &1102461021
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1102461022}
+  - component: {fileID: 1102461023}
+  m_Layer: 0
+  m_Name: TruckMover
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1102461022
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1102461021}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1102461023
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1102461021}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04062530fd28c2d47ac0097530819bff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _truckObject: {fileID: 674347052}
 --- !u!1001 &1751029506
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -21,42 +21,57 @@ public class TruckMover : MonoBehaviour {
         if (Input.GetMouseButtonUp(0)) {
             _endPosition = MouseUtils.GetMouseWorldPosition();
             if (_canSetDirection) {
-                //SetTruckMoveConfig();
+                SetTruckMoveConfig();
             }
 
             //_canSetDirection = false;
         }
 
         if (_startPosition != null && _canSetDirection) {
-            SetTruckMoveConfig();
             Debug.DrawLine(_startPosition.Value, MouseUtils.GetMouseWorldPosition(), Color.green);
         }
     }
 
     private void SetTruckMoveConfig() {
-        _truckObject.transform.position = GetClosestPoint(_startPosition.Value);
+        float degree = GetAngle(_startPosition.Value, _endPosition);
+        _truckObject.transform.eulerAngles = new Vector3(0f, 0f, degree);
+        _truckObject.transform.position = GetStartPoint(_startPosition.Value, _endPosition, degree);
     }
 
-    public Vector2 GetClosestPoint(Vector2 selectedPosition) {
-        Vector2 position = Vector2.zero;
-        float width = 640f;
-        float height = 360f;
+    public float GetAngle(Vector2 start, Vector2 end) {
+        Vector2 diff = end - start;
+        float radian = Mathf.Atan2(diff.y, diff.x);
+        return radian * Mathf.Rad2Deg;
+    }
 
-        Vector2 closestPosition = Vector2.zero;
-        if (selectedPosition.x < position.x + width * 0.5f)
-            closestPosition.x = position.x + width * 0.5f;
-        else if (selectedPosition.x > position.x - width * 0.5f)
-            closestPosition.x = position.x - width * 0.5f;
-        else
-            closestPosition.x = selectedPosition.x;
+    public Vector2 GetStartPoint(Vector2 start, Vector2 end, float degree) {
+        float slope = (end - start).y / (end - start).x;
+        float yIntercept = start.y - slope * start.x;
 
-        if (selectedPosition.y < position.y + height * 0.5f)
-            closestPosition.y = position.y + height * 0.5f;
-        else if (selectedPosition.y > position.y - height * 0.5f)
-            closestPosition.y = position.y - height * 0.5f;
-        else
-            closestPosition.y = selectedPosition.y;
+        float xPos = 0f;
+        float yPos = 0f;
 
-        return closestPosition;
+        if (degree < 0f) {
+            degree = 360f + degree;
+        }
+
+        if (degree >= 315f || degree < 45f) {
+            xPos = GameTest.StageMinSize.x;
+            yPos = slope * xPos + yIntercept;
+        }
+        else if (degree < 135f) {
+            yPos = GameTest.StageMinSize.y;
+            xPos = (yPos - yIntercept) / slope;
+        }
+        else if (degree < 225f) {
+            xPos = GameTest.StageMaxSize.x;
+            yPos = slope * xPos + yIntercept;
+        }
+        else {
+            yPos = GameTest.StageMaxSize.y;
+            xPos = (yPos - yIntercept) / slope;
+        }
+
+        return new Vector2(xPos, yPos);
     }
 }
