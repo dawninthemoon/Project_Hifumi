@@ -55,7 +55,7 @@ public class GameTest : MonoBehaviour {
             float radius = 100f;
             Vector3 randomPos = Random.insideUnitCircle.normalized * radius;
 
-            EntityBase newEntity = Instantiate(entityPrefab, randomPos, Quaternion.identity);
+            EntityBase newEntity = Instantiate(entityPrefab, _truck.transform.position + randomPos, Quaternion.identity);
             newEntity.Initialize(info);
             
             _activeAllies.Add(newEntity);
