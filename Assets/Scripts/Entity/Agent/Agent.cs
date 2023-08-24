@@ -22,16 +22,17 @@ public class Agent : MonoBehaviour, ITargetable {
     public Vector3 Position {
         get { return transform.position; }
     }
+    public float Radius { get; private set; }
 
     private void Awake() {
         _aiData = new AIData();
         Scent = new AgentScent();
-
         _rigidbody = GetComponent<Rigidbody2D>();
     }
 
-    public void Initialize(EntityStatusDecorator status) {
+    public void Initialize(EntityStatusDecorator status, float radius) {
         _entityStatus = status;
+        Radius = radius;
 
         OnMovementInput.RemoveAllListeners();
         OnMovementInput.AddListener((direction) => {
@@ -101,7 +102,7 @@ public class Agent : MonoBehaviour, ITargetable {
             }
             else {
                 float distance = Vector2.Distance(_aiData.SelectedTarget.Position, transform.position);
-                if (distance < _entityStatus.AttackRange) {
+                if (distance - Mathf.Sqrt(_aiData.SelectedTarget.Radius) < _entityStatus.AttackRange) {
                     _movementInput = Vector2.zero;
                     OnAttackRequested?.Invoke();
                     yield return YieldInstructionCache.WaitForSeconds(_attackDelay);

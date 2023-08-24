@@ -11,10 +11,11 @@ public class TruckMover : MonoBehaviour {
     [SerializeField] private RectTransform _truckDirectionArrow = null;
     private bool _canSetDirection;
     private Vector2? _startPosition = null;
-    private Vector2 _endPosition;
+    private bool _canShootTruck;
 
     private void Awake() {
         _canSetDirection = true;
+        _canShootTruck = false;
     }
 
     private void Update() {
@@ -22,37 +23,40 @@ public class TruckMover : MonoBehaviour {
             _startPosition = MouseUtils.GetMouseWorldPosition();
         }
 
-        if (Input.GetMouseButtonUp(0)) {
-            _endPosition = MouseUtils.GetMouseWorldPosition();
-            if (_canSetDirection) {
-                _truckDirectionArrow.gameObject.SetActive(false);
-                SetTruckMoveConfig();
-            }
-
-            _canSetDirection = false;
-        }
-
         if (_startPosition != null && _canSetDirection) {
-            _truckDirectionArrow.gameObject.SetActive(true);
-
             Vector2 start = _startPosition.Value;
             Vector2 end = MouseUtils.GetMouseWorldPosition();
             _truckDirectionArrow.eulerAngles = new Vector3(0f, 0f, ExVector.GetDegree(start, end));
             _truckDirectionArrow.position = start;
 
             float width = Vector2.Distance(start, end) * 2f;
-            _truckDirectionArrow.sizeDelta =_truckDirectionArrow.sizeDelta.ChangeXPos(width);
+            if (width > 30f) {
+                _canShootTruck = true;
+                _truckDirectionArrow.gameObject.SetActive(true);
+                _truckDirectionArrow.sizeDelta =_truckDirectionArrow.sizeDelta.ChangeXPos(width);
+            }
+        }
+
+        if (Input.GetMouseButtonUp(0)) {
+            _truckDirectionArrow.gameObject.SetActive(false);
+            if (_canSetDirection && _canShootTruck) {
+                _canSetDirection = false;
+                SetTruckMoveConfig(MouseUtils.GetMouseWorldPosition());
+            }
+            else {
+                _startPosition = null;
+            }
         }
     }
 
-    private void SetTruckMoveConfig() {
-        if (_startPosition.Equals(_endPosition))
+    private void SetTruckMoveConfig(Vector2 endPosition) {
+        if (_startPosition.Equals(endPosition))
             return;
 
-        float degree = ExVector.GetDegree(_startPosition.Value, _endPosition);
-        Vector2 direction = (_endPosition - _startPosition.Value).normalized;
+        float degree = ExVector.GetDegree(_startPosition.Value, endPosition);
+        Vector2 direction = (endPosition - _startPosition.Value).normalized;
 
-        Vector2 startPoint = GetStartPoint(_startPosition.Value, _endPosition, degree);
+        Vector2 startPoint = GetStartPoint(_startPosition.Value, endPosition, degree);
         startPoint = startPoint - direction * _truckObject.Width * 0.5f;
 
         Collider2D[] overlapedBoarders = Physics2D.OverlapCircleAll(startPoint, _truckObject.Width);

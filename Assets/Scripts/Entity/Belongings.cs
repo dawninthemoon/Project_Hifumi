@@ -2,8 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "ScriptableObjects/Augments", fileName = "NewAugment")]
-public class Augments : ScriptableObject, IEntityStatus {
+[CreateAssetMenu(menuName = "ScriptableObjects/Belongings", fileName = "NewBelonging")]
+public class Belongings : ScriptableObject, IEntityStatus {
     [SerializeField] private int _health = 0;
     [SerializeField] private int _mana = 0;
     [SerializeField] private int _morale = 0;

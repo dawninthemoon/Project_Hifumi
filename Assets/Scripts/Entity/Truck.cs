@@ -57,6 +57,7 @@ public class Truck : EntityBase, ITargetable {
         }
 
         MoveProgressEnd = true;
+        transform.localRotation = Quaternion.identity;
         onTruckmoveEnd();
         StartCoroutine(MoveCamera(transform.position));
     }
@@ -75,7 +76,7 @@ public class Truck : EntityBase, ITargetable {
             yield return null;
         }
 
-        GameTest.SetMapView(targetPosition);
+        CombatSceneHandler.SetMapView(targetPosition);
     }
 
     private void Awake() {
@@ -87,7 +88,8 @@ public class Truck : EntityBase, ITargetable {
 
         if (other.gameObject.tag.Equals("Enemy")) {
             Vector2 direction = (other.transform.position - transform.position).normalized;
-            Vector2 knockback = new Vector2(-direction.y, direction.x) * _currentSpeed * _knockbackForce;
+            float speed = _currentSpeed > 0f ? _currentSpeed : _speed / 10f;
+            Vector2 knockback = new Vector2(-direction.y, direction.x) * speed * _knockbackForce;
             other.GetComponent<Agent>().ApplyKnockback(knockback);
         }
     }

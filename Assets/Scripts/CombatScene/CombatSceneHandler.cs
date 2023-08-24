@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using RieslingUtils;
 
-public class GameTest : MonoBehaviour {
+public class CombatSceneHandler : MonoBehaviour {
     [SerializeField] private MemberUIControl _memberUIControl = null;
     [SerializeField, Range(0.5f, 10f)] private float _timeScale = 1f;
     [SerializeField] private int _entityCount = 2;
@@ -21,9 +21,22 @@ public class GameTest : MonoBehaviour {
     public static Vector2 StageMinSize { get { return _stageMinSize; } }
     public static Vector2 StageMaxSize { get { return _stageMaxSize; } }
     private int _currentWave = 0;
+    private ExTimeCounter _timeCounter;
+    private bool _waitingForNextWave;
+    public float NextWaveTime {
+        get {
+            if (!_waitingForNextWave || !_timeCounter.Contains("NextWaveTime"))
+                return 0;
+            float timeLimit = _timeCounter.GetTimeLimit("NextWaveTime");
+            float curr = _timeCounter.GetCurrentTime("NextWaveTime");
+            return timeLimit - curr;
+        }
+    }
     private float _gameSpeed;
 
     private void Awake() {
+        _timeCounter = new ExTimeCounter();
+        
         _activeAllies = new KdTree<EntityBase>(true);
         _activeEnemies = new KdTree<EntityBase>(true);
         _inactiveAllies = new List<EntityBase>();
@@ -45,7 +58,7 @@ public class GameTest : MonoBehaviour {
         InteractiveEntity.IsInteractive = true;
         SetMapView(Vector3.zero);
     
-        StartNewWave(_entityCount);
+        StartNewWave();
     }
 
     private void InitalizeAllies() {
@@ -70,6 +83,8 @@ public class GameTest : MonoBehaviour {
             OnEntityActive(_inactiveAllies[i]);
             i--;
         }
+
+        SoundManager.Instance.PlayBGM("BGM1");
     }
 
     private void Update() {
@@ -92,8 +107,15 @@ public class GameTest : MonoBehaviour {
             _memberUIControl.gameObject.layer = LayerMask.NameToLayer("Obstacle");
         }
 
-        if (_activeEnemies.Count == 0) {
-            StartNewWave(_entityCount);
+        if (!_waitingForNextWave && _activeEnemies.Count == 0) {
+            OnWaveCleared();
+        }
+
+        if (_waitingForNextWave && _timeCounter.Contains("NextWaveTime")) {
+            _timeCounter.IncreaseTimer("NextWaveTime", out var limit);
+            if (limit) {
+                StartNewWave();
+            }
         }
     }
 
@@ -113,7 +135,8 @@ public class GameTest : MonoBehaviour {
 
             enemy.SetTarget(target);
             
-            //ClampPosition(enemy);
+            if (_truck.MoveProgressEnd)
+                ClampPosition(enemy);
         }
     }
 
@@ -147,7 +170,30 @@ public class GameTest : MonoBehaviour {
     public void OnEntityActive(EntityBase entity) {
         entity.gameObject.SetActive(true);
         _inactiveAllies.Remove(entity);
-        _activeAllies.Add(entity);
+        StartCoroutine(StartEaseParabola(entity.transform, () => _activeAllies.Add(entity)));
+    }
+
+    private IEnumerator StartEaseParabola(Transform target, System.Action callback) {
+        float timeAgo = 0f;
+        float targetTime = 1f;
+
+        Vector2 start = _truck.transform.position;
+        Vector2 end = target.position;
+        Vector2 p1 = _truck.Position;
+        p1.y += 100f;
+
+        Time.timeScale = _gameSpeed * 0.25f;
+        while (timeAgo < targetTime) {
+            timeAgo += Time.deltaTime;
+
+            Vector2 p = Bezier.GetPoint(start, p1, end, timeAgo / targetTime);
+            target.position = p;
+
+            yield return null;
+        }
+        Time.timeScale = _gameSpeed;
+
+        callback();
     }
 
     public void OnEntityInactive(EntityBase entity) {
@@ -156,12 +202,21 @@ public class GameTest : MonoBehaviour {
         entity.gameObject.SetActive(false);
     }
 
-    private void StartNewWave(int amount) {
-        if (++_currentWave > _waveCount) {
+    private void OnWaveCleared() {
+        if (_currentWave == _waveCount) {
             _onStageEnd.Invoke();
-            return;
         }
+        else {
+            _timeCounter.InitTimer("NextWaveTime", 0f, 20f);
+            _waitingForNextWave = true;
+        }
+    }
 
+    public void StartNewWave() {
+        ++_currentWave;
+        _waitingForNextWave = false;
+
+        int amount = _entityCount;
         EntityBase enemyPrefab = Resources.Load<EntityBase>("Prefabs/EnemyPrefab");
         var entityInformation = Resources.LoadAll<EntityInfo>("ScriptableObjects/Enemies");
         for (int i = 0; i < amount; ++i) {

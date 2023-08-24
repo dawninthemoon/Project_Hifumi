@@ -4,7 +4,7 @@ using UnityEngine;
 using CustomPhysics;
 
 public class AIData {
-    public Collider2D[] Obstacles {
+    public List<Collider2D> Obstacles {
         get;
         set;
     }
