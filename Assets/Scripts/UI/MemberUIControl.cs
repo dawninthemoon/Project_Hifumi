@@ -96,8 +96,5 @@ public class MemberUIControl : MonoBehaviour {
             uiElement.UpdateMoraleText(Mathf.FloorToInt(entity.Morale));
             uiElement.UpdateManaText(entity.AttackDamage);
         }
-        else {
-            Debug.LogError("Member UI Not Exits!");
-        }
     }
 }

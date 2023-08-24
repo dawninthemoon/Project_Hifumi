@@ -25,6 +25,7 @@ public class Truck : EntityBase, ITargetable {
     private Vector3 _direction;
     private float _currentSpeed;
     private int _collisionCount;
+    public bool MoveProgressEnd { get; private set; }
 
     public void StartMove(Vector3 position, Vector3 direction, float angle, System.Action onTruckmoveEnd) {
         transform.eulerAngles = new Vector3(0f, 0f, angle);
@@ -55,6 +56,7 @@ public class Truck : EntityBase, ITargetable {
             yield return null;
         }
 
+        MoveProgressEnd = true;
         onTruckmoveEnd();
         StartCoroutine(MoveCamera(transform.position));
     }

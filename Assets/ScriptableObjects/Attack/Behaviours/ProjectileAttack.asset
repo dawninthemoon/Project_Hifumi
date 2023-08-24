@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: ProjectileAttack
   m_EditorClassIdentifier: 
   _projectilePrefab: {fileID: 5467489847732251240, guid: 29c012cdac6eac7479f97c55934131cb, type: 3}
-  _projectileSpeed: 40
+  _projectileSpeed: 80

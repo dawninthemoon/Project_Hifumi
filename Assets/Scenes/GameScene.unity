@@ -795,7 +795,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 865883076}
         m_TargetAssemblyTypeName: GameTest, Assembly-CSharp
-        m_MethodName: InitalizeEntities
+        m_MethodName: ActiveAllAllies
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

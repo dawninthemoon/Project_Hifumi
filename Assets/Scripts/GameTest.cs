@@ -28,10 +28,11 @@ public class GameTest : MonoBehaviour {
         _activeEnemies = new KdTree<EntityBase>(true);
         _inactiveAllies = new List<EntityBase>();
         _onStageEnd.AddListener(() => InteractiveEntity.IsInteractive = false);
+        InitalizeAllies();
     }
 
     private void Start() {
-        _memberUIControl.InitializeEntityUI(OnEntityActive, OnEntityInactive, _activeAllies.ToList());
+        _memberUIControl.InitializeEntityUI(OnEntityActive, OnEntityInactive, _inactiveAllies);
         InitializeCombat();
     }
 
@@ -47,18 +48,27 @@ public class GameTest : MonoBehaviour {
         StartNewWave(_entityCount);
     }
 
-    public void InitalizeEntities() {
+    private void InitalizeAllies() {
         var entityPrefab = Resources.Load<EntityBase>("Prefabs/AllyPrefab");
         var entityInformation = Resources.LoadAll<EntityInfo>("ScriptableObjects/Allies");
         _truck = _memberUIControl.GetComponent<Truck>();
-        foreach (EntityInfo info in entityInformation) {
-            float radius = 100f;
-            Vector3 randomPos = Random.insideUnitCircle.normalized * radius;
 
-            EntityBase newEntity = Instantiate(entityPrefab, _truck.transform.position + randomPos, Quaternion.identity);
+        foreach (EntityInfo info in entityInformation) {
+            EntityBase newEntity = Instantiate(entityPrefab);
+            newEntity.gameObject.SetActive(false);
             newEntity.Initialize(info);
             
-            _activeAllies.Add(newEntity);
+            _inactiveAllies.Add(newEntity);
+        }
+    }
+
+    public void ActiveAllAllies() {
+        float radius = 100f;
+        for (int i = 0; i < _inactiveAllies.Count; ++i) {
+            Vector3 randomPos = Random.insideUnitCircle.normalized * radius;
+            _inactiveAllies[i].transform.position = _truck.transform.position + randomPos;
+            OnEntityActive(_inactiveAllies[i]);
+            i--;
         }
     }
 
@@ -75,7 +85,7 @@ public class GameTest : MonoBehaviour {
 
         MoveProgress();
         
-        if (_activeAllies.Count == 0) {
+        if (_truck.MoveProgressEnd && _activeAllies.Count == 0) {
             _memberUIControl.gameObject.layer = LayerMask.NameToLayer("Ally");
         }
         else {
@@ -97,7 +107,7 @@ public class GameTest : MonoBehaviour {
 
         foreach (EntityBase enemy in _activeEnemies) {
             ITargetable target = _activeAllies.FindClosest(enemy.transform.position)?.GetComponent<Agent>();
-            if (target == null && _truck != null) {
+            if (target == null && _truck.MoveProgressEnd) {
                 target = _truck;
             }
 
