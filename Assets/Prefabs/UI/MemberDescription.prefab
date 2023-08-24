@@ -1244,7 +1244,7 @@ GameObject:
   - component: {fileID: 7779138746376556120}
   - component: {fileID: 5524481926208065160}
   m_Layer: 5
-  m_Name: MemberUI
+  m_Name: MemberDescription
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
