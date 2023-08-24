@@ -170,7 +170,30 @@ public class CombatSceneHandler : MonoBehaviour {
     public void OnEntityActive(EntityBase entity) {
         entity.gameObject.SetActive(true);
         _inactiveAllies.Remove(entity);
-        _activeAllies.Add(entity);
+        StartCoroutine(StartEaseParabola(entity.transform, () => _activeAllies.Add(entity)));
+    }
+
+    private IEnumerator StartEaseParabola(Transform target, System.Action callback) {
+        float timeAgo = 0f;
+        float targetTime = 1f;
+
+        Vector2 start = _truck.transform.position;
+        Vector2 end = target.position;
+        Vector2 p1 = _truck.Position;
+        p1.y += 100f;
+
+        Time.timeScale = _gameSpeed * 0.25f;
+        while (timeAgo < targetTime) {
+            timeAgo += Time.deltaTime;
+
+            Vector2 p = Bezier.GetPoint(start, p1, end, timeAgo / targetTime);
+            target.position = p;
+
+            yield return null;
+        }
+        Time.timeScale = _gameSpeed;
+
+        callback();
     }
 
     public void OnEntityInactive(EntityBase entity) {

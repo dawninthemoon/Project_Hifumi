@@ -56,7 +56,7 @@ public class EntityBase : MonoBehaviour {
 
         _animationControl.Initialize(_entityInfo.BodySprite, _entityInfo.WeaponSprite, _entityInfo.AnimatorController);
         
-        _agent.Initialize(_statusDecorator);
+        _agent.Initialize(_statusDecorator, Radius);
         _agent.OnMovementInput.AddListener((direction) => {
             _animationControl.SetMoveAnimationState(!direction.Equals(Vector2.zero));
             if (direction.sqrMagnitude > 0f)
