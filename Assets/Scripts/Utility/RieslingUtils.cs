@@ -5,11 +5,22 @@ using System.Text.RegularExpressions;
 
 namespace RieslingUtils {
     public static class ExVector {
-        public static Vector3 Jiggle(this Vector3 origin, float maxAmount) {
-            float xAmount = Random.Range(-maxAmount, maxAmount);
-            float yAmount = Random.Range(-maxAmount, maxAmount);
+        public static float GetRadian(Vector2 u, Vector2 v) {
+            Vector2 diff = v - u;
+            return Mathf.Atan2(diff.y, diff.x);
+        }
 
-            Vector3 newVector = origin + new Vector3(xAmount, yAmount);
+        public static float GetDegree(Vector2 u, Vector2 v) {
+            return GetRadian(u, v) * Mathf.Rad2Deg;
+        }
+
+        public static Vector2 ChangeXPos(this Vector2 origin, float xValue) {
+            Vector2 newVector = new Vector2(xValue, origin.y);
+            return newVector;
+        }
+
+        public static Vector2 ChangeYPos(this Vector2 origin, float yValue) {
+            Vector2 newVector = new Vector2(origin.x, yValue);
             return newVector;
         }
 

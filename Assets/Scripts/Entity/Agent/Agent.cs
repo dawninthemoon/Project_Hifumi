@@ -36,7 +36,7 @@ public class Agent : MonoBehaviour, ITargetable {
         OnMovementInput.RemoveAllListeners();
         OnMovementInput.AddListener((direction) => {
             if (direction.sqrMagnitude > 0f) {
-                Vector3 nextPosition = transform.position + (Vector3)direction * Time.deltaTime * _entityStatus.MoveSpeed;
+                Vector3 nextPosition = transform.position + (Vector3)direction * Time.fixedDeltaTime * _entityStatus.MoveSpeed;
                 _rigidbody.MovePosition(nextPosition);
             }
         });
@@ -82,7 +82,13 @@ public class Agent : MonoBehaviour, ITargetable {
                 StartCoroutine(ChaseAndAttack());
             }
         }
+    }
 
+    public void ApplyKnockback(Vector2 knockback) {
+        _rigidbody.AddForce(knockback, ForceMode2D.Impulse);
+    }
+
+    private void FixedUpdate() {
         OnMovementInput?.Invoke(_movementInput);
     }
 

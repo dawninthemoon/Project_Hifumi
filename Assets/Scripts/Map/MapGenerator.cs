@@ -50,7 +50,7 @@ public class MapGenerator : MonoBehaviour {
             for (int floor = 0; floor < height; ++floor) {
                 int x = pathList[t][floor];
                 if (!mapGrid.GetElement(floor, x)) {
-                    Vector3 nodePosition = mapGrid.RowcolToPoint(floor, x).Jiggle(0.3f);
+                    Vector3 nodePosition = mapGrid.RowcolToPoint(floor, x);
                     EncounterMarker newEncounter = CreateEncounter(nodePosition, floor, x, height, callback);
                     mapGrid.SetElement(floor, x, newEncounter);
                 }

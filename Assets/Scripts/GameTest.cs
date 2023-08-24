@@ -10,6 +10,7 @@ public class GameTest : MonoBehaviour {
     [SerializeField] private int _entityCount = 2;
     [SerializeField] private int _waveCount = 3;
     [SerializeField] private UnityEvent _onStageEnd = null;
+    private Truck _truck;
     private KdTree<EntityBase> _activeAllies;
     private KdTree<EntityBase> _activeEnemies;
     private List<EntityBase> _inactiveAllies;
@@ -27,7 +28,6 @@ public class GameTest : MonoBehaviour {
         _activeEnemies = new KdTree<EntityBase>(true);
         _inactiveAllies = new List<EntityBase>();
         _onStageEnd.AddListener(() => InteractiveEntity.IsInteractive = false);
-        InitalizeEntities();
     }
 
     private void Start() {
@@ -47,9 +47,10 @@ public class GameTest : MonoBehaviour {
         StartNewWave(_entityCount);
     }
 
-    private void InitalizeEntities() {
+    public void InitalizeEntities() {
         var entityPrefab = Resources.Load<EntityBase>("Prefabs/AllyPrefab");
         var entityInformation = Resources.LoadAll<EntityInfo>("ScriptableObjects/Allies");
+        _truck = _memberUIControl.GetComponent<Truck>();
         foreach (EntityInfo info in entityInformation) {
             float radius = 100f;
             Vector3 randomPos = Random.insideUnitCircle.normalized * radius;
@@ -96,13 +97,13 @@ public class GameTest : MonoBehaviour {
 
         foreach (EntityBase enemy in _activeEnemies) {
             ITargetable target = _activeAllies.FindClosest(enemy.transform.position)?.GetComponent<Agent>();
-            if (target == null) {
-                //target = _memberUIControl.GetComponent<Truck>();
+            if (target == null && _truck != null) {
+                target = _truck;
             }
 
             enemy.SetTarget(target);
             
-            ClampPosition(enemy);
+            //ClampPosition(enemy);
         }
     }
 
