@@ -76,7 +76,7 @@ public class Truck : EntityBase, ITargetable {
             yield return null;
         }
 
-        GameTest.SetMapView(targetPosition);
+        CombatSceneHandler.SetMapView(targetPosition);
     }
 
     private void Awake() {
