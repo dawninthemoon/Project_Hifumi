@@ -34,7 +34,7 @@ public class ObjectPool<T>  {
         for (var i = 0; i < _size; ++i) {
             var obj = CreateObject();
             _freeList.Add(obj);
-            _onObjectDisableCallback.Invoke(obj);
+            _onObjectDisableCallback?.Invoke(obj);
         }
     }
 

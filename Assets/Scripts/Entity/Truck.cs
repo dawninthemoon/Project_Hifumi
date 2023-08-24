@@ -57,6 +57,7 @@ public class Truck : EntityBase, ITargetable {
         }
 
         MoveProgressEnd = true;
+        transform.localRotation = Quaternion.identity;
         onTruckmoveEnd();
         StartCoroutine(MoveCamera(transform.position));
     }

@@ -106,6 +106,7 @@ public class EntityBase : MonoBehaviour {
             _animationControl.SetFaceDir(direction);
         }
         
+        SoundManager.Instance.PlayGameSe(config.soundEffectName);
         config.attackBehaviour.Behaviour(this, targets, effects);
     }
 

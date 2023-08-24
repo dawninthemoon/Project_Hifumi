@@ -4,25 +4,25 @@ using UnityEngine;
 
 public class EntityStatusDecorator : IEntityStatus {
     private EntityInfo _entityInfo;
-    private List<Augments> _augmentsList;
+    private List<Belongings> _belongingsList;
 
     public EntityStatusDecorator(EntityInfo entityInfo) {
-        _augmentsList = new List<Augments>();
+        _belongingsList = new List<Belongings>();
         _entityInfo = entityInfo;
     }
 
-    public void AddAugments(Augments augment) {
-        _augmentsList.Add(augment);
+    public void AddAugments(Belongings augment) {
+        _belongingsList.Add(augment);
     }
 
-    public void RemoveAugments(Augments augment) {
-        _augmentsList.Remove(augment);
+    public void RemoveAugments(Belongings augment) {
+        _belongingsList.Remove(augment);
     }
 
     public int Health { 
         get {
             int finalHealth = _entityInfo.Health;
-            foreach (Augments augments in _augmentsList) {
+            foreach (Belongings augments in _belongingsList) {
                 finalHealth += augments.Health;
             } 
             return finalHealth;
@@ -31,7 +31,7 @@ public class EntityStatusDecorator : IEntityStatus {
     public int Mana { 
         get {
             int finalMana = _entityInfo.Mana;
-            foreach (Augments augments in _augmentsList) {
+            foreach (Belongings augments in _belongingsList) {
                 finalMana += augments.Mana;
             } 
             return finalMana;
@@ -40,7 +40,7 @@ public class EntityStatusDecorator : IEntityStatus {
     public int Morale { 
         get {
             int finalStress = _entityInfo.Morale;
-            foreach (Augments augments in _augmentsList) {
+            foreach (Belongings augments in _belongingsList) {
                 finalStress += augments.Morale;
             } 
             return finalStress;
@@ -49,7 +49,7 @@ public class EntityStatusDecorator : IEntityStatus {
     public int AttackDamage { 
         get {
             int finalDamage = _entityInfo.AttackDamage;
-            foreach (Augments augments in _augmentsList) {
+            foreach (Belongings augments in _belongingsList) {
                 finalDamage += augments.AttackDamage;
             } 
             return finalDamage;
@@ -58,7 +58,7 @@ public class EntityStatusDecorator : IEntityStatus {
     public int AttackSpeed { 
         get {
             int finalAttackSpeed = _entityInfo.AttackSpeed;
-            foreach (Augments augments in _augmentsList) {
+            foreach (Belongings augments in _belongingsList) {
                 finalAttackSpeed += augments.AttackSpeed;
             } 
             return finalAttackSpeed;
@@ -67,7 +67,7 @@ public class EntityStatusDecorator : IEntityStatus {
     public int MoveSpeed { 
         get {
             int finalMoveSpeed = _entityInfo.MoveSpeed;
-            foreach (Augments augments in _augmentsList) {
+            foreach (Belongings augments in _belongingsList) {
                 finalMoveSpeed += augments.MoveSpeed;
             } 
             return finalMoveSpeed;
@@ -77,7 +77,7 @@ public class EntityStatusDecorator : IEntityStatus {
     public int AttackRange {
         get { 
             int finalAttackRange = _entityInfo.AttackRange;
-            foreach (Augments augments in _augmentsList) {
+            foreach (Belongings augments in _belongingsList) {
                 finalAttackRange += augments.AttackRange;
             } 
             return finalAttackRange;

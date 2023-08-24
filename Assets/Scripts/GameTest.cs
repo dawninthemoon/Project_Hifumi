@@ -70,6 +70,8 @@ public class GameTest : MonoBehaviour {
             OnEntityActive(_inactiveAllies[i]);
             i--;
         }
+
+        SoundManager.Instance.PlayBGM("BGM1");
     }
 
     private void Update() {
@@ -113,7 +115,8 @@ public class GameTest : MonoBehaviour {
 
             enemy.SetTarget(target);
             
-            //ClampPosition(enemy);
+            if (_truck.MoveProgressEnd)
+                ClampPosition(enemy);
         }
     }
 
