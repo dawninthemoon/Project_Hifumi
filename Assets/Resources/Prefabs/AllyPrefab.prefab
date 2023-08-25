@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3211034325056905874}
   m_Layer: 6
   m_Name: ObstacleDetector
-  m_TagString: Untagged
+  m_TagString: Ally
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -47,7 +47,7 @@ MonoBehaviour:
   _detectionRadius: 100
   _layerMask:
     serializedVersion: 2
-    m_Bits: 320
+    m_Bits: 448
   _colliderSelf: {fileID: 166338467933781668}
 --- !u!1 &1019348710558012159
 GameObject:
@@ -709,7 +709,7 @@ GameObject:
   - component: {fileID: 5548152561739969643}
   m_Layer: 6
   m_Name: TargetDetector
-  m_TagString: Untagged
+  m_TagString: Ally
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

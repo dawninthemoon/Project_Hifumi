@@ -87,6 +87,8 @@ public class MemberUIControl : MonoBehaviour {
     }
 
     public void UpdateMemberElement(EntityBase entity) {
+        if (!_additionalWindow.gameObject.activeSelf)
+            return;
         if (_currentMemberUI.TryGetValue(entity.ID, out MemberUIElement uiElement)) {
             uiElement.SetLocked(entity.Morale <= 20);
 
