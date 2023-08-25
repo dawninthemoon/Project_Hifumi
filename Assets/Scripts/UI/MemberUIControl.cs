@@ -13,9 +13,16 @@ public class MemberUIControl : MonoBehaviour {
     private UnityAction<EntityBase> _onEntityActive;
     private UnityAction<EntityBase> _onEntityInactive;
     private InteractiveEntity _interactiveZone;
+    private ObjectPool<MemberUIElement> _uiElementObjectPool;
 
     private void Awake() {
         _currentMemberUI = new Dictionary<string, MemberUIElement>();
+        _uiElementObjectPool = new ObjectPool<MemberUIElement>(
+            10,
+            CreateUIElement,
+            (MemberUIElement x) => x.gameObject.SetActive(true),
+            (MemberUIElement x) => x.gameObject.SetActive(false)
+        );
 
         _interactiveZone = GetComponent<InteractiveEntity>();
         _interactiveZone.OnMouseDownEvent.AddListener(() => {
@@ -54,7 +61,8 @@ public class MemberUIControl : MonoBehaviour {
         entityInteractiveCallback.OnMouseUpEvent.AddListener(() => {
             var hit = Physics2D.GetRayIntersection(Camera.main.ScreenPointToRay(Input.mousePosition), 100f, (1 << gameObject.layer));
             if (hit.collider != null) {
-                CreateUIElement(_selectedEntity);
+                MemberUIElement uIElement = _uiElementObjectPool.GetObject();
+                InitializeUIElement(uIElement, _selectedEntity);
                 _onEntityInactive.Invoke(target);
             }
             target.SetEntitySelected(false);
@@ -62,10 +70,21 @@ public class MemberUIControl : MonoBehaviour {
         });
     }
 
-    private void CreateUIElement(EntityBase target) {
-        MemberUIElement uiElement = Instantiate(_memberUIPrefab, _additionalWindow);
-
+    private void InitializeUIElement(MemberUIElement uiElement, EntityBase target) {
         _currentMemberUI.Add(target.ID, uiElement);
+
+        uiElement.PointDown.callback.RemoveAllListeners();
+        uiElement.PointDown.callback.AddListener((pointData) => {
+            if (target.Morale < 20) return;
+
+            _onEntityActive.Invoke(target);
+            _currentMemberUI.Remove(target.ID);
+            Destroy(_selectedUI);
+        });
+    }
+
+    private MemberUIElement CreateUIElement() {
+        MemberUIElement uiElement = Instantiate(_memberUIPrefab, _additionalWindow);
 
         uiElement.PointEnter.callback.AddListener((pointData) => {
             _selectedUI = uiElement.gameObject;
@@ -75,13 +94,7 @@ public class MemberUIControl : MonoBehaviour {
             _selectedUI = null;
             uiElement.SetNormal();
         });
-        uiElement.PointDown.callback.AddListener((pointData) => {
-            if (target.Morale < 20) return;
-
-            _onEntityActive.Invoke(target);
-            _currentMemberUI.Remove(target.ID);
-            Destroy(_selectedUI);
-        });
+        return uiElement;
     }
 
     public void UpdateMemberElement(EntityBase entity) {

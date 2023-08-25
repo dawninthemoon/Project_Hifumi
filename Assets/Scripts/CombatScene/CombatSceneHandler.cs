@@ -10,12 +10,13 @@ public class CombatSceneHandler : MonoBehaviour {
     [SerializeField] private int _entityCount = 2;
     [SerializeField] private int _waveCount = 3;
     [SerializeField] private UnityEvent _onStageEnd = null;
-    private Truck _truck;
+    public static readonly float Width = 640;
+    public static readonly float Height = 380f;
     private KdTree<EntityBase> _activeAllies;
     private KdTree<EntityBase> _activeEnemies;
     private List<EntityBase> _inactiveAllies;
-    public static readonly float Width = 640;
-    public static readonly float Height = 380f;
+    private EntitySpawner _entitySpawner;
+    private Truck _truck;
     private static Vector2 _stageMinSize;
     private static Vector2 _stageMaxSize;
     public static Vector2 StageMinSize { get { return _stageMinSize; } }
@@ -37,6 +38,7 @@ public class CombatSceneHandler : MonoBehaviour {
 
     private void Awake() {
         _timeCounter = new ExTimeCounter();
+        _entitySpawner = new EntitySpawner();
         
         _activeAllies = new KdTree<EntityBase>(true);
         _activeEnemies = new KdTree<EntityBase>(true);
@@ -67,10 +69,8 @@ public class CombatSceneHandler : MonoBehaviour {
         _truck = _memberUIControl.GetComponent<Truck>();
 
         foreach (EntityInfo info in entityInformation) {
-            EntityBase newEntity = Instantiate(entityPrefab);
+            EntityBase newEntity = _entitySpawner.CreateAlly(info);
             newEntity.gameObject.SetActive(false);
-            newEntity.Initialize(info);
-            
             _inactiveAllies.Add(newEntity);
         }
     }
@@ -236,15 +236,13 @@ public class CombatSceneHandler : MonoBehaviour {
 
             float randX = Random.Range(_stageMinSize.x, _stageMaxSize.x);
             float y = Random.Range(0, 2) > 0 ? _stageMaxSize.y + enemyPrefab.Radius : _stageMinSize.y - enemyPrefab.Radius;
-            
             if (_currentWave == 1) {
                 y = Random.Range(_stageMinSize.y / 4f, _stageMaxSize.y / 4f);
             }
             
-            Vector3 randPos = new Vector3(randX, y);
+            EntityBase enemy = _entitySpawner.CreateEnemy(entityInformation[randomIndex]);
+            enemy.transform.position = new Vector3(randX, y);
 
-            EntityBase enemy = Instantiate(enemyPrefab, randPos, Quaternion.identity);
-            enemy.Initialize(entityInformation[randomIndex]);
             _activeEnemies.Add(enemy);
         }
     }
