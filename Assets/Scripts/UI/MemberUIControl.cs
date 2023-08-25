@@ -7,7 +7,6 @@ using RieslingUtils;
 public class MemberUIControl : MonoBehaviour {
     [SerializeField] private MemberUIElement _memberUIPrefab = null;
     [SerializeField] private Transform _additionalWindow = null;
-    [SerializeField] private Transform _memberSpawnPosition = null;
     private Dictionary<string, MemberUIElement> _currentMemberUI;
     private EntityBase _selectedEntity;
     private GameObject _selectedUI;
@@ -79,7 +78,6 @@ public class MemberUIControl : MonoBehaviour {
         uiElement.PointDown.callback.AddListener((pointData) => {
             if (target.Morale < 20) return;
 
-            target.transform.position = _memberSpawnPosition.position;
             _onEntityActive.Invoke(target);
             _currentMemberUI.Remove(target.ID);
             Destroy(_selectedUI);

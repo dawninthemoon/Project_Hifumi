@@ -4,6 +4,8 @@ using UnityEngine;
 
 [CreateAssetMenu(menuName = "ScriptableObjects/Belongings", fileName = "NewBelonging")]
 public class Belongings : ScriptableObject, IEntityStatus {
+    [SerializeField] private Sprite _sprite = null;
+
     [SerializeField] private int _health = 0;
     [SerializeField] private int _mana = 0;
     [SerializeField] private int _morale = 0;
@@ -19,4 +21,6 @@ public class Belongings : ScriptableObject, IEntityStatus {
     public int AttackSpeed { get { return _attackSpeed; } }
     public int MoveSpeed { get { return _moveSpeed; } }
     public int AttackRange { get { return _attackRange; } }
+
+    public Sprite Sprite { get { return _sprite; } }
 }

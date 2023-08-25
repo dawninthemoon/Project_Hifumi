@@ -737,7 +737,6 @@ MonoBehaviour:
   _detectionDelay: 0.05
   _aiUpdateDelay: 0.06
   _attackDelay: 1
-  _scentDelay: 0.5
 --- !u!114 &3257395650604171983
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -861,6 +860,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22f70e48cdbbb35409b6465330bd4c4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _type: 0
   _onMouseOverEvent:
     m_PersistentCalls:
       m_Calls: []
