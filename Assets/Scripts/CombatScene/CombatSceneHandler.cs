@@ -76,10 +76,7 @@ public class CombatSceneHandler : MonoBehaviour {
     }
 
     public void ActiveAllAllies() {
-        float radius = 100f;
         for (int i = 0; i < _inactiveAllies.Count; ++i) {
-            Vector3 randomPos = Random.insideUnitCircle.normalized * radius;
-            _inactiveAllies[i].transform.position = _truck.transform.position + randomPos;
             OnEntityActive(_inactiveAllies[i]);
             i--;
         }
@@ -182,8 +179,9 @@ public class CombatSceneHandler : MonoBehaviour {
         float timeAgo = 0f;
         float targetTime = 1f;
 
+        float radius = 100f;
         Vector2 start = _truck.transform.position;
-        Vector2 end = target.position;
+        Vector2 end = start + Random.insideUnitCircle.normalized * radius;
         Vector2 p1 = _truck.Position;
         p1.y += 100f;
 
