@@ -82,7 +82,9 @@ public class Truck : EntityBase, ITargetable {
 
     private void OnTriggerEnter2D(Collider2D other) {
         ++_collisionCount;
+    }
 
+    private void OnTriggerStay2D(Collider2D other) {
         if (other.gameObject.tag.Equals("Enemy")) {
             Vector2 direction = (other.transform.position - transform.position).normalized;
             float speed = _currentSpeed > 0f ? _currentSpeed : _speed / 10f;
