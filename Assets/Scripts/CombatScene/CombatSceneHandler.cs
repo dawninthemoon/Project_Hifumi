@@ -23,6 +23,7 @@ public class CombatSceneHandler : MonoBehaviour {
     private int _currentWave = 0;
     private ExTimeCounter _timeCounter;
     private bool _waitingForNextWave;
+    private bool _isStageCleared;
     public float NextWaveTime {
         get {
             if (!_waitingForNextWave || !_timeCounter.Contains("NextWaveTime"))
@@ -40,7 +41,7 @@ public class CombatSceneHandler : MonoBehaviour {
         _activeAllies = new KdTree<EntityBase>(true);
         _activeEnemies = new KdTree<EntityBase>(true);
         _inactiveAllies = new List<EntityBase>();
-        _onStageEnd.AddListener(() => InteractiveEntity.IsInteractive = false);
+        _onStageEnd.AddListener(OnStageEnd);
         InitalizeAllies();
     }
 
@@ -55,7 +56,6 @@ public class CombatSceneHandler : MonoBehaviour {
     }
 
     private void InitializeCombat() {
-        InteractiveEntity.IsInteractive = true;
         SetMapView(Vector3.zero);
     
         StartNewWave();
@@ -88,6 +88,10 @@ public class CombatSceneHandler : MonoBehaviour {
     }
 
     private void Update() {
+        if (_isStageCleared) {
+            return;
+        }
+
         Time.timeScale = _timeScale;
         if (Input.GetKeyDown(KeyCode.X)) {
             _gameSpeed = Mathf.Max(0.5f, _gameSpeed - 0.5f);
@@ -213,7 +217,16 @@ public class CombatSceneHandler : MonoBehaviour {
         }
     }
 
+    private void OnStageEnd() {
+        _isStageCleared = true;
+        InteractiveEntity.SetInteractive(InteractiveEntity.Type.Entity, false);
+        InteractiveEntity.SetInteractive(InteractiveEntity.Type.UI, false);
+    }
+
     public void StartNewWave() {
+        if (_activeEnemies.Count > 0)
+            return;
+
         ++_currentWave;
         _waitingForNextWave = false;
 
