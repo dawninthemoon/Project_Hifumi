@@ -22,6 +22,7 @@ public class CombatReward : MonoBehaviour {
             int randIdx = Random.Range(0, _belongingData.Length);
             Vector3 position = _truckTransform.position + _belongingsPosition[i];
             BelongingObject obj = CreateBelongingObject(_belongingData[i], position);
+            obj.SetSprite(_belongingData[i].Sprite);
             obj.Interactive.OnMouseDownEvent.AddListener(() => {
                 obj.gameObject.SetActive(false);
                 InteractiveEntity.SetInteractive(InteractiveEntity.Type.Reward, false);
