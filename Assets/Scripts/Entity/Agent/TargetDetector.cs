@@ -9,13 +9,10 @@ public class TargetDetector : Detector {
     [SerializeField] private LayerMask _targetLayerMask;
     private List<Transform> _colliders;
     private Transform _cachedTargetTransform;
-    private Vector2 _rightDirection;
+    private static readonly string EnemyTagString = "Enemy";
 
     private void Awake() {
         _cachedTargetTransform = new GameObject().transform;
-
-        float radian = Mathf.PI / 16f;
-        _rightDirection = new Vector2(Mathf.Cos(radian), Mathf.Sin(radian)).normalized;
     }
 
     public override void Detect(AIData aiData) {
@@ -32,40 +29,28 @@ public class TargetDetector : Detector {
                 aiData.CurrentTarget = _cachedTargetTransform;
             }
             else {
-                bool isTargetSelected = false;
-                foreach (Vector2 scentPosition in aiData.SelectedTarget.GetScentTrail()) {
-                    direction = (scentPosition - (Vector2)transform.position).normalized;
-                    hit = Physics2D.Raycast(transform.position, direction, _targetDetectionRange, _obstaclesLayerMask);
-                    //Debug.DrawRay(transform.position, direction * _targetDetectionRange, Color.cyan);
-                    if (hit.collider == null) {
-                        _cachedTargetTransform.position = scentPosition;
+                // 상대의 이전 위치가 존재하지 않을 때, 상대 위치를 기준으로 이동할 수 있는 방향을 탐색
+                float sign = gameObject.tag.Equals(EnemyTagString) ? 1f : -1f;
+                direction = (aiData.SelectedTarget.Position - transform.position);
+                for (int i = 1; i < 32; ++i) {
+                    float radian = Mathf.Atan2(direction.y, direction.x) + i * Mathf.PI / 16f;
+                    Vector3 dir = new Vector2(Mathf.Cos(radian), Mathf.Sin(radian)).normalized;
+                    float dist = Vector2.Distance(transform.position, aiData.SelectedTarget.Position);
+
+                    Vector2 raycastPosition = aiData.SelectedTarget.Position + dist * dir;
+                    float distToRaycastPosition = Vector2.Distance(transform.position, raycastPosition);
+                    Vector2 directionToRaycastPos = (raycastPosition - (Vector2)transform.position).normalized;
+                    
+                    var hitToRaycastPos = Physics2D.Raycast(transform.position, directionToRaycastPos, distToRaycastPosition, _obstaclesLayerMask);
+                    if (hitToRaycastPos.collider != null) continue;
+
+                    var hit2 = Physics2D.Raycast(raycastPosition, -dir, _targetDetectionRange, _obstaclesLayerMask);
+                    if (hit2.collider != null && (_targetLayerMask & (1 << hit2.collider.gameObject.layer)) != 0) {
+                        _cachedTargetTransform.position = raycastPosition;
                         aiData.CurrentTarget = _cachedTargetTransform;
-                        isTargetSelected = true;
                         break;
                     }
                 }
-
-                if (isTargetSelected) return;
-
-                // 상대의 이전 위치가 존재하지 않을 때, 이동할 수 있는 방향을 하나 선택
-                for (int i = 1; i < 32; ++i) {
-                        Vector3 left = (direction - _rightDirection * i).normalized;
-                        Vector3 right = (direction + _rightDirection * i).normalized;
-
-                        var hitLeft = Physics2D.Raycast(transform.position, left, _targetDetectionRange, _obstaclesLayerMask);
-                        var hitRight = Physics2D.Raycast(transform.position, right, _targetDetectionRange, _obstaclesLayerMask);
-
-                        if (hitLeft.collider == null) {
-                            _cachedTargetTransform.position = transform.position + left * _targetDetectionRange;
-                            aiData.CurrentTarget = _cachedTargetTransform;
-                            break;
-                        }
-                        else if (hitRight.collider == null) {
-                            _cachedTargetTransform.position = transform.position + right * _targetDetectionRange;
-                            aiData.CurrentTarget = _cachedTargetTransform;
-                            break;
-                        }
-                    }
             }
         }
         else {

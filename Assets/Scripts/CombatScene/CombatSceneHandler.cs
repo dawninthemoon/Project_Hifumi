@@ -148,6 +148,7 @@ public class CombatSceneHandler : MonoBehaviour {
         for (int i = 0; i < _activeAllies.Count; ++i) {
             var ally = _activeAllies[i];
             if (ally.Health <= 0 || !ally.gameObject.activeSelf) {
+                _activeAllies[i].SetTarget(null);
                 _activeAllies.RemoveAt(i--);
             }
         }

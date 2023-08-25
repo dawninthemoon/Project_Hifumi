@@ -18,9 +18,6 @@ public class Truck : EntityBase, ITargetable {
     public Vector3 Position {
         get { return transform.position; }
     }
-    public List<Vector2> GetScentTrail() {
-        return new List<Vector2>();
-    }
 
     private Vector3 _direction;
     private float _currentSpeed;

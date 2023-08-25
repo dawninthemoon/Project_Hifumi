@@ -28,7 +28,7 @@ public class TruckMover : MonoBehaviour {
             Vector2 end = MouseUtils.GetMouseWorldPosition();
             _truckDirectionArrow.eulerAngles = new Vector3(0f, 0f, ExVector.GetDegree(start, end));
             _truckDirectionArrow.position = start;
-
+            
             float width = Vector2.Distance(start, end) * 2f;
             if (width > 30f) {
                 _canShootTruck = true;
@@ -56,7 +56,7 @@ public class TruckMover : MonoBehaviour {
         float degree = ExVector.GetDegree(_startPosition.Value, endPosition);
         Vector2 direction = (endPosition - _startPosition.Value).normalized;
 
-        Vector2 startPoint = GetStartPoint(_startPosition.Value, endPosition, degree);
+        Vector2 startPoint = GetStartPoint(_startPosition.Value, endPosition);
         startPoint = startPoint - direction * _truckObject.Width * 0.5f;
 
         Collider2D[] overlapedBoarders = Physics2D.OverlapCircleAll(startPoint, _truckObject.Width);
@@ -80,8 +80,8 @@ public class TruckMover : MonoBehaviour {
         _onTruckMoveEnd.Invoke();
     }
 
-    public Vector2 GetStartPoint(Vector2 start, Vector2 end, float degree) {
-        var hit = Physics2D.Raycast(start, (start - end).normalized, 1000f, 1 << LayerMask.NameToLayer("Obstacle"));
+    public Vector2 GetStartPoint(Vector2 start, Vector2 end) {
+        var hit = Physics2D.Raycast(start, (start - end), 1000f, 1 << LayerMask.NameToLayer("Boarder"));
         return hit.point;
     }
 }
