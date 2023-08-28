@@ -22,16 +22,14 @@ public class HitEffect : MonoBehaviour {
         }
     }
 
-    public void ApplyKnockback(Vector2 direction, float force, bool freezeTime = true) {
+    public void ApplyKnockback(Vector2 direction, float force) {
         _knockbackDir = direction;
         _knockbackForce = force;
         _timeAgo = 0f;
 
         StartFlash();
         _applyKnockback = true;
-        if (freezeTime) {
-            StartFreezeTime();
-        }
+        StartFreezeTime();
     }
 
     private void StartFlash() {
