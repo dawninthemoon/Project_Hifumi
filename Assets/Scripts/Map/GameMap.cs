@@ -4,6 +4,7 @@ using UnityEngine;
 using RieslingUtils;
 
 public class GameMap : MonoBehaviour {
+    [SerializeField] private RoomSelector _roomSelector = null;
     [SerializeField] private int _width = 7;
     [SerializeField] private int _height = 15;
     private CustomGrid<EncounterMarker> _mapGrid;
@@ -18,7 +19,9 @@ public class GameMap : MonoBehaviour {
     }
 
     private void Start() {
-        GenerateMap(null);
+        GenerateMap(OnRoomMoveRequested);
+        _roomSelector.SetRoomExit(OnRoomCleared);
+        SetRoomInteractive();
     }
 
     public void GenerateMap(EncounterMarker.OnMarkerSelected onMarkerSelected) {
@@ -48,6 +51,7 @@ public class GameMap : MonoBehaviour {
         _isRoomChanged = true;
         _prevRoom = _currentRoom;
         _currentRoom = target;
+        _roomSelector.StartEnterRoom(target.EncounterType);
     }
 
     public void OnRoomCleared() {
@@ -95,5 +99,13 @@ public class GameMap : MonoBehaviour {
         }
 
         return initialRooms;
+    }
+
+    private void OnRoomMoveRequested(EncounterMarker target) {
+        if(!CanMoveTo(target)) {
+            return;
+        }
+
+        OnRoomChanged(target);
     }
 }

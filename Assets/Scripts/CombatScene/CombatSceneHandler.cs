@@ -42,10 +42,10 @@ public class CombatSceneHandler : MonoBehaviour {
         _activeEnemies = new KdTree<EntityBase>(true);
         _inactiveAllies = new List<EntityBase>();
         _onStageEnd.AddListener(OnStageEnd);
-        InitalizeAllies();
     }
 
-    private void Start() {
+    public void StartCombat() {
+        InitalizeAllies();
         _memberUIControl.InitializeEntityUI(OnEntityActive, OnEntityInactive, _inactiveAllies);
         InitializeCombat();
     }

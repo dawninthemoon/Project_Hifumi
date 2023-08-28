@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public enum EncounterType {
-    BATTLE,
-    EVENT,
+    COMBAT,
     SHOP,
-    AUGMENTS,
     ALLY
 }
 

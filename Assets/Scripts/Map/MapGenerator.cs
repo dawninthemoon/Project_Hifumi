@@ -6,7 +6,7 @@ using RieslingUtils;
 public class MapGenerator : MonoBehaviour {
     [SerializeField] private EncounterMarker[] _encounterPrefabs = null;
     [SerializeField] private Transform _originPosition = null;
-    [SerializeField] private Transform _mapSceneParent = null;
+    [SerializeField] private Transform _gameMapParent = null;
     [SerializeField] private float _offsetX = 10f;
     [SerializeField] private float _offsetY = 10f;
     [SerializeField, Range(2, 6)] private int _executeTime = 2;
@@ -73,7 +73,7 @@ public class MapGenerator : MonoBehaviour {
         EncounterType encounterType = GetEncounterType(row + 1, height);
         EncounterMarker nodePrefab = _encounterPrefabs[(int)encounterType];
 
-        EncounterMarker node = Instantiate(nodePrefab, position, Quaternion.identity, _mapSceneParent);
+        EncounterMarker node = Instantiate(nodePrefab, position, Quaternion.identity, _gameMapParent);
         node.Initialize(encounterType, new Rowcol(row, col), callback);
 
         return node;
@@ -96,7 +96,7 @@ public class MapGenerator : MonoBehaviour {
         Vector3 currentPosition = cur.transform.position;
 
         LineRenderer lineRenderer = new GameObject().AddComponent<LineRenderer>();
-        lineRenderer.transform.SetParent(_mapSceneParent);
+        lineRenderer.transform.SetParent(_gameMapParent);
 
         lineRenderer.positionCount = 2;
         lineRenderer.SetPosition(0, prevPosition);
@@ -125,7 +125,7 @@ public class MapGenerator : MonoBehaviour {
 
     private EncounterType GetEncounterType(int floor, int height) {
         if (floor == 1) {
-            return EncounterType.BATTLE;
+            return EncounterType.COMBAT;
         }
         else if (floor == 9) {
             return EncounterType.SHOP;
@@ -139,14 +139,16 @@ public class MapGenerator : MonoBehaviour {
             return EncounterType.SHOP;
         }
         else if (randNum < 170) {
-            return EncounterType.AUGMENTS;
+            return EncounterType.SHOP;
+            //return EncounterType.AUGMENTS;
         }
         else if (randNum < 390) {
-            return EncounterType.EVENT;
+            return EncounterType.ALLY;
+            //return EncounterType.EVENT;
         }
         else if (randNum < 518) {
             return EncounterType.ALLY;
         }
-        return EncounterType.BATTLE;
+        return EncounterType.COMBAT;
     }
 }

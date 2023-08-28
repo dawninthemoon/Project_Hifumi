@@ -80,9 +80,6 @@ public class Truck : EntityBase, ITargetable {
         
     }
 
-    //private void OnTriggerEnter2D(Collider2D other) {
-    //}
-
     private void OnTriggerEnter2D(Collider2D other) {
         if (MoveProgressEnd)
             return;
@@ -92,7 +89,6 @@ public class Truck : EntityBase, ITargetable {
         if (other.gameObject.tag.Equals("Enemy")) {
             Vector2 direction = (other.transform.position - transform.position).normalized;
             float speed = _currentSpeed > 0f ? _currentSpeed : _speed / 10f;
-            //Vector2 knockback = new Vector2(-direction.y, direction.x) * speed * _knockbackForce;
             other.GetComponent<HitEffect>().ApplyKnockback(direction, speed * _knockbackForce);
         }
     }

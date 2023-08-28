@@ -13,9 +13,10 @@ public class TruckMover : MonoBehaviour {
     private Vector2? _startPosition = null;
     private bool _canShootTruck;
 
-    private void Awake() {
+    public void Reset() {
         _canSetDirection = true;
         _canShootTruck = false;
+        gameObject.SetActive(true);
     }
 
     private void Update() {

@@ -49,15 +49,18 @@ public class MemberUIControl : MonoBehaviour {
     private void SetEntityInteraction(EntityBase target) {
         var entityInteractiveCallback = target.GetComponent<InteractiveEntity>();
 
+        entityInteractiveCallback.OnMouseDownEvent.RemoveAllListeners();
         entityInteractiveCallback.OnMouseDownEvent.AddListener(() => {
             _selectedEntity = target;
             target.SetEntitySelected(true);
         });
 
+        entityInteractiveCallback.OnMouseDragEvent.RemoveAllListeners();
         entityInteractiveCallback.OnMouseDragEvent.AddListener(() => {
             target.Morale -= 2f * Time.deltaTime;
         });
 
+        entityInteractiveCallback.OnMouseUpEvent.RemoveAllListeners();
         entityInteractiveCallback.OnMouseUpEvent.AddListener(() => {
             var hit = Physics2D.GetRayIntersection(Camera.main.ScreenPointToRay(Input.mousePosition), 100f, (1 << gameObject.layer));
             if (hit.collider != null) {
