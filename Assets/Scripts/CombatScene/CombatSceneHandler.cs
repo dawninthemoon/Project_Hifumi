@@ -6,7 +6,6 @@ using RieslingUtils;
 
 public class CombatSceneHandler : MonoBehaviour {
     [SerializeField] private MemberUIControl _memberUIControl = null;
-    [SerializeField, Range(0.5f, 10f)] private float _timeScale = 1f;
     [SerializeField] private int _entityCount = 2;
     [SerializeField] private int _waveCount = 3;
     [SerializeField] private UnityEvent _onStageEnd = null;
@@ -34,8 +33,7 @@ public class CombatSceneHandler : MonoBehaviour {
             return timeLimit - curr;
         }
     }
-    private float _gameSpeed;
-
+    
     private void Awake() {
         _timeCounter = new ExTimeCounter();
         _entitySpawner = new EntitySpawner();
@@ -89,14 +87,14 @@ public class CombatSceneHandler : MonoBehaviour {
             return;
         }
 
-        Time.timeScale = _timeScale;
+        Time.timeScale = GameConfigHandler.GameSpeed;
         if (Input.GetKeyDown(KeyCode.X)) {
-            _gameSpeed = Mathf.Max(0.5f, _gameSpeed - 0.5f);
-            Time.timeScale = _timeScale = _gameSpeed;
+            GameConfigHandler.GameSpeed = Mathf.Max(0.5f, GameConfigHandler.GameSpeed - 0.5f);
+            Time.timeScale = GameConfigHandler.GameSpeed;
         }
         if (Input.GetKeyDown(KeyCode.C)) {
-            _gameSpeed = Mathf.Min(10f, _gameSpeed + 0.5f);
-            Time.timeScale = _timeScale = _gameSpeed;
+            GameConfigHandler.GameSpeed = Mathf.Min(10f, GameConfigHandler.GameSpeed + 0.5f);
+            Time.timeScale = GameConfigHandler.GameSpeed;
         }
 
         MoveProgress();
@@ -185,7 +183,7 @@ public class CombatSceneHandler : MonoBehaviour {
         Vector2 p1 = _truck.Position;
         p1.y += 100f;
 
-        Time.timeScale = _gameSpeed * 0.25f;
+        Time.timeScale = GameConfigHandler.GameSpeed * 0.25f;
         while (timeAgo < targetTime) {
             timeAgo += Time.deltaTime;
 
@@ -194,7 +192,7 @@ public class CombatSceneHandler : MonoBehaviour {
 
             yield return null;
         }
-        Time.timeScale = _gameSpeed;
+        Time.timeScale = GameConfigHandler.GameSpeed;
 
         callback();
     }
