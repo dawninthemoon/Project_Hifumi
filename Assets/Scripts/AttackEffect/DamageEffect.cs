@@ -7,6 +7,10 @@ namespace AttackBehaviours.Effects {
     public class DamageEffect : AttackEffect {
         public override void ApplyEffect(EntityBase caster, List<EntityBase> targets) {
             foreach (EntityBase target in targets) {
+                Vector3 damageDisplayPosition = target.transform.position;
+                damageDisplayPosition.y += target.Radius;
+                CombatDamageDisplay.Instance.StartDisplayText(caster.AttackDamage.ToString(), damageDisplayPosition, 0.3f);
+
                 target.ReceiveDamage(caster.AttackDamage);
             }
         }
