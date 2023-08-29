@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CombatCameraMover : MonoBehaviour {
-    [SerializeField] private float _moveSpeed = 30f;
+    [SerializeField] private float _scrollSpeed = 10f;
     private Truck _target;
     private Vector2 _direction = Vector2.zero;
     private Transform _cameraTransform;
@@ -18,29 +18,38 @@ public class CombatCameraMover : MonoBehaviour {
     }
 
     private void Update() {
+        ApplyCameraZoom();
+        
         if (_direction.Equals(Vector2.zero) || _target.MoveProgressEnd) {
             return;
         }
 
-        Vector2 curr = transform.position;
+        Vector2 curr = _cameraTransform.position;
         Vector2 to = _target.transform.position;
 
-        Vector3 moveDirection = Vector3.zero;
+        Vector3 nextPosition = _cameraTransform.position;
+        nextPosition.z = -10f;
+
         if ((_direction.x > 0f) && (to.x - curr.x > 0f)) {
-            moveDirection.x = to.x - curr.x;
+            nextPosition.x = to.x;
         }
         else if ((_direction.x < 0f) && (to.x - curr.x < 0f)) {
-            moveDirection.x = to.x - curr.x;
+            nextPosition.x = to.x;
         }
 
         if ((_direction.y > 0f) && (to.y - curr.y > 0f)) {
-            moveDirection.y = (to.y - curr.y);
+            nextPosition.y = to.y;
         }
         else if ((_direction.y < 0f) && (to.y - curr.y < 0f)) {
-            moveDirection.y = (to.y - curr.y);
+            nextPosition.y = to.y;
         }
 
-        _cameraTransform.position += moveDirection.normalized * _moveSpeed * Time.deltaTime;
+        _cameraTransform.position = nextPosition;
         CombatSceneHandler.SetMapView(_cameraTransform.position);
+    }
+
+    private void ApplyCameraZoom() {
+        float scroollWheel = Input.GetAxis("Mouse ScrollWheel");
+        Camera.main.orthographicSize += scroollWheel * Time.deltaTime * _scrollSpeed;
     }
 }
