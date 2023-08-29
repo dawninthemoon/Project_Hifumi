@@ -9,19 +9,19 @@ public class EntitySpawner {
     private static readonly string AllyPrefabPath = "Prefabs/AllyPrefab";
     private static readonly string EnemyPrefabPath = "Prefabs/EnemyPrefab";
 
-    public EntitySpawner() {
+    public EntitySpawner(Transform entityParent) {
         EntityBase allyPrefab = Resources.Load<EntityBase>(AllyPrefabPath);
         EntityBase enemyPrefab = Resources.Load<EntityBase>(EnemyPrefabPath);
 
         _allyObjectPool = new ObjectPool<EntityBase>(
             10,
-            () => CreateEntityBase(allyPrefab),
+            () => CreateEntityBase(allyPrefab, entityParent),
             OnEntityActive,
             OnEntityDisable
         );
         _enemyObjectPool = new ObjectPool<EntityBase>(
             10,
-            () => CreateEntityBase(enemyPrefab),
+            () => CreateEntityBase(enemyPrefab, entityParent),
             OnEntityActive,
             OnEntityDisable
         );
@@ -33,14 +33,22 @@ public class EntitySpawner {
         return instance;
     }
 
+    public void RemoveAlly(EntityBase entity) {
+        _allyObjectPool.ReturnObject(entity);
+    }
+
     public EntityBase CreateEnemy(EntityInfo entityInfo) {
         EntityBase instance = _enemyObjectPool.GetObject();
         instance.Initialize(entityInfo);
         return instance;
     }
 
-    private EntityBase CreateEntityBase(EntityBase prefab) {
-        EntityBase instance = GameObject.Instantiate(prefab);
+    public void RemoveEnemy(EntityBase entity) {
+        _enemyObjectPool.ReturnObject(entity);
+    }
+
+    private EntityBase CreateEntityBase(EntityBase prefab, Transform entityParent) {
+        EntityBase instance = GameObject.Instantiate(prefab, entityParent);
         return instance;
     }
 

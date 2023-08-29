@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using RieslingUtils;
 
-public class Truck : EntityBase, ITargetable {
+public class Truck : EntityBase, ITargetable, IResetable {
     [SerializeField] private float _width = 1f;
     [SerializeField] private float _height = 1f;
     [SerializeField] private float _acceleration = 1.2f;
@@ -33,6 +33,10 @@ public class Truck : EntityBase, ITargetable {
         
         StopAllCoroutines();
         StartCoroutine(MoveProgress(direction, onTruckmoveEnd));
+    }
+
+    public void Reset() {
+        MoveProgressEnd = false;
     }
 
     private IEnumerator MoveProgress(Vector3 direction, System.Action onTruckmoveEnd) {
@@ -81,15 +85,22 @@ public class Truck : EntityBase, ITargetable {
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
-        ++_collisionCount;
-    }
+        if (MoveProgressEnd) {
+            return;
+        }
 
-    private void OnTriggerStay2D(Collider2D other) {
+        ++_collisionCount;
         if (other.gameObject.tag.Equals("Enemy")) {
             Vector2 direction = (other.transform.position - transform.position).normalized;
             float speed = _currentSpeed > 0f ? _currentSpeed : _speed / 10f;
-            Vector2 knockback = new Vector2(-direction.y, direction.x) * speed * _knockbackForce;
-            other.GetComponent<Agent>().ApplyKnockback(knockback);
+            other.GetComponent<HitEffect>().ApplyKnockback(direction, speed * _knockbackForce);
+        }
+    }
+
+    private void OnTriggerStay2D(Collider2D other) {
+        if (MoveProgressEnd) {
+            Vector3 direction = (other.transform.position - transform.position).normalized;
+            other.transform.position += direction * _knockbackForce * 10f * Time.deltaTime;
         }
     }
 }

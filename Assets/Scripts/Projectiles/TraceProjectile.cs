@@ -21,7 +21,7 @@ public class TraceProjectile : ProjectileBase {
 
     protected override void Update() {
         if (_target == null || !_target.gameObject.activeSelf) {
-            ProjectileSpawner.Instance.DisposeProjectile(this);
+            ProjectileSpawner.Instance.RemoveProjectile(this);
             return;
         }
 
@@ -46,6 +46,6 @@ public class TraceProjectile : ProjectileBase {
             effect.ApplyEffect(_caster, _cachedEntityList);
         }
 
-        Destroy(gameObject);
+        ProjectileSpawner.Instance.RemoveProjectile(this);
     }
 }

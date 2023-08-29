@@ -8,6 +8,7 @@ public class BelongingObject : MonoBehaviour {
     private SpriteRenderer _renderer;
 
     private void Awake() {
+        _renderer = GetComponent<SpriteRenderer>();
         Interactive = GetComponent<InteractiveEntity>();
     }
 

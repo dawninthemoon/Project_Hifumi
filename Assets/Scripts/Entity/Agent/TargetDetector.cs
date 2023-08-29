@@ -12,7 +12,8 @@ public class TargetDetector : Detector {
     private static readonly string EnemyTagString = "Enemy";
 
     private void Awake() {
-        _cachedTargetTransform = new GameObject().transform;
+        _cachedTargetTransform = new GameObject("cachedTargetTransform").transform;
+        _cachedTargetTransform.SetParent(transform);
     }
 
     public override void Detect(AIData aiData) {

@@ -63,6 +63,11 @@ public class EntityBase : MonoBehaviour {
                 _animationControl.SetFaceDir(direction);
         });
 
+        var belongingsList = GameMain.PlayerData.GetBelongingsList(_entityInfo.EntityID);
+        foreach (Belongings belongings in belongingsList) {
+            _statusDecorator.AddBelongings(belongings);
+        }
+
         InitalizeStatus();
     }
 

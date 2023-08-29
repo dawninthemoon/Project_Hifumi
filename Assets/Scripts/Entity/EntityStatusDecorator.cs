@@ -11,7 +11,7 @@ public class EntityStatusDecorator : IEntityStatus {
         _entityInfo = entityInfo;
     }
 
-    public void AddAugments(Belongings augment) {
+    public void AddBelongings(Belongings augment) {
         _belongingsList.Add(augment);
     }
 

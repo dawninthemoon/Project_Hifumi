@@ -4,50 +4,70 @@ using UnityEngine;
 using UnityEngine.Events;
 using RieslingUtils;
 
-public class CombatSceneHandler : MonoBehaviour {
+public class CombatSceneHandler : MonoBehaviour, IResetable {
     [SerializeField] private MemberUIControl _memberUIControl = null;
-    [SerializeField, Range(0.5f, 10f)] private float _timeScale = 1f;
-    [SerializeField] private int _entityCount = 2;
-    [SerializeField] private int _waveCount = 3;
-    [SerializeField] private UnityEvent _onStageEnd = null;
+    [SerializeField] private EnemyHandler _enemyHandler = null;
+    [SerializeField] private CombatReward _combatReward = null;
+    [SerializeField] private CombatResultUI _combatResultUI = null;
     public static readonly float Width = 640;
     public static readonly float Height = 380f;
     private KdTree<EntityBase> _activeAllies;
-    private KdTree<EntityBase> _activeEnemies;
     private List<EntityBase> _inactiveAllies;
+    private CombatStageConfig _currentStageConfig;
     private EntitySpawner _entitySpawner;
     private Truck _truck;
     private static Vector2 _stageMinSize;
     private static Vector2 _stageMaxSize;
     public static Vector2 StageMinSize { get { return _stageMinSize; } }
     public static Vector2 StageMaxSize { get { return _stageMaxSize; } }
+    private UnityEvent _onStageEnd;
     private int _currentWave = 0;
     private ExTimeCounter _timeCounter;
     private bool _waitingForNextWave;
     private bool _isStageCleared;
+    private float _timeAgo;
+    private static readonly string NextWaveTimerKey = "NextWaveTime";
     public float NextWaveTime {
         get {
-            if (!_waitingForNextWave || !_timeCounter.Contains("NextWaveTime"))
+            if (!_waitingForNextWave || !_timeCounter.Contains(NextWaveTimerKey))
                 return 0;
-            float timeLimit = _timeCounter.GetTimeLimit("NextWaveTime");
-            float curr = _timeCounter.GetCurrentTime("NextWaveTime");
+            float timeLimit = _timeCounter.GetTimeLimit(NextWaveTimerKey);
+            float curr = _timeCounter.GetCurrentTime(NextWaveTimerKey);
             return timeLimit - curr;
         }
     }
-    private float _gameSpeed;
-
+    
     private void Awake() {
         _timeCounter = new ExTimeCounter();
-        _entitySpawner = new EntitySpawner();
-        
+        _entitySpawner = new EntitySpawner(transform);
         _activeAllies = new KdTree<EntityBase>(true);
-        _activeEnemies = new KdTree<EntityBase>(true);
         _inactiveAllies = new List<EntityBase>();
+        _onStageEnd = new UnityEvent();
         _onStageEnd.AddListener(OnStageEnd);
-        InitalizeAllies();
     }
 
-    private void Start() {
+    public void Reset() {
+        _timeAgo = 0f;
+        for (int i = 0; i < _activeAllies.Count; ++i) {
+            _entitySpawner.RemoveAlly(_activeAllies[i]);
+            _activeAllies.RemoveAt(i--);
+        }
+        for (int i = 0; i < _inactiveAllies.Count; ++i) {
+            _entitySpawner.RemoveAlly(_inactiveAllies[i]);
+            _inactiveAllies.RemoveAt(i--);
+        }
+        _enemyHandler.RemoveAllEnemies(_entitySpawner);
+        _combatResultUI.Reset();
+
+        _currentWave = 0;
+        _isStageCleared = false;
+        _waitingForNextWave = true;
+    }
+
+    public void StartCombat(CombatStageConfig stageConfig) {
+        _currentStageConfig = stageConfig;
+
+        InitalizeAllies();
         _memberUIControl.InitializeEntityUI(OnEntityActive, OnEntityInactive, _inactiveAllies);
         InitializeCombat();
     }
@@ -59,16 +79,14 @@ public class CombatSceneHandler : MonoBehaviour {
 
     private void InitializeCombat() {
         SetMapView(Vector3.zero);
-    
         StartNewWave();
     }
 
     private void InitalizeAllies() {
         var entityPrefab = Resources.Load<EntityBase>("Prefabs/AllyPrefab");
-        var entityInformation = Resources.LoadAll<EntityInfo>("ScriptableObjects/Allies");
         _truck = _memberUIControl.GetComponent<Truck>();
 
-        foreach (EntityInfo info in entityInformation) {
+        foreach (EntityInfo info in GameMain.PlayerData.Allies) {
             EntityBase newEntity = _entitySpawner.CreateAlly(info);
             newEntity.gameObject.SetActive(false);
             _inactiveAllies.Add(newEntity);
@@ -88,15 +106,16 @@ public class CombatSceneHandler : MonoBehaviour {
         if (_isStageCleared) {
             return;
         }
+        _timeAgo += Time.deltaTime;
 
-        Time.timeScale = _timeScale;
+        Time.timeScale = GameConfigHandler.GameSpeed;
         if (Input.GetKeyDown(KeyCode.X)) {
-            _gameSpeed = Mathf.Max(0.5f, _gameSpeed - 0.5f);
-            Time.timeScale = _timeScale = _gameSpeed;
+            GameConfigHandler.GameSpeed = Mathf.Max(0.5f, GameConfigHandler.GameSpeed - 0.5f);
+            Time.timeScale = GameConfigHandler.GameSpeed;
         }
         if (Input.GetKeyDown(KeyCode.C)) {
-            _gameSpeed = Mathf.Min(10f, _gameSpeed + 0.5f);
-            Time.timeScale = _timeScale = _gameSpeed;
+            GameConfigHandler.GameSpeed = Mathf.Min(10f, GameConfigHandler.GameSpeed + 0.5f);
+            Time.timeScale = GameConfigHandler.GameSpeed;
         }
 
         MoveProgress();
@@ -108,12 +127,12 @@ public class CombatSceneHandler : MonoBehaviour {
             _memberUIControl.gameObject.layer = LayerMask.NameToLayer("Obstacle");
         }
 
-        if (!_waitingForNextWave && _activeEnemies.Count == 0) {
+        if (!_waitingForNextWave && _enemyHandler.ActiveEnemies.Count == 0) {
             OnWaveCleared();
         }
 
-        if (_waitingForNextWave && _timeCounter.Contains("NextWaveTime")) {
-            _timeCounter.IncreaseTimer("NextWaveTime", out var limit);
+        if (_waitingForNextWave && _timeCounter.Contains(NextWaveTimerKey)) {
+            _timeCounter.IncreaseTimer(NextWaveTimerKey, out var limit);
             if (limit) {
                 StartNewWave();
             }
@@ -122,23 +141,14 @@ public class CombatSceneHandler : MonoBehaviour {
 
     private void MoveProgress() {
         foreach (EntityBase ally in _activeAllies) {
-            ITargetable target = _activeEnemies.FindClosest(ally.transform.position)?.GetComponent<Agent>();
+            var activeEnemies = _enemyHandler.ActiveEnemies;
+            ITargetable target = activeEnemies.FindClosest(ally.transform.position)?.GetComponent<Agent>();
             ally.SetTarget(target);
 
             ClampPosition(ally);
         }
 
-        foreach (EntityBase enemy in _activeEnemies) {
-            ITargetable target = _activeAllies.FindClosest(enemy.transform.position)?.GetComponent<Agent>();
-            if (target == null && _truck.MoveProgressEnd) {
-                target = _truck;
-            }
-
-            enemy.SetTarget(target);
-            
-            if (_truck.MoveProgressEnd)
-                ClampPosition(enemy);
-        }
+        _enemyHandler.Progress(_activeAllies, _truck);
     }
 
     private void LateUpdate() {
@@ -151,13 +161,6 @@ public class CombatSceneHandler : MonoBehaviour {
             if (ally.Health <= 0 || !ally.gameObject.activeSelf) {
                 _activeAllies[i].SetTarget(null);
                 _activeAllies.RemoveAt(i--);
-            }
-        }
-
-        for (int i = 0; i < _activeEnemies.Count; ++i) {
-            var enemy = _activeEnemies[i];
-            if (enemy.Health <= 0 || !enemy.gameObject.activeSelf) {
-                _activeEnemies.RemoveAt(i--);
             }
         }
     }
@@ -185,7 +188,7 @@ public class CombatSceneHandler : MonoBehaviour {
         Vector2 p1 = _truck.Position;
         p1.y += 100f;
 
-        Time.timeScale = _gameSpeed * 0.25f;
+        Time.timeScale = GameConfigHandler.GameSpeed * 0.25f;
         while (timeAgo < targetTime) {
             timeAgo += Time.deltaTime;
 
@@ -194,7 +197,7 @@ public class CombatSceneHandler : MonoBehaviour {
 
             yield return null;
         }
-        Time.timeScale = _gameSpeed;
+        Time.timeScale = GameConfigHandler.GameSpeed;
 
         callback();
     }
@@ -205,12 +208,22 @@ public class CombatSceneHandler : MonoBehaviour {
         entity.gameObject.SetActive(false);
     }
 
+    public void StartNewWave() {
+        if (_enemyHandler.ActiveEnemies.Count > 0)
+            return;
+
+        ++_currentWave;
+        _waitingForNextWave = false;
+        
+        _enemyHandler.SpawnEnemies(_currentWave, _currentStageConfig, _entitySpawner);
+    }
+
     private void OnWaveCleared() {
-        if (_currentWave == _waveCount) {
+        if (_currentWave == _currentStageConfig.GetStageLength()) {
             _onStageEnd.Invoke();
         }
         else {
-            _timeCounter.InitTimer("NextWaveTime", 0f, 20f);
+            _timeCounter.InitTimer(NextWaveTimerKey, 0f, 20f);
             _waitingForNextWave = true;
         }
     }
@@ -219,31 +232,16 @@ public class CombatSceneHandler : MonoBehaviour {
         _isStageCleared = true;
         InteractiveEntity.SetInteractive(InteractiveEntity.Type.Entity, false);
         InteractiveEntity.SetInteractive(InteractiveEntity.Type.UI, false);
+
+        _combatReward.OpenRewardSet(OnRewardSelected);
     }
 
-    public void StartNewWave() {
-        if (_activeEnemies.Count > 0)
-            return;
+    private void OnRewardSelected(Belongings selectedStuff) {
+        GameMain.PlayerData.AddBelongings(selectedStuff);
 
-        ++_currentWave;
-        _waitingForNextWave = false;
+        _combatResultUI.ShowResultUI(true, _timeAgo.ToString());
 
-        int amount = _entityCount;
-        EntityBase enemyPrefab = Resources.Load<EntityBase>("Prefabs/EnemyPrefab");
-        var entityInformation = Resources.LoadAll<EntityInfo>("ScriptableObjects/Enemies");
-        for (int i = 0; i < amount; ++i) {
-            int randomIndex = Random.Range(0, entityInformation.Length);
-
-            float randX = Random.Range(_stageMinSize.x, _stageMaxSize.x);
-            float y = Random.Range(0, 2) > 0 ? _stageMaxSize.y + enemyPrefab.Radius : _stageMinSize.y - enemyPrefab.Radius;
-            if (_currentWave == 1) {
-                y = Random.Range(_stageMinSize.y / 4f, _stageMaxSize.y / 4f);
-            }
-            
-            EntityBase enemy = _entitySpawner.CreateEnemy(entityInformation[randomIndex]);
-            enemy.transform.position = new Vector3(randX, y);
-
-            _activeEnemies.Add(enemy);
-        }
+        InteractiveEntity.SetInteractive(InteractiveEntity.Type.Entity, true);
+        InteractiveEntity.SetInteractive(InteractiveEntity.Type.UI, true);
     }
 }

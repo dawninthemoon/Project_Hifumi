@@ -135,7 +135,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: c4d1063c9c628064bb871276402f1477, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -844,6 +844,7 @@ GameObject:
   - component: {fileID: 1666005879478970121}
   - component: {fileID: 166338467933781668}
   - component: {fileID: -9030611433701684554}
+  - component: {fileID: -6134280753618378484}
   m_Layer: 6
   m_Name: AllyPrefab
   m_TagString: Ally
@@ -894,7 +895,6 @@ MonoBehaviour:
   _detectionDelay: 0.05
   _aiUpdateDelay: 0.06
   _attackDelay: 1
-  _scentDelay: 0.5
 --- !u!114 &7163469659208089624
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -977,7 +977,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7563314166462180942}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -1018,6 +1018,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22f70e48cdbbb35409b6465330bd4c4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _type: 0
   _onMouseOverEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -1033,6 +1034,22 @@ MonoBehaviour:
   _onMouseExitEvent:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &-6134280753618378484
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7563314166462180942}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c037a5b6368f664b8d6d57fb2bf2490, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _bodyRenderer: {fileID: 1269893135007115034}
+  _knockbackDuration: 0.15
+  _freezeDuration: 0.15
+  _flashDuration: 0.15
 --- !u!1 &7770128589057490813
 GameObject:
   m_ObjectHideFlags: 0
