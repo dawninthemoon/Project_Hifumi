@@ -13,4 +13,7 @@ public class CombatWaveConfig : ScriptableObject {
     [SerializeField] private int _waveRank = 1;
     [SerializeField] private CombatWaveInfo[] _waveInfoArray;
     public int WaveRank { get { return _waveRank; } }
+    public CombatWaveInfo[] WaveInfoArray {
+        get { return _waveInfoArray; }
+    }
 }

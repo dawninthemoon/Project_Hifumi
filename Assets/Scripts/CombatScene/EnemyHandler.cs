@@ -7,12 +7,20 @@ public class EnemyHandler : MonoBehaviour {
     private Dictionary<int, CombatWaveConfig> _waveConfigDictionary;
     private KdTree<EntityBase> _activeEnemies;
     public KdTree<EntityBase> ActiveEnemies { get { return _activeEnemies; } }
+    private Dictionary<string, EntityInfo> _enemyInfoDictionary;
+    private EntityBase _enemyPrefab;
 
     private void Awake() {
         var waveConfigArr = Resources.LoadAll<CombatWaveConfig>("ScriptableObjects/CombatWaveConfig");
         _waveConfigDictionary = waveConfigArr.ToDictionary(x => x.WaveRank);
 
         _activeEnemies = new KdTree<EntityBase>();
+
+        var enemyInformation = Resources.LoadAll<EntityInfo>("ScriptableObjects/Enemies");
+        _enemyInfoDictionary = enemyInformation.ToDictionary(x => x.EntityID);
+
+        _enemyPrefab = Resources.Load<EntityBase>("Prefabs/EnemyPrefab");
+
     }
 
     public void Progress(KdTree<EntityBase> allies, Truck truck) {
@@ -34,23 +42,23 @@ public class EnemyHandler : MonoBehaviour {
     }
 
     public void SpawnEnemies(int waveCount, CombatStageConfig stageConfig, EntitySpawner entitySpanwer) {
-        EntityBase enemyPrefab = Resources.Load<EntityBase>("Prefabs/EnemyPrefab");
-        var entityInformation = Resources.LoadAll<EntityInfo>("ScriptableObjects/Enemies");
 
         Vector2 stageMinSize = CombatSceneHandler.StageMinSize;
         Vector2 stageMaxSize = CombatSceneHandler.StageMaxSize;
 
-        int amount = stageConfig.StageInfoArray.Length;
-        for (int i = 0; i < amount; ++i) {
-            int randomIndex = Random.Range(0, entityInformation.Length);
-
+        int waveRank = stageConfig.StageInfoArray[waveCount];
+        CombatWaveConfig waveConfig = _waveConfigDictionary[waveRank];
+        CombatWaveInfo selectedWave = waveConfig.WaveInfoArray[Random.Range(0, waveConfig.WaveInfoArray.Length)];
+        
+        for (int i = 0; i < selectedWave.enemyIDArray.Length; ++i) {
             float randX = Random.Range(stageMinSize.x, stageMaxSize.x);
-            float y = Random.Range(0, 2) > 0 ? stageMaxSize.y + enemyPrefab.Radius : stageMinSize.y - enemyPrefab.Radius;
+            float y = Random.Range(0, 2) > 0 ? stageMaxSize.y + _enemyPrefab.Radius : stageMinSize.y - _enemyPrefab.Radius;
             if (waveCount == 1) {
                 y = Random.Range(stageMinSize.y / 4f, stageMaxSize.y / 4f);
             }
             
-            EntityBase enemy = entitySpanwer.CreateEnemy(entityInformation[randomIndex]);
+            EntityInfo selectedInfo = _enemyInfoDictionary[selectedWave.enemyIDArray[i]];
+            EntityBase enemy = entitySpanwer.CreateEnemy(selectedInfo);
             enemy.transform.position = new Vector3(randX, y);
 
             _activeEnemies.Add(enemy);
