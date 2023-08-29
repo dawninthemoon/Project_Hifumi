@@ -8,6 +8,7 @@ public class HitEffect : MonoBehaviour {
     [SerializeField] private float _knockbackDuration = 0.5f;
     [SerializeField] private float _freezeDuration = 0.15f;
     [SerializeField] private float _flashDuration = 0.15f;
+    [SerializeField] private float _friction = 1f;
     private Vector2 _knockbackDir;
     private float _knockbackForce;
     private float _timeAgo;
@@ -16,7 +17,7 @@ public class HitEffect : MonoBehaviour {
     private Sequence _timeFreezeSequence;
     private void Update() {
         if (_applyKnockback && (_knockbackDuration > _timeAgo)) {
-            Vector3 knockbackAmount = _knockbackDir * _knockbackForce;
+            Vector3 knockbackAmount = _knockbackDir * Mathf.Max(0f, _knockbackForce - _friction * _timeAgo);
             transform.position += knockbackAmount * Time.deltaTime;
             _timeAgo += Time.deltaTime;
         }

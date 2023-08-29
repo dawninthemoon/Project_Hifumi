@@ -890,7 +890,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _bodyRenderer: {fileID: 8362562634550720676}
-  _knockbackDuration: 0.15
+  _knockbackDuration: 0.4
   _freezeDuration: 0.15
   _flashDuration: 0.15
 --- !u!1 &7684824133015684061
