@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class CombatUIHandler : MonoBehaviour {
+public class CombatTimerUI : MonoBehaviour {
     [SerializeField] private Canvas _combatUICanvas = null;
     [SerializeField] private Button _timerButton = null;
     private TextMeshProUGUI _timerText;
