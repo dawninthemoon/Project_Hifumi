@@ -350,9 +350,10 @@ MonoBehaviour:
   _bodyRadius: 70
   _width: 114
   _height: 75
-  _acceleration: 200
+  _acceleration: 120
   _speed: 500
-  _knockbackForce: 1.5
+  _knockbackForce: 1.25
+  _knockbackMin: 300
 --- !u!212 &6714203610098454499
 SpriteRenderer:
   m_ObjectHideFlags: 0
