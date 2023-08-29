@@ -9,12 +9,18 @@ public class HitEffect : MonoBehaviour {
     [SerializeField] private float _freezeDuration = 0.15f;
     [SerializeField] private float _flashDuration = 0.15f;
     [SerializeField] private float _friction = 1f;
+    private Vector2 _prevNormal;
     private Vector2 _knockbackDir;
     private float _knockbackForce;
     private float _timeAgo;
     private bool _applyKnockback;
     private Sequence _flashSequence;
     private Sequence _timeFreezeSequence;
+    private float _radius;
+
+    private void Awake() {
+        _radius = GetComponent<EntityBase>().Radius;
+    }
 
     private void OnEnable() {
         _applyKnockback = false;
@@ -23,7 +29,8 @@ public class HitEffect : MonoBehaviour {
     private void Update() {
         if (_applyKnockback && (_knockbackDuration > _timeAgo)) {
             Vector2 normal = CheckBoarder();
-            if (!normal.Equals(Vector2.zero)) {
+            if (!normal.Equals(Vector2.zero) && (!_prevNormal.Equals(normal))) {
+                _prevNormal = normal;
                 _knockbackDir = GetReflectVector(normal);
             }
 
@@ -77,22 +84,21 @@ public class HitEffect : MonoBehaviour {
     }
 
     private Vector2 CheckBoarder() {
-        float radius = GetComponent<EntityBase>().Radius;
         Vector2 maxSize = CombatSceneHandler.StageMaxSize;
         Vector2 minSize = CombatSceneHandler.StageMinSize;
         Vector2 pos = transform.position;
         Vector2 normal = Vector2.zero;
 
-        if (pos.y > maxSize.y - radius) {
+        if (pos.y > maxSize.y - _radius) {
             normal = Vector2.down;
         }
-        else if (pos.x < minSize.x + radius) {
+        else if (pos.x < minSize.x + _radius) {
             normal = Vector2.right;
         }
-        else if (pos.y < minSize.y + radius) {
+        else if (pos.y < minSize.y + _radius) {
             normal = Vector2.up;
         }
-        else if (pos.x > maxSize.x - radius) {
+        else if (pos.x > maxSize.x - _radius) {
             normal = Vector2.left;
         }
         return normal;
