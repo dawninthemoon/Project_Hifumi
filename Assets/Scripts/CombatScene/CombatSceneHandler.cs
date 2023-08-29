@@ -6,14 +6,13 @@ using RieslingUtils;
 
 public class CombatSceneHandler : MonoBehaviour {
     [SerializeField] private MemberUIControl _memberUIControl = null;
-    [SerializeField] private int _entityCount = 2;
-    [SerializeField] private int _waveCount = 3;
     [SerializeField] private UnityEvent _onStageEnd = null;
+    [SerializeField] private EnemyHandler _enemyHandler = null;
     public static readonly float Width = 640;
     public static readonly float Height = 380f;
     private KdTree<EntityBase> _activeAllies;
-    private KdTree<EntityBase> _activeEnemies;
     private List<EntityBase> _inactiveAllies;
+    private CombatStageConfig _currentStageConfig;
     private EntitySpawner _entitySpawner;
     private Truck _truck;
     private static Vector2 _stageMinSize;
@@ -37,14 +36,14 @@ public class CombatSceneHandler : MonoBehaviour {
     private void Awake() {
         _timeCounter = new ExTimeCounter();
         _entitySpawner = new EntitySpawner();
-        
         _activeAllies = new KdTree<EntityBase>(true);
-        _activeEnemies = new KdTree<EntityBase>(true);
         _inactiveAllies = new List<EntityBase>();
         _onStageEnd.AddListener(OnStageEnd);
     }
 
-    public void StartCombat() {
+    public void StartCombat(CombatStageConfig stageConfig) {
+        _currentStageConfig = stageConfig;
+
         InitalizeAllies();
         _memberUIControl.InitializeEntityUI(OnEntityActive, OnEntityInactive, _inactiveAllies);
         InitializeCombat();
@@ -57,7 +56,6 @@ public class CombatSceneHandler : MonoBehaviour {
 
     private void InitializeCombat() {
         SetMapView(Vector3.zero);
-    
         StartNewWave();
     }
 
@@ -106,7 +104,7 @@ public class CombatSceneHandler : MonoBehaviour {
             _memberUIControl.gameObject.layer = LayerMask.NameToLayer("Obstacle");
         }
 
-        if (!_waitingForNextWave && _activeEnemies.Count == 0) {
+        if (!_waitingForNextWave && _enemyHandler.ActiveEnemies.Count == 0) {
             OnWaveCleared();
         }
 
@@ -120,22 +118,11 @@ public class CombatSceneHandler : MonoBehaviour {
 
     private void MoveProgress() {
         foreach (EntityBase ally in _activeAllies) {
-            ITargetable target = _activeEnemies.FindClosest(ally.transform.position)?.GetComponent<Agent>();
+            var activeEnemies = _enemyHandler.ActiveEnemies;
+            ITargetable target = activeEnemies.FindClosest(ally.transform.position)?.GetComponent<Agent>();
             ally.SetTarget(target);
 
             ClampPosition(ally);
-        }
-
-        foreach (EntityBase enemy in _activeEnemies) {
-            ITargetable target = _activeAllies.FindClosest(enemy.transform.position)?.GetComponent<Agent>();
-            if (target == null && _truck.MoveProgressEnd) {
-                target = _truck;
-            }
-
-            enemy.SetTarget(target);
-            
-            if (_truck.MoveProgressEnd)
-                ClampPosition(enemy);
         }
     }
 
@@ -149,13 +136,6 @@ public class CombatSceneHandler : MonoBehaviour {
             if (ally.Health <= 0 || !ally.gameObject.activeSelf) {
                 _activeAllies[i].SetTarget(null);
                 _activeAllies.RemoveAt(i--);
-            }
-        }
-
-        for (int i = 0; i < _activeEnemies.Count; ++i) {
-            var enemy = _activeEnemies[i];
-            if (enemy.Health <= 0 || !enemy.gameObject.activeSelf) {
-                _activeEnemies.RemoveAt(i--);
             }
         }
     }
@@ -204,7 +184,7 @@ public class CombatSceneHandler : MonoBehaviour {
     }
 
     private void OnWaveCleared() {
-        if (_currentWave == _waveCount) {
+        if (_currentWave == _currentStageConfig.GetStageLength()) {
             _onStageEnd.Invoke();
         }
         else {
@@ -220,28 +200,12 @@ public class CombatSceneHandler : MonoBehaviour {
     }
 
     public void StartNewWave() {
-        if (_activeEnemies.Count > 0)
+        if (_enemyHandler.ActiveEnemies.Count > 0)
             return;
 
         ++_currentWave;
         _waitingForNextWave = false;
-
-        int amount = _entityCount;
-        EntityBase enemyPrefab = Resources.Load<EntityBase>("Prefabs/EnemyPrefab");
-        var entityInformation = Resources.LoadAll<EntityInfo>("ScriptableObjects/Enemies");
-        for (int i = 0; i < amount; ++i) {
-            int randomIndex = Random.Range(0, entityInformation.Length);
-
-            float randX = Random.Range(_stageMinSize.x, _stageMaxSize.x);
-            float y = Random.Range(0, 2) > 0 ? _stageMaxSize.y + enemyPrefab.Radius : _stageMinSize.y - enemyPrefab.Radius;
-            if (_currentWave == 1) {
-                y = Random.Range(_stageMinSize.y / 4f, _stageMaxSize.y / 4f);
-            }
-            
-            EntityBase enemy = _entitySpawner.CreateEnemy(entityInformation[randomIndex]);
-            enemy.transform.position = new Vector3(randX, y);
-
-            _activeEnemies.Add(enemy);
-        }
+        
+        _enemyHandler.SpawnEnemies(_currentWave, _currentStageConfig, _entitySpawner);
     }
 }

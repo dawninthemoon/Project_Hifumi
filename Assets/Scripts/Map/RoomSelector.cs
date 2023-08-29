@@ -8,6 +8,10 @@ public class RoomSelector : MonoBehaviour {
     private GameObject _currentRoomParent;
     private System.Action _requestedRoomExitCallback;
 
+    private void Awake() {
+        _combatEncounter = Instantiate(_combatEncounter, Vector3.zero, Quaternion.identity);
+    }
+
     private void Start() {
         _currentRoomParent = _gameMapParent;
         _combatEncounter.gameObject.SetActive(false);
@@ -50,7 +54,7 @@ public class RoomSelector : MonoBehaviour {
 
     public void ExitRoom() {
         ChangeRoomSetting(_gameMapParent);
-        //_requestedRoomExitCallback.Invoke();
+        _requestedRoomExitCallback.Invoke();
     }
 
     private void ChangeRoomSetting(GameObject target) {

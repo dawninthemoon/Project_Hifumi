@@ -4,16 +4,22 @@ using UnityEngine;
 using RieslingUtils;
 using UnityEngine.Events;
 
-public class TruckMover : MonoBehaviour {
+public class TruckDirectionSelect : MonoBehaviour {
     [SerializeField] private UnityEvent _onTruckMoveEnd = null;
     [SerializeField] Collider2D[] _boarders = null;
     [SerializeField] private Truck _truckObject = null;
     [SerializeField] private RectTransform _truckDirectionArrow = null;
+    private Vector3 _initialTruckPosition;
     private bool _canSetDirection;
     private Vector2? _startPosition = null;
     private bool _canShootTruck;
 
+    private void Awake() {
+        _initialTruckPosition = _truckObject.transform.position;
+    }
+
     public void Reset() {
+        _truckObject.transform.position = _initialTruckPosition;
         _canSetDirection = true;
         _canShootTruck = false;
         gameObject.SetActive(true);
