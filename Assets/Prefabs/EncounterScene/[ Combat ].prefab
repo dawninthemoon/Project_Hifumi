@@ -1081,6 +1081,30 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3382195141719533934, guid: 2e893dd8529e08441bdbcb710adb3137, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3382195141719533934, guid: 2e893dd8529e08441bdbcb710adb3137, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3382195141719533934, guid: 2e893dd8529e08441bdbcb710adb3137, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 6714203610244031490}
+    - target: {fileID: 3382195141719533934, guid: 2e893dd8529e08441bdbcb710adb3137, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3382195141719533934, guid: 2e893dd8529e08441bdbcb710adb3137, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: StartNewWave
+      objectReference: {fileID: 0}
+    - target: {fileID: 3382195141719533934, guid: 2e893dd8529e08441bdbcb710adb3137, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: CombatSceneHandler, Assembly-CSharp
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2e893dd8529e08441bdbcb710adb3137, type: 3}
 --- !u!224 &4907599724786417478 stripped

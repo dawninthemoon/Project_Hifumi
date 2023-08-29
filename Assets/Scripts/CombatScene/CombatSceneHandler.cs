@@ -124,6 +124,8 @@ public class CombatSceneHandler : MonoBehaviour {
 
             ClampPosition(ally);
         }
+
+        _enemyHandler.Progress(_activeAllies, _truck);
     }
 
     private void LateUpdate() {
