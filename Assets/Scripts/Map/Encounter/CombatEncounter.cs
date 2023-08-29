@@ -27,6 +27,7 @@ public class CombatEncounter : EncounterBase, IResetable {
     public override void Reset() {
         _combatHandler.Reset();
         _truckMover.Reset();
+        CombatSceneHandler.SetMapView(Vector3.zero);
         ProjectileSpawner.Instance.RemoveAllProjectiles();
     }
 
