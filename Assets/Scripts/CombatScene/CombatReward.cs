@@ -16,16 +16,18 @@ public class CombatReward : MonoBehaviour {
         };
     }
 
-    public void OpenRewardSet() {
+    public void OpenRewardSet(System.Action<Belongings> onRewardSelected) {
         InteractiveEntity.SetInteractive(InteractiveEntity.Type.Reward, true);
         for (int i = 0; i < 3; ++i) {
             int randIdx = Random.Range(0, _belongingData.Length);
+            Belongings stuff = _belongingData[i];
             Vector3 position = _truckTransform.position + _belongingsPosition[i];
-            BelongingObject obj = CreateBelongingObject(_belongingData[i], position);
-            obj.SetSprite(_belongingData[i].Sprite);
+            BelongingObject obj = CreateBelongingObject(stuff, position);
+            obj.SetSprite(stuff.Sprite);
             obj.Interactive.OnMouseDownEvent.AddListener(() => {
                 obj.gameObject.SetActive(false);
                 InteractiveEntity.SetInteractive(InteractiveEntity.Type.Reward, false);
+                onRewardSelected.Invoke(stuff);
             });
         }
     }

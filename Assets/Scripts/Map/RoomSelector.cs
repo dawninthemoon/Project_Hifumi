@@ -5,16 +5,22 @@ using UnityEngine;
 public class RoomSelector : MonoBehaviour {
     [SerializeField] private GameObject _gameMapParent = null;
     [SerializeField] private CombatEncounter _combatEncounter = null;
+    [SerializeField] private ShopEncounter _shopEncounter = null;
+    [SerializeField] private AllyRescueEncounter _allyRescueEncounter = null;
     private GameObject _currentRoomParent;
     private System.Action _requestedRoomExitCallback;
 
     private void Awake() {
         _combatEncounter = Instantiate(_combatEncounter, Vector3.zero, Quaternion.identity);
+        _shopEncounter = Instantiate(_shopEncounter, Vector3.zero, Quaternion.identity);
+        _allyRescueEncounter = Instantiate(_allyRescueEncounter, Vector3.zero, Quaternion.identity);
     }
 
     private void Start() {
         _currentRoomParent = _gameMapParent;
         _combatEncounter.gameObject.SetActive(false);
+        _shopEncounter.gameObject.SetActive(false);
+        _allyRescueEncounter.gameObject.SetActive(false);
     }
 
     public void SetRoomExit(System.Action callback) {
@@ -34,10 +40,10 @@ public class RoomSelector : MonoBehaviour {
             target = _combatEncounter;
             break;
         case EncounterType.SHOP:
-            //target = _battleRoomEncounter;
+            target = _shopEncounter;
             break;
         case EncounterType.ALLY:
-            //target = _shopRoomEncounter;
+            target = _allyRescueEncounter;
             break;
         }
         EnterRoom(target);

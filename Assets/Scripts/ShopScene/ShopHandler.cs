@@ -14,7 +14,7 @@ public class ShopHandler : MonoBehaviour {
         _itemSoldCheckDictionary = new Dictionary<int, bool>();
     }
 
-    private void Start() {
+    public void Reset() {
         List<Belongings> belongingsTable = _belongingData.ToList();
         for (int i = 0; i < _belongingButtons.Length; ++i) {
             int id = i;

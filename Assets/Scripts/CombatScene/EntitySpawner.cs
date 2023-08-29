@@ -9,19 +9,19 @@ public class EntitySpawner {
     private static readonly string AllyPrefabPath = "Prefabs/AllyPrefab";
     private static readonly string EnemyPrefabPath = "Prefabs/EnemyPrefab";
 
-    public EntitySpawner() {
+    public EntitySpawner(Transform entityParent) {
         EntityBase allyPrefab = Resources.Load<EntityBase>(AllyPrefabPath);
         EntityBase enemyPrefab = Resources.Load<EntityBase>(EnemyPrefabPath);
 
         _allyObjectPool = new ObjectPool<EntityBase>(
             10,
-            () => CreateEntityBase(allyPrefab),
+            () => CreateEntityBase(allyPrefab, entityParent),
             OnEntityActive,
             OnEntityDisable
         );
         _enemyObjectPool = new ObjectPool<EntityBase>(
             10,
-            () => CreateEntityBase(enemyPrefab),
+            () => CreateEntityBase(enemyPrefab, entityParent),
             OnEntityActive,
             OnEntityDisable
         );
@@ -39,8 +39,8 @@ public class EntitySpawner {
         return instance;
     }
 
-    private EntityBase CreateEntityBase(EntityBase prefab) {
-        EntityBase instance = GameObject.Instantiate(prefab);
+    private EntityBase CreateEntityBase(EntityBase prefab, Transform entityParent) {
+        EntityBase instance = GameObject.Instantiate(prefab, entityParent);
         return instance;
     }
 

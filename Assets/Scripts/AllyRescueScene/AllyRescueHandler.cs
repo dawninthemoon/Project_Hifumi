@@ -13,7 +13,7 @@ public class AllyRescueHandler : MonoBehaviour {
         _entityInfoArray = Resources.LoadAll<EntityInfo>("ScriptableObjects/Allies");
     }
 
-    private void Start() {
+    public void Reset() {
         var entityTable = _entityInfoArray.ToList();
         for (int i = 0; i < _rescueButtons.Length; ++i) {
             int selectedIdx = i;

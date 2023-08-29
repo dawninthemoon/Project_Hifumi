@@ -6,8 +6,8 @@ using RieslingUtils;
 
 public class CombatSceneHandler : MonoBehaviour {
     [SerializeField] private MemberUIControl _memberUIControl = null;
-    [SerializeField] private UnityEvent _onStageEnd = null;
     [SerializeField] private EnemyHandler _enemyHandler = null;
+    [SerializeField] private CombatReward _combatReward = null;
     public static readonly float Width = 640;
     public static readonly float Height = 380f;
     private KdTree<EntityBase> _activeAllies;
@@ -19,6 +19,7 @@ public class CombatSceneHandler : MonoBehaviour {
     private static Vector2 _stageMaxSize;
     public static Vector2 StageMinSize { get { return _stageMinSize; } }
     public static Vector2 StageMaxSize { get { return _stageMaxSize; } }
+    private UnityEvent _onStageEnd;
     private int _currentWave = 0;
     private ExTimeCounter _timeCounter;
     private bool _waitingForNextWave;
@@ -36,9 +37,10 @@ public class CombatSceneHandler : MonoBehaviour {
     
     private void Awake() {
         _timeCounter = new ExTimeCounter();
-        _entitySpawner = new EntitySpawner();
+        _entitySpawner = new EntitySpawner(transform);
         _activeAllies = new KdTree<EntityBase>(true);
         _inactiveAllies = new List<EntityBase>();
+        _onStageEnd = new UnityEvent();
         _onStageEnd.AddListener(OnStageEnd);
     }
 
@@ -185,22 +187,6 @@ public class CombatSceneHandler : MonoBehaviour {
         entity.gameObject.SetActive(false);
     }
 
-    private void OnWaveCleared() {
-        if (_currentWave == _currentStageConfig.GetStageLength()) {
-            _onStageEnd.Invoke();
-        }
-        else {
-            _timeCounter.InitTimer("NextWaveTime", 0f, 20f);
-            _waitingForNextWave = true;
-        }
-    }
-
-    private void OnStageEnd() {
-        _isStageCleared = true;
-        InteractiveEntity.SetInteractive(InteractiveEntity.Type.Entity, false);
-        InteractiveEntity.SetInteractive(InteractiveEntity.Type.UI, false);
-    }
-
     public void StartNewWave() {
         if (_enemyHandler.ActiveEnemies.Count > 0)
             return;
@@ -209,5 +195,30 @@ public class CombatSceneHandler : MonoBehaviour {
         _waitingForNextWave = false;
         
         _enemyHandler.SpawnEnemies(_currentWave, _currentStageConfig, _entitySpawner);
+    }
+
+    private void OnWaveCleared() {
+        if (_currentWave == _currentStageConfig.GetStageLength()) {
+            _onStageEnd.Invoke();
+        }
+        else {
+            _timeCounter.InitTimer(NextWaveTimerKey, 0f, 20f);
+            _waitingForNextWave = true;
+        }
+    }
+
+    private void OnStageEnd() {
+        _isStageCleared = true;
+        InteractiveEntity.SetInteractive(InteractiveEntity.Type.Entity, false);
+        InteractiveEntity.SetInteractive(InteractiveEntity.Type.UI, false);
+
+        _combatReward.OpenRewardSet(OnRewardSelected);
+    }
+
+    private void OnRewardSelected(Belongings selectedStuff) {
+        GameMain.PlayerData.AddBelongings(selectedStuff);
+
+        InteractiveEntity.SetInteractive(InteractiveEntity.Type.Entity, true);
+        InteractiveEntity.SetInteractive(InteractiveEntity.Type.UI, true);
     }
 }
