@@ -44,6 +44,51 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d0353d5e70466445a3e12187769d190, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &5466915950234438245
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3858320024689763571}
+  - component: {fileID: 7419709333754152193}
+  m_Layer: 0
+  m_Name: CombatCameraMover
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3858320024689763571
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5466915950234438245}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6714203611014656430}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7419709333754152193
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5466915950234438245}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8eda186fea00b7f45838f12f9a78b2d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _moveSpeed: 200
 --- !u!1 &6714203609701189939
 GameObject:
   m_ObjectHideFlags: 0
@@ -216,7 +261,7 @@ RectTransform:
   - {fileID: 4907599724786417478}
   - {fileID: 7853894816567390659}
   m_Father: {fileID: 6714203611014656430}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -654,6 +699,7 @@ MonoBehaviour:
   - {fileID: 6714203610311331938}
   - {fileID: 6714203611435472607}
   _truckObject: {fileID: 6714203610098454506}
+  _cameraMover: {fileID: 7419709333754152193}
   _truckDirectionArrow: {fileID: 6819347902114104252}
 --- !u!1 &6714203610704966231
 GameObject:
@@ -748,6 +794,7 @@ Transform:
   - {fileID: 6714203611131274854}
   - {fileID: 6714203610098454497}
   - {fileID: 8689990546741138738}
+  - {fileID: 3858320024689763571}
   - {fileID: 6714203610095775951}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -1033,7 +1080,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7079790921991184844}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -640, y: -320, z: 0}
+  m_LocalPosition: {x: -1280, y: -720, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -1209,7 +1256,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2345613147565771954, guid: 9c4cab0a2f0095f45b1b1d17324b711c, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -25.937582
+      value: -25.937584
       objectReference: {fileID: 0}
     - target: {fileID: 3697022710650156480, guid: 9c4cab0a2f0095f45b1b1d17324b711c, type: 3}
       propertyPath: m_AnchorMax.y

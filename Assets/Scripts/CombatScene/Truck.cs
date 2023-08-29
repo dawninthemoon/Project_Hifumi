@@ -101,7 +101,7 @@ public class Truck : EntityBase, ITargetable, IResetable {
     private void OnTriggerStay2D(Collider2D other) {
         if (MoveProgressEnd) {
             Vector3 direction = (other.transform.position - transform.position).normalized;
-            other.transform.position += direction * _knockbackForce * 30f * Time.deltaTime;
+            other.transform.position += direction * _knockbackForce * 200f * Time.deltaTime;
         }
     }
 }

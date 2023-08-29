@@ -8,6 +8,7 @@ public class TruckDirectionSelect : MonoBehaviour, IResetable {
     [SerializeField] private UnityEvent _onTruckMoveEnd = null;
     [SerializeField] Collider2D[] _boarders = null;
     [SerializeField] private Truck _truckObject = null;
+    [SerializeField] private CombatCameraMover _cameraMover = null;
     [SerializeField] private RectTransform _truckDirectionArrow = null;
     private Vector3 _initialTruckPosition;
     private bool _canSetDirection;
@@ -29,6 +30,8 @@ public class TruckDirectionSelect : MonoBehaviour, IResetable {
         for (int i = 0; i < _boarders.Length; ++i) {
             _boarders[i].gameObject.SetActive(true);
         }
+
+        _cameraMover.SetCameraDirection(null, Vector2.zero);
     }
 
     private void Update() {
@@ -84,6 +87,7 @@ public class TruckDirectionSelect : MonoBehaviour, IResetable {
         }
 
         _truckObject.StartMove(startPoint, direction, degree, OnTruckMoveEnd);
+        _cameraMover.SetCameraDirection(_truckObject, direction);
     }
     
     private void OnTruckMoveEnd() {
