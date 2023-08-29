@@ -4,7 +4,7 @@ using UnityEngine;
 using RieslingUtils;
 using UnityEngine.Events;
 
-public class TruckDirectionSelect : MonoBehaviour {
+public class TruckDirectionSelect : MonoBehaviour, IResetable {
     [SerializeField] private UnityEvent _onTruckMoveEnd = null;
     [SerializeField] Collider2D[] _boarders = null;
     [SerializeField] private Truck _truckObject = null;
@@ -16,13 +16,18 @@ public class TruckDirectionSelect : MonoBehaviour {
 
     private void Awake() {
         _initialTruckPosition = _truckObject.transform.position;
+        Reset();
     }
 
     public void Reset() {
         _truckObject.transform.position = _initialTruckPosition;
         _canSetDirection = true;
         _canShootTruck = false;
-        gameObject.SetActive(true);
+        _truckObject.Reset();
+
+        for (int i = 0; i < _boarders.Length; ++i) {
+            _boarders[i].gameObject.SetActive(true);
+        }
     }
 
     private void Update() {

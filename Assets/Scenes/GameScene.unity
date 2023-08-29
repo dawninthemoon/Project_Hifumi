@@ -258,7 +258,8 @@ Transform:
   m_LocalPosition: {x: -86, y: -126, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1600174606}
   m_Father: {fileID: 1533858196}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -421,7 +422,6 @@ Transform:
   m_Children:
   - {fileID: 366999854}
   - {fileID: 1670434707}
-  - {fileID: 1600174606}
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -449,13 +449,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1600174605}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 86, y: 126, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1533858196}
-  m_RootOrder: 2
+  m_Father: {fileID: 366999854}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1600174607
 MonoBehaviour:
@@ -520,7 +520,7 @@ MonoBehaviour:
   _gameMapParent: {fileID: 366999851}
   _combatEncounter: {fileID: 6714203611014656431, guid: a9e0072a9fdafd049aa4fd033701536f, type: 3}
   _shopEncounter: {fileID: 2746291360119511142, guid: 491aa64bc50774d4c82d01728ec6f8e6, type: 3}
-  _allyRescueEncounter: {fileID: 6664041574568860204, guid: a9652bab88226014096a3cafaf618728, type: 3}
+  _allyRescueEncounter: {fileID: 1253549207646751234, guid: a9652bab88226014096a3cafaf618728, type: 3}
 --- !u!1 &1730653384
 GameObject:
   m_ObjectHideFlags: 0

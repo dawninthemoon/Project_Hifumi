@@ -58,6 +58,13 @@ public class ObjectPool<T>  {
         _onObjectDisableCallback?.Invoke(pooledObject);
     }
 
+    public void ReturnAllObjects() {
+        for (int i = 0; i < _usedList.Count; ++i) {
+            ReturnObject(_usedList[i]);
+            i--;
+        }
+    }
+
     public void Clear() {
         for (int i = 0; i < _usedList.Count; ++i) {
             var pooledObject = _usedList[i];

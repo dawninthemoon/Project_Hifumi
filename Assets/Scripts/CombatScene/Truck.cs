@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using RieslingUtils;
 
-public class Truck : EntityBase, ITargetable {
+public class Truck : EntityBase, ITargetable, IResetable {
     [SerializeField] private float _width = 1f;
     [SerializeField] private float _height = 1f;
     [SerializeField] private float _acceleration = 1.2f;
@@ -33,6 +33,10 @@ public class Truck : EntityBase, ITargetable {
         
         StopAllCoroutines();
         StartCoroutine(MoveProgress(direction, onTruckmoveEnd));
+    }
+
+    public void Reset() {
+        MoveProgressEnd = false;
     }
 
     private IEnumerator MoveProgress(Vector3 direction, System.Action onTruckmoveEnd) {

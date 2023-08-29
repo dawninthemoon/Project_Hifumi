@@ -12,4 +12,8 @@ public class ShopEncounter : EncounterBase {
         _shopHandler.Reset();
         gameObject.SetActive(true);
     }
+
+    public override void Reset() {
+        
+    }
 }

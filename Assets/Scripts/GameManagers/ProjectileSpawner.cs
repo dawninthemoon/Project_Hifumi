@@ -28,8 +28,14 @@ public class ProjectileSpawner : Singleton<ProjectileSpawner> {
         return instance;
     }
 
-    public void DisposeProjectile(ProjectileBase projectile) {
+    public void RemoveProjectile(ProjectileBase projectile) {
         string key = projectile.name;
         _projectileObjectPoolDictionary[key].ReturnObject(projectile);
+    }
+
+    public void RemoveAllProjectiles() {
+        foreach (ObjectPool<ProjectileBase> projectilePool in _projectileObjectPoolDictionary.Values) {
+            projectilePool.ReturnAllObjects();
+        }
     }
 }

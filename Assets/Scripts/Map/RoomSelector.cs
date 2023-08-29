@@ -8,7 +8,8 @@ public class RoomSelector : MonoBehaviour {
     [SerializeField] private CombatEncounter _combatEncounter = null;
     [SerializeField] private ShopEncounter _shopEncounter = null;
     [SerializeField] private AllyRescueEncounter _allyRescueEncounter = null;
-    private GameObject _currentRoomParent;
+    private EncounterBase _currentEncounter;
+    private GameObject _currentEncounterObj;
     private System.Action _requestedRoomExitCallback;
 
     private void Awake() {
@@ -18,7 +19,7 @@ public class RoomSelector : MonoBehaviour {
     }
 
     private void Start() {
-        _currentRoomParent = _gameMapParent;
+        _currentEncounterObj = _gameMapParent;
         _combatEncounter.gameObject.SetActive(false);
         _shopEncounter.gameObject.SetActive(false);
         _allyRescueEncounter.gameObject.SetActive(false);
@@ -35,19 +36,18 @@ public class RoomSelector : MonoBehaviour {
     }
 
     public void StartEnterRoom(EncounterType encounterType) {
-        EncounterBase target = null;
         switch (encounterType) {
         case EncounterType.COMBAT:
-            target = _combatEncounter;
+            _currentEncounter = _combatEncounter;
             break;
         case EncounterType.SHOP:
-            target = _shopEncounter;
+            _currentEncounter = _shopEncounter;
             break;
         case EncounterType.ALLY:
-            target = _allyRescueEncounter;
+            _currentEncounter = _allyRescueEncounter;
             break;
         }
-        EnterRoom(target);
+        EnterRoom(_currentEncounter);
     }
 
     private void EnterRoom(EncounterBase encounter) {
@@ -62,12 +62,13 @@ public class RoomSelector : MonoBehaviour {
 
     public void ExitRoom() {
         ChangeRoomSetting(_gameMapParent);
+        _currentEncounter.Reset();
         _requestedRoomExitCallback.Invoke();
     }
 
     private void ChangeRoomSetting(GameObject target) {
-        _currentRoomParent.SetActive(false);
-        _currentRoomParent = target;
+        _currentEncounterObj?.SetActive(false);
+        _currentEncounterObj = target;
         target.SetActive(true);
     }
 }    

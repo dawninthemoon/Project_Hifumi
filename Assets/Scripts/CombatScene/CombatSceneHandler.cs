@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using RieslingUtils;
 
-public class CombatSceneHandler : MonoBehaviour {
+public class CombatSceneHandler : MonoBehaviour, IResetable {
     [SerializeField] private MemberUIControl _memberUIControl = null;
     [SerializeField] private EnemyHandler _enemyHandler = null;
     [SerializeField] private CombatReward _combatReward = null;
@@ -42,6 +42,22 @@ public class CombatSceneHandler : MonoBehaviour {
         _inactiveAllies = new List<EntityBase>();
         _onStageEnd = new UnityEvent();
         _onStageEnd.AddListener(OnStageEnd);
+    }
+
+    public void Reset() {
+        for (int i = 0; i < _activeAllies.Count; ++i) {
+            _entitySpawner.RemoveAlly(_activeAllies[i]);
+            _activeAllies.RemoveAt(i--);
+        }
+        for (int i = 0; i < _inactiveAllies.Count; ++i) {
+            _entitySpawner.RemoveAlly(_inactiveAllies[i]);
+            _inactiveAllies.RemoveAt(i--);
+        }
+        _enemyHandler.RemoveAllEnemies(_entitySpawner);
+
+        _currentWave = 0;
+        _isStageCleared = false;
+        _waitingForNextWave = true;
     }
 
     public void StartCombat(CombatStageConfig stageConfig) {

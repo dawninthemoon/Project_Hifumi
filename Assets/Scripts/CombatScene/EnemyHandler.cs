@@ -56,4 +56,11 @@ public class EnemyHandler : MonoBehaviour {
             _activeEnemies.Add(enemy);
         }
     }
+
+    public void RemoveAllEnemies(EntitySpawner entitySpanwer) {
+        for (int i = 0; i < _activeEnemies.Count; ++i) {
+            entitySpanwer.RemoveEnemy(_activeEnemies[i]);
+            _activeEnemies.RemoveAt(i--);
+        }
+    }
 }

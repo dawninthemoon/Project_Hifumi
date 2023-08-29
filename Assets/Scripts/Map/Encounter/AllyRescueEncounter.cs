@@ -12,4 +12,8 @@ public class AllyRescueEncounter : EncounterBase {
         _allyRescueHandler.Reset();
         gameObject.SetActive(true);
     }
+
+    public override void Reset() {
+        
+    }
 }

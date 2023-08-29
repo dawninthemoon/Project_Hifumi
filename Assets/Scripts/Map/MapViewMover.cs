@@ -9,10 +9,14 @@ public class MapViewMover : MonoBehaviour {
     [SerializeField] private float _height = 360f;
     [SerializeField] private float _moveAmount = 50f;
     private Camera _mainCamera;
-    private Vector3 _lastCameraPosition;
+    private Vector3 _lastCameraPosition = new Vector3(0f, 0f, -10f);
 
     private void Awake() {
         _mainCamera = Camera.main;
+    }
+
+    private void OnEnable() {
+        _mainCamera.transform.position = _lastCameraPosition;
     }
 
     private void Update() {

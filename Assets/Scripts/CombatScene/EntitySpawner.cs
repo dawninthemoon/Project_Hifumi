@@ -33,10 +33,18 @@ public class EntitySpawner {
         return instance;
     }
 
+    public void RemoveAlly(EntityBase entity) {
+        _allyObjectPool.ReturnObject(entity);
+    }
+
     public EntityBase CreateEnemy(EntityInfo entityInfo) {
         EntityBase instance = _enemyObjectPool.GetObject();
         instance.Initialize(entityInfo);
         return instance;
+    }
+
+    public void RemoveEnemy(EntityBase entity) {
+        _enemyObjectPool.ReturnObject(entity);
     }
 
     private EntityBase CreateEntityBase(EntityBase prefab, Transform entityParent) {
