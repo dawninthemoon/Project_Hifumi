@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using RieslingUtils;
 
 public class RoomSelector : MonoBehaviour {
     [SerializeField] private GameObject _gameMapParent = null;
@@ -55,6 +56,7 @@ public class RoomSelector : MonoBehaviour {
             return;
         }
         ChangeRoomSetting(encounter.gameObject);
+        Camera.main.transform.position = Vector3.zero.ChangeZPos(-10f);
         encounter.OnEncounter();
     }
 
