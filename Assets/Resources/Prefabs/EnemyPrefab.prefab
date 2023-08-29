@@ -893,7 +893,7 @@ MonoBehaviour:
   _knockbackDuration: 1.5
   _freezeDuration: 0.25
   _flashDuration: 0.2
-  _friction: 5
+  _friction: 700
 --- !u!1 &7684824133015684061
 GameObject:
   m_ObjectHideFlags: 0
