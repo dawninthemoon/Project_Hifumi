@@ -55,7 +55,7 @@ GameObject:
   - component: {fileID: 6714203609701189936}
   - component: {fileID: 6714203609701189950}
   m_Layer: 9
-  m_Name: Boarder1
+  m_Name: BoarderTop
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -216,7 +216,7 @@ RectTransform:
   - {fileID: 4907599724786417478}
   - {fileID: 7853894816567390659}
   m_Father: {fileID: 6714203611014656430}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -541,7 +541,7 @@ GameObject:
   - component: {fileID: 6714203610311331942}
   - component: {fileID: 6714203610311331938}
   m_Layer: 9
-  m_Name: Boarder3
+  m_Name: BoarderBottom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -665,7 +665,7 @@ GameObject:
   - component: {fileID: 6714203610704966228}
   - component: {fileID: 6714203610704966226}
   m_Layer: 9
-  m_Name: Boarder2
+  m_Name: BoarderRight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -746,8 +746,8 @@ Transform:
   - {fileID: 6714203609906075561}
   - {fileID: 6714203611131274854}
   - {fileID: 6714203610098454497}
-  - {fileID: 6714203610095775951}
   - {fileID: 8689990546741138738}
+  - {fileID: 6714203610095775951}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -960,7 +960,7 @@ GameObject:
   - component: {fileID: 6714203611435472593}
   - component: {fileID: 6714203611435472607}
   m_Layer: 9
-  m_Name: Boarder4
+  m_Name: BoarderLeft
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1032,12 +1032,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7079790921991184844}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -640, y: -320, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 6714203611014656430}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &4170699083003762118
 SpriteRenderer:
@@ -1077,15 +1077,15 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -247968617
+  m_SortingLayer: -1
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 574193401c571174a855deeae3ace762, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 1
   m_DrawMode: 2
-  m_Size: {x: 640, y: 360}
+  m_Size: {x: 1280, y: 720}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1

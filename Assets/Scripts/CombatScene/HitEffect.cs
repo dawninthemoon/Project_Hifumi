@@ -15,8 +15,18 @@ public class HitEffect : MonoBehaviour {
     private bool _applyKnockback;
     private Sequence _flashSequence;
     private Sequence _timeFreezeSequence;
+
+    private void OnEnable() {
+        _applyKnockback = false;
+    }
+
     private void Update() {
         if (_applyKnockback && (_knockbackDuration > _timeAgo)) {
+            Vector2 normal = CheckBoarder();
+            if (!normal.Equals(Vector2.zero)) {
+                _knockbackDir = GetReflectVector(normal);
+            }
+
             Vector3 knockbackAmount = _knockbackDir * Mathf.Max(0f, _knockbackForce - _friction * _timeAgo);
             transform.position += knockbackAmount * Time.deltaTime;
             _timeAgo += Time.deltaTime;
@@ -24,6 +34,10 @@ public class HitEffect : MonoBehaviour {
     }
 
     public void ApplyKnockback(Vector2 direction, float force) {
+        if (_applyKnockback) {
+            return;
+        }
+
         _knockbackDir = direction;
         _knockbackForce = force;
         _timeAgo = 0f;
@@ -60,5 +74,32 @@ public class HitEffect : MonoBehaviour {
         else {
             _timeFreezeSequence.Restart();
         }
+    }
+
+    private Vector2 CheckBoarder() {
+        float radius = GetComponent<EntityBase>().Radius;
+        Vector2 maxSize = CombatSceneHandler.StageMaxSize;
+        Vector2 minSize = CombatSceneHandler.StageMinSize;
+        Vector2 pos = transform.position;
+        Vector2 normal = Vector2.zero;
+
+        if (pos.y > maxSize.y - radius) {
+            normal = Vector2.down;
+        }
+        else if (pos.x < minSize.x + radius) {
+            normal = Vector2.right;
+        }
+        else if (pos.y < minSize.y + radius) {
+            normal = Vector2.up;
+        }
+        else if (pos.x > maxSize.x - radius) {
+            normal = Vector2.left;
+        }
+        return normal;
+    }
+
+    private Vector2 GetReflectVector(Vector2 n) {
+        Vector2 reflectVector = _knockbackDir + 2 * n * Vector2.Dot(-_knockbackDir, n);
+        return reflectVector;
     }
 }
