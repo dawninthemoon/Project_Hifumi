@@ -307,9 +307,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _allyImages:
-  - {fileID: 1253549206272548166}
-  - {fileID: 1253549207644620160}
-  - {fileID: 1253549207104306676}
+  - {fileID: 1253549207961374051}
+  - {fileID: 1253549206508099687}
+  - {fileID: 1253549207076708359}
   _rescueButtons:
   - {fileID: 5557141627385761809}
   - {fileID: 5557141627385761814}

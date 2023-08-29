@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
 
-public class AllyRescueHandler : MonoBehaviour {
+public class AllyRescueHandler : MonoBehaviour, IResetable {
     [SerializeField] private Image[] _allyImages = null;
     [SerializeField] private Button[] _rescueButtons = null;
     private EntityInfo[] _entityInfoArray;
@@ -24,10 +24,12 @@ public class AllyRescueHandler : MonoBehaviour {
             EntityInfo entityInfo = entityTable[randomEntityIndex];
             entityTable.RemoveAt(randomEntityIndex);
 
-            _allyImages[i].transform.GetChild(0).GetComponent<Image>().sprite = entityInfo.BodySprite;
+            _allyImages[i].sprite = entityInfo.BodySprite;
             _currentAllies[i] = entityInfo;
 
             _rescueButtons[i].onClick.AddListener(() => OnRescueButtonClicked(selectedIdx));
+
+            _rescueButtons[i].gameObject.SetActive(true);
         }
     }
 
@@ -36,7 +38,7 @@ public class AllyRescueHandler : MonoBehaviour {
             if (i == index) {
                 continue;
             }
-            _allyImages[i].gameObject.SetActive(false);
+            _rescueButtons[i].gameObject.SetActive(false);
         }
         GameMain.PlayerData.Allies.Add(_currentAllies[index]);
     }

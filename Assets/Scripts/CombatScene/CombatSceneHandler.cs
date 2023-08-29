@@ -230,6 +230,11 @@ public class CombatSceneHandler : MonoBehaviour, IResetable {
 
     private void OnStageEnd() {
         _isStageCleared = true;
+
+        for (int i = 0; i < _activeAllies.Count; ++i) {
+            _activeAllies[i].SetTarget(null);
+        }
+
         InteractiveEntity.SetInteractive(InteractiveEntity.Type.Entity, false);
         InteractiveEntity.SetInteractive(InteractiveEntity.Type.UI, false);
 
