@@ -890,10 +890,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _bodyRenderer: {fileID: 8362562634550720676}
-  _knockbackDuration: 1.5
-  _freezeDuration: 0.25
-  _flashDuration: 0.2
-  _friction: 700
+  _knockbackDuration: 2
+  _freezeDuration: 0.08
+  _flashDuration: 0.018
+  _friction: 800
 --- !u!1 &7684824133015684061
 GameObject:
   m_ObjectHideFlags: 0
