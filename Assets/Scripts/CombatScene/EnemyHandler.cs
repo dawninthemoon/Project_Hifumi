@@ -46,7 +46,7 @@ public class EnemyHandler : MonoBehaviour {
         Vector2 stageMinSize = CombatSceneHandler.StageMinSize;
         Vector2 stageMaxSize = CombatSceneHandler.StageMaxSize;
 
-        int waveRank = stageConfig.StageInfoArray[waveCount];
+        int waveRank = stageConfig.StageInfoArray[waveCount - 1];
         CombatWaveConfig waveConfig = _waveConfigDictionary[waveRank];
         CombatWaveInfo selectedWave = waveConfig.WaveInfoArray[Random.Range(0, waveConfig.WaveInfoArray.Length)];
         

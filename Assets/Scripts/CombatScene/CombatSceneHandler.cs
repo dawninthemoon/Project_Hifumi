@@ -8,6 +8,7 @@ public class CombatSceneHandler : MonoBehaviour, IResetable {
     [SerializeField] private MemberUIControl _memberUIControl = null;
     [SerializeField] private EnemyHandler _enemyHandler = null;
     [SerializeField] private CombatReward _combatReward = null;
+    [SerializeField] private CombatResultUI _combatResultUI = null;
     public static readonly float Width = 640;
     public static readonly float Height = 380f;
     private KdTree<EntityBase> _activeAllies;
@@ -24,6 +25,7 @@ public class CombatSceneHandler : MonoBehaviour, IResetable {
     private ExTimeCounter _timeCounter;
     private bool _waitingForNextWave;
     private bool _isStageCleared;
+    private float _timeAgo;
     private static readonly string NextWaveTimerKey = "NextWaveTime";
     public float NextWaveTime {
         get {
@@ -45,6 +47,7 @@ public class CombatSceneHandler : MonoBehaviour, IResetable {
     }
 
     public void Reset() {
+        _timeAgo = 0f;
         for (int i = 0; i < _activeAllies.Count; ++i) {
             _entitySpawner.RemoveAlly(_activeAllies[i]);
             _activeAllies.RemoveAt(i--);
@@ -54,6 +57,7 @@ public class CombatSceneHandler : MonoBehaviour, IResetable {
             _inactiveAllies.RemoveAt(i--);
         }
         _enemyHandler.RemoveAllEnemies(_entitySpawner);
+        _combatResultUI.Reset();
 
         _currentWave = 0;
         _isStageCleared = false;
@@ -102,6 +106,7 @@ public class CombatSceneHandler : MonoBehaviour, IResetable {
         if (_isStageCleared) {
             return;
         }
+        _timeAgo += Time.deltaTime;
 
         Time.timeScale = GameConfigHandler.GameSpeed;
         if (Input.GetKeyDown(KeyCode.X)) {
@@ -233,6 +238,8 @@ public class CombatSceneHandler : MonoBehaviour, IResetable {
 
     private void OnRewardSelected(Belongings selectedStuff) {
         GameMain.PlayerData.AddBelongings(selectedStuff);
+
+        _combatResultUI.ShowResultUI(true, _timeAgo.ToString());
 
         InteractiveEntity.SetInteractive(InteractiveEntity.Type.Entity, true);
         InteractiveEntity.SetInteractive(InteractiveEntity.Type.UI, true);

@@ -17,18 +17,12 @@ MonoBehaviour:
   - waveID: 10001
     enemyIDArray:
     - 2000
-    - 2001
     - 2002
-    - 2003
   - waveID: 10002
     enemyIDArray:
     - 2000
-    - 2000
-    - 2001
     - 2001
   - waveID: 10003
     enemyIDArray:
-    - 2000
-    - 2001
     - 2001
     - 2003
