@@ -1048,6 +1048,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _bodyRenderer: {fileID: 1269893135007115034}
   _knockbackDuration: 0.15
+  _freezeDuration: 0.15
+  _flashDuration: 0.15
 --- !u!1 &7770128589057490813
 GameObject:
   m_ObjectHideFlags: 0

@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerData {
-    public List<EntityInfo> Allies;
-    public Dictionary<string, List<Belongings>> BelongingsDictionary;
+    public List<EntityInfo> Allies { get; private set; }
+    public Dictionary<string, List<Belongings>> BelongingsDictionary { get; private set; }
 
     public PlayerData() {
         Allies = new List<EntityInfo>();

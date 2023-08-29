@@ -16,11 +16,15 @@ public class GameMap : MonoBehaviour {
 
     public void Awake() {
         _generator = GetComponent<MapGenerator>();
+        _roomSelector.SetRoomExit(OnRoomCleared);
     }
 
     private void Start() {
+        
+    }
+
+    public void StartGenerateMap() {
         GenerateMap(OnRoomMoveRequested);
-        _roomSelector.SetRoomExit(OnRoomCleared);
         SetRoomInteractive();
     }
 

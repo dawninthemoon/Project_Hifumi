@@ -81,15 +81,22 @@ public class Truck : EntityBase, ITargetable {
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
-        if (MoveProgressEnd)
+        if (MoveProgressEnd) {
             return;
-            
-        ++_collisionCount;
+        }
 
+        ++_collisionCount;
         if (other.gameObject.tag.Equals("Enemy")) {
             Vector2 direction = (other.transform.position - transform.position).normalized;
             float speed = _currentSpeed > 0f ? _currentSpeed : _speed / 10f;
             other.GetComponent<HitEffect>().ApplyKnockback(direction, speed * _knockbackForce);
+        }
+    }
+
+    private void OnTriggerStay2D(Collider2D other) {
+        if (MoveProgressEnd) {
+            Vector3 direction = (other.transform.position - transform.position).normalized;
+            other.transform.position += direction * _knockbackForce * 10f * Time.deltaTime;
         }
     }
 }

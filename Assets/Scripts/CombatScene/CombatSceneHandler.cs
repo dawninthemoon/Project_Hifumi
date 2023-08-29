@@ -23,12 +23,13 @@ public class CombatSceneHandler : MonoBehaviour {
     private ExTimeCounter _timeCounter;
     private bool _waitingForNextWave;
     private bool _isStageCleared;
+    private static readonly string NextWaveTimerKey = "NextWaveTime";
     public float NextWaveTime {
         get {
-            if (!_waitingForNextWave || !_timeCounter.Contains("NextWaveTime"))
+            if (!_waitingForNextWave || !_timeCounter.Contains(NextWaveTimerKey))
                 return 0;
-            float timeLimit = _timeCounter.GetTimeLimit("NextWaveTime");
-            float curr = _timeCounter.GetCurrentTime("NextWaveTime");
+            float timeLimit = _timeCounter.GetTimeLimit(NextWaveTimerKey);
+            float curr = _timeCounter.GetCurrentTime(NextWaveTimerKey);
             return timeLimit - curr;
         }
     }
@@ -61,10 +62,9 @@ public class CombatSceneHandler : MonoBehaviour {
 
     private void InitalizeAllies() {
         var entityPrefab = Resources.Load<EntityBase>("Prefabs/AllyPrefab");
-        var entityInformation = Resources.LoadAll<EntityInfo>("ScriptableObjects/Allies");
         _truck = _memberUIControl.GetComponent<Truck>();
 
-        foreach (EntityInfo info in entityInformation) {
+        foreach (EntityInfo info in GameMain.PlayerData.Allies) {
             EntityBase newEntity = _entitySpawner.CreateAlly(info);
             newEntity.gameObject.SetActive(false);
             _inactiveAllies.Add(newEntity);
@@ -108,8 +108,8 @@ public class CombatSceneHandler : MonoBehaviour {
             OnWaveCleared();
         }
 
-        if (_waitingForNextWave && _timeCounter.Contains("NextWaveTime")) {
-            _timeCounter.IncreaseTimer("NextWaveTime", out var limit);
+        if (_waitingForNextWave && _timeCounter.Contains(NextWaveTimerKey)) {
+            _timeCounter.IncreaseTimer(NextWaveTimerKey, out var limit);
             if (limit) {
                 StartNewWave();
             }
