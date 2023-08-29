@@ -23,6 +23,7 @@ public class TruckDirectionSelect : MonoBehaviour, IResetable {
         _truckObject.transform.position = _initialTruckPosition;
         _canSetDirection = true;
         _canShootTruck = false;
+        _startPosition = null;
         _truckObject.Reset();
 
         for (int i = 0; i < _boarders.Length; ++i) {
@@ -49,7 +50,7 @@ public class TruckDirectionSelect : MonoBehaviour, IResetable {
             }
         }
 
-        if (Input.GetMouseButtonUp(0)) {
+        if (_startPosition != null && Input.GetMouseButtonUp(0)) {
             _truckDirectionArrow.gameObject.SetActive(false);
             if (_canSetDirection && _canShootTruck) {
                 _canSetDirection = false;

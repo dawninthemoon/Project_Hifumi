@@ -8,6 +8,7 @@ public class GameMain : MonoBehaviour {
         get { return _playerData; }
     }
     [SerializeField] private GameMap _gameMap = null;
+    [SerializeField] private bool _isTestCode = false;
 
     private void Awake() {
         _playerData = new PlayerData();
@@ -15,7 +16,8 @@ public class GameMain : MonoBehaviour {
     }
 
     private void Start() {
-        _gameMap.StartGenerateMap();
+        if (!_isTestCode)
+            _gameMap.StartGenerateMap();
     }
 
     // For Test
