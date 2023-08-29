@@ -61,24 +61,6 @@ public class Truck : EntityBase, ITargetable, IResetable {
         MoveProgressEnd = true;
         transform.localRotation = Quaternion.identity;
         onTruckmoveEnd();
-        StartCoroutine(MoveCamera(transform.position));
-    }
-
-    private IEnumerator MoveCamera(Vector3 targetPosition) {
-        Transform cameraTransform = Camera.main.transform;
-        float duration = 0.5f;
-        float timeAgo = 0f;
-
-        Vector3 startPosition = cameraTransform.position;
-        while (timeAgo < duration) {
-            timeAgo += Time.deltaTime;
-
-            cameraTransform.position = Vector3.Lerp(startPosition, targetPosition, timeAgo / duration).ChangeZPos(-10f);
-
-            yield return null;
-        }
-
-        CombatSceneHandler.SetMapView(targetPosition);
     }
 
     private void Awake() {

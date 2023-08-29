@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CombatCameraMover : MonoBehaviour {
-    [SerializeField] private float _scrollSpeed = 10f;
     private Truck _target;
     private Vector2 _direction = Vector2.zero;
     private Transform _cameraTransform;
@@ -18,8 +17,6 @@ public class CombatCameraMover : MonoBehaviour {
     }
 
     private void Update() {
-        ApplyCameraZoom();
-        
         if (_direction.Equals(Vector2.zero) || _target.MoveProgressEnd) {
             return;
         }
@@ -46,10 +43,5 @@ public class CombatCameraMover : MonoBehaviour {
 
         _cameraTransform.position = nextPosition;
         CombatSceneHandler.SetMapView(_cameraTransform.position);
-    }
-
-    private void ApplyCameraZoom() {
-        float scroollWheel = Input.GetAxis("Mouse ScrollWheel");
-        Camera.main.orthographicSize += scroollWheel * Time.deltaTime * _scrollSpeed;
     }
 }
