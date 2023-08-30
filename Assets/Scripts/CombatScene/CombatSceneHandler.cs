@@ -108,16 +108,6 @@ public class CombatSceneHandler : MonoBehaviour, IResetable {
         }
         _timeAgo += Time.deltaTime;
 
-        Time.timeScale = GameConfigHandler.GameSpeed;
-        if (Input.GetKeyDown(KeyCode.X)) {
-            GameConfigHandler.GameSpeed = Mathf.Max(0.5f, GameConfigHandler.GameSpeed - 0.5f);
-            Time.timeScale = GameConfigHandler.GameSpeed;
-        }
-        if (Input.GetKeyDown(KeyCode.C)) {
-            GameConfigHandler.GameSpeed = Mathf.Min(10f, GameConfigHandler.GameSpeed + 0.5f);
-            Time.timeScale = GameConfigHandler.GameSpeed;
-        }
-
         MoveProgress();
         
         if (_truck.MoveProgressEnd && _activeAllies.Count == 0) {
@@ -188,7 +178,7 @@ public class CombatSceneHandler : MonoBehaviour, IResetable {
         Vector2 p1 = _truck.Position;
         p1.y += 100f;
 
-        Time.timeScale = GameConfigHandler.GameSpeed * 0.25f;
+        Time.timeScale = GameConfigHandler.GameSpeed * 0.75f;
         while (timeAgo < targetTime) {
             timeAgo += Time.deltaTime;
 
