@@ -172,13 +172,16 @@ public class CombatSceneHandler : MonoBehaviour, IResetable {
         float timeAgo = 0f;
         float targetTime = 1f;
 
-        float radius = 100f;
         Vector2 start = _truck.transform.position;
-        Vector2 end = start + Random.insideUnitCircle.normalized * radius;
+        Vector2 end = start;
+        end.y -= _truck.Height * 0.75f;
+        float xOffset = Random.Range(_truck.Width * 0.25f, _truck.Width);
+        xOffset *= Random.Range(0, 2) == 0 ? -1f : 1f;
+        end.x += xOffset;
+
         Vector2 p1 = _truck.Position;
         p1.y += 100f;
 
-        Time.timeScale = GameConfigHandler.GameSpeed * 0.75f;
         while (timeAgo < targetTime) {
             timeAgo += Time.deltaTime;
 
@@ -187,7 +190,6 @@ public class CombatSceneHandler : MonoBehaviour, IResetable {
 
             yield return null;
         }
-        Time.timeScale = GameConfigHandler.GameSpeed;
 
         callback();
     }
