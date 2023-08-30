@@ -29,10 +29,7 @@ public class HitEffect : MonoBehaviour {
     private void Update() {
         if (_applyKnockback && (_knockbackDuration > _timeAgo)) {
             Vector2 normal = CheckBoarder();
-            if (!normal.Equals(Vector2.zero) && (!_prevNormal.Equals(normal))) {
-                _prevNormal = normal;
-                _knockbackDir = GetReflectVector(normal);
-            }
+            ApplyReflect(normal);
 
             Vector3 knockbackAmount = _knockbackDir * Mathf.Max(0f, _knockbackForce - _friction * _timeAgo);
             transform.position += knockbackAmount * Time.deltaTime;
@@ -42,6 +39,7 @@ public class HitEffect : MonoBehaviour {
 
     public void ApplyKnockback(Vector2 direction, float force) {
         if (_applyKnockback) {
+            ApplyReflect(direction);
             return;
         }
 
@@ -80,6 +78,13 @@ public class HitEffect : MonoBehaviour {
         }
         else {
             _timeFreezeSequence.Restart();
+        }
+    }
+
+    private void ApplyReflect(Vector2 normal) {
+        if (!normal.Equals(Vector2.zero) && (!_prevNormal.Equals(normal))) {
+            _prevNormal = normal;
+            _knockbackDir = GetReflectVector(normal);
         }
     }
 
