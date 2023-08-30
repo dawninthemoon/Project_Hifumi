@@ -122,7 +122,7 @@ public class CombatSceneHandler : MonoBehaviour, IResetable {
         }
 
         if (_waitingForNextWave && _timeCounter.Contains(NextWaveTimerKey)) {
-            _timeCounter.IncreaseTimer(NextWaveTimerKey, out var limit);
+            _timeCounter.IncreaseTimer(NextWaveTimerKey, out var limit, GameConfigHandler.GameSpeed);
             if (limit) {
                 StartNewWave();
             }
