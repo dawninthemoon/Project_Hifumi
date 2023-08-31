@@ -20,7 +20,7 @@ MonoBehaviour:
   _mana: 100
   _morale: 100
   _attackDamage: 3
-  _attackSpeed: 0
+  _attackSpeed: 1
   _moveSpeed: 60
   _attackRange: 40
   _attackConfig:

@@ -42,7 +42,7 @@ public class SimpleProjectile : ProjectileBase {
         transform.position += moveVector;
 
         _timeAgo += Time.deltaTime;
-        if (_timeAgo > _lifeTime) {
+        if (gameObject.activeSelf && _timeAgo > _lifeTime) {
             ProjectileSpawner.Instance.RemoveProjectile(this);
         }
     }

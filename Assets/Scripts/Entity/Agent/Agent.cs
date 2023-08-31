@@ -8,7 +8,7 @@ public class Agent : MonoBehaviour, ITargetable {
     [SerializeField] private List<SteeringBehaviour> _steeringBehaviours = null;
     [SerializeField] private List<Detector> _detectors = null;
     [SerializeField] private ContextSolver _movementDirectionSolver = null;
-    [SerializeField] private float _detectionDelay = 0.05f, _aiUpdateDelay = 0.06f, _attackDelay = 1f;
+    [SerializeField] private float _detectionDelay = 0.05f, _aiUpdateDelay = 0.06f;
     private AIData _aiData;
     private Vector2 _movementInput;
     private bool _following;
@@ -86,7 +86,7 @@ public class Agent : MonoBehaviour, ITargetable {
                 if (distance - Mathf.Sqrt(_aiData.SelectedTarget.Radius) < _entityStatus.AttackRange) {
                     _movementInput = Vector2.zero;
                     OnAttackRequested?.Invoke();
-                    yield return YieldInstructionCache.WaitForSeconds(_attackDelay);
+                    yield return YieldInstructionCache.WaitForSeconds(_entityStatus.AttackSpeed);
                 }
                 else {
                     _movementInput = _movementDirectionSolver.GetDirectionToMove(_steeringBehaviours, _aiData);
