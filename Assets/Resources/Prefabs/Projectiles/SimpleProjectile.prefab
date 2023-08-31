@@ -10,11 +10,11 @@ GameObject:
   m_Component:
   - component: {fileID: 4806504211011362656}
   - component: {fileID: 1451808946987910808}
-  - component: {fileID: 5467489847732251240}
+  - component: {fileID: 2661155140311657545}
   - component: {fileID: 735735744037353779}
   - component: {fileID: 3355545297789338296}
   m_Layer: 0
-  m_Name: TraceProjectile
+  m_Name: SimpleProjectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -87,7 +87,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &5467489847732251240
+--- !u!114 &2661155140311657545
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -96,9 +96,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 4359655589425417546}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a7534441e003cf14db0542a1e2904375, type: 3}
+  m_Script: {fileID: 11500000, guid: d626f0bb80aee0c4ba000578c92c2555, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _lifeTime: 20
 --- !u!61 &735735744037353779
 BoxCollider2D:
   m_ObjectHideFlags: 0

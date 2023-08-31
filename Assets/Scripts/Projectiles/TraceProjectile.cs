@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using AttackBehaviours.Effects;
-using CustomPhysics;
+using RieslingUtils;
 
 public class TraceProjectile : ProjectileBase {
     private EntityBase _caster;
@@ -32,7 +32,7 @@ public class TraceProjectile : ProjectileBase {
         transform.position = nextPosition;
 
         Vector2 dir = targetPosition - transform.position;
-        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+        float angle = ExVector.GetDegree(targetPosition, transform.position);
         transform.rotation = Quaternion.Euler(0f, 0f, angle - 90f);
     }
 
