@@ -66,7 +66,7 @@ public class Agent : MonoBehaviour, ITargetable {
     }
 
     private IEnumerator ChaseAndAttack() {
-        while (true) {
+        while (_following) {
             if (_aiData.SelectedTarget == null) {
                 _movementInput = Vector2.zero;
                 _following = false;
