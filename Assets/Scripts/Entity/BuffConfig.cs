@@ -25,7 +25,7 @@ public class BuffConfig : ScriptableObject, IEntityStatus {
     public int Mana { get { return _buffInfo.mana; } }
     public int Morale { get { return _buffInfo.morale; } }
     public int AttackDamage { get { return _buffInfo.attackDamage; } }
-    public int AttackSpeed { get { return _buffInfo.attackSpeed; } }
+    public float AttackSpeed { get { return _buffInfo.attackSpeed; } }
     public int MoveSpeed { get { return _buffInfo.moveSpeed; } }
     public int AttackRange { get { return _buffInfo.attackRange; } }
 }

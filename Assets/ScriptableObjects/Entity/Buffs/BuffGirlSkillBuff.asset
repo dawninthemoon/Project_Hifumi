@@ -13,14 +13,11 @@ MonoBehaviour:
   m_Name: BuffGirlSkillBuff
   m_EditorClassIdentifier: 
   _buffInfo:
-    stun:
-      value: 0
-      durtaion: 0
-    statusBuffDuration: 0
+    buffDuration: 0
     health: 0
     mana: 0
     morale: 0
     attackDamage: 0
-    attackSpeed: 10
+    attackSpeed: 1
     moveSpeed: 0
     attackRange: 0

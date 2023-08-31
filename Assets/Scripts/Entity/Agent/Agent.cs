@@ -83,7 +83,7 @@ public class Agent : MonoBehaviour, ITargetable {
                 float distance = Vector2.Distance(_aiData.SelectedTarget.Position, transform.position);
                 if (distance - Mathf.Sqrt(_aiData.SelectedTarget.Radius) < _entityStatus.AttackRange) {
                     OnAttackRequested?.Invoke();
-                    yield return YieldInstructionCache.WaitForSeconds(_entityStatus.AttackSpeed);
+                    yield return YieldInstructionCache.WaitForSeconds(1f / _entityStatus.AttackSpeed);
                 }
             }
             yield return YieldInstructionCache.WaitForSeconds(_aiUpdateDelay);

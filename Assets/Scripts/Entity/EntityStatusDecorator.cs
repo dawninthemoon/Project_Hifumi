@@ -80,9 +80,9 @@ public class EntityStatusDecorator : IEntityStatus {
             return finalDamage;
         }
     }
-    public int AttackSpeed { 
+    public float AttackSpeed { 
         get {
-            int finalAttackSpeed = _entityInfo.AttackSpeed;
+            float finalAttackSpeed = _entityInfo.AttackSpeed;
             foreach (Belongings augments in _belongingsList) {
                 finalAttackSpeed += augments.AttackSpeed;
             }

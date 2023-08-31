@@ -10,7 +10,7 @@ public class Belongings : ScriptableObject, IEntityStatus {
     [SerializeField] private int _mana = 0;
     [SerializeField] private int _morale = 0;
     [SerializeField] private int _attackDamage = 0;
-    [SerializeField] private int _attackSpeed = 0;
+    [SerializeField] private float _attackSpeed = 0f;
     [SerializeField] private int _moveSpeed = 0;
     [SerializeField] private int _attackRange = 0;
     
@@ -18,7 +18,7 @@ public class Belongings : ScriptableObject, IEntityStatus {
     public int Mana { get { return _mana; } }
     public int Morale { get { return _morale; } }
     public int AttackDamage { get { return _attackDamage; } }
-    public int AttackSpeed { get { return _attackSpeed; } }
+    public float AttackSpeed { get { return _attackSpeed; } }
     public int MoveSpeed { get { return _moveSpeed; } }
     public int AttackRange { get { return _attackRange; } }
 
