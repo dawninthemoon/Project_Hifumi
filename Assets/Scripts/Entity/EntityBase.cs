@@ -14,6 +14,10 @@ public class EntityBase : MonoBehaviour {
     private int _currentHealth;
     private int _currentMana;
     private float _currentMorale;
+    public EntityBuff BuffControl {
+        get;
+        private set;
+    }
     public float Radius {
         get { return _bodyRadius; }
     }
@@ -57,6 +61,7 @@ public class EntityBase : MonoBehaviour {
     public void Initialize(EntityInfo entityInfo) {
         _entityInfo = entityInfo;
         _statusDecorator = new EntityStatusDecorator(_entityInfo);
+        BuffControl = new EntityBuff(this, _statusDecorator);
         _bulletPosition.localPosition = _entityInfo.BulletOffset;
 
         _animationControl.Initialize(_entityInfo.BodySprite, _entityInfo.WeaponSprite, _entityInfo.AnimatorController);

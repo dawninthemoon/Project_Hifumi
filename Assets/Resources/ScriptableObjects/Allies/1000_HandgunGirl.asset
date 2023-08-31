@@ -37,6 +37,6 @@ MonoBehaviour:
       m_Bits: 128
     attackBehaviour: {fileID: 11400000, guid: 1fa345527288997449af89e53828396c, type: 2}
     attackEffects:
-    - {fileID: 11400000, guid: 9c764e324ebb0e047976a987711958b2, type: 2}
+    - {fileID: 11400000, guid: da1335e2f506079439a1a44bd56d366d, type: 2}
     soundEffectName: se_arrow_shooting_1
   _bulletOffset: {x: 6.59, y: 3.3}

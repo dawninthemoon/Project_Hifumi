@@ -34,9 +34,9 @@ MonoBehaviour:
   _skillConfig:
     targetLayerMask:
       serializedVersion: 2
-      m_Bits: 128
-    attackBehaviour: {fileID: 11400000, guid: a5364f18f103e384b8f7c7b07cbe5c4d, type: 2}
+      m_Bits: 64
+    attackBehaviour: {fileID: 11400000, guid: 1fa345527288997449af89e53828396c, type: 2}
     attackEffects:
-    - {fileID: 11400000, guid: 15f55f9361eb44444ae06c473833c453, type: 2}
+    - {fileID: 11400000, guid: 2d811e4a1ecc2cc41bd57c6ef24fbf10, type: 2}
     soundEffectName: se_arrow_shooting_1
   _bulletOffset: {x: 13.65, y: 2.34}
