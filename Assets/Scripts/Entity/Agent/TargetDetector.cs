@@ -9,10 +9,9 @@ public class TargetDetector : Detector {
     [SerializeField] private LayerMask _targetLayerMask;
     private List<Transform> _colliders;
     private Transform _cachedTargetTransform;
-    private static readonly string EnemyTagString = "Enemy";
 
     private void Awake() {
-        _cachedTargetTransform = new GameObject("cachedTargetTransform").transform;
+        _cachedTargetTransform = new GameObject("CachedTargetTransform").transform;
         _cachedTargetTransform.SetParent(transform);
     }
 
@@ -23,15 +22,19 @@ public class TargetDetector : Detector {
 
             if (hit.collider != null && (_targetLayerMask & (1 << hit.collider.gameObject.layer)) != 0) {
                 //Debug.DrawRay(transform.position, direction * _targetDetectionRange, Color.magenta);
-
                 Vector3 targetPosition = aiData.SelectedTarget.Position;
-                _cachedTargetTransform.position = targetPosition;
+                _cachedTargetTransform.position 
+                    = GetMaxRangePosition(
+                        aiData.SelectedTarget,
+                        direction,
+                        aiData.AttackRange,
+                        aiData.Radius
+                    );
 
                 aiData.CurrentTarget = _cachedTargetTransform;
             }
             else {
                 // 상대의 이전 위치가 존재하지 않을 때, 상대 위치를 기준으로 이동할 수 있는 방향을 탐색
-                float sign = gameObject.tag.Equals(EnemyTagString) ? 1f : -1f;
                 direction = (aiData.SelectedTarget.Position - transform.position);
                 for (int i = 1; i < 32; ++i) {
                     float radian = Mathf.Atan2(direction.y, direction.x) + i * Mathf.PI / 16f;
@@ -57,5 +60,31 @@ public class TargetDetector : Detector {
         else {
             aiData.CurrentTarget = null;
         }
+    }
+
+    // 대상과 최대 사거리를 유지할 수 있는 거리 반환
+    private Vector3 GetMaxRangePosition(ITargetable target, Vector2 direction, float range, float radius) {
+        Vector3 maxRangePosition = target.Position - (Vector3)direction * (range - radius);
+        if (!CombatMap.IsInside(maxRangePosition, radius)) {
+            for (int i = 1; i <= 16; ++i) {
+                float radian = Mathf.Atan2(direction.y, direction.x) + i * Mathf.PI / 16f;
+                Vector3 dir = new Vector2(Mathf.Cos(radian), Mathf.Sin(radian)).normalized;
+
+                maxRangePosition = target.Position - dir * (range - radius);
+                if (CombatMap.IsInside(maxRangePosition, radius)) {
+                    return maxRangePosition;
+                }
+
+                radian = Mathf.Atan2(direction.y, direction.x) - i * Mathf.PI / 16f;
+                dir = new Vector2(Mathf.Cos(radian), Mathf.Sin(radian)).normalized;
+
+                maxRangePosition = target.Position - dir * (range - radius);
+                if (CombatMap.IsInside(maxRangePosition, radius)) {
+                    return maxRangePosition;
+                }
+            }
+            return transform.position;
+        }
+        return maxRangePosition;
     }
 }

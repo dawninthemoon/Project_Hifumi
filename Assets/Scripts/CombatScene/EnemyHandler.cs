@@ -42,8 +42,8 @@ public class EnemyHandler : MonoBehaviour {
     }
 
     public void SpawnEnemies(int waveCount, CombatStageConfig stageConfig, EntitySpawner entitySpanwer) {
-        Vector2 stageMinSize = CombatSceneHandler.StageMinSize;
-        Vector2 stageMaxSize = CombatSceneHandler.StageMaxSize;
+        Vector2 stageMinSize = CombatMap.StageMinSize;
+        Vector2 stageMaxSize = CombatMap.StageMaxSize;
 
         int waveRank = stageConfig.StageInfoArray[waveCount - 1];
         CombatWaveConfig waveConfig = _waveConfigDictionary[waveRank];

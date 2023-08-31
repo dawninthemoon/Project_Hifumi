@@ -28,7 +28,7 @@ public class HitEffect : MonoBehaviour {
 
     private void Update() {
         if (_applyKnockback && (_knockbackDuration > _timeAgo)) {
-            Vector2 normal = CheckBoarder();
+            Vector2 normal = CombatMap.GetBoarderNormal(transform.position, _radius);
             ApplyReflect(normal);
 
             Vector3 knockbackAmount = _knockbackDir * Mathf.Max(0f, _knockbackForce - _friction * _timeAgo);
@@ -86,27 +86,6 @@ public class HitEffect : MonoBehaviour {
             _prevNormal = normal;
             _knockbackDir = GetReflectVector(normal);
         }
-    }
-
-    private Vector2 CheckBoarder() {
-        Vector2 maxSize = CombatSceneHandler.StageMaxSize;
-        Vector2 minSize = CombatSceneHandler.StageMinSize;
-        Vector2 pos = transform.position;
-        Vector2 normal = Vector2.zero;
-
-        if (pos.y > maxSize.y - _radius) {
-            normal = Vector2.down;
-        }
-        else if (pos.x < minSize.x + _radius) {
-            normal = Vector2.right;
-        }
-        else if (pos.y < minSize.y + _radius) {
-            normal = Vector2.up;
-        }
-        else if (pos.x > maxSize.x - _radius) {
-            normal = Vector2.left;
-        }
-        return normal;
     }
 
     private Vector2 GetReflectVector(Vector2 n) {

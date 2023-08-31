@@ -48,7 +48,7 @@ public class SimpleProjectile : ProjectileBase {
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
-        if (other.CompareTag(_targetTag)) {
+        if (gameObject.activeSelf && other.CompareTag(_targetTag)) {
             _cachedEntityList.Clear();
             _cachedEntityList.Add(other.GetComponent<EntityBase>());
 

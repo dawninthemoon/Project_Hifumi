@@ -16,4 +16,12 @@ public class AIData {
         get;
         set;
     }
+    public float AttackRange {
+        get;
+        set;
+    }
+    public float Radius {
+        get;
+        set;
+    }
 }

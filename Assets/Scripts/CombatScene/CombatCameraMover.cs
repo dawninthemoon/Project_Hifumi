@@ -42,6 +42,6 @@ public class CombatCameraMover : MonoBehaviour {
         }
 
         _cameraTransform.position = nextPosition;
-        CombatSceneHandler.SetMapView(_cameraTransform.position);
+        CombatMap.SetMapView(_cameraTransform.position);
     }
 }

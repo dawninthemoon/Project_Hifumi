@@ -21,7 +21,7 @@ MonoBehaviour:
   _morale: 100
   _attackDamage: 3
   _attackSpeed: 1
-  _moveSpeed: 50
+  _moveSpeed: 40
   _attackRange: 80
   _attackConfig:
     targetLayerMask:

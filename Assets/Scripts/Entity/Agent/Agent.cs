@@ -12,6 +12,7 @@ public class Agent : MonoBehaviour, ITargetable {
     private AIData _aiData;
     private EntityStatusDecorator _entityStatus;
     private Rigidbody2D _rigidbody;
+    private Vector2 _movementInput;
     public UnityEvent OnAttackRequested { get; set; } = new UnityEvent();
     public UnityEvent<Vector2> OnMovementInput { get; set; } = new UnityEvent<Vector2>();
     public Vector3 Position {
@@ -27,11 +28,13 @@ public class Agent : MonoBehaviour, ITargetable {
     public void Initialize(EntityStatusDecorator status, float radius) {
         _entityStatus = status;
         Radius = radius;
+        _aiData.Radius = radius;
+        _aiData.AttackRange = _entityStatus.AttackRange;
         OnMovementInput.RemoveAllListeners();
     }
 
     private void OnEnable() {
-        StartCoroutine(ChaseAndAttack());
+        ExecuteAgent();
     }
 
     private void Start() {
@@ -48,25 +51,38 @@ public class Agent : MonoBehaviour, ITargetable {
         }
     }
 
-    private IEnumerator ChaseAndAttack() {
-        while (gameObject.activeSelf) {
-            Vector2 movementInput = Vector2.zero;
+    private void ExecuteAgent() {
+        StartCoroutine(Chase());
+        StartCoroutine(Attack());
+    }
 
+    private IEnumerator Chase() {
+        while (gameObject.activeSelf) {
+            _movementInput = Vector2.zero;
+            if (_aiData.SelectedTarget != null) {
+                _movementInput = _movementDirectionSolver.GetDirectionToMove(_steeringBehaviours, _aiData);
+                yield return YieldInstructionCache.WaitForSeconds(_aiUpdateDelay);
+            }
+
+            OnMovementInput?.Invoke(_movementInput);
+            yield return null;
+        }
+    }
+
+    private IEnumerator Attack() {
+        while (gameObject.activeSelf) {
             if (_aiData.SelectedTarget != null) {
                 float distance = Vector2.Distance(_aiData.SelectedTarget.Position, transform.position);
                 if (distance - Mathf.Sqrt(_aiData.SelectedTarget.Radius) < _entityStatus.AttackRange) {
-                    movementInput = Vector2.zero;
                     OnAttackRequested?.Invoke();
                     yield return YieldInstructionCache.WaitForSeconds(_entityStatus.AttackSpeed);
                 }
-                else {
-                    movementInput = _movementDirectionSolver.GetDirectionToMove(_steeringBehaviours, _aiData);
-                    yield return YieldInstructionCache.WaitForSeconds(_aiUpdateDelay);
-                }
             }
-
-            OnMovementInput?.Invoke(movementInput);
             yield return null;
         }
+    }
+    
+    private void Update() {
+        OnMovementInput?.Invoke(_movementInput);
     }
 }

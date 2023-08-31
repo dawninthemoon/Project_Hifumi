@@ -9,17 +9,11 @@ public class CombatSceneHandler : MonoBehaviour, IResetable {
     [SerializeField] private EnemyHandler _enemyHandler = null;
     [SerializeField] private CombatReward _combatReward = null;
     [SerializeField] private CombatResultUI _combatResultUI = null;
-    public static readonly float Width = 640;
-    public static readonly float Height = 380f;
     private KdTree<EntityBase> _activeAllies;
     private List<EntityBase> _inactiveAllies;
     private CombatStageConfig _currentStageConfig;
     private EntitySpawner _entitySpawner;
     private Truck _truck;
-    private static Vector2 _stageMinSize;
-    private static Vector2 _stageMaxSize;
-    public static Vector2 StageMinSize { get { return _stageMinSize; } }
-    public static Vector2 StageMaxSize { get { return _stageMaxSize; } }
     private UnityEvent _onStageEnd;
     private int _currentWave = 0;
     private ExTimeCounter _timeCounter;
@@ -72,13 +66,8 @@ public class CombatSceneHandler : MonoBehaviour, IResetable {
         InitializeCombat();
     }
 
-    public static void SetMapView(Vector3 origin) {
-        _stageMinSize = (Vector2)origin + new Vector2(-Width / 2f, -Height / 2f);
-        _stageMaxSize = (Vector2)origin + new Vector2(Width / 2f, Height / 2f);
-    }
-
     private void InitializeCombat() {
-        SetMapView(Vector3.zero);
+        CombatMap.SetMapView(Vector3.zero);
         StartNewWave();
     }
 
@@ -135,7 +124,7 @@ public class CombatSceneHandler : MonoBehaviour, IResetable {
             ITargetable target = activeEnemies.FindClosest(ally.transform.position)?.GetComponent<Agent>();
             ally.SetTarget(target);
 
-            ClampPosition(ally);
+            ally.transform.position = CombatMap.ClampPosition(ally.transform.position, ally.Radius);
         }
 
         _enemyHandler.Progress(_activeAllies, _truck);
@@ -153,13 +142,6 @@ public class CombatSceneHandler : MonoBehaviour, IResetable {
                 _activeAllies.RemoveAt(i--);
             }
         }
-    }
-
-    private void ClampPosition(EntityBase entity) {
-        Vector2 pos = entity.transform.position;
-        pos.x = Mathf.Clamp(pos.x, _stageMinSize.x + entity.Radius, _stageMaxSize.x - entity.Radius);
-        pos.y = Mathf.Clamp(pos.y, _stageMinSize.y + entity.Radius, _stageMaxSize.y - entity.Radius);
-        entity.transform.position = pos;
     }
 
     public void OnEntityActive(EntityBase entity) {
