@@ -32,7 +32,7 @@ public class TraceProjectile : ProjectileBase {
         transform.position = nextPosition;
 
         Vector2 dir = targetPosition - transform.position;
-        float angle = ExVector.GetDegree(targetPosition, transform.position);
+        float angle = ExVector.GetDegree(transform.position, targetPosition);
         transform.rotation = Quaternion.Euler(0f, 0f, angle - 90f);
     }
 

@@ -14,12 +14,25 @@ public class SimpleProjectile : ProjectileBase {
     private IAttackEffect[] _effects;
     private List<EntityBase> _cachedEntityList = new List<EntityBase>(1);
     public override void Initialize(EntityBase caster, EntityBase target, float moveSpeed, IAttackEffect[] effects) {
+        InitializeDefault(caster, target, moveSpeed, effects);
+        _direction = (target.transform.position - transform.position).normalized;
+        float angle = ExVector.GetDegree(transform.position, target.transform.position);
+        transform.rotation = Quaternion.Euler(0f, 0f, angle - 90f);
+    }
+
+    public void Initialize(EntityBase caster, EntityBase target, float moveSpeed, IAttackEffect[] effects, float angle) {
+        InitializeDefault(caster, target, moveSpeed, effects);
+
+        float radian = angle * Mathf.Deg2Rad;
+        _direction = new Vector3(Mathf.Cos(radian), Mathf.Sin(radian)).normalized;
+
+        transform.rotation = Quaternion.Euler(0f, 0f, angle - 90f);
+    }
+
+    private void InitializeDefault(EntityBase caster, EntityBase target, float moveSpeed, IAttackEffect[] effects) {
         _targetTag = target.tag;
         _caster = caster;
         _effects = effects;
-        _direction = (target.transform.position - transform.position).normalized;
-        float angle = ExVector.GetDegree(target.transform.position, transform.position);
-        transform.rotation = Quaternion.Euler(0f, 0f, angle - 90f);
         _moveSpeed = moveSpeed;
         _timeAgo = 0f;
     }

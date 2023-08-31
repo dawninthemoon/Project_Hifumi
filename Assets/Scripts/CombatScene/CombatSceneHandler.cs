@@ -204,10 +204,11 @@ public class CombatSceneHandler : MonoBehaviour, IResetable {
         if (_enemyHandler.ActiveEnemies.Count > 0)
             return;
 
-        ++_currentWave;
-        _waitingForNextWave = false;
-        
-        _enemyHandler.SpawnEnemies(_currentWave, _currentStageConfig, _entitySpawner);
+        if (++_currentWave <= _currentStageConfig.StageInfoArray.Length) {
+            _waitingForNextWave = false;
+            
+            _enemyHandler.SpawnEnemies(_currentWave, _currentStageConfig, _entitySpawner);
+        }
     }
 
     private void OnWaveCleared() {

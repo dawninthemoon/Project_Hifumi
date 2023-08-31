@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace AttackBehaviours {
-    [CreateAssetMenu(fileName = "TargetedAttack", menuName = "ScriptableObjects/AttackBehaviours/TargetedAttack")]
+    [CreateAssetMenu(fileName = "TargetedAttackBehaviour", menuName = "ScriptableObjects/AttackBehaviours/TargetedAttack")]
     public class TargetedAttackBehaviour : AttackBehaviour {
         public override void Behaviour(EntityBase caster, List<EntityBase> targets, Effects.IAttackEffect[] effects) {
             if (targets.Count == 0) return;

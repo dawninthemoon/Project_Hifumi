@@ -10,24 +10,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 55bb4c7f7fa2dd348b1418fad7670b88, type: 3}
-  m_Name: AllyMelee 1
+  m_Name: A_SMGGIrl
   m_EditorClassIdentifier: 
   _entityID: 1000
   _bodySprite: {fileID: -263824020, guid: 3daaea050d9a0a345b4a144afb97d875, type: 3}
   _weaponSprite: {fileID: 1033754375, guid: a94a71db098b87d40ba9cf3d3190409f, type: 3}
-  _animatorController: {fileID: 9100000, guid: 5de484267d9ca274289f07a6bba20451, type: 2}
+  _animatorController: {fileID: 9100000, guid: 4daa8176453237943ba054e5ab71c47c, type: 2}
   _health: 500
   _mana: 100
   _morale: 100
   _attackDamage: 15
   _attackSpeed: 0
   _moveSpeed: 50
-  _attackRange: 40
+  _attackRange: 130
   _attackConfig:
     targetLayerMask:
       serializedVersion: 2
       m_Bits: 128
-    attackBehaviour: {fileID: 11400000, guid: e6413384cc387974c8e330821ec72015, type: 2}
+    attackBehaviour: {fileID: 11400000, guid: 0515b34356055ec4c942eeae2337b04b, type: 2}
     attackEffects:
     - {fileID: 11400000, guid: 15f55f9361eb44444ae06c473833c453, type: 2}
     soundEffectName: se_swing_ver1
@@ -35,7 +35,7 @@ MonoBehaviour:
     targetLayerMask:
       serializedVersion: 2
       m_Bits: 128
-    attackBehaviour: {fileID: 11400000, guid: e6413384cc387974c8e330821ec72015, type: 2}
+    attackBehaviour: {fileID: 11400000, guid: 0515b34356055ec4c942eeae2337b04b, type: 2}
     attackEffects:
     - {fileID: 11400000, guid: 15f55f9361eb44444ae06c473833c453, type: 2}
     soundEffectName: se_swing_ver1
