@@ -107,7 +107,11 @@ public class EntityBase : MonoBehaviour {
             Vector3 nextPosition = transform.position + (Vector3)direction * Time.deltaTime * _statusDecorator.MoveSpeed;
             transform.position = nextPosition;
 
-            _animationControl.SetFaceDir(direction);
+            Vector3 faceDir = direction;
+            if (_agent.SelectedTarget != null) {
+                faceDir = (_agent.SelectedTarget.Position - transform.position);
+            }
+            _animationControl.SetFaceDir(faceDir);
         }
     }
 

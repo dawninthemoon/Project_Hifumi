@@ -21,6 +21,9 @@ public class Agent : MonoBehaviour, ITargetable {
         get { return transform.position; }
     }
     public float Radius { get; private set; }
+    public ITargetable SelectedTarget {
+        get { return _aiData.SelectedTarget; }
+    }
     private bool _attackPressed;
     private bool _stopMovement;
 

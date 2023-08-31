@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c5b7f6fb703f1ba438bab0f871a87638, type: 3}
-  m_Name: SMGGIrlAttack
+  m_Name: SMGGIrlSkill
   m_EditorClassIdentifier: 
   _projectilePrefabName: SimpleProjectile
   _aimingEfficiency: 3
   _bulletCount: 1
-  _burstCount: 3
-  _burstDelay: 0.15
+  _burstCount: 10
+  _burstDelay: 0.05
   _projectileSpeed: 80
