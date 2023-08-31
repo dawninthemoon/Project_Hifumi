@@ -9,13 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c552c1f70f0dcbe4e870cf12f13a3880, type: 3}
-  m_Name: Stun
+  m_Script: {fileID: 11500000, guid: d4cd09f86a8e8b94388850a6d7be89ff, type: 3}
+  m_Name: DebuffStun
   m_EditorClassIdentifier: 
-  _buffInfo:
+  _debuffInfo:
     stun:
       value: 1
       durtaion: 1
-    attackSpeed:
-      value: 0
-      durtaion: 0

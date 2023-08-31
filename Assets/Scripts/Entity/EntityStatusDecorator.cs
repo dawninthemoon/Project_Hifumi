@@ -7,9 +7,12 @@ public class EntityStatusDecorator : IEntityStatus {
     private List<Belongings> _belongingsList;
     private List<BuffConfig> _buffList;
 
-    public EntityStatusDecorator(EntityInfo entityInfo) {
+    public EntityStatusDecorator() {
         _belongingsList = new List<Belongings>();
         _buffList = new List<BuffConfig>();
+    }
+
+    public void Initialize(EntityInfo entityInfo) {
         _entityInfo = entityInfo;
     }
 

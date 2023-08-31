@@ -4,13 +4,7 @@ using UnityEngine;
 
 [System.Serializable]
 public struct BuffInfo {
-    [System.Serializable]
-    public struct Pair<T> {
-        public T value;
-        public float durtaion;
-    }
-    public Pair<bool> stun;
-    public float statusBuffDuration;
+    public float buffDuration;
     public int health;
     public int mana;
     public int morale;

@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b55b963ce3380594cb7a52644122e6a7, type: 3}
   m_Name: StunEffect
   m_EditorClassIdentifier: 
-  _buffConfig: {fileID: 11400000, guid: c820102786c1aed44a6314cd388afc09, type: 2}
+  _buffConfig: {fileID: 0}
+  _debuffConfig: {fileID: 11400000, guid: f0d6a444375265a4d99a74610e3af451, type: 2}

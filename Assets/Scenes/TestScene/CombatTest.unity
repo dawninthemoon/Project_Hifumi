@@ -351,8 +351,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _gameMap: {fileID: 0}
   _defaultEntities:
-  - {fileID: 11400000, guid: 445c91abc6f96aa4a9f8084e1d9a207f, type: 2}
-  - {fileID: 11400000, guid: 6405fe3f6640604479a9f8115336415d, type: 2}
+  - {fileID: 11400000, guid: 4e6e6c49f534ada4581f0355f324e954, type: 2}
   _isTestCode: 1
 --- !u!4 &681586726
 Transform:

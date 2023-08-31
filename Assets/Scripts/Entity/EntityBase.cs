@@ -47,21 +47,22 @@ public class EntityBase : MonoBehaviour {
     }
     public int AttackDamage { get { return _statusDecorator.AttackDamage; } }
     private bool _canBehaviour = true;
-    private float _stunDurationTimer = 0f;
-    private float _stunDuration;
 
     private void Awake() {
         _agent = GetComponent<Agent>();
         _animationControl = GetComponent<EntityAnimationControl>();
         _uiControl = GetComponent<EntityUIControl>();
+
+        _statusDecorator = new EntityStatusDecorator();
+        BuffControl = new EntityBuff(this, _statusDecorator);
+
         _agent.OnMovementInput.AddListener(Move);
         _agent.OnAttackRequested.AddListener(Attack);
     }
 
     public void Initialize(EntityInfo entityInfo) {
         _entityInfo = entityInfo;
-        _statusDecorator = new EntityStatusDecorator(_entityInfo);
-        BuffControl = new EntityBuff(this, _statusDecorator);
+        _statusDecorator.Initialize(_entityInfo);
         _bulletPosition.localPosition = _entityInfo.BulletOffset;
 
         _animationControl.Initialize(_entityInfo.BodySprite, _entityInfo.WeaponSprite, _entityInfo.AnimatorController);
@@ -77,11 +78,8 @@ public class EntityBase : MonoBehaviour {
     }
 
     private void Update() {
-        if (!_canBehaviour) {
-            _stunDurationTimer += Time.deltaTime;
-            if (_stunDurationTimer > _stunDuration) {
-                _canBehaviour = true;
-            }
+        if (BuffControl != null) {
+            _canBehaviour = !BuffControl.IsDebuffExists("stun");
         }
     }
 
@@ -97,12 +95,6 @@ public class EntityBase : MonoBehaviour {
 
     public void SetTarget(ITargetable target) {
         _agent.SetTarget(target);
-    }
-
-    public void ApplyStun(float duration) {
-        _canBehaviour = false;
-        _stunDurationTimer = 0f;
-        _stunDuration = duration;
     }
 
     private void Move(Vector2 direction) {
