@@ -10,8 +10,6 @@ public class Agent : MonoBehaviour, ITargetable {
     [SerializeField] private ContextSolver _movementDirectionSolver = null;
     [SerializeField] private float _detectionDelay = 0.05f, _aiUpdateDelay = 0.06f;
     private AIData _aiData;
-    private Vector2 _movementInput;
-    private bool _following;
     private EntityStatusDecorator _entityStatus;
     private Rigidbody2D _rigidbody;
     public UnityEvent OnAttackRequested { get; set; } = new UnityEvent();
@@ -29,16 +27,15 @@ public class Agent : MonoBehaviour, ITargetable {
     public void Initialize(EntityStatusDecorator status, float radius) {
         _entityStatus = status;
         Radius = radius;
-
         OnMovementInput.RemoveAllListeners();
+    }
+
+    private void OnEnable() {
+        StartCoroutine(ChaseAndAttack());
     }
 
     private void Start() {
         InvokeRepeating("PerformDetection", 0f, _detectionDelay);
-    }
-
-    private void OnDisable() {
-        _following = false;
     }
 
     public void SetTarget(ITargetable target) {
@@ -51,39 +48,25 @@ public class Agent : MonoBehaviour, ITargetable {
         }
     }
 
-    private void Update() {
-        if (_aiData.CurrentTarget != null) {
-            if (!_following) {
-                _following = true;
-                StartCoroutine(ChaseAndAttack());
-            }
-        }
-        OnMovementInput?.Invoke(_movementInput);
-    }
-
-    public void ApplyKnockback(Vector2 knockback) {
-        _rigidbody.AddForce(knockback, ForceMode2D.Impulse);
-    }
-
     private IEnumerator ChaseAndAttack() {
-        while (_following) {
-            if (_aiData.SelectedTarget == null) {
-                _movementInput = Vector2.zero;
-                _following = false;
-                yield break;
-            }
-            else {
+        while (gameObject.activeSelf) {
+            Vector2 movementInput = Vector2.zero;
+
+            if (_aiData.SelectedTarget != null) {
                 float distance = Vector2.Distance(_aiData.SelectedTarget.Position, transform.position);
                 if (distance - Mathf.Sqrt(_aiData.SelectedTarget.Radius) < _entityStatus.AttackRange) {
-                    _movementInput = Vector2.zero;
+                    movementInput = Vector2.zero;
                     OnAttackRequested?.Invoke();
                     yield return YieldInstructionCache.WaitForSeconds(_entityStatus.AttackSpeed);
                 }
                 else {
-                    _movementInput = _movementDirectionSolver.GetDirectionToMove(_steeringBehaviours, _aiData);
+                    movementInput = _movementDirectionSolver.GetDirectionToMove(_steeringBehaviours, _aiData);
                     yield return YieldInstructionCache.WaitForSeconds(_aiUpdateDelay);
                 }
             }
+
+            OnMovementInput?.Invoke(movementInput);
+            yield return null;
         }
     }
 }

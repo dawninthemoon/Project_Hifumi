@@ -894,7 +894,6 @@ MonoBehaviour:
   _movementDirectionSolver: {fileID: 5167906755132261554}
   _detectionDelay: 0.05
   _aiUpdateDelay: 0.06
-  _attackDelay: 1
 --- !u!114 &7163469659208089624
 MonoBehaviour:
   m_ObjectHideFlags: 0
