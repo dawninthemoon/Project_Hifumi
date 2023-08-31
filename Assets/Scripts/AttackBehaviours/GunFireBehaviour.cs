@@ -14,7 +14,9 @@ namespace AttackBehaviours {
         [SerializeField] private float _projectileSpeed = 80f;
 
         public override void Behaviour(EntityBase caster, List<EntityBase> targets, Effects.IAttackEffect[] effects) {
-            caster.StartCoroutine(Fire(caster, targets, effects));
+            if (targets.Count > 0) {
+                caster.StartCoroutine(Fire(caster, targets, effects));
+            }
         }
 
         private IEnumerator Fire(EntityBase caster, List<EntityBase> targets, Effects.IAttackEffect[] effects) {
@@ -30,7 +32,7 @@ namespace AttackBehaviours {
             float defaultAngle = ExVector.GetDegree(caster.transform.position, targets[0].transform.position);
             float finalAngle = defaultAngle + Random.Range(-_aimingEfficiency, _aimingEfficiency);
 
-            SimpleProjectile projectile = ProjectileSpawner.Instance.GetProjectile(_projectilePrefabName) as SimpleProjectile;
+            ProjectileBase projectile = ProjectileSpawner.Instance.GetProjectile(_projectilePrefabName);
             projectile.transform.position = caster.transform.position;
             projectile.Initialize(
                 caster,

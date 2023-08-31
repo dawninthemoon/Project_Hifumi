@@ -5,6 +5,7 @@ using System.Linq;
 
 public class EntityBase : MonoBehaviour {
     [SerializeField] private float _bodyRadius = 20f;
+    [SerializeField] private Transform _bulletPosition = null;
     private Agent _agent;
     private EntityInfo _entityInfo = null;
     private EntityAnimationControl _animationControl;
@@ -56,6 +57,7 @@ public class EntityBase : MonoBehaviour {
     public void Initialize(EntityInfo entityInfo) {
         _entityInfo = entityInfo;
         _statusDecorator = new EntityStatusDecorator(_entityInfo);
+        _bulletPosition.localPosition = _entityInfo.BulletOffset;
 
         _animationControl.Initialize(_entityInfo.BodySprite, _entityInfo.WeaponSprite, _entityInfo.AnimatorController);
         

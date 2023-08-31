@@ -368,6 +368,37 @@ Transform:
   m_Father: {fileID: 7563314166462180939}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &3654697656881072957
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7107780542858152718}
+  m_Layer: 6
+  m_Name: bulletTransform
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7107780542858152718
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3654697656881072957}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 6.59, y: 2.34, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6244015553851370827}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3663613339387914291
 GameObject:
   m_ObjectHideFlags: 0
@@ -482,6 +513,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 103760758875521920}
+  - {fileID: 7107780542858152718}
   m_Father: {fileID: 5879802968770584942}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -114.877}
@@ -526,12 +558,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 593975573, guid: a94a71db098b87d40ba9cf3d3190409f, type: 3}
+  m_Sprite: {fileID: 928232993, guid: 40512a7da2180954cb5869ee28a9fd30, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 128, y: 128}
+  m_Size: {x: 32, y: 32}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -894,6 +926,8 @@ MonoBehaviour:
   _movementDirectionSolver: {fileID: 5167906755132261554}
   _detectionDelay: 0.05
   _aiUpdateDelay: 0.06
+  _moveDurationWhileAttack: 1
+  _stopDurationWhileAttack: 0.5
 --- !u!114 &7163469659208089624
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -907,6 +941,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _bodyRadius: 20
+  _bulletPosition: {fileID: 7107780542858152718}
 --- !u!114 &5452822171537124122
 MonoBehaviour:
   m_ObjectHideFlags: 0

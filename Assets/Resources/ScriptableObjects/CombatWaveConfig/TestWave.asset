@@ -9,12 +9,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c5b7f6fb703f1ba438bab0f871a87638, type: 3}
-  m_Name: SMGGIrlAttack
+  m_Script: {fileID: 11500000, guid: 038495080ef93e9489387113406d78f6, type: 3}
+  m_Name: TestWave
   m_EditorClassIdentifier: 
-  _projectilePrefabName: SimpleProjectile
-  _aimingEfficiency: 4
-  _bulletCount: 1
-  _burstCount: 2
-  _burstDelay: 0.3
-  _projectileSpeed: 150
+  _waveRank: 1
+  _waveInfoArray:
+  - waveID: 40001
+    enemyIDArray:
+    - 2000
+    - 2001
+    - 2002
+    - 2003
+    - 2000
+    - 2000

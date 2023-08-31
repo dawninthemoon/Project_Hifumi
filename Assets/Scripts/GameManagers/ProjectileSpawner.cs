@@ -10,7 +10,7 @@ public class ProjectileSpawner : Singleton<ProjectileSpawner> {
         ProjectileBase[] projectilePrefabs = Resources.LoadAll<ProjectileBase>(ProjectilePrefabPath);
         foreach (ProjectileBase projectilePrefab in projectilePrefabs) {
             ObjectPool<ProjectileBase> projectileObjectPool = new ObjectPool<ProjectileBase>(
-                30,
+                200,
                 () => { 
                     ProjectileBase instance = GameObject.Instantiate(projectilePrefab);
                     instance.name = projectilePrefab.name;

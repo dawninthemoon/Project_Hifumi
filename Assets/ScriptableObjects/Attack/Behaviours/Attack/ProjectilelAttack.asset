@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: ProjectilelAttack
   m_EditorClassIdentifier: 
   _projectilePrefabName: SimpleProjectile
-  _projectileSpeed: 80
+  _projectileSpeed: 140

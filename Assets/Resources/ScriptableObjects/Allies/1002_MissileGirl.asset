@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _entityID: 1002
   _bodySprite: {fileID: -1015506923, guid: 3daaea050d9a0a345b4a144afb97d875, type: 3}
-  _weaponSprite: {fileID: -30745275, guid: 40512a7da2180954cb5869ee28a9fd30, type: 3}
+  _weaponSprite: {fileID: 750759237, guid: 40512a7da2180954cb5869ee28a9fd30, type: 3}
   _animatorController: {fileID: 9100000, guid: 4daa8176453237943ba054e5ab71c47c, type: 2}
   _health: 500
   _mana: 100
@@ -39,3 +39,4 @@ MonoBehaviour:
     attackEffects:
     - {fileID: 11400000, guid: 15f55f9361eb44444ae06c473833c453, type: 2}
     soundEffectName: se_arrow_shooting_1
+  _bulletOffset: {x: 20, y: 6}

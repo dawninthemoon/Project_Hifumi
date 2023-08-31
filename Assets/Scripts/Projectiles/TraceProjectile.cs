@@ -19,6 +19,10 @@ public class TraceProjectile : ProjectileBase {
         _effects = effects;
     }
 
+    public override void Initialize(EntityBase caster, EntityBase target, float moveSpeed, IAttackEffect[] effects, float angle) {
+        Initialize(caster, target, moveSpeed, effects);
+    }
+
     protected override void Update() {
         if (_target == null || !_target.gameObject.activeSelf) {
             ProjectileSpawner.Instance.RemoveProjectile(this);

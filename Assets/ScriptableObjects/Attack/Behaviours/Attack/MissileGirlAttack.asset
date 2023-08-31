@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5b7f6fb703f1ba438bab0f871a87638, type: 3}
   m_Name: MissileGirlAttack
   m_EditorClassIdentifier: 
-  _projectilePrefabName: SimpleProjectile
+  _projectilePrefabName: SimpleProjectile2
   _aimingEfficiency: 0
   _bulletCount: 1
   _burstCount: 1

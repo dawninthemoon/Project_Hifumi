@@ -22,6 +22,8 @@ public class EntityInfo : ScriptableObject, IEntityStatus {
     [SerializeField] private AttackConfig _attackConfig;
     [SerializeField] private AttackConfig _skillConfig;
 
+    [SerializeField] private Vector2 _bulletOffset;
+
     public string EntityID { get { return _entityID; } }
 
     public Sprite BodySprite { get { return _bodySprite; } }
@@ -38,4 +40,6 @@ public class EntityInfo : ScriptableObject, IEntityStatus {
 
     public AttackConfig EntityAttackConfig { get { return _attackConfig; } }
     public AttackConfig EntitySkillConfig { get { return _skillConfig; } }
+
+    public Vector2 BulletOffset { get { return _bulletOffset; } }
 }
