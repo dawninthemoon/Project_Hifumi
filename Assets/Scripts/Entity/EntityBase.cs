@@ -41,6 +41,9 @@ public class EntityBase : MonoBehaviour {
         }
     }
     public int AttackDamage { get { return _statusDecorator.AttackDamage; } }
+    private bool _canBehaviour = true;
+    private float _stunDurationTimer = 0f;
+    private float _stunDuration;
 
     private void Awake() {
         _agent = GetComponent<Agent>();
@@ -57,11 +60,7 @@ public class EntityBase : MonoBehaviour {
         _animationControl.Initialize(_entityInfo.BodySprite, _entityInfo.WeaponSprite, _entityInfo.AnimatorController);
         
         _agent.Initialize(_statusDecorator, Radius);
-        _agent.OnMovementInput.AddListener((direction) => {
-            _animationControl.SetMoveAnimationState(!direction.Equals(Vector2.zero));
-            if (direction.sqrMagnitude > 0f)
-                _animationControl.SetFaceDir(direction);
-        });
+        _agent.OnMovementInput.AddListener(Move);
 
         var belongingsList = GameMain.PlayerData.GetBelongingsList(_entityInfo.EntityID);
         foreach (Belongings belongings in belongingsList) {
@@ -71,13 +70,22 @@ public class EntityBase : MonoBehaviour {
         InitalizeStatus();
     }
 
+    private void Update() {
+        if (!_canBehaviour) {
+            _stunDurationTimer += Time.deltaTime;
+            if (_stunDurationTimer > _stunDuration) {
+                _canBehaviour = true;
+            }
+        }
+    }
+
     public void SetEntitySelected(bool active) {
         _uiControl.SetMoraleUIActive(active);
     }
 
     private void InitalizeStatus() {
         _currentHealth = _statusDecorator.Health;
-        _currentMana = _statusDecorator.Mana;
+        _currentMana = 0;
         _currentMorale = _statusDecorator.Morale;
     }
 
@@ -85,17 +93,40 @@ public class EntityBase : MonoBehaviour {
         _agent.SetTarget(target);
     }
 
+    public void ApplyStun(float duration) {
+        _canBehaviour = false;
+        _stunDurationTimer = 0f;
+        _stunDuration = duration;
+    }
+
+    private void Move(Vector2 direction) {
+        if (!_canBehaviour) {
+            return;
+        }
+        _animationControl.SetMoveAnimationState(!direction.Equals(Vector2.zero));
+        if (direction.sqrMagnitude > 0f) {
+            Vector3 nextPosition = transform.position + (Vector3)direction * Time.deltaTime * _statusDecorator.MoveSpeed;
+            transform.position = nextPosition;
+
+            _animationControl.SetFaceDir(direction);
+        }
+    }
+
     private void Attack() {
+        if (!_canBehaviour) {
+            return;
+        }
+
         Mana = Mathf.Min(Mana + 10, _statusDecorator.Mana);
 
         //DoingAttack = true;
 
         AttackConfig config = _entityInfo.EntityAttackConfig;
-        /*if (Mana == _maxMana) {
+        if (Mana == _statusDecorator.Mana) {
             // Use Skill
             Mana = 0;
             config = _entityInfo.EntitySkillConfig;
-        }*/
+        }
         _animationControl.PlayAttackAnimation();
 
         var effects = config.attackEffects;
