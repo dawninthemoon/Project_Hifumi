@@ -9,6 +9,8 @@ public class Agent : MonoBehaviour, ITargetable {
     [SerializeField] private List<Detector> _detectors = null;
     [SerializeField] private ContextSolver _movementDirectionSolver = null;
     [SerializeField] private float _detectionDelay = 0.05f, _aiUpdateDelay = 0.06f;
+    [SerializeField] private float _moveDurationWhileAttack = 1f;
+    [SerializeField] private float _stopDurationWhileAttack = 0.5f;
     private AIData _aiData;
     private EntityStatusDecorator _entityStatus;
     private Rigidbody2D _rigidbody;
@@ -19,10 +21,13 @@ public class Agent : MonoBehaviour, ITargetable {
         get { return transform.position; }
     }
     public float Radius { get; private set; }
+    private bool _attackPressed;
+    private bool _stopMovement;
 
     private void Awake() {
         _aiData = new AIData();
         _rigidbody = GetComponent<Rigidbody2D>();
+        OnAttackRequested.AddListener(StartMovementStopProgress);
     }
 
     public void Initialize(EntityStatusDecorator status, float radius) {
@@ -30,7 +35,6 @@ public class Agent : MonoBehaviour, ITargetable {
         Radius = radius;
         _aiData.Radius = radius;
         _aiData.AttackRange = _entityStatus.AttackRange;
-        OnMovementInput.RemoveAllListeners();
     }
 
     private void OnEnable() {
@@ -39,6 +43,10 @@ public class Agent : MonoBehaviour, ITargetable {
 
     private void Start() {
         InvokeRepeating("PerformDetection", 0f, _detectionDelay);
+    }
+
+    private void Update() {
+        OnMovementInput?.Invoke(_movementInput);
     }
 
     public void SetTarget(ITargetable target) {
@@ -59,13 +67,10 @@ public class Agent : MonoBehaviour, ITargetable {
     private IEnumerator Chase() {
         while (gameObject.activeSelf) {
             _movementInput = Vector2.zero;
-            if (_aiData.SelectedTarget != null) {
+            if (_aiData.SelectedTarget != null && !_stopMovement) {
                 _movementInput = _movementDirectionSolver.GetDirectionToMove(_steeringBehaviours, _aiData);
-                yield return YieldInstructionCache.WaitForSeconds(_aiUpdateDelay);
             }
-
-            OnMovementInput?.Invoke(_movementInput);
-            yield return null;
+            yield return YieldInstructionCache.WaitForSeconds(_aiUpdateDelay);
         }
     }
 
@@ -78,11 +83,25 @@ public class Agent : MonoBehaviour, ITargetable {
                     yield return YieldInstructionCache.WaitForSeconds(_entityStatus.AttackSpeed);
                 }
             }
-            yield return null;
+            yield return YieldInstructionCache.WaitForSeconds(_aiUpdateDelay);
         }
     }
-    
-    private void Update() {
-        OnMovementInput?.Invoke(_movementInput);
+
+    private void StartMovementStopProgress() {
+        if (!_attackPressed) {
+            _attackPressed = true;
+            StartCoroutine(MovementStopProgress());
+        }
+    }
+
+    private IEnumerator MovementStopProgress() {
+        yield return YieldInstructionCache.WaitForSeconds(_moveDurationWhileAttack);
+
+        _stopMovement = true;
+
+        yield return YieldInstructionCache.WaitForSeconds(_stopDurationWhileAttack);
+
+        _stopMovement = false;
+        _attackPressed = false;
     }
 }

@@ -49,7 +49,7 @@ public class EntityBase : MonoBehaviour {
         _agent = GetComponent<Agent>();
         _animationControl = GetComponent<EntityAnimationControl>();
         _uiControl = GetComponent<EntityUIControl>();
-
+        _agent.OnMovementInput.AddListener(Move);
         _agent.OnAttackRequested.AddListener(Attack);
     }
 
@@ -60,7 +60,6 @@ public class EntityBase : MonoBehaviour {
         _animationControl.Initialize(_entityInfo.BodySprite, _entityInfo.WeaponSprite, _entityInfo.AnimatorController);
         
         _agent.Initialize(_statusDecorator, Radius);
-        _agent.OnMovementInput.AddListener(Move);
 
         var belongingsList = GameMain.PlayerData.GetBelongingsList(_entityInfo.EntityID);
         foreach (Belongings belongings in belongingsList) {

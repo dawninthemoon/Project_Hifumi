@@ -441,9 +441,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 92.5801, y: 36.450848, z: -11.857743}
+    m_Target: {x: 132.91846, y: 115.284325, z: -11.982455}
     speed: 2
-    m_Value: {x: 92.5801, y: 36.450848, z: -11.857743}
+    m_Value: {x: 132.91846, y: 115.284325, z: -11.982455}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -494,9 +494,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 90.948204
+    m_Target: 135.1577
     speed: 2
-    m_Value: 90.948204
+    m_Value: 135.1577
   m_Ortho:
     m_Target: 1
     speed: 2
@@ -1736,7 +1736,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 200}
   m_MaxSize: {x: 16192, y: 16192}
   vertical: 1
-  controlID: 10534
+  controlID: 14915
 --- !u!114 &11
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -1761,7 +1761,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 100}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
-  controlID: 10535
+  controlID: 14916
 --- !u!114 &12
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -1819,7 +1819,7 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 9c650000
+      m_SelectedIDs: 
       m_LastClickedID: 0
       m_ExpandedIDs: 24fbffff
       m_RenameOverlay:
@@ -1912,7 +1912,7 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Resources/ScriptableObjects/CombatWaveConfig
+    - Assets/Resources/ScriptableObjects/Enemies
     m_Globs: []
     m_OriginalText: 
   m_ViewMode: 0
@@ -1951,9 +1951,9 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_AssetTreeState:
-    scrollPos: {x: 0, y: 840}
-    m_SelectedIDs: 9c650000
-    m_LastClickedID: 26012
+    scrollPos: {x: 0, y: 780}
+    m_SelectedIDs: 
+    m_LastClickedID: 0
     m_ExpandedIDs: ffffffff00000000b6630000866500005a6600005c6600005e66000060660000626600006466000066660000686600006a6600006c6600006e66000070660000726600007466000076660000786600007a6600007c6600007e66000080660000826600008466000086660000886600008a6600008c6600008e66000090660000926600009466000096660000986600009a6600009c6600009e660000a0660000a2660000a4660000a6660000a8660000ac660000ae660000b0660000b2660000b4660000b6660000b8660000ba660000bc660000be66000056670000de670000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -1979,8 +1979,8 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: 9c650000
-    m_LastClickedInstanceID: 26012
+    m_SelectedInstanceIDs: 
+    m_LastClickedInstanceID: 0
     m_HadKeyboardFocusLastEvent: 0
     m_ExpandedInstanceIDs: c6230000
     m_RenameOverlay:
