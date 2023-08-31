@@ -72,7 +72,6 @@ public class CombatSceneHandler : MonoBehaviour, IResetable {
     }
 
     private void InitalizeAllies() {
-        var entityPrefab = Resources.Load<EntityBase>("Prefabs/AllyPrefab");
         _truck = _memberUIControl.GetComponent<Truck>();
 
         foreach (EntityInfo info in GameMain.PlayerData.Allies) {
@@ -147,7 +146,7 @@ public class CombatSceneHandler : MonoBehaviour, IResetable {
     public void OnEntityActive(EntityBase entity) {
         entity.gameObject.SetActive(true);
         _inactiveAllies.Remove(entity);
-        StartCoroutine(StartEaseParabola(entity.transform, () => _activeAllies.Add(entity)));
+        StartCoroutine(StartEaseParabola(entity.transform, () => { _activeAllies.Add(entity); entity.IsUnloadCompleted = true; }));
     }
 
     private IEnumerator StartEaseParabola(Transform target, System.Action callback) {

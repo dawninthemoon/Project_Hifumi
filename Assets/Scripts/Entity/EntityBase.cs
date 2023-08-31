@@ -46,6 +46,7 @@ public class EntityBase : MonoBehaviour {
         }
     }
     public int AttackDamage { get { return _statusDecorator.AttackDamage; } }
+    public bool IsUnloadCompleted { get; set; }
     private bool _canBehaviour = true;
 
     private void Awake() {
@@ -61,6 +62,7 @@ public class EntityBase : MonoBehaviour {
     }
 
     public void Initialize(EntityInfo entityInfo) {
+        IsUnloadCompleted = false;
         _entityInfo = entityInfo;
         _statusDecorator.Initialize(_entityInfo);
         _bulletPosition.localPosition = _entityInfo.BulletOffset;
@@ -165,5 +167,12 @@ public class EntityBase : MonoBehaviour {
         Destroy(_agent);
         //_agent.enabled = false;
         _animationControl.PlayDeadAnimation();*/
+    }
+
+    private void OnTriggerStay2D(Collider2D other) {
+        if (IsUnloadCompleted && (other.CompareTag("Enemy") || other.CompareTag("Ally"))) {
+            Vector3 direction = (other.transform.position - transform.position).normalized;
+            other.transform.position += direction * 100f * Time.deltaTime;
+        }
     }
 }
