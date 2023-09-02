@@ -62,6 +62,7 @@ public class EntityBase : MonoBehaviour, IObserver {
     }
 
     public void Initialize(EntityInfo entityInfo) {
+
         IsUnloadCompleted = false;
         _entityInfo = entityInfo;
         _statusDecorator.Initialize(_entityInfo);
@@ -74,8 +75,11 @@ public class EntityBase : MonoBehaviour, IObserver {
         var belongingsList = GameMain.PlayerData.GetBelongingsList(_entityInfo.EntityID);
         _statusDecorator.BelongingsList = belongingsList;
 
+        _uiControl.UpdateBelongingSprites(_statusDecorator.BelongingsList);
+
         InitalizeStatus();
     }
+
     public void Notify(ObserverSubject subject) {
         PlayerData data = subject as PlayerData;
         if (data == null) {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using RieslingUtils;
 
-public class Truck : EntityBase, ITargetable, IResetable {
+public class Truck : EntityBase, ITargetable {
     [SerializeField] private float _width = 1f;
     [SerializeField] private float _height = 1f;
     [SerializeField] private float _acceleration = 1.2f;

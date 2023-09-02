@@ -17,7 +17,9 @@ public class EntityStatusDecorator : IEntityStatus {
 
     public void Initialize(EntityInfo entityInfo) {
         _entityInfo = entityInfo;
+        _buffList.Clear();
     }
+
     public void AddBelongings(Belongings belongings) {
         BelongingsList.Add(belongings);
     }

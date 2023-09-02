@@ -41,12 +41,17 @@ public class BelongingsUIElement : EventTrigger {
         var hit = Physics2D.GetRayIntersection(Camera.main.ScreenPointToRay(Input.mousePosition), 100f, (1 << _targetLayer));
         if (hit.collider != null) {
             string targetEntityID = hit.collider.GetComponent<EntityBase>().ID;
-            GameMain.PlayerData.RemoveBelongingsInInventory(_belongingsData);
-            GameMain.PlayerData.AddBelongings(targetEntityID, _belongingsData);
-        }
+            var playerData = GameMain.PlayerData;
+            
+            if (playerData.GetBelongingsList(targetEntityID).Count < 3) {
+                GameMain.PlayerData.RemoveBelongingsInInventory(_belongingsData);
+                GameMain.PlayerData.AddBelongings(targetEntityID, _belongingsData);
 
-        SetSprite(null);
-        _belongingsData = null;
+                SetSprite(null);
+                _belongingsData = null;
+            }
+        }
+        
         transform.localPosition = Vector3.zero;
     }
 }

@@ -52,6 +52,7 @@ public class CombatSceneHandler : MonoBehaviour, IResetable {
         }
         _enemyHandler.RemoveAllEnemies(_entitySpawner);
         _combatResultUI.Reset();
+        _memberUIControl.Reset();
 
         _currentWave = 0;
         _isStageCleared = false;

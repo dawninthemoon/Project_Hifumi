@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using RieslingUtils;
 
-public class MemberUIControl : MonoBehaviour {
+public class MemberUIControl : MonoBehaviour, IResetable {
     [SerializeField] private MemberUIElement _memberUIPrefab = null;
     [SerializeField] private Transform _additionalWindow = null;
     private Dictionary<string, MemberUIElement> _currentMemberUI;
@@ -28,6 +28,13 @@ public class MemberUIControl : MonoBehaviour {
         _interactiveZone.OnMouseDownEvent.AddListener(() => {
             _additionalWindow.gameObject.ToggleGameObject();
         });
+    }
+
+    public void Reset() {
+        foreach (MemberUIElement element in _currentMemberUI.Values) {
+            Destroy(element.gameObject);
+        }
+        _currentMemberUI.Clear();
     }
 
     public void InitializeEntityUI(UnityAction<EntityBase> onEntityActive, UnityAction<EntityBase> onEntityInactive, List<EntityBase> entities) {

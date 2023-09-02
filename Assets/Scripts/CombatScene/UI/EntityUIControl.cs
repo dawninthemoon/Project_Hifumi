@@ -17,8 +17,9 @@ public class EntityUIControl : MonoBehaviour {
 
     public void UpdateBelongingSprites(List<Belongings> belingingsList) {
         int slotSize = _belongingsSlots.Length;
+        int belongingsCount = (belingingsList != null) ? belingingsList.Count : 0;
         for (int i = 0; i < slotSize; ++i) {
-            if (i < belingingsList.Count) {
+            if (i < belongingsCount) {
                 _belongingsSlots[i].sprite = belingingsList[i].Sprite;
             }
             else {
