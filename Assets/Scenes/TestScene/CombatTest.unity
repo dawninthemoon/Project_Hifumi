@@ -330,6 +330,7 @@ GameObject:
   m_Component:
   - component: {fileID: 681586726}
   - component: {fileID: 681586725}
+  - component: {fileID: 681586727}
   m_Layer: 0
   m_Name: GameMain
   m_TagString: Untagged
@@ -350,13 +351,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _gameMap: {fileID: 0}
-  _defaultEntities:
-  - {fileID: 11400000, guid: 4e6e6c49f534ada4581f0355f324e954, type: 2}
-  - {fileID: 11400000, guid: 6405fe3f6640604479a9f8115336415d, type: 2}
-  - {fileID: 11400000, guid: a3e50e9f8b617754391e880b82d4f886, type: 2}
-  - {fileID: 11400000, guid: 5682ab4d22cd4eb4a89ef7429a644f89, type: 2}
-  - {fileID: 11400000, guid: 445c91abc6f96aa4a9f8084e1d9a207f, type: 2}
-  _defaultBelongings: []
   _isTestCode: 1
 --- !u!4 &681586726
 Transform:
@@ -373,6 +367,28 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &681586727
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 681586724}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56fc954e110edf343b7b533e03490dfc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _allies:
+  - {fileID: 11400000, guid: 4e6e6c49f534ada4581f0355f324e954, type: 2}
+  - {fileID: 11400000, guid: 6405fe3f6640604479a9f8115336415d, type: 2}
+  - {fileID: 11400000, guid: a3e50e9f8b617754391e880b82d4f886, type: 2}
+  - {fileID: 11400000, guid: 5682ab4d22cd4eb4a89ef7429a644f89, type: 2}
+  - {fileID: 11400000, guid: 445c91abc6f96aa4a9f8084e1d9a207f, type: 2}
+  _belongingsInventory:
+  - {fileID: 11400000, guid: 5d10cb6cc6358cf40bc6f05ad516407b, type: 2}
+  - {fileID: 11400000, guid: fe000cc9b7f39ee46840e11ce338e63d, type: 2}
+  - {fileID: 11400000, guid: e404a50ee16986b4db9830ba7d14f3f3, type: 2}
 --- !u!1001 &1044040250
 PrefabInstance:
   m_ObjectHideFlags: 0

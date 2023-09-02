@@ -54,9 +54,11 @@ public class EntitySpawner {
 
     private void OnEntityActive(EntityBase entity) {
         entity.gameObject.SetActive(true);
+        GameMain.PlayerData.Attach(entity);
     }
 
     private void OnEntityDisable(EntityBase entity) {
         entity.gameObject.SetActive(false);
+        GameMain.PlayerData.Detach(entity);
     }
 }

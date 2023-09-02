@@ -17,7 +17,7 @@ public class BelongingsInventoryUI : MonoBehaviour {
     }
 
     private void Update() {
-        List<Belongings> unequipedBelongings = GameMain.PlayerData.UnequipedBelongings;
+        List<Belongings> unequipedBelongings = GameMain.PlayerData.BelongingsInventory;
         for (int i = 0; i < _inventorySize; ++i) {
             if (i < unequipedBelongings.Count) {
                 _inventoryElementArray[i].SetBelongingsData(unequipedBelongings[i]);

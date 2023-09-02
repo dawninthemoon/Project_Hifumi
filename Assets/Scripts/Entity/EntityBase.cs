@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public class EntityBase : MonoBehaviour {
+public class EntityBase : MonoBehaviour, IObserver {
     [SerializeField] private float _bodyRadius = 20f;
     [SerializeField] private Transform _bulletPosition = null;
     private Agent _agent;
@@ -72,11 +72,17 @@ public class EntityBase : MonoBehaviour {
         _agent.Initialize(_statusDecorator, Radius);
 
         var belongingsList = GameMain.PlayerData.GetBelongingsList(_entityInfo.EntityID);
-        foreach (Belongings belongings in belongingsList) {
-            _statusDecorator.AddBelongings(belongings);
-        }
+        _statusDecorator.BelongingsList = belongingsList;
 
         InitalizeStatus();
+    }
+    public void Notify(ObserverSubject subject) {
+        PlayerData data = subject as PlayerData;
+        if (data == null) {
+            return;
+        }
+
+        _uiControl.UpdateBelongingSprites(_statusDecorator.BelongingsList);
     }
 
     private void Update() {

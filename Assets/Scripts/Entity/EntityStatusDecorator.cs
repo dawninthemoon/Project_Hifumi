@@ -4,24 +4,26 @@ using UnityEngine;
 
 public class EntityStatusDecorator : IEntityStatus {
     private EntityInfo _entityInfo;
-    private List<Belongings> _belongingsList;
     private List<BuffConfig> _buffList;
+    public List<Belongings> BelongingsList {
+        get;
+        set;
+    }
 
     public EntityStatusDecorator() {
-        _belongingsList = new List<Belongings>();
+        BelongingsList = new List<Belongings>();
         _buffList = new List<BuffConfig>();
     }
 
     public void Initialize(EntityInfo entityInfo) {
         _entityInfo = entityInfo;
     }
-
-    public void AddBelongings(Belongings augment) {
-        _belongingsList.Add(augment);
+    public void AddBelongings(Belongings belongings) {
+        BelongingsList.Add(belongings);
     }
 
-    public void RemoveBelongings(Belongings augment) {
-        _belongingsList.Remove(augment);
+    public void RemoveBelongings(Belongings belongings) {
+        BelongingsList.Remove(belongings);
     }
 
     public void AddBuff(BuffConfig config) {
@@ -35,7 +37,7 @@ public class EntityStatusDecorator : IEntityStatus {
     public int Health { 
         get {
             int finalHealth = _entityInfo.Health;
-            foreach (Belongings augments in _belongingsList) {
+            foreach (Belongings augments in BelongingsList) {
                 finalHealth += augments.Health;
             }
             foreach (IEntityStatus buff in _buffList) {
@@ -47,7 +49,7 @@ public class EntityStatusDecorator : IEntityStatus {
     public int Mana { 
         get {
             int finalMana = _entityInfo.Mana;
-            foreach (Belongings augments in _belongingsList) {
+            foreach (Belongings augments in BelongingsList) {
                 finalMana += augments.Mana;
             }
             foreach (IEntityStatus buff in _buffList) {
@@ -59,7 +61,7 @@ public class EntityStatusDecorator : IEntityStatus {
     public int Morale { 
         get {
             int finalStress = _entityInfo.Morale;
-            foreach (Belongings augments in _belongingsList) {
+            foreach (Belongings augments in BelongingsList) {
                 finalStress += augments.Morale;
             }
             foreach (IEntityStatus buff in _buffList) {
@@ -71,7 +73,7 @@ public class EntityStatusDecorator : IEntityStatus {
     public int AttackDamage { 
         get {
             int finalDamage = _entityInfo.AttackDamage;
-            foreach (Belongings augments in _belongingsList) {
+            foreach (Belongings augments in BelongingsList) {
                 finalDamage += augments.AttackDamage;
             }
             foreach (IEntityStatus buff in _buffList) {
@@ -83,7 +85,7 @@ public class EntityStatusDecorator : IEntityStatus {
     public float AttackSpeed { 
         get {
             float finalAttackSpeed = _entityInfo.AttackSpeed;
-            foreach (Belongings augments in _belongingsList) {
+            foreach (Belongings augments in BelongingsList) {
                 finalAttackSpeed += augments.AttackSpeed;
             }
             foreach (IEntityStatus buff in _buffList) {
@@ -95,7 +97,7 @@ public class EntityStatusDecorator : IEntityStatus {
     public int MoveSpeed { 
         get {
             int finalMoveSpeed = _entityInfo.MoveSpeed;
-            foreach (Belongings augments in _belongingsList) {
+            foreach (Belongings augments in BelongingsList) {
                 finalMoveSpeed += augments.MoveSpeed;
             }
             foreach (IEntityStatus buff in _buffList) {
@@ -108,7 +110,7 @@ public class EntityStatusDecorator : IEntityStatus {
     public int AttackRange {
         get { 
             int finalAttackRange = _entityInfo.AttackRange;
-            foreach (Belongings augments in _belongingsList) {
+            foreach (Belongings augments in BelongingsList) {
                 finalAttackRange += augments.AttackRange;
             }
             foreach (IEntityStatus buff in _buffList) {
