@@ -31,7 +31,7 @@ public class SimpleProjectile : ProjectileBase {
         float radian = angle * Mathf.Deg2Rad;
         _direction = new Vector3(Mathf.Cos(radian), Mathf.Sin(radian)).normalized;
 
-        transform.rotation = Quaternion.Euler(0f, 0f, angle - 90f);
+        transform.rotation = Quaternion.Euler(0f, 0f, angle);
     }
 
     protected override void Update() {

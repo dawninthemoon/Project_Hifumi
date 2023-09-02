@@ -216,7 +216,7 @@ public class CombatSceneHandler : MonoBehaviour, IResetable {
     }
 
     private void OnRewardSelected(Belongings selectedStuff) {
-        GameMain.PlayerData.AddBelongings(selectedStuff);
+        GameMain.PlayerData.AddBelongingsInInventory(selectedStuff);
 
         _combatResultUI.ShowResultUI(true, _timeAgo.ToString());
 

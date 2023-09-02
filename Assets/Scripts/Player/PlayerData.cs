@@ -28,8 +28,12 @@ public class PlayerData {
         BelongingsDictionary[entityID].Add(belongings);
     }
 
-    public void AddBelongings(Belongings belongings) {
+    public void AddBelongingsInInventory(Belongings belongings) {
         UnequipedBelongings.Add(belongings);
+    }
+
+    public void RemoveBelongingsInInventory(Belongings belongings) {
+        UnequipedBelongings.Remove(belongings);
     }
 
     public void UnequipBelongings(string entityID, Belongings belongings) {
@@ -38,6 +42,6 @@ public class PlayerData {
             return;
         }
         belongingsList.Remove(belongings);
-        AddBelongings(belongings);
+        AddBelongingsInInventory(belongings);
     }
 }

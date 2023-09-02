@@ -304,7 +304,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 545253360be0ad544a33f98a724742e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _combatEncounter: {fileID: 1830186250}
+  _combatEncounter: {fileID: 1044040251}
 --- !u!4 &643482085
 Transform:
   m_ObjectHideFlags: 0
@@ -318,7 +318,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &681586724
 GameObject:
@@ -356,6 +356,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: a3e50e9f8b617754391e880b82d4f886, type: 2}
   - {fileID: 11400000, guid: 5682ab4d22cd4eb4a89ef7429a644f89, type: 2}
   - {fileID: 11400000, guid: 445c91abc6f96aa4a9f8084e1d9a207f, type: 2}
+  _defaultBelongings: []
   _isTestCode: 1
 --- !u!4 &681586726
 Transform:
@@ -372,7 +373,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &1830186249
+--- !u!1001 &1044040250
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -483,18 +484,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1913556734045158258, guid: a9e0072a9fdafd049aa4fd033701536f, type: 3}
-      propertyPath: _buttonSprites.Array.data[0]
-      value: 
-      objectReference: {fileID: 21300000, guid: 7648c24633029ee408366b0d182c8bda, type: 3}
-    - target: {fileID: 1913556734045158258, guid: a9e0072a9fdafd049aa4fd033701536f, type: 3}
-      propertyPath: _buttonSprites.Array.data[1]
-      value: 
-      objectReference: {fileID: 21300000, guid: eb04c5a9617edfd4ab69ebcee19d3a21, type: 3}
-    - target: {fileID: 1913556734045158258, guid: a9e0072a9fdafd049aa4fd033701536f, type: 3}
-      propertyPath: _buttonSprites.Array.data[2]
-      value: 
-      objectReference: {fileID: 21300000, guid: b6b6824e3eabb8b44a45c84ccd554ded, type: 3}
     - target: {fileID: 3167079072803272983, guid: a9e0072a9fdafd049aa4fd033701536f, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -638,10 +627,6 @@ PrefabInstance:
     - target: {fileID: 4084089780873015850, guid: a9e0072a9fdafd049aa4fd033701536f, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4740118952577379280, guid: a9e0072a9fdafd049aa4fd033701536f, type: 3}
-      propertyPath: m_Transition
-      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6714203610095775950, guid: a9e0072a9fdafd049aa4fd033701536f, type: 3}
       propertyPath: m_Camera
@@ -653,7 +638,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6714203611014656430, guid: a9e0072a9fdafd049aa4fd033701536f, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6714203611014656430, guid: a9e0072a9fdafd049aa4fd033701536f, type: 3}
       propertyPath: m_LocalPosition.x
@@ -719,18 +704,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7079790921991184844, guid: a9e0072a9fdafd049aa4fd033701536f, type: 3}
-      propertyPath: m_Name
-      value: Tempbackground
-      objectReference: {fileID: 0}
-    - target: {fileID: 7137205812149713082, guid: a9e0072a9fdafd049aa4fd033701536f, type: 3}
-      propertyPath: m_Type
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7137205812149713082, guid: a9e0072a9fdafd049aa4fd033701536f, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 7648c24633029ee408366b0d182c8bda, type: 3}
     - target: {fileID: 7318409846293691024, guid: a9e0072a9fdafd049aa4fd033701536f, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -853,10 +826,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a9e0072a9fdafd049aa4fd033701536f, type: 3}
---- !u!114 &1830186250 stripped
+--- !u!114 &1044040251 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6714203611014656431, guid: a9e0072a9fdafd049aa4fd033701536f, type: 3}
-  m_PrefabInstance: {fileID: 1830186249}
+  m_PrefabInstance: {fileID: 1044040250}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1

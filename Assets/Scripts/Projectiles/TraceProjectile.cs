@@ -37,7 +37,7 @@ public class TraceProjectile : ProjectileBase {
 
         Vector2 dir = targetPosition - transform.position;
         float angle = ExVector.GetDegree(transform.position, targetPosition);
-        transform.rotation = Quaternion.Euler(0f, 0f, angle - 90f);
+        transform.rotation = Quaternion.Euler(0f, 0f, angle);
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
