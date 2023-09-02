@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84fe4a972ddb5da42b34789ffe672b96, type: 3}
   m_Name: NewBelonging1
   m_EditorClassIdentifier: 
-  _sprite: {fileID: 882132071, guid: a94a71db098b87d40ba9cf3d3190409f, type: 3}
+  _sprite: {fileID: 21300000, guid: d7e0d27ec2f9665448ac63c50aa3c1be, type: 3}
   _health: 0
   _mana: 0
   _morale: 0
