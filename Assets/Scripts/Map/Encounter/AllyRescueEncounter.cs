@@ -9,11 +9,11 @@ public class AllyRescueEncounter : EncounterBase {
     }
 
     public override void OnEncounter() {
-        _allyRescueHandler.Reset();
+        _allyRescueHandler.InitializeAllies();
         gameObject.SetActive(true);
     }
 
     public override void Reset() {
-        
+        _allyRescueHandler.Reset();
     }
 }
