@@ -45,6 +45,13 @@ public class EntityBase : MonoBehaviour, IObserver {
             _uiControl.UpdateMoraleUI(Mathf.FloorToInt(_currentMorale), _statusDecorator.Morale);
         }
     }
+    public EntitySynergy Synergy1 {
+        get { return _entityInfo.Synergy1; }
+    }
+    public EntitySynergy Synergy2 {
+        get { return _entityInfo.Synergy2; }
+    }
+
     public int AttackDamage { get { return _statusDecorator.AttackDamage; } }
     public bool IsUnloadCompleted { get; set; }
     private bool _canBehaviour = true;

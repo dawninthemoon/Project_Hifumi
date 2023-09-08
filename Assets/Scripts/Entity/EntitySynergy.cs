@@ -9,4 +9,5 @@ public enum EntitySynergy {
     Sniper,
     Grenade,
     Tool,
+    Count
 }

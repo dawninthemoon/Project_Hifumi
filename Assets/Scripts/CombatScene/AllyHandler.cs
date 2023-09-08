@@ -7,6 +7,7 @@ public class AllyHandler : MonoBehaviour {
     private KdTree<EntityBase> _activeAllies;
     private List<EntityBase> _inactiveAllies;
     private Truck _truck;
+    private SynergyHandler _synergyHandler;
 
     public KdTree<EntityBase> ActiveAllies {
         get { return _activeAllies; }
@@ -21,6 +22,7 @@ public class AllyHandler : MonoBehaviour {
     private void Awake() {
         _activeAllies = new KdTree<EntityBase>(true);
         _inactiveAllies = new List<EntityBase>();
+        _synergyHandler = new SynergyHandler(_activeAllies);
     }
 
     public void SetTruckObject(Truck truck) {
@@ -42,6 +44,10 @@ public class AllyHandler : MonoBehaviour {
                 _activeAllies[i].SetTarget(null);
                 _activeAllies.RemoveAt(i--);
             }
+        }
+
+        if (Input.GetKeyDown(KeyCode.A)) {
+            _synergyHandler.PrintCurrentSynergies();
         }
     }
 
@@ -65,12 +71,15 @@ public class AllyHandler : MonoBehaviour {
     public void OnEntityActive(EntityBase entity) {
         entity.gameObject.SetActive(true);
         _inactiveAllies.Remove(entity);
+        _synergyHandler.AddSynergy(entity, true);
+        
         StartCoroutine(StartEaseParabola(entity.transform, () => { _activeAllies.Add(entity); entity.IsUnloadCompleted = true; }));
     }
 
     public void OnEntityInactive(EntityBase entity) {
         _inactiveAllies.Add(entity);
         entity.SetTarget(null);
+        _synergyHandler.AddSynergy(entity, false);
         entity.gameObject.SetActive(false);
     }
 
