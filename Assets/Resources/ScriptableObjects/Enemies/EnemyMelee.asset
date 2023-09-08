@@ -12,17 +12,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55bb4c7f7fa2dd348b1418fad7670b88, type: 3}
   m_Name: EnemyMelee
   m_EditorClassIdentifier: 
-  _entityID: 2001
+  _entityID: 2000
   _bodySprite: {fileID: -829210394, guid: 0940faf6dbffb7c4e87e760a239a2980, type: 3}
   _weaponSprite: {fileID: 0}
   _animatorController: {fileID: 9100000, guid: 5de484267d9ca274289f07a6bba20451, type: 2}
   _health: 100
   _mana: 100
   _morale: 100
-  _attackDamage: 3
-  _attackSpeed: 1
+  _block: 1
+  _attackDamage: 24
+  _attackSpeed: 0.5
   _moveSpeed: 60
   _attackRange: 40
+  _synergy1: 0
+  _synergy2: 0
   _attackConfig:
     targetLayerMask:
       serializedVersion: 2
@@ -39,3 +42,4 @@ MonoBehaviour:
     attackEffects:
     - {fileID: 11400000, guid: 15f55f9361eb44444ae06c473833c453, type: 2}
     soundEffectName: se_swing_ver2
+  _bulletOffset: {x: 0, y: 0}
