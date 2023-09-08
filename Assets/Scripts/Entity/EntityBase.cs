@@ -171,7 +171,8 @@ public class EntityBase : MonoBehaviour, IObserver {
         if (Health <= 0) return;
 
         Mana = Mathf.Min(Mana + 10, _statusDecorator.Mana);
-        Health -= damage;
+        int finalDamage = Mathf.Max(1, damage - _statusDecorator.Block);
+        Health -= finalDamage;
         if (Health <= 0) {
            OnEntityDead();
         }

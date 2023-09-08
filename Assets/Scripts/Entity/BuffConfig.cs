@@ -8,6 +8,7 @@ public struct BuffInfo {
     public int health;
     public int mana;
     public int morale;
+    public int block;
     public int attackDamage;
     public int attackSpeed;
     public int moveSpeed;
@@ -24,6 +25,7 @@ public class BuffConfig : ScriptableObject, IEntityStatus {
     public int Health { get { return _buffInfo.health; } }
     public int Mana { get { return _buffInfo.mana; } }
     public int Morale { get { return _buffInfo.morale; } }
+    public int Block { get { return _buffInfo.block; } }
     public int AttackDamage { get { return _buffInfo.attackDamage; } }
     public float AttackSpeed { get { return _buffInfo.attackSpeed; } }
     public int MoveSpeed { get { return _buffInfo.moveSpeed; } }

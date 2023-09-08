@@ -67,9 +67,21 @@ public class EntityStatusDecorator : IEntityStatus {
                 finalStress += augments.Morale;
             }
             foreach (IEntityStatus buff in _buffList) {
-                
+                finalStress += buff.Morale;
             }
             return finalStress;
+        }
+    }
+    public int Block {
+        get {
+            int finalBlock = _entityInfo.Block;
+            foreach (Belongings augments in BelongingsList) {
+                finalBlock += augments.Block;
+            }
+            foreach (IEntityStatus buff in _buffList) {
+                finalBlock += buff.Block;
+            }
+            return finalBlock;
         }
     }
     public int AttackDamage { 
