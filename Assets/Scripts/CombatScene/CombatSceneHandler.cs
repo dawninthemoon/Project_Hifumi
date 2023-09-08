@@ -6,11 +6,10 @@ using RieslingUtils;
 
 public class CombatSceneHandler : MonoBehaviour, IResetable {
     [SerializeField] private MemberUIControl _memberUIControl = null;
+    [SerializeField] private AllyHandler _allyHandler = null;
     [SerializeField] private EnemyHandler _enemyHandler = null;
     [SerializeField] private CombatReward _combatReward = null;
     [SerializeField] private CombatResultUI _combatResultUI = null;
-    private KdTree<EntityBase> _activeAllies;
-    private List<EntityBase> _inactiveAllies;
     private CombatStageConfig _currentStageConfig;
     private EntitySpawner _entitySpawner;
     private Truck _truck;
@@ -34,22 +33,13 @@ public class CombatSceneHandler : MonoBehaviour, IResetable {
     private void Awake() {
         _timeCounter = new ExTimeCounter();
         _entitySpawner = new EntitySpawner(transform);
-        _activeAllies = new KdTree<EntityBase>(true);
-        _inactiveAllies = new List<EntityBase>();
         _onStageEnd = new UnityEvent();
         _onStageEnd.AddListener(OnStageEnd);
     }
 
     public void Reset() {
         _timeAgo = 0f;
-        for (int i = 0; i < _activeAllies.Count; ++i) {
-            _entitySpawner.RemoveAlly(_activeAllies[i]);
-            _activeAllies.RemoveAt(i--);
-        }
-        for (int i = 0; i < _inactiveAllies.Count; ++i) {
-            _entitySpawner.RemoveAlly(_inactiveAllies[i]);
-            _inactiveAllies.RemoveAt(i--);
-        }
+        _allyHandler.RemoveAllAllies(_entitySpawner);
         _enemyHandler.RemoveAllEnemies(_entitySpawner);
         _combatResultUI.Reset();
         _memberUIControl.Reset();
@@ -62,33 +52,16 @@ public class CombatSceneHandler : MonoBehaviour, IResetable {
     public void StartCombat(CombatStageConfig stageConfig) {
         _currentStageConfig = stageConfig;
 
-        InitalizeAllies();
-        _memberUIControl.InitializeEntityUI(OnEntityActive, OnEntityInactive, _inactiveAllies);
+        _truck = _memberUIControl.GetComponent<Truck>();
+        _allyHandler.SetTruckObject(_truck);
+        _allyHandler.InitalizeAllies(_entitySpawner);
+        _memberUIControl.InitializeEntityUI(_allyHandler.OnEntityActive, _allyHandler.OnEntityInactive, _allyHandler.InactiveAllies);
         InitializeCombat();
     }
 
     private void InitializeCombat() {
         CombatMap.SetMapView(Vector3.zero);
         StartNewWave();
-    }
-
-    private void InitalizeAllies() {
-        _truck = _memberUIControl.GetComponent<Truck>();
-
-        foreach (EntityInfo info in GameMain.PlayerData.Allies) {
-            EntityBase newEntity = _entitySpawner.CreateAlly(info);
-            newEntity.gameObject.SetActive(false);
-            _inactiveAllies.Add(newEntity);
-        }
-    }
-
-    public void ActiveAllAllies() {
-        for (int i = 0; i < _inactiveAllies.Count; ++i) {
-            OnEntityActive(_inactiveAllies[i]);
-            i--;
-        }
-
-        SoundManager.Instance.PlayBGM("BGM1");
     }
 
     private void Update() {
@@ -98,8 +71,12 @@ public class CombatSceneHandler : MonoBehaviour, IResetable {
         _timeAgo += Time.deltaTime;
 
         MoveProgress();
+        foreach (EntityBase inactiveAlly in _allyHandler.InactiveAllies) {
+            _memberUIControl.UpdateMemberElement(inactiveAlly);
+        }
+
         
-        if (_truck.MoveProgressEnd && _activeAllies.Count == 0) {
+        if (_truck.MoveProgressEnd && !_allyHandler.HasActiveAlly) {
             _memberUIControl.gameObject.layer = LayerMask.NameToLayer("Ally");
         }
         else {
@@ -119,67 +96,8 @@ public class CombatSceneHandler : MonoBehaviour, IResetable {
     }
 
     private void MoveProgress() {
-        foreach (EntityBase ally in _activeAllies) {
-            var activeEnemies = _enemyHandler.ActiveEnemies;
-            ITargetable target = activeEnemies.FindClosest(ally.transform.position)?.GetComponent<Agent>();
-            ally.SetTarget(target);
-
-            ally.transform.position = CombatMap.ClampPosition(ally.transform.position, ally.Radius);
-        }
-
-        _enemyHandler.Progress(_activeAllies, _truck);
-    }
-
-    private void LateUpdate() {
-        foreach (EntityBase inactiveAlly in _inactiveAllies) {
-            _memberUIControl.UpdateMemberElement(inactiveAlly);
-        }
-
-        for (int i = 0; i < _activeAllies.Count; ++i) {
-            var ally = _activeAllies[i];
-            if (ally.Health <= 0 || !ally.gameObject.activeSelf) {
-                _activeAllies[i].SetTarget(null);
-                _activeAllies.RemoveAt(i--);
-            }
-        }
-    }
-
-    public void OnEntityActive(EntityBase entity) {
-        entity.gameObject.SetActive(true);
-        _inactiveAllies.Remove(entity);
-        StartCoroutine(StartEaseParabola(entity.transform, () => { _activeAllies.Add(entity); entity.IsUnloadCompleted = true; }));
-    }
-
-    private IEnumerator StartEaseParabola(Transform target, System.Action callback) {
-        float timeAgo = 0f;
-        float targetTime = 1f;
-
-        Vector2 start = _truck.transform.position;
-        Vector2 end = start;
-        end.y -= _truck.Height * 0.75f;
-        float xOffset = Random.Range(_truck.Width * 0.25f, _truck.Width);
-        xOffset *= Random.Range(0, 2) == 0 ? -1f : 1f;
-        end.x += xOffset;
-
-        Vector2 p1 = _truck.Position;
-        p1.y += 100f;
-
-        while (timeAgo < targetTime) {
-            timeAgo += Time.deltaTime;
-
-            Vector2 p = Bezier.GetPoint(start, p1, end, timeAgo / targetTime);
-            target.position = p;
-
-            yield return null;
-        }
-
-        callback();
-    }
-
-    public void OnEntityInactive(EntityBase entity) {
-        _inactiveAllies.Add(entity);
-        entity.SetTarget(null);
-        entity.gameObject.SetActive(false);
+        _allyHandler.Progress(_enemyHandler);
+        _enemyHandler.Progress(_allyHandler.ActiveAllies, _truck);
     }
 
     public void StartNewWave() {
@@ -206,9 +124,7 @@ public class CombatSceneHandler : MonoBehaviour, IResetable {
     private void OnStageEnd() {
         _isStageCleared = true;
 
-        for (int i = 0; i < _activeAllies.Count; ++i) {
-            _activeAllies[i].SetTarget(null);
-        }
+        _allyHandler.DisarmAllAllies();
 
         InteractiveEntity.SetInteractive(InteractiveEntity.Type.Entity, false);
         InteractiveEntity.SetInteractive(InteractiveEntity.Type.UI, false);

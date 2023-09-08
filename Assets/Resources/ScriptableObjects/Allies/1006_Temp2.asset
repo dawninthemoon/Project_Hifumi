@@ -23,6 +23,8 @@ MonoBehaviour:
   _attackSpeed: 1
   _moveSpeed: 40
   _attackRange: 130
+  _synergy1: 1
+  _synergy2: 0
   _attackConfig:
     targetLayerMask:
       serializedVersion: 2
