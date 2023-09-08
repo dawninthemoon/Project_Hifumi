@@ -53,6 +53,7 @@ public class EntityBase : MonoBehaviour, IObserver {
     }
 
     public int AttackDamage { get { return _statusDecorator.AttackDamage; } }
+    public Vector3 BulletPosition { get { return _bulletPosition.position; } }
     public bool IsUnloadCompleted { get; set; }
     private bool _canBehaviour = true;
 
@@ -69,7 +70,6 @@ public class EntityBase : MonoBehaviour, IObserver {
     }
 
     public void Initialize(EntityInfo entityInfo) {
-
         IsUnloadCompleted = false;
         _entityInfo = entityInfo;
         _statusDecorator.Initialize(_entityInfo);

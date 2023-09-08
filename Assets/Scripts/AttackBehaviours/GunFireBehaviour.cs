@@ -33,7 +33,7 @@ namespace AttackBehaviours {
             float finalAngle = defaultAngle + Random.Range(-_aimingEfficiency, _aimingEfficiency);
 
             ProjectileBase projectile = ProjectileSpawner.Instance.GetProjectile(_projectilePrefabName);
-            projectile.transform.position = caster.transform.position;
+            projectile.transform.position = caster.BulletPosition;
             projectile.Initialize(
                 caster,
                 targets[0],

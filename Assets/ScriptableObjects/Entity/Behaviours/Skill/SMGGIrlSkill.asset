@@ -15,6 +15,6 @@ MonoBehaviour:
   _projectilePrefabName: SimpleProjectile
   _aimingEfficiency: 3
   _bulletCount: 1
-  _burstCount: 10
-  _burstDelay: 0.05
+  _burstCount: 20
+  _burstDelay: 0.1
   _projectileSpeed: 80
