@@ -13,12 +13,15 @@ MonoBehaviour:
   m_Name: SMGSynergy2
   m_EditorClassIdentifier: 
   _buffInfo:
+    buffName: RapidFire1
     buffDuration: 0
     health: 0
     mana: 0
     morale: 0
     block: 0
     attackDamage: 0
+    attackDamagePercent: 0
     attackSpeed: 0.08
     moveSpeed: 0
     attackRange: 0
+    aimingEfficiency: 0

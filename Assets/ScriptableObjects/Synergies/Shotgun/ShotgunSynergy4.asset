@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: ShotgunSynergy4
   m_EditorClassIdentifier: 
   _buffInfo:
-    buffName: 
+    buffName: BulletProof3
     buffDuration: 0
     health: 0
     mana: 0

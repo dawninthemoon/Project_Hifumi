@@ -10,7 +10,7 @@ namespace AttackBehaviours.Effects {
         public override void ApplyEffect(EntityBase caster, List<EntityBase> targets) {
             if (_buffConfig != null) {
                 foreach (EntityBase target in targets) {
-                    target.BuffControl.StartAddBuff(_buffConfig);
+                    target.BuffControl.AddBuffWithDuration(_buffConfig);
                 }
             }
             if (_debuffConfig != null) {

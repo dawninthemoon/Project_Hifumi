@@ -22,7 +22,7 @@ public class AllyHandler : MonoBehaviour {
     private void Awake() {
         _activeAllies = new KdTree<EntityBase>(true);
         _inactiveAllies = new List<EntityBase>();
-        _synergyHandler = new SynergyHandler(_activeAllies);
+        _synergyHandler = new SynergyHandler();
     }
 
     public void SetTruckObject(Truck truck) {
@@ -45,10 +45,6 @@ public class AllyHandler : MonoBehaviour {
                 _activeAllies.RemoveAt(i--);
             }
         }
-
-        if (Input.GetKeyDown(KeyCode.A)) {
-            _synergyHandler.PrintCurrentSynergies();
-        }
     }
 
     public void InitalizeAllies(EntitySpawner spawner) {
@@ -64,6 +60,7 @@ public class AllyHandler : MonoBehaviour {
             OnEntityActive(_inactiveAllies[i]);
             i--;
         }
+        ApplySynergies();
 
         SoundManager.Instance.PlayBGM("BGM1");
     }
@@ -71,15 +68,26 @@ public class AllyHandler : MonoBehaviour {
     public void OnEntityActive(EntityBase entity) {
         entity.gameObject.SetActive(true);
         _inactiveAllies.Remove(entity);
+        _activeAllies.Add(entity); 
+        // 넣었다 뺄 때마다 시너지가 바뀔 것을 상정. 나중에 수정 필요함.
         _synergyHandler.AddSynergy(entity, true);
         
-        StartCoroutine(StartEaseParabola(entity.transform, () => { _activeAllies.Add(entity); entity.IsUnloadCompleted = true; }));
+        StartCoroutine(
+            StartEaseParabola(
+                entity.transform,
+                () => {
+                    entity.IsUnloadCompleted = true; 
+                }
+            )
+        );
     }
 
     public void OnEntityInactive(EntityBase entity) {
         _inactiveAllies.Add(entity);
         entity.SetTarget(null);
         _synergyHandler.AddSynergy(entity, false);
+        ApplySynergies();
+
         entity.gameObject.SetActive(false);
     }
 
@@ -97,6 +105,27 @@ public class AllyHandler : MonoBehaviour {
         for (int i = 0; i < _inactiveAllies.Count; ++i) {
             spawner.RemoveAlly(_inactiveAllies[i]);
             _inactiveAllies.RemoveAt(i--);
+        }
+    }
+
+    public void ApplySynergies() {
+        int starts = (int)SynergyType.None + 1;
+        int ends = (int)SynergyType.Count;
+        for (int i = starts; i < ends; ++i) {
+            SynergyType type = (SynergyType)i;
+            (BuffConfig, BuffConfig) buffPair = _synergyHandler.GetSynergyBuffPair(type);
+            if (buffPair.Item2 != null) {
+                ApplyBuffToAll(buffPair.Item2, buffPair.Item1);
+            }
+        }
+    }
+
+    private void ApplyBuffToAll(BuffConfig toApply, BuffConfig toRemove) {
+        foreach (EntityBase entity in _activeAllies) {
+            entity.BuffControl.AddBuff(toApply);
+            if (toRemove != null) {
+                entity.BuffControl.RemoveBuff(toRemove);
+            }
         }
     }
 

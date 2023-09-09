@@ -13,13 +13,14 @@ MonoBehaviour:
   m_Name: HandgunSynergy2
   m_EditorClassIdentifier: 
   _buffInfo:
-    buffName: 
+    buffName: Discretion1
     buffDuration: 0
     health: 0
     mana: 0
     morale: 0
     block: 0
     attackDamage: 0
+    attackDamagePercent: 0
     attackSpeed: 0
     moveSpeed: 0
     attackRange: 0

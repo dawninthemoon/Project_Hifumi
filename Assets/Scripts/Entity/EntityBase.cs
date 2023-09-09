@@ -18,7 +18,7 @@ public class EntityBase : MonoBehaviour, IObserver {
         private set;
     }
     public float Radius {
-        get { return _entityInfo.BodyRadius; }
+        get { return (_entityInfo != null) ?  _entityInfo.BodyRadius : 20f; }
     }
     public string ID {
         get { return _entityInfo.EntityID; }

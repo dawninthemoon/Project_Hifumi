@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: HandgunSynergy5
   m_EditorClassIdentifier: 
   _buffInfo:
-    buffName: 
+    buffName: Discretion4
     buffDuration: 0
     health: 0
     mana: 0

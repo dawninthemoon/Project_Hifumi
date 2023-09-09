@@ -25,7 +25,11 @@ public class EnemyHandler : MonoBehaviour {
 
     public void Progress(KdTree<EntityBase> allies, Truck truck) {
         foreach (EntityBase enemy in _activeEnemies) {
-            ITargetable target = allies.FindClosest(enemy.transform.position)?.GetComponent<Agent>();
+            EntityBase targetEntity = allies.FindClosest(enemy.transform.position);
+            if (targetEntity != null && !targetEntity.IsUnloadCompleted) {
+                continue;
+            }
+            ITargetable target = targetEntity?.GetComponent<Agent>();
             if (target == null && truck.MoveProgressEnd) {
                 target = truck;
             }
@@ -51,9 +55,12 @@ public class EnemyHandler : MonoBehaviour {
         
         for (int i = 0; i < selectedWave.enemyIDArray.Length; ++i) {
             float randX = Random.Range(stageMinSize.x, stageMaxSize.x);
-            float y = Random.Range(0, 2) > 0 ? stageMaxSize.y + _enemyPrefab.Radius : stageMinSize.y - _enemyPrefab.Radius;
+            float y;
             if (waveCount == 1) {
                 y = Random.Range(stageMinSize.y / 4f, stageMaxSize.y / 4f);
+            }
+            else {
+                 y = Random.Range(0, 2) > 0 ? stageMaxSize.y + _enemyPrefab.Radius : stageMinSize.y - _enemyPrefab.Radius;
             }
             
             EntityInfo selectedInfo = _enemyInfoDictionary[selectedWave.enemyIDArray[i]];

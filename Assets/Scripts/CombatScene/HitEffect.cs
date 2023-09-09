@@ -18,7 +18,7 @@ public class HitEffect : MonoBehaviour {
     private Sequence _timeFreezeSequence;
     private float _radius;
 
-    private void Awake() {
+    private void Start() {
         _radius = GetComponent<EntityBase>().Radius;
     }
 
