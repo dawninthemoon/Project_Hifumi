@@ -10,6 +10,10 @@ public enum SynergyType {
     Sniper,
     Grenade,
     Flame,
+    AcademyA,
+    AcademyB,
+    AcademyC,
+    AcademyD,
     Count
 }
 

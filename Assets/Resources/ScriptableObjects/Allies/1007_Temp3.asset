@@ -17,7 +17,7 @@ MonoBehaviour:
   _bodySprite: {fileID: 1315741624, guid: 3daaea050d9a0a345b4a144afb97d875, type: 3}
   _weaponSprite: {fileID: 347969249, guid: 40512a7da2180954cb5869ee28a9fd30, type: 3}
   _animatorController: {fileID: 9100000, guid: 5de484267d9ca274289f07a6bba20451, type: 2}
-  _health: 600
+  _health: 2000
   _mana: 100
   _morale: 100
   _block: 0

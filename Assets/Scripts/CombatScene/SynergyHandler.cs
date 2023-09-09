@@ -55,6 +55,9 @@ public class SynergyHandler : IResetable {
     public void AddSynergy(EntityBase ally, bool increase) {
         IncreaseSynergy(ally.Synergy1, increase);
         IncreaseSynergy(ally.Synergy2, increase);
+        if (!ally.ExtraSynergy.Equals(SynergyType.None)) {
+            IncreaseSynergy(ally.ExtraSynergy, increase);
+        }
     }
 
     public void Reset() {

@@ -150,4 +150,17 @@ public class EntityStatusDecorator : IEntityStatus {
             return finalAiming;
         }
     }
+
+    public SynergyType ExtraSynergy {
+        get {
+            SynergyType extraSynergy = SynergyType.None;
+            foreach (Belongings item in BelongingsList) {
+                if (!item.ExtraSynergy.Equals(SynergyType.None)) {
+                    extraSynergy = item.ExtraSynergy;
+                    break;
+                }
+            }
+            return extraSynergy;
+        }
+    }
 }

@@ -16,7 +16,9 @@ MonoBehaviour:
   _health: 0
   _mana: 0
   _morale: 0
+  _block: 0
   _attackDamage: 0
   _attackSpeed: 0
   _moveSpeed: 0
-  _attackRange: 10
+  _attackRange: 30
+  _extraSynergy: 0

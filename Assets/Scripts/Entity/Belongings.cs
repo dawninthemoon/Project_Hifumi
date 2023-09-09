@@ -14,6 +14,7 @@ public class Belongings : ScriptableObject, IEntityStatus {
     [SerializeField] private float _attackSpeed = 0f;
     [SerializeField] private int _moveSpeed = 0;
     [SerializeField] private int _attackRange = 0;
+    [SerializeField] private SynergyType _extraSynergy = SynergyType.None;
     
     public int Health { get { return _health; } }
     public int Mana { get { return _mana; } }
@@ -23,6 +24,7 @@ public class Belongings : ScriptableObject, IEntityStatus {
     public float AttackSpeed { get { return _attackSpeed; } }
     public int MoveSpeed { get { return _moveSpeed; } }
     public int AttackRange { get { return _attackRange; } }
+    public SynergyType ExtraSynergy { get { return _extraSynergy; } }
 
     public Sprite Sprite { get { return _sprite; } }
 }
