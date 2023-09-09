@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 038495080ef93e9489387113406d78f6, type: 3}
   m_Name: Rank1Wave
   m_EditorClassIdentifier: 
-  _waveRank: 3
+  _waveRank: 1
   _waveInfoArray:
   - waveID: 10001
     enemyIDArray:

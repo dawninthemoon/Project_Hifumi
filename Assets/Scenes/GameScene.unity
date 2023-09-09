@@ -223,10 +223,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _encounterPrefabs:
   - {fileID: 3931476937935734644, guid: b4fbe7c39c0a21746a9686eb63011176, type: 3}
-  - {fileID: 4806412541203434454, guid: d106841ee4970e040b925928ea2f6af0, type: 3}
   - {fileID: 7422694589930541395, guid: 34fe7491ee405994c84c9196d85e9424, type: 3}
-  - {fileID: 1671617453825868364, guid: 1e4e0a841b9d1bc449b23ff3059108ab, type: 3}
   - {fileID: 8271669320220549665, guid: 8e11779078864e24dac26d45026b3b6d, type: 3}
+  - {fileID: 1671617453825868364, guid: 1e4e0a841b9d1bc449b23ff3059108ab, type: 3}
+  - {fileID: 4806412541203434454, guid: d106841ee4970e040b925928ea2f6af0, type: 3}
   _originPosition: {fileID: 366999854}
   _gameMapParent: {fileID: 366999854}
   _offsetX: 64
