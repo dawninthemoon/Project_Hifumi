@@ -19,16 +19,17 @@ public class CombatSceneHandler : MonoBehaviour, IResetable {
     private ExTimeCounter _timeCounter;
     private bool _waitingForNextWave;
     private bool _isStageCleared;
-    private float _waveTimeAgo;
+    private float _stageTimeAgo;
     private float _targetDetectionCounter;
     private static readonly string NextWaveTimerKey = "NextWaveTime";
     public float NextWaveTime {
         get {
-            if (!_waitingForNextWave || !_timeCounter.Contains(NextWaveTimerKey))
+            bool isLastStage = (_currentWave == _currentStageConfig.GetStageLength());
+            if (_isStageCleared || isLastStage || !_timeCounter.Contains(NextWaveTimerKey))
                 return 0;
             float timeLimit = _timeCounter.GetTimeLimit(NextWaveTimerKey);
             float curr = _timeCounter.GetCurrentTime(NextWaveTimerKey);
-            return timeLimit - curr;
+            return Mathf.Max(0f, timeLimit - curr);
         }
     }
     
@@ -40,7 +41,7 @@ public class CombatSceneHandler : MonoBehaviour, IResetable {
     }
 
     public void Reset() {
-        _waveTimeAgo = 0f;
+        _stageTimeAgo = 0f;
         _allyHandler.RemoveAllAllies(_entitySpawner);
         _enemyHandler.RemoveAllEnemies(_entitySpawner);
         _combatResultUI.Reset();
@@ -71,7 +72,7 @@ public class CombatSceneHandler : MonoBehaviour, IResetable {
         if (_isStageCleared) {
             return;
         }
-        _waveTimeAgo += Time.deltaTime;
+        _stageTimeAgo += Time.deltaTime;
 
         TargetDetectProgress();
         foreach (EntityBase inactiveAlly in _allyHandler.InactiveAllies) {
@@ -90,7 +91,7 @@ public class CombatSceneHandler : MonoBehaviour, IResetable {
             OnWaveCleared();
         }
 
-        if (_waitingForNextWave && _timeCounter.Contains(NextWaveTimerKey)) {
+        if (!_isStageCleared && _timeCounter.Contains(NextWaveTimerKey)) {
             _timeCounter.IncreaseTimer(NextWaveTimerKey, out var limit, GameConfigHandler.GameSpeed);
             if (limit) {
                 StartNewWave();
@@ -109,12 +110,10 @@ public class CombatSceneHandler : MonoBehaviour, IResetable {
     }
 
     public void StartNewWave() {
-        if (_enemyHandler.ActiveEnemies.Count > 0)
-            return;
-
-        if (++_currentWave <= _currentStageConfig.StageInfoArray.Length) {
+        if (_currentWave + 1 <= _currentStageConfig.GetStageLength()) {
+            ++_currentWave;
             _waitingForNextWave = false;
-            
+            _timeCounter.InitTimer(NextWaveTimerKey, 0f, 30f);
             _enemyHandler.SpawnEnemies(_currentWave, _currentStageConfig, _entitySpawner);
         }
     }
@@ -124,7 +123,6 @@ public class CombatSceneHandler : MonoBehaviour, IResetable {
             _onStageEnd.Invoke();
         }
         else {
-            _timeCounter.InitTimer(NextWaveTimerKey, 0f, 20f);
             _waitingForNextWave = true;
         }
     }
@@ -143,7 +141,7 @@ public class CombatSceneHandler : MonoBehaviour, IResetable {
     private void OnRewardSelected(Belongings selectedStuff) {
         GameMain.PlayerData.AddBelongingsInInventory(selectedStuff);
 
-        _combatResultUI.ShowResultUI(true, _waveTimeAgo.ToString());
+        _combatResultUI.ShowResultUI(true, Mathf.FloorToInt(_stageTimeAgo).ToString());
 
         InteractiveEntity.SetInteractive(InteractiveEntity.Type.Entity, true);
         InteractiveEntity.SetInteractive(InteractiveEntity.Type.UI, true);
