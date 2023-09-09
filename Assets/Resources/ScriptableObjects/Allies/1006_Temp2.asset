@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: 1006_Temp2
   m_EditorClassIdentifier: 
   _entityID: 1006
+  _bodyRadius: 20
   _bodySprite: {fileID: 846158607, guid: 3daaea050d9a0a345b4a144afb97d875, type: 3}
   _weaponSprite: {fileID: 347969249, guid: 40512a7da2180954cb5869ee28a9fd30, type: 3}
-  _animatorController: {fileID: 9100000, guid: 4daa8176453237943ba054e5ab71c47c, type: 2}
+  _animatorController: {fileID: 9100000, guid: 5de484267d9ca274289f07a6bba20451, type: 2}
   _health: 600
   _mana: 100
   _morale: 100

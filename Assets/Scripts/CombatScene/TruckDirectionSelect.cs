@@ -35,28 +35,31 @@ public class TruckDirectionSelect : MonoBehaviour, IResetable {
     }
 
     private void Update() {
+        Vector2 curr = MouseUtils.GetMouseWorldPosition();
         if (Input.GetMouseButtonDown(0)) {
-            _startPosition = MouseUtils.GetMouseWorldPosition();
+            _startPosition = curr;
         }
 
         if (_startPosition != null && _canSetDirection) {
             Vector2 start = _startPosition.Value;
-            Vector2 end = MouseUtils.GetMouseWorldPosition();
-            _truckDirectionArrow.eulerAngles = new Vector3(0f, 0f, ExVector.GetDegree(start, end));
-            _truckDirectionArrow.position = start;
-            
-            float width = Vector2.Distance(start, end) * 2f;
-            if (width > 30f) {
+            float width = Vector2.Distance(start, curr) * 2f;
+            if (width > 100f) {
                 _canShootTruck = true;
+                _canSetDirection = false;
+                _startPosition = GetStartPoint(start, curr);
+                _truckDirectionArrow.position = _startPosition.Value;
                 _truckDirectionArrow.gameObject.SetActive(true);
-                _truckDirectionArrow.sizeDelta =_truckDirectionArrow.sizeDelta.ChangeXPos(width);
             }
+        }
+        if (_canShootTruck) {
+            float degree = ExVector.GetDegree(_startPosition.Value, curr);
+            _truckDirectionArrow.eulerAngles = new Vector3(0f, 0f, degree);
         }
 
         if (_startPosition != null && Input.GetMouseButtonUp(0)) {
             _truckDirectionArrow.gameObject.SetActive(false);
-            if (_canSetDirection && _canShootTruck) {
-                _canSetDirection = false;
+            if (_canShootTruck) {
+                _canShootTruck = false;
                 SetTruckMoveConfig(MouseUtils.GetMouseWorldPosition());
             }
             else {
@@ -70,10 +73,8 @@ public class TruckDirectionSelect : MonoBehaviour, IResetable {
             return;
 
         float degree = ExVector.GetDegree(_startPosition.Value, endPosition);
-        Vector2 direction = (endPosition - _startPosition.Value).normalized;
-
         Vector2 startPoint = GetStartPoint(_startPosition.Value, endPosition);
-        startPoint = startPoint - direction * _truckObject.Width * 0.5f;
+        Vector2 direction = (endPosition - startPoint).normalized;
 
         Collider2D[] overlapedBoarders = Physics2D.OverlapCircleAll(startPoint, _truckObject.Width);
 
@@ -99,6 +100,10 @@ public class TruckDirectionSelect : MonoBehaviour, IResetable {
 
     public Vector2 GetStartPoint(Vector2 start, Vector2 end) {
         var hit = Physics2D.Raycast(start, (start - end), 1000f, 1 << LayerMask.NameToLayer("Boarder"));
-        return hit.point;
+        Vector2 startPoint = hit.point;
+        Vector2 direction = (end - start).normalized;
+        startPoint = startPoint - direction * _truckObject.Width * 2f;
+        
+        return startPoint;
     }
 }

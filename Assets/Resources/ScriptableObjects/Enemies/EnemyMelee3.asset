@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: EnemyMelee3
   m_EditorClassIdentifier: 
   _entityID: 2002
+  _bodyRadius: 20
   _bodySprite: {fileID: 1864735740, guid: 0940faf6dbffb7c4e87e760a239a2980, type: 3}
   _weaponSprite: {fileID: 0}
   _animatorController: {fileID: 9100000, guid: 5de484267d9ca274289f07a6bba20451, type: 2}
