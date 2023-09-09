@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85a55cd45540cb64e9cec715ad63609d, type: 3}
+  m_Name: SMGSynergy
+  m_EditorClassIdentifier: 
+  _type: 1
+  _synergies:
+  - requireAllies: 8
+    buff: {fileID: 11400000, guid: f5f6d82b7485974489dcaf2ffe4df4bf, type: 2}
+  - requireAllies: 6
+    buff: {fileID: 11400000, guid: 70c3b7fb07d269a45bc48d050af1fdd1, type: 2}
+  - requireAllies: 4
+    buff: {fileID: 11400000, guid: 14f1f76d7b90a7c4584b4fef1abdda9a, type: 2}
+  - requireAllies: 2
+    buff: {fileID: 11400000, guid: 188be8a6e3f41784682dfc5270d791b8, type: 2}

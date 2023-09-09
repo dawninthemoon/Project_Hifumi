@@ -14,7 +14,15 @@ public class EntityBuff {
         _status = status;
     }
 
-    public void StartAddBuff(BuffConfig buffConfig) {
+    public void AddBuff(BuffConfig buff) {
+        _status.AddBuff(buff);
+    }
+
+    public void RemoveBuff(BuffConfig buff) {
+        _status.RemoveBuff(buff);
+    }
+
+    public void AddBuffWithDuration(BuffConfig buffConfig) {
         _executer.StartCoroutine(AddBuff(buffConfig, buffConfig.Info.buffDuration));
     }
 
@@ -27,11 +35,11 @@ public class EntityBuff {
     }
 
     private IEnumerator AddBuff(BuffConfig buff, float duration) {
-        _status.AddBuff(buff);
+        AddBuff(buff);
 
         yield return YieldInstructionCache.WaitForSeconds(duration);
 
-        _status.RemoveBuff(buff);
+        RemoveBuff(buff);
     }
 
     private IEnumerator AddDebuff(string debuffName, float duration) {

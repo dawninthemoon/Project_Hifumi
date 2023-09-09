@@ -40,6 +40,7 @@ public class AllyRescueHandler : MonoBehaviour, IResetable {
     public void Reset() {
         for (int i = 0; i < _rescueButtons.Length; ++i) {
             _rescueButtons[i].onClick.RemoveAllListeners();
+            _rescueButtons[i].interactable = true;
             _rescueButtons[i].gameObject.SetActive(true);
         }
         for (int i = 0; i < _allyImages.Length; ++i) {
@@ -59,6 +60,7 @@ public class AllyRescueHandler : MonoBehaviour, IResetable {
             if (_currentAllies[i] != null)
                 _appearableAlliesSet.Add(_currentAllies[i]);
         }
+        _rescueButtons[selectedIndex].interactable = false;
         GameMain.PlayerData.Allies.Add(_currentAllies[selectedIndex]);
     }
 

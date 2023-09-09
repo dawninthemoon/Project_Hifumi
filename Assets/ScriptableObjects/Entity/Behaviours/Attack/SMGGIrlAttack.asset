@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: SMGGIrlAttack
   m_EditorClassIdentifier: 
   _projectilePrefabName: SimpleProjectile
-  _aimingEfficiency: 4
+  _bulletSpreading: 3
   _bulletCount: 1
   _burstCount: 2
   _burstDelay: 0.3

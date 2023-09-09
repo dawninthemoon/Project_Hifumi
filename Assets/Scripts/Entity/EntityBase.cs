@@ -4,7 +4,6 @@ using UnityEngine;
 using System.Linq;
 
 public class EntityBase : MonoBehaviour, IObserver {
-    [SerializeField] private float _bodyRadius = 20f;
     [SerializeField] private Transform _bulletPosition = null;
     private Agent _agent;
     private EntityInfo _entityInfo = null;
@@ -19,7 +18,7 @@ public class EntityBase : MonoBehaviour, IObserver {
         private set;
     }
     public float Radius {
-        get { return _bodyRadius; }
+        get { return (_entityInfo != null) ?  _entityInfo.BodyRadius : 20f; }
     }
     public string ID {
         get { return _entityInfo.EntityID; }
@@ -45,7 +44,15 @@ public class EntityBase : MonoBehaviour, IObserver {
             _uiControl.UpdateMoraleUI(Mathf.FloorToInt(_currentMorale), _statusDecorator.Morale);
         }
     }
+    public SynergyType Synergy1 {
+        get { return _entityInfo.Synergy1; }
+    }
+    public SynergyType Synergy2 {
+        get { return _entityInfo.Synergy2; }
+    }
+
     public int AttackDamage { get { return _statusDecorator.AttackDamage; } }
+    public Vector3 BulletPosition { get { return _bulletPosition.position; } }
     public bool IsUnloadCompleted { get; set; }
     private bool _canBehaviour = true;
 
@@ -62,7 +69,6 @@ public class EntityBase : MonoBehaviour, IObserver {
     }
 
     public void Initialize(EntityInfo entityInfo) {
-
         IsUnloadCompleted = false;
         _entityInfo = entityInfo;
         _statusDecorator.Initialize(_entityInfo);
@@ -164,7 +170,8 @@ public class EntityBase : MonoBehaviour, IObserver {
         if (Health <= 0) return;
 
         Mana = Mathf.Min(Mana + 10, _statusDecorator.Mana);
-        Health -= damage;
+        int finalDamage = Mathf.Max(1, damage - _statusDecorator.Block);
+        Health -= finalDamage;
         if (Health <= 0) {
            OnEntityDead();
         }

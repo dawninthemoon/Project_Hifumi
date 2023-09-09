@@ -195,7 +195,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6714203611014656430}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7419709333754152193
 MonoBehaviour:
@@ -300,7 +300,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6714203611014656430}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3788451599846129517
 MonoBehaviour:
@@ -400,7 +400,7 @@ RectTransform:
   - {fileID: 7853894816567390659}
   - {fileID: 6513985818822341190}
   m_Father: {fileID: 6714203611014656430}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -503,7 +503,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6714203611014656430}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6714203610098454510
 MonoBehaviour:
@@ -531,7 +531,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4413dd7355feaf447a3348edbaba79ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _bodyRadius: 70
   _bulletPosition: {fileID: 0}
   _width: 114
   _height: 75
@@ -713,6 +712,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _memberUIControl: {fileID: 6714203610098454510}
+  _allyHandler: {fileID: 1578973001482838770}
   _enemyHandler: {fileID: 2467743809836541322}
   _combatReward: {fileID: 6714203611131274855}
   _combatResultUI: {fileID: 2256766036585881543}
@@ -821,8 +821,8 @@ MonoBehaviour:
   _onTruckMoveEnd:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6714203610244031490}
-        m_TargetAssemblyTypeName: GameTest, Assembly-CSharp
+      - m_Target: {fileID: 1578973001482838770}
+        m_TargetAssemblyTypeName: AllyHandler, Assembly-CSharp
         m_MethodName: ActiveAllAllies
         m_Mode: 1
         m_Arguments:
@@ -930,6 +930,7 @@ Transform:
   m_Children:
   - {fileID: 6714203610244031493}
   - {fileID: 3060099014839841817}
+  - {fileID: 7879645853575663760}
   - {fileID: 6714203609906075561}
   - {fileID: 6714203611131274854}
   - {fileID: 6714203610098454497}
@@ -1018,7 +1019,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6714203611014656430}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6714203611131274855
 MonoBehaviour:
@@ -1225,7 +1226,7 @@ Transform:
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 6714203611014656430}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &4170699083003762118
 SpriteRenderer:
@@ -1279,6 +1280,50 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &7491291262187001293
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7879645853575663760}
+  - component: {fileID: 1578973001482838770}
+  m_Layer: 0
+  m_Name: AllyHandler
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7879645853575663760
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7491291262187001293}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6714203611014656430}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1578973001482838770
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7491291262187001293}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3731150625c28e49a1bb587c2a1f8a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &6919678417221359137
 PrefabInstance:
   m_ObjectHideFlags: 0
