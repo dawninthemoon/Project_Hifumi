@@ -393,13 +393,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _gameMap: {fileID: 366999853}
-  _defaultEntities:
-  - {fileID: 11400000, guid: 4e6e6c49f534ada4581f0355f324e954, type: 2}
-  - {fileID: 11400000, guid: 6405fe3f6640604479a9f8115336415d, type: 2}
-  - {fileID: 11400000, guid: a3e50e9f8b617754391e880b82d4f886, type: 2}
-  - {fileID: 11400000, guid: 5682ab4d22cd4eb4a89ef7429a644f89, type: 2}
-  - {fileID: 11400000, guid: 445c91abc6f96aa4a9f8084e1d9a207f, type: 2}
-  _defaultBelongings: []
   _isTestCode: 0
 --- !u!114 &538686440
 MonoBehaviour:
@@ -413,6 +406,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56fc954e110edf343b7b533e03490dfc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _allies: []
+  _belongingsInventory: []
 --- !u!1 &1533858195
 GameObject:
   m_ObjectHideFlags: 0
@@ -539,7 +534,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _gameMapParent: {fileID: 366999851}
-  _combatEncounter: {fileID: 6714203611014656431, guid: a9e0072a9fdafd049aa4fd033701536f, type: 3}
+  _combatEncounter: {fileID: 761707034604478930, guid: a9e0072a9fdafd049aa4fd033701536f, type: 3}
   _shopEncounter: {fileID: 2746291360119511142, guid: 491aa64bc50774d4c82d01728ec6f8e6, type: 3}
   _allyRescueEncounter: {fileID: 1253549207646751234, guid: a9652bab88226014096a3cafaf618728, type: 3}
 --- !u!1 &1730653384

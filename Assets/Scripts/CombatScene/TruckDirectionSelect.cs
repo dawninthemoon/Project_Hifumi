@@ -60,7 +60,7 @@ public class TruckDirectionSelect : MonoBehaviour, IResetable {
             _truckDirectionArrow.gameObject.SetActive(false);
             if (_canShootTruck) {
                 _canShootTruck = false;
-                SetTruckMoveConfig(MouseUtils.GetMouseWorldPosition());
+                SetTruckMoveConfig(curr);
             }
             else {
                 _startPosition = null;
