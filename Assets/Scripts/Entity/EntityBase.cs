@@ -4,7 +4,6 @@ using UnityEngine;
 using System.Linq;
 
 public class EntityBase : MonoBehaviour, IObserver {
-    [SerializeField] private float _bodyRadius = 20f;
     [SerializeField] private Transform _bulletPosition = null;
     private Agent _agent;
     private EntityInfo _entityInfo = null;
@@ -19,7 +18,7 @@ public class EntityBase : MonoBehaviour, IObserver {
         private set;
     }
     public float Radius {
-        get { return _bodyRadius; }
+        get { return _entityInfo.BodyRadius; }
     }
     public string ID {
         get { return _entityInfo.EntityID; }

@@ -7,6 +7,7 @@ using UnityEditor.Animations;
 public class EntityInfo : ScriptableObject, IEntityStatus {
     [SerializeField] private string _entityID = null;
 
+    [SerializeField] private float _bodyRadius = 20f;
     [SerializeField] private Sprite _bodySprite = null;
     [SerializeField] private Sprite _weaponSprite = null;
     [SerializeField] private RuntimeAnimatorController _animatorController = null;
@@ -29,6 +30,7 @@ public class EntityInfo : ScriptableObject, IEntityStatus {
 
     public string EntityID { get { return _entityID; } }
 
+    public float BodyRadius { get { return _bodyRadius; } }
     public Sprite BodySprite { get { return _bodySprite; } }
     public Sprite WeaponSprite { get { return _weaponSprite; } }
     public RuntimeAnimatorController AnimatorController { get { return _animatorController; } }

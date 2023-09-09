@@ -4,10 +4,11 @@ using UnityEngine;
 
 public enum EntitySynergy {
     None,
-    Assult,
+    SMG,
+    Handgun,
     Shotgun,
     Sniper,
     Grenade,
-    Tool,
+    Flame,
     Count
 }

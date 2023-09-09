@@ -87,24 +87,31 @@ public class EntityStatusDecorator : IEntityStatus {
     public int AttackDamage { 
         get {
             int finalDamage = _entityInfo.AttackDamage;
+            float damageMultiplier = 0f;
             foreach (Belongings augments in BelongingsList) {
                 finalDamage += augments.AttackDamage;
             }
             foreach (IEntityStatus buff in _buffList) {
                 finalDamage += buff.AttackDamage;
             }
+            foreach (BuffConfig buff in _buffList) {
+                damageMultiplier += buff.AttackDamagePercent;
+            }
+            finalDamage += Mathf.FloorToInt(finalDamage * damageMultiplier);
             return finalDamage;
         }
     }
     public float AttackSpeed { 
         get {
             float finalAttackSpeed = _entityInfo.AttackSpeed;
+            float attackSpeedMultiplier = 0f;
             foreach (Belongings augments in BelongingsList) {
-                finalAttackSpeed += augments.AttackSpeed;
+                attackSpeedMultiplier += augments.AttackSpeed;
             }
             foreach (IEntityStatus buff in _buffList) {
-                finalAttackSpeed += buff.AttackSpeed;
+                attackSpeedMultiplier += buff.AttackSpeed;
             }
+            finalAttackSpeed += _entityInfo.AttackSpeed * attackSpeedMultiplier;
             return finalAttackSpeed;
         }
     }
@@ -131,6 +138,16 @@ public class EntityStatusDecorator : IEntityStatus {
                 finalAttackRange += buff.AttackRange;
             }
             return finalAttackRange;
+        }
+    }
+
+    public float AimingEfficiency {
+        get { 
+            float finalAiming = 0f;
+            foreach (BuffConfig buff in _buffList) {
+                finalAiming += buff.AimingEfficiency;
+            }
+            return finalAiming;
         }
     }
 }

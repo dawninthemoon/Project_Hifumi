@@ -9,12 +9,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c5b7f6fb703f1ba438bab0f871a87638, type: 3}
-  m_Name: SMGGIrlAttack
+  m_Script: {fileID: 11500000, guid: c552c1f70f0dcbe4e870cf12f13a3880, type: 3}
+  m_Name: SMGSynergy8
   m_EditorClassIdentifier: 
-  _projectilePrefabName: SimpleProjectile
-  _bulletSpreading: 3
-  _bulletCount: 1
-  _burstCount: 2
-  _burstDelay: 0.3
-  _projectileSpeed: 150
+  _buffInfo:
+    buffDuration: 0
+    health: 0
+    mana: 0
+    morale: 0
+    block: 0
+    attackDamage: 0
+    attackSpeed: 0.8
+    moveSpeed: 0
+    attackRange: 0
