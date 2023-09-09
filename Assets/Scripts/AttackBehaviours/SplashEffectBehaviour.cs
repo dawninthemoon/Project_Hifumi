@@ -6,7 +6,7 @@ namespace AttackBehaviours {
     [CreateAssetMenu(fileName = "SplashEffectBehaviour", menuName = "ScriptableObjects/AttackBehaviours/SplashEffect")]
     public class SplashEffectBehaviour : AttackBehaviour {
         public override void Behaviour(EntityBase caster, List<EntityBase> targets, Effects.IAttackEffect[] effects) {
-            var sonarEffect = Resources.Load<ParticleSystem>("Fx/Sonar");
+            var sonarEffect = Resources.Load<ParticleSystem>("Fx/fxSonar");
             sonarEffect = Instantiate(sonarEffect, caster.transform.position, Quaternion.identity);
 
             foreach (Effects.IAttackEffect effect in effects) {
