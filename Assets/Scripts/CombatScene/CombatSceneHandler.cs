@@ -5,6 +5,7 @@ using UnityEngine.Events;
 using RieslingUtils;
 
 public class CombatSceneHandler : MonoBehaviour, IResetable {
+    [SerializeField] private float _targetDetectionDelay = 0.05f;
     [SerializeField] private MemberUIControl _memberUIControl = null;
     [SerializeField] private AllyHandler _allyHandler = null;
     [SerializeField] private EnemyHandler _enemyHandler = null;
@@ -18,7 +19,8 @@ public class CombatSceneHandler : MonoBehaviour, IResetable {
     private ExTimeCounter _timeCounter;
     private bool _waitingForNextWave;
     private bool _isStageCleared;
-    private float _timeAgo;
+    private float _waveTimeAgo;
+    private float _targetDetectionCounter;
     private static readonly string NextWaveTimerKey = "NextWaveTime";
     public float NextWaveTime {
         get {
@@ -38,13 +40,14 @@ public class CombatSceneHandler : MonoBehaviour, IResetable {
     }
 
     public void Reset() {
-        _timeAgo = 0f;
+        _waveTimeAgo = 0f;
         _allyHandler.RemoveAllAllies(_entitySpawner);
         _enemyHandler.RemoveAllEnemies(_entitySpawner);
         _combatResultUI.Reset();
         _memberUIControl.Reset();
 
         _currentWave = 0;
+        _targetDetectionCounter = 0f;
         _isStageCleared = false;
         _waitingForNextWave = true;
     }
@@ -68,9 +71,9 @@ public class CombatSceneHandler : MonoBehaviour, IResetable {
         if (_isStageCleared) {
             return;
         }
-        _timeAgo += Time.deltaTime;
+        _waveTimeAgo += Time.deltaTime;
 
-        MoveProgress();
+        TargetDetectProgress();
         foreach (EntityBase inactiveAlly in _allyHandler.InactiveAllies) {
             _memberUIControl.UpdateMemberElement(inactiveAlly);
         }
@@ -95,9 +98,14 @@ public class CombatSceneHandler : MonoBehaviour, IResetable {
         }
     }
 
-    private void MoveProgress() {
-        _allyHandler.Progress(_enemyHandler);
-        _enemyHandler.Progress(_allyHandler.ActiveAllies, _truck);
+    private void TargetDetectProgress() {
+        _targetDetectionCounter -= Time.deltaTime;
+        if (_targetDetectionCounter < 0f) {
+            _targetDetectionCounter = _targetDetectionDelay;
+
+            _allyHandler.Progress(_enemyHandler);
+            _enemyHandler.Progress(_allyHandler.ActiveAllies, _truck);
+        }
     }
 
     public void StartNewWave() {
@@ -135,7 +143,7 @@ public class CombatSceneHandler : MonoBehaviour, IResetable {
     private void OnRewardSelected(Belongings selectedStuff) {
         GameMain.PlayerData.AddBelongingsInInventory(selectedStuff);
 
-        _combatResultUI.ShowResultUI(true, _timeAgo.ToString());
+        _combatResultUI.ShowResultUI(true, _waveTimeAgo.ToString());
 
         InteractiveEntity.SetInteractive(InteractiveEntity.Type.Entity, true);
         InteractiveEntity.SetInteractive(InteractiveEntity.Type.UI, true);
