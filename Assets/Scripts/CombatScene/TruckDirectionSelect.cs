@@ -73,7 +73,7 @@ public class TruckDirectionSelect : MonoBehaviour, IResetable {
             return;
 
         float degree = ExVector.GetDegree(_startPosition.Value, endPosition);
-        Vector2 startPoint = GetStartPoint(_startPosition.Value, endPosition);
+        Vector2 startPoint = _startPosition.Value;
         Vector2 direction = (endPosition - startPoint).normalized;
 
         Collider2D[] overlapedBoarders = Physics2D.OverlapCircleAll(startPoint, _truckObject.Width);
