@@ -125,6 +125,9 @@ public class MapGenerator : MonoBehaviour {
 
     private EncounterType GetEncounterType(int floor, int height) {
         if (floor == 1) {
+            return EncounterType.ALLY;
+        }
+        else if (floor == 2) {
             return EncounterType.COMBAT;
         }
         else if (floor == 9) {

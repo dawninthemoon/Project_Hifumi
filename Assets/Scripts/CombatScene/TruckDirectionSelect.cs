@@ -102,7 +102,7 @@ public class TruckDirectionSelect : MonoBehaviour, IResetable {
         var hit = Physics2D.Raycast(start, (start - end), 1000f, 1 << LayerMask.NameToLayer("Boarder"));
         Vector2 startPoint = hit.point;
         Vector2 direction = (end - start).normalized;
-        startPoint = startPoint - direction * _truckObject.Width * 2f;
+        startPoint = startPoint - direction * _truckObject.Width;
         
         return startPoint;
     }
