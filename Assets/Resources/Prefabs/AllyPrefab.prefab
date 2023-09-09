@@ -49,6 +49,39 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 448
   _colliderSelf: {fileID: 166338467933781668}
+--- !u!1 &648508281307294248
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 105285708597758762}
+  m_Layer: 6
+  m_Name: Group
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &105285708597758762
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 648508281307294248}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 8566413486117650258}
+  - {fileID: 5879802968770584942}
+  m_Father: {fileID: 7563314166462180939}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1019348710558012159
 GameObject:
   m_ObjectHideFlags: 0
@@ -127,7 +160,7 @@ GameObject:
   - component: {fileID: 8566413486117650258}
   - component: {fileID: 1269893135007115034}
   m_Layer: 6
-  m_Name: body
+  m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -140,14 +173,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1096522804916395107}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 6765631571866528326}
-  m_Father: {fileID: 7563314166462180939}
-  m_RootOrder: 4
+  m_Children: []
+  m_Father: {fileID: 105285708597758762}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1269893135007115034
 SpriteRenderer:
@@ -190,15 +222,15 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: -263824020, guid: 3daaea050d9a0a345b4a144afb97d875, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 64, y: 64}
+  m_Size: {x: 16, y: 16}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &1791619877432654375
@@ -296,7 +328,7 @@ GameObject:
   - component: {fileID: 103760758875521920}
   - component: {fileID: 7639899686240100445}
   m_Layer: 6
-  m_Name: hand
+  m_Name: HandImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -412,7 +444,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7107780542858152718}
   m_Layer: 6
-  m_Name: bulletTransform
+  m_Name: BulletTransform
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -612,7 +644,7 @@ GameObject:
   - component: {fileID: 6244015553851370827}
   - component: {fileID: 3051448423667409104}
   m_Layer: 6
-  m_Name: image
+  m_Name: Weapon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -626,7 +658,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4449168863988206492}
   m_LocalRotation: {x: -0, y: -0, z: -0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: 10, y: -5, z: -1}
+  m_LocalPosition: {x: 0, y: -8, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -899,38 +931,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6297c5d820a28e6459f661e943b9a142, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &6958712001293430056
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 6765631571866528326}
-  m_Layer: 6
-  m_Name: torque
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &6765631571866528326
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6958712001293430056}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -4, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 5879802968770584942}
-  m_Father: {fileID: 8566413486117650258}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6986398992036572525
 GameObject:
   m_ObjectHideFlags: 0
@@ -1076,7 +1076,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5879802968770584942}
   m_Layer: 6
-  m_Name: weapon
+  m_Name: Hand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1090,13 +1090,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7317591344448165629}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -4, y: -1, z: 0}
+  m_LocalPosition: {x: 0, y: 0.40472984, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6244015553851370827}
-  m_Father: {fileID: 6765631571866528326}
-  m_RootOrder: 0
+  m_Father: {fileID: 105285708597758762}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7551946798909139788
 GameObject:
@@ -1186,7 +1186,7 @@ Transform:
   - {fileID: 9100749336996969131}
   - {fileID: 7869432828650510218}
   - {fileID: 659735162786073476}
-  - {fileID: 8566413486117650258}
+  - {fileID: 105285708597758762}
   - {fileID: 1627383007621313967}
   - {fileID: 7877899836400111075}
   m_Father: {fileID: 0}
@@ -1227,7 +1227,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca2d1818300961149aeaf4659667ece9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _bodyRadius: 20
   _bulletPosition: {fileID: 7107780542858152718}
 --- !u!114 &5452822171537124122
 MonoBehaviour:
@@ -1243,7 +1242,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _bodyRenderer: {fileID: 1269893135007115034}
   _weaponRenderer: {fileID: 3051448423667409104}
-  _handTransform: {fileID: 6765631571866528326}
+  _handTransform: {fileID: 5879802968770584942}
 --- !u!95 &7563314166462180937
 Animator:
   serializedVersion: 4
