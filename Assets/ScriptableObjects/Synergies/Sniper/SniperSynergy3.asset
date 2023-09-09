@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c552c1f70f0dcbe4e870cf12f13a3880, type: 3}
-  m_Name: ShotgunSynergy3
+  m_Name: SniperSynergy3
   m_EditorClassIdentifier: 
   _buffInfo:
     buffName: 
@@ -18,9 +18,9 @@ MonoBehaviour:
     health: 0
     mana: 0
     morale: 0
-    block: 25
+    block: 0
     attackDamage: 0
-    attackDamagePercent: 0
+    attackDamagePercent: 0.6
     attackSpeed: 0
     moveSpeed: 0
     attackRange: 0

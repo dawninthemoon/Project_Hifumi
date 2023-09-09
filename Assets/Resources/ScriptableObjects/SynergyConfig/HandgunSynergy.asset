@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85a55cd45540cb64e9cec715ad63609d, type: 3}
+  m_Name: HandgunSynergy
+  m_EditorClassIdentifier: 
+  _type: 2
+  _synergies:
+  - requireAllies: 5
+    buff: {fileID: 11400000, guid: cdc6e58a55efffe4cb5ea3f91548032a, type: 2}
+  - requireAllies: 4
+    buff: {fileID: 11400000, guid: 16a226a9597c83249a997ec0d631190b, type: 2}
+  - requireAllies: 3
+    buff: {fileID: 11400000, guid: e68f2a4c2fdcc724cb0bf4990d80df0f, type: 2}
+  - requireAllies: 2
+    buff: {fileID: 11400000, guid: 1e2c1ee687a07a84fab8339f3f49da3a, type: 2}

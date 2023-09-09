@@ -44,10 +44,10 @@ public class EntityBase : MonoBehaviour, IObserver {
             _uiControl.UpdateMoraleUI(Mathf.FloorToInt(_currentMorale), _statusDecorator.Morale);
         }
     }
-    public EntitySynergy Synergy1 {
+    public SynergyType Synergy1 {
         get { return _entityInfo.Synergy1; }
     }
-    public EntitySynergy Synergy2 {
+    public SynergyType Synergy2 {
         get { return _entityInfo.Synergy2; }
     }
 

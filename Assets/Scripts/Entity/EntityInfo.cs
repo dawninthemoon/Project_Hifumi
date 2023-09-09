@@ -20,8 +20,8 @@ public class EntityInfo : ScriptableObject, IEntityStatus {
     [SerializeField] private float _attackSpeed = 0;
     [SerializeField] private int _moveSpeed = 0;
     [SerializeField] private int _attackRange = 0;
-    [SerializeField] private EntitySynergy _synergy1;
-    [SerializeField] private EntitySynergy _synergy2;
+    [SerializeField] private SynergyType _synergy1;
+    [SerializeField] private SynergyType _synergy2;
 
     [SerializeField] private AttackConfig _attackConfig;
     [SerializeField] private AttackConfig _skillConfig;
@@ -44,10 +44,10 @@ public class EntityInfo : ScriptableObject, IEntityStatus {
     public int MoveSpeed { get { return _moveSpeed; } }
     public int AttackRange { get { return _attackRange; } }
 
-    public EntitySynergy Synergy1 {
+    public SynergyType Synergy1 {
         get { return _synergy1; }
     }
-    public EntitySynergy Synergy2 {
+    public SynergyType Synergy2 {
         get { return _synergy2; }
     }
 
