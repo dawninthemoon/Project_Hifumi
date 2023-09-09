@@ -50,6 +50,9 @@ public class EntityBase : MonoBehaviour, IObserver {
     public SynergyType Synergy2 {
         get { return _entityInfo.Synergy2; }
     }
+    public SynergyType ExtraSynergy {
+        get { return _statusDecorator.ExtraSynergy; }
+    }
 
     public int AttackDamage { get { return _statusDecorator.AttackDamage; } }
     public Vector3 BulletPosition { get { return _bulletPosition.position; } }

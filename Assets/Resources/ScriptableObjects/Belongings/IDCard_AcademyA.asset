@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 84fe4a972ddb5da42b34789ffe672b96, type: 3}
-  m_Name: NewBelonging2
+  m_Name: IDCard_AcademyA
   m_EditorClassIdentifier: 
-  _sprite: {fileID: 21300000, guid: ed10a14499e11814381f18afb546db7c, type: 3}
+  _sprite: {fileID: 21300000, guid: 2ce01304745936f4a926ff2bbb054c15, type: 3}
   _health: 0
   _mana: 0
   _morale: 0
   _block: 0
-  _attackDamage: 0
+  _attackDamage: 10
   _attackSpeed: 0
-  _moveSpeed: 20
+  _moveSpeed: 0
   _attackRange: 0
-  _extraSynergy: 0
+  _extraSynergy: 7
