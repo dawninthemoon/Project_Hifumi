@@ -12,13 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 038495080ef93e9489387113406d78f6, type: 3}
   m_Name: Rank2Wave
   m_EditorClassIdentifier: 
-  _waveRank: 2
+  _waveRank: 1
   _waveInfoArray:
   - waveID: 2
     enemyIDArray:
+    - 2000
+    - 2001
+    - 2002
     - 2003
-    - 2003
-    - 2003
-    - 2003
-    - 2003
+    - 2004
     - 2003
