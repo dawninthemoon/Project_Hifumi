@@ -2,6 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class RandomEvent {
-    
+namespace RandomEvent {
+    public class Slaver : IRandomEvent {
+        public void Execute() {
+            
+        }
+    }
 }
