@@ -8,6 +8,7 @@ using System.Reflection;
 using System.Linq;
 
 public class RandomEventHandler : MonoBehaviour, IResetable {
+    [SerializeField] private Image _illust;
     [SerializeField] private TextMeshProUGUI _descriptionText;
     [SerializeField] private SelectionButton[] _selectionButtons;
     private EventsDataParser _parser;
@@ -29,6 +30,7 @@ public class RandomEventHandler : MonoBehaviour, IResetable {
         int randomIndex = Random.Range(0, _eventsDataArray.Length);
         EventsData randomEvent = _eventsDataArray[randomIndex];
         
+        _illust.sprite = Resources.Load<Sprite>("Temp/" + randomEvent.SpriteName);
         _descriptionText.text = randomEvent.Description;
         _selectionButtons[0].Initialize(randomEvent.Selection1);
         _selectionButtons[1].Initialize(randomEvent.Selection2);
@@ -44,7 +46,7 @@ public class RandomEventHandler : MonoBehaviour, IResetable {
     private void OnSelectionButtonClicked(EventEffects[] effects) {
         if (effects == null)
             return;
-            
+
         foreach (EventEffects effect in effects) {
             if (_eventEffectDictionary.TryGetValue(effect.eventName, out IRandomEvent instance)) {
                 instance.Execute(effect.variables);

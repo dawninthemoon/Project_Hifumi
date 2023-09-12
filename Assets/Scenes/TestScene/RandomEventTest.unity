@@ -386,6 +386,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f324d3ec9e210264fb26a6157514fb73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _illust: {fileID: 944764680}
   _descriptionText: {fileID: 664371506}
   _selectionButtons:
   - {fileID: 12514925}
