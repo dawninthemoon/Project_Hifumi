@@ -1,0 +1,20 @@
+{
+  "10001_1": {
+    "Name": "변화",
+    "ShowSelectionName": true,
+    "Text": "멤버를 1명 이탈시키고, 새로운 동료를 획득한다.",
+    "Effects": "LoseMember(),AddRandomMember()"
+  },
+  "10001_2": {
+    "Name": "망각",
+    "ShowSelectionName": true,
+    "Text": "무시하고 지나간다.",
+    "Effects": null
+  },
+  "10001_3": {
+    "Name": "성장",
+    "ShowSelectionName": true,
+    "Text": "전투를 치르고, 멤버 1명을 강화한다.",
+    "Effects": "CombatByType(Loner),UpgradeMember()"
+  }
+}
