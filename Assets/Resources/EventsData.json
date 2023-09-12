@@ -30,7 +30,7 @@
     "ID": "10004",
     "EventName": "BloodSelling",
     "SpriteName": "Hypnosister",
-    "Description": "\"여고생 피 최고가 매입합니다\"\n헌혈에 동참한다면 큰 보상을 받을 수 있을 것 같다.",
+    "Description": "\"여고생 피 최고가 매입합니다!\"\n헌혈에 동참한다면 큰 보상을 받을 수 있을 것 같다.",
     "Selection1ID": "10004_1",
     "Selection2ID": "10004_2",
     "Selection3ID": null
