@@ -20,7 +20,9 @@ public class RandomEventHandler : MonoBehaviour, IResetable {
         _eventsDataArray = _parser.ParseData();
 
         InitializeRandomEventEffects();
+    }
 
+    private void Start() {
         foreach (SelectionButton button in _selectionButtons) {
             button.AddListener(OnSelectionButtonClicked);
         }
