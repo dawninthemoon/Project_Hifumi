@@ -42,9 +42,11 @@ public class SelectionButton : MonoBehaviour {
         }
         AddText(selectionData.Text, "black");
         ApplyText();
+        gameObject.SetActive(true);
     }
 
     public void Reset() {
+        gameObject.SetActive(false);
         _text.text = null;
         _selectionData = null;
     }
