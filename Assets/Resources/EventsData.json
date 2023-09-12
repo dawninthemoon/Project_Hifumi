@@ -1,0 +1,38 @@
+[
+  {
+    "ID": "10001",
+    "EventName": "Loner",
+    "SpriteName": "Centurion",
+    "Description": "야생의 외톨이가 나타났다.",
+    "Selection1ID": "10001_1",
+    "Selection2ID": "10001_2",
+    "Selection3ID": null
+  },
+  {
+    "ID": "10002",
+    "EventName": "Slaver",
+    "SpriteName": null,
+    "Description": "노예상이다. 무언가 구매할 수 있을 것 같다.",
+    "Selection1ID": "10002_1",
+    "Selection2ID": "10002_2",
+    "Selection3ID": null
+  },
+  {
+    "ID": "10003",
+    "EventName": "HumanTrafficker",
+    "SpriteName": null,
+    "Description": "인신매매상이다.",
+    "Selection1ID": "10003_1",
+    "Selection2ID": "10003_2",
+    "Selection3ID": null
+  },
+  {
+    "ID": "10004",
+    "EventName": "BloodSelling",
+    "SpriteName": null,
+    "Description": "\"여고생 피 최고가 매입합니다\"\n헌혈에 동참한다면 큰 보상을 받을 수 있을 것 같다.",
+    "Selection1ID": "10004_1",
+    "Selection2ID": "10004_2",
+    "Selection3ID": null
+  }
+]

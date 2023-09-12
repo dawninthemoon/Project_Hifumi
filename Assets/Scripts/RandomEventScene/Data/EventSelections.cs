@@ -15,7 +15,6 @@ namespace RandomEvent {
     public class EventSelections {
         public string ID { get; set; }
         public string Name { get; set; }
-        public bool ShowSelectionName { get; set; }
         public string Text { get; set; }
         public EventEffects[] Effects { get; set; }
     }

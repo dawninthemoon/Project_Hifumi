@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 
 namespace RandomEvent {
     public class EventsDataParser {
-        private static readonly string EventsFileName = "RandomEvents";
+        private static readonly string EventsFileName = "EventsData";
         private static readonly string SelectionsFileName = "EventSelections";
 
         private static readonly string IDColumn = "ID";
@@ -51,11 +51,13 @@ namespace RandomEvent {
 
         private EventSelections ParseSelectionData(JSONObject selectionJsonObj, string selectionID) {
             selectionJsonObj = selectionJsonObj.GetField(selectionID);
+            if (selectionJsonObj == null) {
+                return null;
+            }
 
             EventSelections selection = new EventSelections();
             selection.ID = selectionID;
             selection.Name = selectionJsonObj.GetField("Name").stringValue;
-            selection.ShowSelectionName = selectionJsonObj.GetField("ShowSelectionName").boolValue;
             selection.Text = selectionJsonObj.GetField("Text").stringValue;
 
             string effects = selectionJsonObj.GetField("Effects").stringValue;
