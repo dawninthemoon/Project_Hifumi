@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
 
-public class ShopHandler : MonoBehaviour {
+public class ShopHandler : MonoBehaviour, IResetable {
     [SerializeField] private Button _itemGachaButton;
     [SerializeField] private Button _memberGachaButton;
     private static readonly int MaxGachaCount = 3;
@@ -14,6 +14,7 @@ public class ShopHandler : MonoBehaviour {
     private void Awake() {
         _itemGachaButton.onClick.AddListener(OnItemGachaButtonClicked);
         _memberGachaButton.onClick.AddListener(OnMemberGachaButtonClicked);
+        Reset();
     }
 
     public void Reset() {
