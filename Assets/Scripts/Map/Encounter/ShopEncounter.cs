@@ -9,11 +9,10 @@ public class ShopEncounter : EncounterBase {
     }
 
     public override void OnEncounter() {
-        _shopHandler.Reset();
         gameObject.SetActive(true);
     }
 
     public override void Reset() {
-        
+        _shopHandler.Reset();
     }
 }

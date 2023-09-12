@@ -78,6 +78,9 @@ public class Truck : EntityBase, ITargetable {
             float speed = _currentSpeed > 0f ? _currentSpeed : _speed / 10f;
             other.GetComponent<HitEffect>().ApplyKnockback(direction, _knockbackMin + speed * _knockbackForce);
         }
+        else if (other.gameObject.tag.Equals("Obstacle")) {
+            _currentSpeed = 0f;
+        }
     }
 
     private void OnTriggerStay2D(Collider2D other) {

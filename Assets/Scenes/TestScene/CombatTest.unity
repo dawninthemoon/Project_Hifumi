@@ -380,11 +380,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _allies:
-  - {fileID: 11400000, guid: 4e6e6c49f534ada4581f0355f324e954, type: 2}
   - {fileID: 11400000, guid: 6405fe3f6640604479a9f8115336415d, type: 2}
-  - {fileID: 11400000, guid: a3e50e9f8b617754391e880b82d4f886, type: 2}
-  - {fileID: 11400000, guid: 5682ab4d22cd4eb4a89ef7429a644f89, type: 2}
-  - {fileID: 11400000, guid: 445c91abc6f96aa4a9f8084e1d9a207f, type: 2}
   _belongingsInventory:
   - {fileID: 11400000, guid: 5d10cb6cc6358cf40bc6f05ad516407b, type: 2}
   - {fileID: 11400000, guid: fe000cc9b7f39ee46840e11ce338e63d, type: 2}
@@ -502,6 +498,10 @@ PrefabInstance:
     - target: {fileID: 2208239532988060239, guid: a9e0072a9fdafd049aa4fd033701536f, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3167356356275048182, guid: a9e0072a9fdafd049aa4fd033701536f, type: 3}
+      propertyPath: m_TagString
+      value: Obstacle
       objectReference: {fileID: 0}
     - target: {fileID: 3217179101427050886, guid: a9e0072a9fdafd049aa4fd033701536f, type: 3}
       propertyPath: m_AnchorMax.y
@@ -695,6 +695,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5580586612819210351, guid: a9e0072a9fdafd049aa4fd033701536f, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
     - target: {fileID: 6280244765159680412, guid: a9e0072a9fdafd049aa4fd033701536f, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -766,6 +770,14 @@ PrefabInstance:
     - target: {fileID: 6491904213759177971, guid: a9e0072a9fdafd049aa4fd033701536f, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6651532940567051862, guid: a9e0072a9fdafd049aa4fd033701536f, type: 3}
+      propertyPath: m_TagString
+      value: Obstacle
+      objectReference: {fileID: 0}
+    - target: {fileID: 7745950084751495495, guid: a9e0072a9fdafd049aa4fd033701536f, type: 3}
+      propertyPath: m_TagString
+      value: Obstacle
       objectReference: {fileID: 0}
     - target: {fileID: 7869299048265272460, guid: a9e0072a9fdafd049aa4fd033701536f, type: 3}
       propertyPath: m_AnchorMax.y
@@ -798,6 +810,10 @@ PrefabInstance:
     - target: {fileID: 7924204170230391373, guid: a9e0072a9fdafd049aa4fd033701536f, type: 3}
       propertyPath: m_SizeDelta.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7928489372732088490, guid: a9e0072a9fdafd049aa4fd033701536f, type: 3}
+      propertyPath: m_TagString
+      value: Obstacle
       objectReference: {fileID: 0}
     - target: {fileID: 8748223068237601424, guid: a9e0072a9fdafd049aa4fd033701536f, type: 3}
       propertyPath: m_Camera

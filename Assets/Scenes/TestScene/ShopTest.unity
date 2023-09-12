@@ -266,12 +266,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56fc954e110edf343b7b533e03490dfc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _allies:
-  - {fileID: 11400000, guid: 4e6e6c49f534ada4581f0355f324e954, type: 2}
-  - {fileID: 11400000, guid: 6405fe3f6640604479a9f8115336415d, type: 2}
-  - {fileID: 11400000, guid: a3e50e9f8b617754391e880b82d4f886, type: 2}
-  - {fileID: 11400000, guid: 5682ab4d22cd4eb4a89ef7429a644f89, type: 2}
-  - {fileID: 11400000, guid: 445c91abc6f96aa4a9f8084e1d9a207f, type: 2}
+  _allies: []
   _belongingsInventory: []
 --- !u!114 &2123600384
 MonoBehaviour:

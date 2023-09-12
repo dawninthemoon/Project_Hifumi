@@ -28,8 +28,8 @@ public class HitEffect : MonoBehaviour {
 
     private void Update() {
         if (_applyKnockback && (_knockbackDuration > _timeAgo)) {
-            Vector2 normal = CombatMap.GetBoarderNormal(transform.position, _radius);
-            ApplyReflect(normal);
+            //Vector2 normal = CombatMap.GetBoarderNormal(transform.position, _radius);
+            //ApplyReflect(normal);
 
             Vector3 knockbackAmount = _knockbackDir * Mathf.Max(0f, _knockbackForce - _friction * _timeAgo);
             transform.position += knockbackAmount * Time.deltaTime;
