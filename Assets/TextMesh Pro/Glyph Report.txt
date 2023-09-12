@@ -1,0 +1,12 @@
+Font: LINE Seed Sans KR  Style: Thin
+Point Size: 90   SP/PD Ratio: 10.0%
+
+Characters included: 2445/2445
+Missing characters: 0
+Excluded characters: 0
+
+Characters missing from font file:
+----------------------------------------
+
+Characters excluded from packing:
+----------------------------------------
