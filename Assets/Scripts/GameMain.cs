@@ -7,11 +7,16 @@ public class GameMain : MonoBehaviour {
     public static PlayerData PlayerData {
         get { return _playerData; }
     }
+    public static RewardData RewardData {
+        get;
+        private set;
+    }
     [SerializeField] private GameMap _gameMap = null;
     [SerializeField] private bool _isTestCode = false;
 
     private void Awake() {
         _playerData = GetComponent<PlayerData>();
+        RewardData = new RewardData(_playerData);
         InitializeAllies();
     }
 
