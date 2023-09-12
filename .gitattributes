@@ -1,0 +1,5 @@
+*.lib filter=lfs diff=lfs merge=lfs -text
+Dovemayo_wild[[:space:]]SDF.asset filter=lfs diff=lfs merge=lfs -text
+LINESEEDKR-BD[[:space:]]SDF.asset filter=lfs diff=lfs merge=lfs -text
+LINESEEDKR-RG[[:space:]]SDF.asset filter=lfs diff=lfs merge=lfs -text
+LINESEEDKR-TH[[:space:]]SDF.asset filter=lfs diff=lfs merge=lfs -text
