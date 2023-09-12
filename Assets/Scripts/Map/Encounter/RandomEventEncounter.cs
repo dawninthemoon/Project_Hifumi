@@ -9,7 +9,7 @@ public class RandomEventEncounter : EncounterBase {
     }
 
     public override void OnEncounter() {
-        _randomeEncounterHandler.Reset();
+        _randomeEncounterHandler.Initialize();
         gameObject.SetActive(true);
     }
 

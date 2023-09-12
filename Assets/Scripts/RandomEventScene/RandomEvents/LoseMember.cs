@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace RandomEvent {
-    public class Slaver : IRandomEvent {
-        public void Execute() {
+    public class LoseMember : IRandomEvent {
+        public void Execute(string[] variables) {
             
         }
     }

@@ -1,3 +1,3 @@
 public interface IRandomEvent {
-    void Execute();
+    void Execute(string[] variables);
 }
