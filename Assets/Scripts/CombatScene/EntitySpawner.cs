@@ -1,30 +1,38 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cysharp.Threading.Tasks;
 
-public class EntitySpawner {
+public class EntitySpawner : ILoadable {
     private ObjectPool<EntityBase> _allyObjectPool;
     private ObjectPool<EntityBase> _enemyObjectPool;
     
-    private static readonly string AllyPrefabPath = "Prefabs/AllyPrefab";
-    private static readonly string EnemyPrefabPath = "Prefabs/EnemyPrefab";
+    private static readonly string AllyPrefabName = "AllyPrefab";
+    private static readonly string EnemyPrefabName = "EnemyPrefab";
+    public static bool IsLoadCompleted { 
+        get;
+        private set;
+    }
 
     public EntitySpawner(Transform entityParent) {
-        EntityBase allyPrefab = Resources.Load<EntityBase>(AllyPrefabPath);
-        EntityBase enemyPrefab = Resources.Load<EntityBase>(EnemyPrefabPath);
+        AssetManager.Instance.LoadAssetAsync<GameObject>(
+            AllyPrefabName,
+            (op) => OnPrefabLoadCompleted(ref _allyObjectPool, op.Result.GetComponent<EntityBase>(), entityParent)
+        );
+        AssetManager.Instance.LoadAssetAsync<GameObject>(
+            EnemyPrefabName,
+            (op) => OnPrefabLoadCompleted(ref _enemyObjectPool, op.Result.GetComponent<EntityBase>(), entityParent)
+        );
+    }
 
-        _allyObjectPool = new ObjectPool<EntityBase>(
+    private void OnPrefabLoadCompleted(ref ObjectPool<EntityBase> objectPool, EntityBase prefab, Transform entityParent) {
+        objectPool = new ObjectPool<EntityBase>(
             10,
-            () => CreateEntityBase(allyPrefab, entityParent),
+            () => CreateEntityBase(prefab, entityParent),
             OnEntityActive,
             OnEntityDisable
         );
-        _enemyObjectPool = new ObjectPool<EntityBase>(
-            10,
-            () => CreateEntityBase(enemyPrefab, entityParent),
-            OnEntityActive,
-            OnEntityDisable
-        );
+        IsLoadCompleted = true;
     }
 
     public EntityBase CreateAlly(EntityInfo entityInfo) {

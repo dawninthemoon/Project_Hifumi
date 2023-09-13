@@ -2,21 +2,36 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CombatEncounter : EncounterBase, IResetable {
+public class CombatEncounter : EncounterBase, IResetable, ILoadable {
     [SerializeField] private CombatSceneHandler _combatHandler = null;
     [SerializeField] private TruckDirectionSelect _truckMover = null;
-    private Dictionary<int, CombatStageConfig[]> _combatStageConfigDic;
+    private Dictionary<int, List<CombatStageConfig>> _combatStageConfigDic;
+    private static readonly string CombatConfigKey = "CombatConfig";
+    public static bool IsLoadCompleted {
+        get;
+        private set;
+    } = false;
 
     private void Awake() {
-        _combatStageConfigDic = new Dictionary<int, CombatStageConfig[]>();
+        _combatStageConfigDic = new Dictionary<int, List<CombatStageConfig>>();
+        AssetManager.Instance.LoadAssetsAsync<CombatStageConfig>(
+            CombatConfigKey,
+            (handle) => {
+                IList<CombatStageConfig> stageConfigs = handle.Result;
+                foreach (CombatStageConfig config in stageConfigs) {
+                    if (_combatStageConfigDic.TryGetValue(config.StageRank, out var list)) {
+                        list.Add(config);
+                    }
+                    else {
+                        List<CombatStageConfig> stageList = new List<CombatStageConfig>();
+                        stageList.Add(config);
+                        _combatStageConfigDic.Add(config.StageRank, stageList);
+                    }
+                }
 
-        int maxRank = 3;
-        for (int rank = 1; rank <= maxRank; ++rank) {
-            var combatStageConfigArray = Resources.LoadAll<CombatStageConfig>("ScriptableObjects/CombatStageConfig/Rank" + rank.ToString());
-            if (combatStageConfigArray != null) {
-                _combatStageConfigDic.Add(rank, combatStageConfigArray);
+                IsLoadCompleted = true;
             }
-        }
+        );
     }
 
     public override void OnEncounter() {
@@ -32,8 +47,8 @@ public class CombatEncounter : EncounterBase, IResetable {
     }
 
     private CombatStageConfig GetRandomStage(int rank) {
-        CombatStageConfig[] targetStageArray = _combatStageConfigDic[rank];
-        int randomIndex = Random.Range(0, targetStageArray.Length);
-        return targetStageArray[randomIndex];
+        List<CombatStageConfig> targetStageList = _combatStageConfigDic[rank];
+        int randomIndex = Random.Range(0, targetStageList.Count);
+        return targetStageList[randomIndex];
     }
 }

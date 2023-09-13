@@ -17,6 +17,8 @@ public class CombatTimerUI : MonoBehaviour {
     }
 
     void Update() {
-        _timerText.text = Mathf.Floor(_combatScene.NextWaveTime).ToString();
+        if (_combatScene.IsCombatStarted) {
+            _timerText.text = Mathf.Floor(_combatScene.NextWaveTime).ToString();
+        }
     }
 }
