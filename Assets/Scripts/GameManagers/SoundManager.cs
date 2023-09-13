@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using RieslingUtils;
+using Cysharp.Threading.Tasks;
 
 public class SoundManager : SingletonWithMonoBehaviour<SoundManager> {
     private List<AudioSource> _audioSourceBGMList = new List<AudioSource>();
-    private AudioClip[] _bgmAudioClipList;
-    private AudioClip[] _gameSEAudioClipList;
+    private List<AudioClip> _bgmAudioClipList;
+    private List<AudioClip> _gameSEAudioClipList;
     private List<IEnumerator> _fadeCoroutineList = new List<IEnumerator>();
     List<AudioSource> _gameSESourceList = new List<AudioSource>();
     ObjectPool<AudioSource> _audioPool;
@@ -24,12 +25,13 @@ public class SoundManager : SingletonWithMonoBehaviour<SoundManager> {
         return newObj;
     }
 
-    private void Awake() {
-        string gameSEPath = "AudioClips/Effects";
-        _gameSEAudioClipList = Resources.LoadAll<AudioClip>(gameSEPath);
+    private async UniTaskVoid Awake() {
+        var assetLoader = AssetLoader.Instance;
+        string gameSEPath = "AudioFx";
+        _gameSEAudioClipList = await assetLoader.LoadAssetsAsync<AudioClip>(gameSEPath) as List<AudioClip>;
 
-        string bgmPath = "AudioClips/BGM";
-        _bgmAudioClipList = Resources.LoadAll<AudioClip>(bgmPath);
+        string bgmPath = "BGM";
+        _bgmAudioClipList = await assetLoader.LoadAssetsAsync<AudioClip>(bgmPath) as List<AudioClip>;
 
         for (int i = 0; i < 2; ++i) {
             var source = CreateAudioSource();

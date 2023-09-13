@@ -14,7 +14,7 @@ public class CombatEncounter : EncounterBase, IResetable, ILoadable {
 
     private void Awake() {
         _combatStageConfigDic = new Dictionary<int, List<CombatStageConfig>>();
-        AssetManager.Instance.LoadAssetsAsync<CombatStageConfig>(
+        AssetLoader.Instance.LoadAssetsAsync<CombatStageConfig>(
             CombatConfigKey,
             (handle) => {
                 IList<CombatStageConfig> stageConfigs = handle.Result;

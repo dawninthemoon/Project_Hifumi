@@ -40,11 +40,13 @@ MonoBehaviour:
   - m_GUID: 2f68b59318081f745b7e22fb90de034e
     m_Address: Items
     m_ReadOnly: 0
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - EntityItems
   - m_GUID: 3f1669ccb84be5e4aaeefd54aeb3f4c4
     m_Address: SynergyConfig
     m_ReadOnly: 0
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - SynergyConfig
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 31982e3aaaeb4cb4e84e15aa5125e12c, type: 2}
   m_SchemaSet:

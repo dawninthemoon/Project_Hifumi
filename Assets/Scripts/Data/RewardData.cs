@@ -4,16 +4,12 @@ using UnityEngine;
 using System.Linq;
 
 public class RewardData {
-    private static readonly string SOPath = "ScriptableObjects/";
-    private static readonly string AllyDataPath = "Allies/";
-    private static readonly string ItemDataPath = "Items/";
     private HashSet<EntityInfo> _appearableAlliesSet;
     private HashSet<Belongings> _appearableItemsSet;
-    public RewardData(PlayerData playerData) {
-        _appearableAlliesSet 
-            = Resources.LoadAll<EntityInfo>(SOPath + AllyDataPath).ToHashSet();
-        _appearableItemsSet 
-            = Resources.LoadAll<Belongings>(SOPath + ItemDataPath).ToHashSet();
+
+    public RewardData(IList<EntityInfo> allyList, IList<Belongings> itemList) {
+        _appearableAlliesSet = allyList.ToHashSet();
+        _appearableItemsSet = itemList.ToHashSet();
 
         foreach (EntityInfo playerAlly in GameMain.PlayerData.Allies) {
             if (_appearableAlliesSet.Contains(playerAlly)) {

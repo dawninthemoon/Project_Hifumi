@@ -93,6 +93,11 @@ MonoBehaviour:
     - CombatConfig
     - AlliesConfig
     - EnemiesConfig
+    - Projectiles
+    - EntityItems
+    - SynergyConfig
+    - BGM
+    - AudioFx
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: d1a101ee68f85b145b1f4761cfa36bb6, type: 2}

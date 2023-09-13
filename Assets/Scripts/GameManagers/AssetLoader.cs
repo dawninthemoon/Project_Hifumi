@@ -12,7 +12,7 @@ public interface ILoadable {
     }
 }
 
-public class AssetManager : Singleton<AssetManager> {
+public class AssetLoader : Singleton<AssetLoader> {
     public AsyncOperationHandle<T> LoadAssetAsync<T>(string key) where T : Object {
         return Addressables.LoadAssetAsync<T>(key);
     }
