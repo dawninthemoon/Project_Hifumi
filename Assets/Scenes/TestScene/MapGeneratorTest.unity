@@ -175,7 +175,7 @@ MonoBehaviour:
   - {fileID: 1671617453825868364, guid: 1e4e0a841b9d1bc449b23ff3059108ab, type: 3}
   - {fileID: 8271669320220549665, guid: 8e11779078864e24dac26d45026b3b6d, type: 3}
   _originPosition: {fileID: 679250003}
-  _mapSceneParent: {fileID: 679250003}
+  _gameMapParent: {fileID: 0}
   _offsetX: 64
   _offsetY: 96
   _executeTime: 6
@@ -191,7 +191,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a55e0628db4e01c4a82e18e1218853a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _width: 4
+  _roomSelector: {fileID: 0}
+  _width: 3
   _height: 7
 --- !u!1 &1319709899
 GameObject:

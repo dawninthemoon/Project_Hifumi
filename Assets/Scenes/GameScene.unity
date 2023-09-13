@@ -225,7 +225,6 @@ MonoBehaviour:
   - {fileID: 3931476937935734644, guid: b4fbe7c39c0a21746a9686eb63011176, type: 3}
   - {fileID: 7422694589930541395, guid: 34fe7491ee405994c84c9196d85e9424, type: 3}
   - {fileID: 8271669320220549665, guid: 8e11779078864e24dac26d45026b3b6d, type: 3}
-  - {fileID: 1671617453825868364, guid: 1e4e0a841b9d1bc449b23ff3059108ab, type: 3}
   - {fileID: 4806412541203434454, guid: d106841ee4970e040b925928ea2f6af0, type: 3}
   _originPosition: {fileID: 366999854}
   _gameMapParent: {fileID: 366999854}
@@ -245,8 +244,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _roomSelector: {fileID: 1670434708}
-  _width: 4
-  _height: 7
+  _width: 7
+  _height: 15
 --- !u!4 &366999854
 Transform:
   m_ObjectHideFlags: 0
@@ -537,6 +536,7 @@ MonoBehaviour:
   _combatEncounter: {fileID: 761707034604478930, guid: a9e0072a9fdafd049aa4fd033701536f, type: 3}
   _shopEncounter: {fileID: 2746291360119511142, guid: 491aa64bc50774d4c82d01728ec6f8e6, type: 3}
   _allyRescueEncounter: {fileID: 1253549207646751234, guid: a9652bab88226014096a3cafaf618728, type: 3}
+  _eventEncounter: {fileID: 6695440892914770960, guid: 27b6ec8f85fd83c448dca652647505cb, type: 3}
 --- !u!1 &1730653384
 GameObject:
   m_ObjectHideFlags: 0

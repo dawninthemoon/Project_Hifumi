@@ -8,6 +8,7 @@ public class RoomSelector : MonoBehaviour {
     [SerializeField] private CombatEncounter _combatEncounter = null;
     [SerializeField] private ShopEncounter _shopEncounter = null;
     [SerializeField] private AllyRescueEncounter _allyRescueEncounter = null;
+    [SerializeField] private RandomEventEncounter _eventEncounter = null;
     private EncounterBase _currentEncounter;
     private GameObject _currentEncounterObj;
     private System.Action _requestedRoomExitCallback;
@@ -16,6 +17,7 @@ public class RoomSelector : MonoBehaviour {
         _combatEncounter = Instantiate(_combatEncounter, Vector3.zero, Quaternion.identity);
         _shopEncounter = Instantiate(_shopEncounter, Vector3.zero, Quaternion.identity);
         _allyRescueEncounter = Instantiate(_allyRescueEncounter, Vector3.zero, Quaternion.identity);
+        _eventEncounter = Instantiate(_eventEncounter, Vector3.zero, Quaternion.identity);
     }
 
     private void Start() {
@@ -23,6 +25,7 @@ public class RoomSelector : MonoBehaviour {
         _combatEncounter.gameObject.SetActive(false);
         _shopEncounter.gameObject.SetActive(false);
         _allyRescueEncounter.gameObject.SetActive(false);
+        _eventEncounter.gameObject.SetActive(false);
     }
 
     public void SetRoomExit(System.Action callback) {
@@ -45,6 +48,9 @@ public class RoomSelector : MonoBehaviour {
             break;
         case EncounterType.ALLY:
             _currentEncounter = _allyRescueEncounter;
+            break;
+        case EncounterType.EVENT:
+            _currentEncounter = _eventEncounter;
             break;
         }
         EnterRoom(_currentEncounter);
