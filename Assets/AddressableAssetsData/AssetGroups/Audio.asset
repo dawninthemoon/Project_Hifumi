@@ -20,7 +20,13 @@ MonoBehaviour:
   - m_GUID: 5cd590edcce95c547877a0b6907ec45b
     m_Address: BGM
     m_ReadOnly: 0
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - BGM
+  - m_GUID: 83747ab217873464ca44509b18c4f38a
+    m_Address: Effects
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - AudioFx
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 31982e3aaaeb4cb4e84e15aa5125e12c, type: 2}
   m_SchemaSet:

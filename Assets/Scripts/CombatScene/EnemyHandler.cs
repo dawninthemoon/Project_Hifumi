@@ -18,7 +18,7 @@ public class EnemyHandler : MonoBehaviour, ILoadable {
     private async UniTaskVoid Awake() {
         _activeEnemies = new KdTree<EntityBase>();
 
-        var assetLoader = AssetManager.Instance;
+        var assetLoader = AssetLoader.Instance;
 
         IList<CombatWaveConfig> waveConfigList 
             = await assetLoader.LoadAssetsAsync<CombatWaveConfig>("CombatConfig");

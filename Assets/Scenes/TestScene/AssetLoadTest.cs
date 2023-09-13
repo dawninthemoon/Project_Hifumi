@@ -7,7 +7,7 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 
 public class AssetLoadTest : MonoBehaviour {
     private async UniTaskVoid Awake() {
-        var list = await AssetManager.Instance.LoadAssetsAsync<Sprite>("EventSprites");
+        var list = await AssetLoader.Instance.LoadAssetsAsync<Sprite>("EventSprites");
         Debug.Log(list.Count);
     }
 }

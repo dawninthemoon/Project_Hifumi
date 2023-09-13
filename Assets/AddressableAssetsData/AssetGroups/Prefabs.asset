@@ -24,7 +24,8 @@ MonoBehaviour:
   - m_GUID: b6f5ca16f6183d84abd2f7442ade35a1
     m_Address: Projectiles
     m_ReadOnly: 0
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - Projectiles
   - m_GUID: f77e294070198484d92b57c27106961e
     m_Address: AllyPrefab
     m_ReadOnly: 0

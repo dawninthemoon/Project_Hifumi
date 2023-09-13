@@ -15,11 +15,11 @@ public class EntitySpawner : ILoadable {
     }
 
     public EntitySpawner(Transform entityParent) {
-        AssetManager.Instance.LoadAssetAsync<GameObject>(
+        AssetLoader.Instance.LoadAssetAsync<GameObject>(
             AllyPrefabName,
             (op) => OnPrefabLoadCompleted(ref _allyObjectPool, op.Result.GetComponent<EntityBase>(), entityParent)
         );
-        AssetManager.Instance.LoadAssetAsync<GameObject>(
+        AssetLoader.Instance.LoadAssetAsync<GameObject>(
             EnemyPrefabName,
             (op) => OnPrefabLoadCompleted(ref _enemyObjectPool, op.Result.GetComponent<EntityBase>(), entityParent)
         );

@@ -5,17 +5,19 @@ using TMPro;
 using RieslingUtils;
 
 public class CombatDamageDisplay : SingletonWithMonoBehaviour<CombatDamageDisplay> {
-    private static readonly string PrefabPath = "Prefabs/DamageDisplayText";
+    private static readonly string PrefabPath = "DamageDisplayText";
     private ObjectPool<TMP_Text> _damageTextPool;
 
     private void Awake() {
-        var prefab = Resources.Load<TMP_Text>(PrefabPath);
-        _damageTextPool = new ObjectPool<TMP_Text>(
-            10,
-            () => Instantiate(prefab),
-            (x) => x.gameObject.SetActive(true),
-            (x) => x.gameObject.SetActive(false)
-        );
+        AssetLoader.Instance.LoadAssetAsync<GameObject>(PrefabPath, (handle) => {
+            var prefab = handle.Result.GetComponent<TMP_Text>();
+            _damageTextPool = new ObjectPool<TMP_Text>(
+                10,
+                () => Instantiate(prefab),
+                (x) => x.gameObject.SetActive(true),
+                (x) => x.gameObject.SetActive(false)
+            );
+        });
     }
 
     public void StartDisplayText(string text, Vector3 position, float duration) {
