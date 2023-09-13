@@ -135,7 +135,7 @@ public class MapGenerator : MonoBehaviour {
         if (randNum < 120) {
             return EncounterType.ALLY;
         }
-        else if (randNum < 340) {
+        else if (randNum < 500) {
             return EncounterType.EVENT;
         }
         return EncounterType.COMBAT;

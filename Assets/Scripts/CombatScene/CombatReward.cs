@@ -6,11 +6,9 @@ public class CombatReward : MonoBehaviour {
     [SerializeField] private BelongingObject _belongingsPrefab = null;
     [SerializeField] private Transform _truckTransform = null;
     private Vector3[] _belongingsPosition = null;
-    private Belongings[] _belongingData;
     private BelongingObject[] _currentBelongingObjArr;
 
     private void Awake() {
-        _belongingData = Resources.LoadAll<Belongings>("ScriptableObjects/Belongings");
         _belongingsPosition = new Vector3[] {
             new Vector3(-50f, 100f),
             new Vector3(0f, 100f),
@@ -21,30 +19,39 @@ public class CombatReward : MonoBehaviour {
 
     public void OpenRewardSet(System.Action<Belongings> onRewardSelected) {
         InteractiveEntity.SetInteractive(InteractiveEntity.Type.Reward, true);
+
         for (int i = 0; i < 3; ++i) {
-            int randIdx = Random.Range(0, _belongingData.Length);
-            Belongings stuff = _belongingData[i];
+            Belongings item = GameMain.RewardData.GetRandomItem(true);
+            int curr = i;
 
-            Vector3 position = _truckTransform.position + _belongingsPosition[i];
-            BelongingObject obj = CreateBelongingObject(stuff, position);
+            Vector3 position = _truckTransform.position + _belongingsPosition[curr];
+            BelongingObject obj = CreateBelongingObject(item, position);
 
-            obj.SetSprite(stuff.Sprite);
-            obj.Interactive.OnMouseDownEvent.AddListener(() => {
-                obj.gameObject.SetActive(false);
-                InteractiveEntity.SetInteractive(InteractiveEntity.Type.Reward, false);
-                onRewardSelected.Invoke(stuff);
+            obj.SetSprite(item.Sprite);
+            obj.Interactive.OnMouseDownEvent
+                .AddListener(() => OnRewardSelected(curr, onRewardSelected));
 
-                for (int i = 0; i < 3; ++i) {
-                    Destroy(_currentBelongingObjArr[i].gameObject);
-                }
-            });
-            _currentBelongingObjArr[i] = obj;
+            _currentBelongingObjArr[curr] = obj;
         }
     }
 
     private BelongingObject CreateBelongingObject(Belongings belonging, Vector3 position) {
         BelongingObject obj = Instantiate(_belongingsPrefab, position, Quaternion.identity);
-        obj.BelongingData = belonging;
+        obj.ItemData = belonging;
         return obj;
+    }
+
+    private void OnRewardSelected(int index, System.Action<Belongings> onRewardSelected) {
+        BelongingObject item = _currentBelongingObjArr[index];
+        item.gameObject.SetActive(false);
+        InteractiveEntity.SetInteractive(InteractiveEntity.Type.Reward, false);
+        onRewardSelected.Invoke(item.ItemData);
+
+        for (int i = 0; i < 3; ++i) {
+            if (i != index) {
+                GameMain.RewardData.AddItemData(_currentBelongingObjArr[i].ItemData);
+            }
+            Destroy(_currentBelongingObjArr[i].gameObject);
+        }
     }
 }
