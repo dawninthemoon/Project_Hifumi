@@ -6,9 +6,6 @@ using System.Text.RegularExpressions;
 
 namespace RandomEvent {
     public class EventsDataParser {
-        private static readonly string EventsFileName = "EventsData";
-        private static readonly string SelectionsFileName = "EventSelections";
-
         private static readonly string IDColumn = "ID";
         private static readonly string EventNameColumn = "EventName";
         private static readonly string SpriteNameColumn = "SpriteName";
@@ -21,10 +18,7 @@ namespace RandomEvent {
             _effectVariableRegex = new Regex(RegexStr);
         }
 
-        public EventsData[] ParseData() {
-            TextAsset eventJsonText = Resources.Load<TextAsset>(EventsFileName);
-            TextAsset selectionJsonText =Resources.Load<TextAsset>(SelectionsFileName);
-            
+        public EventsData[] ParseData(TextAsset eventJsonText, TextAsset selectionJsonText) {
             JSONObject eventJsonObject = new JSONObject(eventJsonText.ToString());
             JSONObject selectionJsonObject = new JSONObject(selectionJsonText.ToString());
 

@@ -6,6 +6,13 @@ public class RandomEventTest : MonoBehaviour {
     [SerializeField] private RandomEventEncounter _eventEncounter = null;
 
     private void Start() {
+        StartCoroutine(StartEncounter());
+    }
+
+    private IEnumerator StartEncounter() {
+        Debug.Log("Event Loading...");
+        yield return new WaitUntil(() => IsStageLoadedCompleted());
+        Debug.Log("Loaded Completed!");
         _eventEncounter.OnEncounter();
     }
 
@@ -14,5 +21,9 @@ public class RandomEventTest : MonoBehaviour {
             _eventEncounter.Reset();
             _eventEncounter.OnEncounter();
         }
+    }
+
+    private bool IsStageLoadedCompleted() {
+        return RandomEventHandler.IsLoadCompleted;
     }
 }

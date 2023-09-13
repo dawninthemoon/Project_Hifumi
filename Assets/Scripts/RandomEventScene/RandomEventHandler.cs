@@ -6,20 +6,45 @@ using RandomEvent;
 using TMPro;
 using System.Reflection;
 using System.Linq;
+using Cysharp.Threading.Tasks;
 
-public class RandomEventHandler : MonoBehaviour, IResetable {
+public class RandomEventHandler : MonoBehaviour, IResetable, ILoadable {
     [SerializeField] private Image _illust;
     [SerializeField] private TextMeshProUGUI _descriptionText;
     [SerializeField] private SelectionButton[] _selectionButtons;
     private EventsDataParser _parser;
     private EventsData[] _eventsDataArray;
     private Dictionary<string, IRandomEvent> _eventEffectDictionary;
+    private Dictionary<string, Sprite> _eventSpriteDictionary;
+    public static bool IsLoadCompleted {
+        get;
+        private set;
+    }
 
-    private void Awake() {
+    private async UniTaskVoid Awake() {
+        var assetLoader = AssetLoader.Instance;
         _parser = new EventsDataParser();
-        _eventsDataArray = _parser.ParseData();
+
+        _eventEffectDictionary = new Dictionary<string, IRandomEvent>();
+        
+        string eventsFileName = "EventsData";
+        string selectionsFileName = "EventSelections";
+        TextAsset eventJsonText = await assetLoader.LoadAssetAsync<TextAsset>(eventsFileName);
+        TextAsset selectionJsonText = await assetLoader.LoadAssetAsync<TextAsset>(selectionsFileName);
+            
+        _eventsDataArray = _parser.ParseData(eventJsonText, selectionJsonText);
 
         InitializeRandomEventEffects();
+        
+        string eventSpriteKey = "EventSprites";
+        assetLoader.LoadAssetsAsync<Sprite>(
+            eventSpriteKey,
+            (handle) => {
+                _eventSpriteDictionary
+                    = handle.Result.ToDictionary(x => x.name);
+                IsLoadCompleted = true;
+            }
+        );
     }
 
     private void Start() {
@@ -31,8 +56,8 @@ public class RandomEventHandler : MonoBehaviour, IResetable {
     public void Initialize() {
         int randomIndex = Random.Range(0, _eventsDataArray.Length);
         EventsData randomEvent = _eventsDataArray[randomIndex];
-        
-        _illust.sprite = Resources.Load<Sprite>("Temp/" + randomEvent.SpriteName);
+
+        _illust.sprite = _eventSpriteDictionary[randomEvent.SpriteName];
         _descriptionText.text = randomEvent.Description;
         _selectionButtons[0].Initialize(randomEvent.Selection1);
         _selectionButtons[1].Initialize(randomEvent.Selection2);
