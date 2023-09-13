@@ -16,10 +16,11 @@ public class HitEffect : MonoBehaviour {
     private bool _applyKnockback;
     private Sequence _flashSequence;
     private Sequence _timeFreezeSequence;
-    private float _radius;
+    private EntityBase _entityBase;
+    private static readonly string FlashAmountKey = "_FlashAmount";
 
     private void Start() {
-        _radius = GetComponent<EntityBase>().Radius;
+        _entityBase = GetComponent<EntityBase>();
     }
 
     private void OnEnable() {
@@ -37,7 +38,7 @@ public class HitEffect : MonoBehaviour {
         }
     }
 
-    public void ApplyKnockback(Vector2 direction, float force) {
+    public void ApplyKnockback(Vector2 direction, float force, int damage) {
         if (_applyKnockback) {
             ApplyReflect(direction);
             return;
@@ -50,6 +51,8 @@ public class HitEffect : MonoBehaviour {
         StartFlash();
         _applyKnockback = true;
         StartFreezeTime();
+
+        _entityBase.ReceiveDamage(damage);
     }
 
     private void StartFlash() {
@@ -57,9 +60,9 @@ public class HitEffect : MonoBehaviour {
             _flashSequence = DOTween.Sequence();
             _flashSequence
                 .SetAutoKill(false)
-                .AppendCallback(() => { _bodyRenderer.material.SetFloat("_FlashAmount", 1f); })
+                .AppendCallback(() => { _bodyRenderer.material.SetFloat(FlashAmountKey, 1f); })
                 .AppendInterval(_flashDuration)
-                .AppendCallback(() => { _bodyRenderer.material.SetFloat("_FlashAmount", 0f); });
+                .AppendCallback(() => { _bodyRenderer.material.SetFloat(FlashAmountKey, 0f); });
         }
         else {
             _flashSequence.Restart();

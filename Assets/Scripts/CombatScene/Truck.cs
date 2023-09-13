@@ -10,6 +10,7 @@ public class Truck : EntityBase, ITargetable {
     [SerializeField] private float _speed = 20f;
     [SerializeField] private float _knockbackForce = 20f;
     [SerializeField] private float _knockbackMin = 20f;
+    [SerializeField] private int _knockbackDamage = 60;
     public float Width {
         get { return _width; }
     }
@@ -76,7 +77,8 @@ public class Truck : EntityBase, ITargetable {
         if (other.gameObject.tag.Equals("Enemy")) {
             Vector2 direction = (other.transform.position - transform.position).normalized;
             float speed = _currentSpeed > 0f ? _currentSpeed : _speed / 10f;
-            other.GetComponent<HitEffect>().ApplyKnockback(direction, _knockbackMin + speed * _knockbackForce);
+            float finalForce = _knockbackMin + speed * _knockbackForce;
+            other.GetComponent<HitEffect>().ApplyKnockback(direction, finalForce, _knockbackDamage);
         }
         else if (other.gameObject.tag.Equals("Obstacle")) {
             _currentSpeed = 0f;
