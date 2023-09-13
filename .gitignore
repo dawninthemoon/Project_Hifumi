@@ -58,6 +58,5 @@ sysinfo.txt
 # Crashlytics generated file
 crashlytics-build.properties
 *.dwlt
-*.dwlt
-*.dwlt
 UserSettings/Layouts/default-2021.dwlt
+/UserSettings/Layouts/
