@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Prefabs
+  m_EditorClassIdentifier: 
+  m_GroupName: Prefabs
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 702ec7f4f8446504883fec09a48c3f47
+  m_SerializeEntries:
+  - m_GUID: 138caf9ca5e374940af398bf972a0235
+    m_Address: Fx
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: b6f5ca16f6183d84abd2f7442ade35a1
+    m_Address: Projectiles
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: f77e294070198484d92b57c27106961e
+    m_Address: AllyPrefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: ccbeee5026d1fc04a9477ea1d346f8eb
+    m_Address: DamageDisplayText
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: fbb11515525e607408a2c60468c52e57
+    m_Address: EnemyPrefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 31982e3aaaeb4cb4e84e15aa5125e12c, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 02759709b92b2b447beefffaa8f1fb0d, type: 2}
+    - {fileID: 11400000, guid: 164ea03ca1dff8b4fbc2780c5227c478, type: 2}

@@ -125,32 +125,18 @@ public class MapGenerator : MonoBehaviour {
 
     private EncounterType GetEncounterType(int floor, int height) {
         if (floor == 1) {
-            return EncounterType.ALLY;
+            return EncounterType.SHOP;
         }
         else if (floor == 2) {
             return EncounterType.COMBAT;
         }
-        else if (floor == 9) {
-            return EncounterType.SHOP;
-        }
-        else if (floor == height) {
-            return EncounterType.SHOP;
-        }
         
         int randNum = Random.Range(0, 1000);
-        if (randNum < 50) {
-            return EncounterType.SHOP;
-        }
-        else if (randNum < 170) {
-            return EncounterType.SHOP;
-            //return EncounterType.AUGMENTS;
-        }
-        else if (randNum < 390) {
+        if (randNum < 120) {
             return EncounterType.ALLY;
-            //return EncounterType.EVENT;
         }
-        else if (randNum < 518) {
-            return EncounterType.ALLY;
+        else if (randNum < 500) {
+            return EncounterType.EVENT;
         }
         return EncounterType.COMBAT;
     }

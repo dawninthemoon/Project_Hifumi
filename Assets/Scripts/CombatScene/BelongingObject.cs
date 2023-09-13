@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class BelongingObject : MonoBehaviour {
-    public Belongings BelongingData { get; set; }
+    public Belongings ItemData { get; set; }
     public InteractiveEntity Interactive { get; private set; }
     private SpriteRenderer _renderer;
 

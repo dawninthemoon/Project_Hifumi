@@ -5,7 +5,8 @@ using UnityEngine;
 public enum EncounterType {
     COMBAT,
     SHOP,
-    ALLY
+    ALLY,
+    EVENT
 }
 
 public class EncounterMarker : MonoBehaviour {

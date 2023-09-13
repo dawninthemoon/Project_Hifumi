@@ -32,6 +32,9 @@ public class CombatSceneHandler : MonoBehaviour, IResetable {
             return Mathf.Max(0f, timeLimit - curr);
         }
     }
+    public bool IsCombatStarted {
+        get { return _truck && _truck.MoveProgressEnd; }
+    }
     
     private void Awake() {
         _timeCounter = new ExTimeCounter();
@@ -69,7 +72,7 @@ public class CombatSceneHandler : MonoBehaviour, IResetable {
     }
 
     private void Update() {
-        if (_isStageCleared) {
+        if (_isStageCleared || !IsCombatStarted) {
             return;
         }
         _stageTimeAgo += Time.deltaTime;
@@ -78,7 +81,6 @@ public class CombatSceneHandler : MonoBehaviour, IResetable {
         foreach (EntityBase inactiveAlly in _allyHandler.InactiveAllies) {
             _memberUIControl.UpdateMemberElement(inactiveAlly);
         }
-
         
         if (_truck.MoveProgressEnd && !_allyHandler.HasActiveAlly) {
             _memberUIControl.gameObject.layer = LayerMask.NameToLayer("Ally");

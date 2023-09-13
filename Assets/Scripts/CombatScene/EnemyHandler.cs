@@ -2,25 +2,37 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using Cysharp.Threading.Tasks;
 
-public class EnemyHandler : MonoBehaviour {
+public class EnemyHandler : MonoBehaviour, ILoadable {
     private Dictionary<int, CombatWaveConfig> _waveConfigDictionary;
     private KdTree<EntityBase> _activeEnemies;
     public KdTree<EntityBase> ActiveEnemies { get { return _activeEnemies; } }
     private Dictionary<string, EntityInfo> _enemyInfoDictionary;
     private EntityBase _enemyPrefab;
+    public static bool IsLoadCompleted {
+        get;
+        private set;
+    } = false;
 
-    private void Awake() {
-        var waveConfigArr = Resources.LoadAll<CombatWaveConfig>("ScriptableObjects/CombatWaveConfig");
-        _waveConfigDictionary = waveConfigArr.ToDictionary(x => x.WaveRank);
-
+    private async UniTaskVoid Awake() {
         _activeEnemies = new KdTree<EntityBase>();
 
-        var enemyInformation = Resources.LoadAll<EntityInfo>("ScriptableObjects/Enemies");
+        var assetLoader = AssetManager.Instance;
+
+        IList<CombatWaveConfig> waveConfigList 
+            = await assetLoader.LoadAssetsAsync<CombatWaveConfig>("CombatConfig");
+        _waveConfigDictionary = waveConfigList.ToDictionary(x => x.WaveRank);
+
+        IList<EntityInfo> enemyInformation 
+            = await assetLoader.LoadAssetsAsync<EntityInfo>("EnemiesConfig");
         _enemyInfoDictionary = enemyInformation.ToDictionary(x => x.EntityID);
 
-        _enemyPrefab = Resources.Load<EntityBase>("Prefabs/EnemyPrefab");
+        _enemyPrefab 
+            = (await assetLoader.LoadAssetAsync<GameObject>("EnemyPrefab"))
+                .GetComponent<EntityBase>();
 
+        IsLoadCompleted = true;
     }
 
     public void Progress(KdTree<EntityBase> allies, Truck truck) {

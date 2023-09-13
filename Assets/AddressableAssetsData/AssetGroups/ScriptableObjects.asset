@@ -1,0 +1,53 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: ScriptableObjects
+  m_EditorClassIdentifier: 
+  m_GroupName: ScriptableObjects
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 016cf8be6f33f12418f471d322b11f8b
+  m_SerializeEntries:
+  - m_GUID: d9c64ee6534cbd6498f3a698f8006a8f
+    m_Address: Allies
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - AlliesConfig
+  - m_GUID: 88f70bad12ec1104d8ba2014f0bc4108
+    m_Address: CombatStageConfig
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - CombatConfig
+  - m_GUID: 69354fc8857233644815841f47716022
+    m_Address: CombatWaveConfig
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - CombatConfig
+  - m_GUID: bb4c46c51da1055448b10d999ca2b01f
+    m_Address: Enemies
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - EnemiesConfig
+  - m_GUID: 2f68b59318081f745b7e22fb90de034e
+    m_Address: Items
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 3f1669ccb84be5e4aaeefd54aeb3f4c4
+    m_Address: SynergyConfig
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 31982e3aaaeb4cb4e84e15aa5125e12c, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 8baf79b40b1e6374e874493dd5c232fe, type: 2}
+    - {fileID: 11400000, guid: 23f370717f14db14fb9cda4126196d53, type: 2}
