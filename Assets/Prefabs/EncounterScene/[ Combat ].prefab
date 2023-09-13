@@ -848,6 +848,7 @@ MonoBehaviour:
   _speed: 500
   _knockbackForce: 1.25
   _knockbackMin: 300
+  _knockbackDamage: 30
 --- !u!212 &927705428833246824
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -4901,7 +4902,7 @@ MonoBehaviour:
   m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ff9e7fb1ae848e141a1219d7fe6d61a1, type: 2}
-  m_sharedMaterial: {fileID: 7254017641281310898, guid: ff9e7fb1ae848e141a1219d7fe6d61a1, type: 2}
+  m_sharedMaterial: {fileID: 3027114187955973789, guid: ff9e7fb1ae848e141a1219d7fe6d61a1, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
