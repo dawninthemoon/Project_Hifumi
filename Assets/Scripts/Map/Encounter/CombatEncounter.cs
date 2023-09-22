@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CombatEncounter : EncounterBase, IResetable, ILoadable {
+public class CombatEncounter : EncounterBase, ILoadable {
     [SerializeField] private CombatSceneHandler _combatHandler = null;
     [SerializeField] private TruckDirectionSelect _truckMover = null;
     private Dictionary<int, List<CombatStageConfig>> _combatStageConfigDic;
@@ -32,6 +32,10 @@ public class CombatEncounter : EncounterBase, IResetable, ILoadable {
                 IsLoadCompleted = true;
             }
         );
+    }
+
+    public override void Initialize(System.Action roomExitCallback) {
+        gameObject.SetActive(false);
     }
 
     public override void OnEncounter() {

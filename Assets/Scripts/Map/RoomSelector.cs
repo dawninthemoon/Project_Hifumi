@@ -22,10 +22,11 @@ public class RoomSelector : MonoBehaviour {
 
     private void Start() {
         _currentEncounterObj = _gameMapParent;
-        _combatEncounter.gameObject.SetActive(false);
-        _shopEncounter.gameObject.SetActive(false);
-        _allyRescueEncounter.gameObject.SetActive(false);
-        _eventEncounter.gameObject.SetActive(false);
+
+        _combatEncounter.Initialize(ExitRoom);
+        _shopEncounter.Initialize(ExitRoom);
+        _allyRescueEncounter.Initialize(ExitRoom);
+        _eventEncounter.Initialize(ExitRoom);
     }
 
     public void SetRoomExit(System.Action callback) {

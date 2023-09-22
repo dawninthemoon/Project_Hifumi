@@ -5,6 +5,11 @@ using UnityEngine;
 public class RandomEventTest : MonoBehaviour {
     [SerializeField] private RandomEventEncounter _eventEncounter = null;
 
+    private void Awake() {
+        _eventEncounter.Initialize(() => Debug.Log("Room Exit"));
+        _eventEncounter.gameObject.SetActive(true);
+    }
+
     private void Start() {
         StartCoroutine(StartEncounter());
     }

@@ -16,6 +16,7 @@ public class RandomEventHandler : MonoBehaviour, IResetable, ILoadable {
     private EventsData[] _eventsDataArray;
     private Dictionary<string, IRandomEvent> _eventEffectDictionary;
     private Dictionary<string, Sprite> _eventSpriteDictionary;
+    private System.Action _roomExitCallback;
     public static bool IsLoadCompleted {
         get;
         private set;
@@ -53,6 +54,10 @@ public class RandomEventHandler : MonoBehaviour, IResetable, ILoadable {
         }
     }
 
+    public void SetRoomExitCallback(System.Action roomExitCallback) {
+        _roomExitCallback = roomExitCallback;
+    }
+
     public void Initialize() {
         int randomIndex = Random.Range(0, _eventsDataArray.Length);
         EventsData randomEvent = _eventsDataArray[randomIndex];
@@ -72,14 +77,14 @@ public class RandomEventHandler : MonoBehaviour, IResetable, ILoadable {
     }
 
     private void OnSelectionButtonClicked(EventEffects[] effects) {
-        if (effects == null)
-            return;
-
-        foreach (EventEffects effect in effects) {
-            if (_eventEffectDictionary.TryGetValue(effect.eventName, out IRandomEvent instance)) {
-                instance.Execute(effect.variables);
+        if (effects != null) {
+            foreach (EventEffects effect in effects) {
+                if (_eventEffectDictionary.TryGetValue(effect.eventName, out IRandomEvent instance)) {
+                    instance.Execute(effect.variables);
+                }
             }
         }
+        _roomExitCallback.Invoke();
     }
 
     private void InitializeRandomEventEffects() {

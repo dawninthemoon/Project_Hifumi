@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,6 +7,11 @@ public class RandomEventEncounter : EncounterBase {
     [SerializeField] private RandomEventHandler _randomeEncounterHandler = null;
     private void Awake() {
         
+    }
+
+    public override void Initialize(Action roomExitCallback) {
+        _randomeEncounterHandler.SetRoomExitCallback(roomExitCallback);
+        gameObject.SetActive(false);
     }
 
     public override void OnEncounter() {

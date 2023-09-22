@@ -13,7 +13,7 @@ public class SelectionButton : MonoBehaviour {
     private static readonly string ColorTextPrefix = "<color=>";
     private static readonly string ColorTextSuffix = "</color>";
     private static readonly int ColorPrefixStartIndex = 7;
-    EventSelections _selectionData;
+    private EventSelections _selectionData;
 
     private void Awake() {
         _button = GetComponent<Button>();
@@ -23,8 +23,11 @@ public class SelectionButton : MonoBehaviour {
 
     public void AddListener(System.Action<EventEffects[]> onButtonClicked) {
         _button.onClick.AddListener(() => {
-            if (_selectionData == null) return;
-            onButtonClicked?.Invoke(_selectionData.Effects);
+            EventEffects[] effects = null;
+            if (_selectionData != null) {
+                effects = _selectionData.Effects;
+            }
+            onButtonClicked.Invoke(effects);
         });
     }
 
