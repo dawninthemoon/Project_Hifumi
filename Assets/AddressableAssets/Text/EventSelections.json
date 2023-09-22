@@ -2,7 +2,7 @@
   "10001_1": {
     "Name": "변화",
     "Text": "멤버를 1명 이탈시키고, 새로운 동료를 획득한다.",
-    "Effects": "LoseMember(),AddRandomMember()"
+    "Effects": "AddRandomMember(),LoseRandomMember()"
   },
   "10001_2": {
     "Name": null,

@@ -787,7 +787,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7768255678181455930}
-  - component: {fileID: 4431191252964255759}
   - component: {fileID: 904384175881963102}
   - component: {fileID: 927705428833246824}
   - component: {fileID: 8720051488723123944}
@@ -815,20 +814,6 @@ Transform:
   m_Father: {fileID: 3448247648369328793}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4431191252964255759
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1068967592998342847}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 90a42e2682648644ebb42f4460a372af, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _memberUIPrefab: {fileID: 7909764449741852936, guid: a0e1214c26646fb4faafb543b2100efa, type: 3}
-  _additionalWindow: {fileID: 5240986176055154414}
 --- !u!114 &904384175881963102
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1752,7 +1737,7 @@ GameObject:
   - component: {fileID: 8812326038642439254}
   m_Layer: 9
   m_Name: BoarderRight
-  m_TagString: Untagged
+  m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1998,10 +1983,10 @@ RectTransform:
   m_Father: {fileID: 1612989999638348924}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 57.691193, y: -77.812744}
-  m_SizeDelta: {x: 100, y: 51.875164}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -100.22275}
+  m_SizeDelta: {x: 100, y: 66.81516}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8169084682620152912
 CanvasRenderer:
@@ -2970,10 +2955,10 @@ RectTransform:
   m_Father: {fileID: 1612989999638348924}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 57.691193, y: -129.68791}
-  m_SizeDelta: {x: 100, y: 51.875164}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -144.6279}
+  m_SizeDelta: {x: 100, y: 21.995163}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &925791341879611001
 CanvasRenderer:
@@ -3466,7 +3451,7 @@ GameObject:
   - component: {fileID: 6440733822391680125}
   m_Layer: 9
   m_Name: BoarderBottom
-  m_TagString: Untagged
+  m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3893,7 +3878,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _targetDetectionDelay: 0.05
-  _memberUIControl: {fileID: 4431191252964255759}
+  _truck: {fileID: 904384175881963102}
   _allyHandler: {fileID: 2974247383215654419}
   _enemyHandler: {fileID: 2207681114278522215}
   _combatReward: {fileID: 2332400708368252725}
@@ -4427,7 +4412,7 @@ GameObject:
   - component: {fileID: 5455196170225905435}
   m_Layer: 9
   m_Name: BoarderTop
-  m_TagString: Untagged
+  m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4583,10 +4568,10 @@ RectTransform:
   m_Father: {fileID: 1612989999638348924}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 57.691193, y: -25.937584}
-  m_SizeDelta: {x: 100, y: 51.875164}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -33.407578}
+  m_SizeDelta: {x: 100, y: 66.81516}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8738382104831267930
 CanvasRenderer:
@@ -4697,7 +4682,7 @@ GameObject:
   - component: {fileID: 5067102068785249452}
   m_Layer: 9
   m_Name: BoarderLeft
-  m_TagString: Untagged
+  m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

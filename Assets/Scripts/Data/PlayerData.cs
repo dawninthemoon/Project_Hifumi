@@ -23,6 +23,15 @@ public class PlayerData : ObserverSubject {
         _allies.Add(ally);
     }
 
+    public void RemoveAlly(EntityInfo ally) {
+        _allies.Remove(ally);
+    }
+
+    public void RemoveRandomAlly() {
+        int randomIndex = Random.Range(0, _allies.Count);
+        _allies.RemoveAt(randomIndex);
+    }
+
     public List<Belongings> GetBelongingsList(string entityID) {
         if (!_belongingsDictionary.TryGetValue(entityID, out List<Belongings> belongingsList)) {
             belongingsList = new List<Belongings>();

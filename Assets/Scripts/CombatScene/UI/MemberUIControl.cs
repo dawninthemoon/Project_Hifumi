@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using RieslingUtils;
 
+// Legacy
 public class MemberUIControl : MonoBehaviour, IResetable {
     [SerializeField] private MemberUIElement _memberUIPrefab = null;
     [SerializeField] private Transform _additionalWindow = null;

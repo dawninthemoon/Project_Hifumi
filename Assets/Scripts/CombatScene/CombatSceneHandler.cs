@@ -6,14 +6,13 @@ using RieslingUtils;
 
 public class CombatSceneHandler : MonoBehaviour, IResetable {
     [SerializeField] private float _targetDetectionDelay = 0.05f;
-    [SerializeField] private MemberUIControl _memberUIControl = null;
+    [SerializeField] private Truck _truck = null;
     [SerializeField] private AllyHandler _allyHandler = null;
     [SerializeField] private EnemyHandler _enemyHandler = null;
     [SerializeField] private CombatReward _combatReward = null;
     [SerializeField] private CombatResultUI _combatResultUI = null;
     private CombatStageConfig _currentStageConfig;
     private EntitySpawner _entitySpawner;
-    private Truck _truck;
     private UnityEvent _onStageEnd;
     private int _currentWave = 0;
     private ExTimeCounter _timeCounter;
@@ -48,7 +47,6 @@ public class CombatSceneHandler : MonoBehaviour, IResetable {
         _allyHandler.RemoveAllAllies(_entitySpawner);
         _enemyHandler.RemoveAllEnemies(_entitySpawner);
         _combatResultUI.Reset();
-        _memberUIControl.Reset();
 
         _currentWave = 0;
         _targetDetectionCounter = 0f;
@@ -59,10 +57,8 @@ public class CombatSceneHandler : MonoBehaviour, IResetable {
     public void StartCombat(CombatStageConfig stageConfig) {
         _currentStageConfig = stageConfig;
 
-        _truck = _memberUIControl.GetComponent<Truck>();
         _allyHandler.SetTruckObject(_truck);
         _allyHandler.InitalizeAllies(_entitySpawner);
-        _memberUIControl.InitializeEntityUI(_allyHandler.OnEntityActive, _allyHandler.OnEntityInactive, _allyHandler.InactiveAllies);
         InitializeCombat();
     }
 
@@ -78,16 +74,6 @@ public class CombatSceneHandler : MonoBehaviour, IResetable {
         _stageTimeAgo += Time.deltaTime;
 
         TargetDetectProgress();
-        foreach (EntityBase inactiveAlly in _allyHandler.InactiveAllies) {
-            _memberUIControl.UpdateMemberElement(inactiveAlly);
-        }
-        
-        if (_truck.MoveProgressEnd && !_allyHandler.HasActiveAlly) {
-            _memberUIControl.gameObject.layer = LayerMask.NameToLayer("Ally");
-        }
-        else {
-            _memberUIControl.gameObject.layer = LayerMask.NameToLayer("Obstacle");
-        }
 
         if (!_waitingForNextWave && _enemyHandler.ActiveEnemies.Count == 0) {
             OnWaveCleared();

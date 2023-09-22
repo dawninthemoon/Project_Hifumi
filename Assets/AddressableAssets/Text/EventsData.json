@@ -151,14 +151,5 @@
     "Selection1ID": "10017_1",
     "Selection2ID": null,
     "Selection3ID": null
-  },
-  "10018": {
-    "ID": "10018",
-    "EventName": "Parasite",
-    "SpriteName": null,
-    "Description": null,
-    "Selection1ID": null,
-    "Selection2ID": null,
-    "Selection3ID": null
   }
 }
