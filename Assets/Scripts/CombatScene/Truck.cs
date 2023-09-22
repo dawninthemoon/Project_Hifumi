@@ -11,6 +11,7 @@ public class Truck : EntityBase, ITargetable {
     [SerializeField] private float _knockbackForce = 20f;
     [SerializeField] private float _knockbackMin = 20f;
     [SerializeField] private int _knockbackDamage = 60;
+    [SerializeField] private float _freezeDuration = 0.08f;
     public float Width {
         get { return _width; }
     }
@@ -24,6 +25,7 @@ public class Truck : EntityBase, ITargetable {
     private Vector3 _direction;
     private float _currentSpeed;
     private int _collisionCount;
+    private float _freezeTimeAgo;
     public bool MoveProgressEnd { get; private set; }
 
     public void StartMove(Vector3 position, Vector3 direction, float angle, System.Action onTruckmoveEnd) {
@@ -32,6 +34,7 @@ public class Truck : EntityBase, ITargetable {
         _collisionCount = 0;
         _acceleration = Mathf.Abs(_acceleration);
         _direction = direction;
+        _freezeTimeAgo = 0f;
         
         StopAllCoroutines();
         StartCoroutine(MoveProgress(direction, onTruckmoveEnd));
@@ -45,16 +48,23 @@ public class Truck : EntityBase, ITargetable {
         float initialSpeed = _currentSpeed = _speed;
         float acc = _acceleration;
         float timeAgo = 0f;
+        
+        _freezeTimeAgo -= Time.deltaTime;
         while (_currentSpeed > 0f) {
-            _currentSpeed = initialSpeed + acc * timeAgo;
-            if (_collisionCount > 0) {
-                acc = -Mathf.Abs(_acceleration * 2f);
+            if (_freezeTimeAgo > 0f) {
+                _freezeTimeAgo -= Time.deltaTime;
             }
+            else {
+                _currentSpeed = initialSpeed + acc * timeAgo;
+                if (_collisionCount > 0) {
+                    acc = -Mathf.Abs(_acceleration * 2f);
+                }
 
-            Vector3 velocity = direction * _currentSpeed;
-            transform.position += velocity * Time.deltaTime;
+                Vector3 velocity = direction * _currentSpeed;
+                transform.position += velocity * Time.deltaTime;
 
-            timeAgo += Time.deltaTime;
+                timeAgo += Time.deltaTime;
+            }
             
             yield return null;
         }
@@ -78,7 +88,9 @@ public class Truck : EntityBase, ITargetable {
             Vector2 direction = (other.transform.position - transform.position).normalized;
             float speed = _currentSpeed > 0f ? _currentSpeed : _speed / 10f;
             float finalForce = _knockbackMin + speed * _knockbackForce;
-            other.GetComponent<HitEffect>().ApplyKnockback(direction, finalForce, _knockbackDamage);
+            
+            _freezeTimeAgo = _freezeDuration;
+            other.GetComponent<HitEffect>().ApplyKnockback(direction, finalForce, _knockbackDamage, _freezeDuration);
         }
         else if (other.gameObject.tag.Equals("Obstacle")) {
             _currentSpeed = 0f;

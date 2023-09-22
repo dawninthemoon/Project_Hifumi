@@ -67,6 +67,7 @@ public class EntitySpawner : ILoadable {
 
     private void OnEntityDisable(EntityBase entity) {
         entity.gameObject.SetActive(false);
+        entity.SetTarget(null);
         GameMain.PlayerData.Detach(entity);
     }
 }

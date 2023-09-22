@@ -2,12 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using RieslingUtils;
 
 public class HitEffect : MonoBehaviour {
     [SerializeField] private SpriteRenderer _bodyRenderer = null;
     [SerializeField] private float _knockbackDuration = 0.5f;
-    [SerializeField] private float _freezeDuration = 0.15f;
-    [SerializeField] private float _flashDuration = 0.15f;
     [SerializeField] private float _friction = 1f;
     private Vector2 _prevNormal;
     private Vector2 _knockbackDir;
@@ -15,7 +14,6 @@ public class HitEffect : MonoBehaviour {
     private float _timeAgo;
     private bool _applyKnockback;
     private Sequence _flashSequence;
-    private Sequence _timeFreezeSequence;
     private EntityBase _entityBase;
     private static readonly string FlashAmountKey = "_FlashAmount";
 
@@ -38,51 +36,29 @@ public class HitEffect : MonoBehaviour {
         }
     }
 
-    public void ApplyKnockback(Vector2 direction, float force, int damage) {
+    public void ApplyKnockback(Vector2 direction, float force, int damage, float freezeDuration) {
+        /*
         if (_applyKnockback) {
             ApplyReflect(direction);
             return;
         }
+        */
+        StartCoroutine(ApplyHitEffect(direction, force, damage, freezeDuration));
+    }
+
+    private IEnumerator ApplyHitEffect(Vector2 direction, float force, int damage, float freezeDuration) {
+        _bodyRenderer.material.SetFloat(FlashAmountKey, 1f);
+
+        yield return YieldInstructionCache.WaitForSeconds(freezeDuration);
+
+        _bodyRenderer.material.SetFloat(FlashAmountKey, 0f);
 
         _knockbackDir = direction;
         _knockbackForce = force;
         _timeAgo = 0f;
-
-        StartFlash();
         _applyKnockback = true;
-        StartFreezeTime();
 
         _entityBase.ReceiveDamage(damage);
-    }
-
-    private void StartFlash() {
-        if (_flashSequence == null) {
-            _flashSequence = DOTween.Sequence();
-            _flashSequence
-                .SetAutoKill(false)
-                .AppendCallback(() => { _bodyRenderer.material.SetFloat(FlashAmountKey, 1f); })
-                .AppendInterval(_flashDuration)
-                .AppendCallback(() => { _bodyRenderer.material.SetFloat(FlashAmountKey, 0f); });
-        }
-        else {
-            _flashSequence.Restart();
-        }
-    }
-
-    private void StartFreezeTime() {
-        float currentGameSpeed = GameConfigHandler.GameSpeed;
-        GameConfigHandler.GameSpeed = 0f;
-        if (_timeFreezeSequence == null) {
-            _timeFreezeSequence = DOTween.Sequence().SetUpdate(true);
-            _timeFreezeSequence
-                .SetAutoKill(false)
-                .AppendCallback(() => { GameConfigHandler.GameSpeed = 0f; })
-                .AppendInterval(_freezeDuration)
-                .AppendCallback(() => { GameConfigHandler.GameSpeed = currentGameSpeed; });
-        }
-        else {
-            _timeFreezeSequence.Restart();
-        }
     }
 
     private void ApplyReflect(Vector2 normal) {
