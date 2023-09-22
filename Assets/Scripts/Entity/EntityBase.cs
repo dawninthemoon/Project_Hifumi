@@ -115,7 +115,7 @@ public class EntityBase : MonoBehaviour, IObserver {
     }
 
     public void SetTarget(ITargetable target) {
-        _agent.SetTarget(target);
+        _agent?.SetTarget(target);
     }
 
     private void Move(Vector2 direction) {
