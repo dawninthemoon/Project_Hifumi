@@ -57,7 +57,8 @@ public class RandomEventHandler : MonoBehaviour, IResetable, ILoadable {
         int randomIndex = Random.Range(0, _eventsDataArray.Length);
         EventsData randomEvent = _eventsDataArray[randomIndex];
 
-        _illust.sprite = _eventSpriteDictionary[randomEvent.SpriteName];
+        if (randomEvent.SpriteName != null)
+            _illust.sprite = _eventSpriteDictionary[randomEvent.SpriteName];
         _descriptionText.text = randomEvent.Description;
         _selectionButtons[0].Initialize(randomEvent.Selection1);
         _selectionButtons[1].Initialize(randomEvent.Selection2);

@@ -38,7 +38,7 @@ public class SelectionButton : MonoBehaviour {
         if (selectionData.Name != null) {
             AddText("[ ", "red");
             AddText(selectionData.Name, "red");
-            AddText("] ", "red");
+            AddText(" ] ", "red");
         }
         AddText(selectionData.Text, "black");
         ApplyText();
