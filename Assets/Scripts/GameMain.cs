@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cysharp.Threading.Tasks;
 
-public class GameMain : MonoBehaviour {
+public class GameMain : MonoBehaviour, ILoadable {
     private static PlayerData _playerData;
     public static PlayerData PlayerData {
         get { return _playerData; }
@@ -17,6 +17,10 @@ public class GameMain : MonoBehaviour {
 
     private static readonly string AllyDataKey = "AlliesConfig";
     private static readonly string ItemDataKey = "EntityItems";
+    public static bool IsLoadCompleted {
+        get;
+        private set;
+    }
 
     private async UniTaskVoid Awake() {
         _playerData = GetComponent<PlayerData>();
@@ -28,6 +32,8 @@ public class GameMain : MonoBehaviour {
         _playerData.Allies.Add(alliesData[0]);
 
         RewardData = new RewardData(alliesData, itemsData);
+
+        IsLoadCompleted = true;
 
         var spawner = ProjectileSpawner.Instance;
         var display = CombatDamageDisplay.Instance;

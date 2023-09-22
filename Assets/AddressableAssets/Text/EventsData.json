@@ -1,38 +1,164 @@
-[
-  {
+{
+  "10001": {
     "ID": "10001",
     "EventName": "Loner",
     "SpriteName": "Centurion",
-    "Description": "야생의 외톨이가 나타났다.",
+    "Description": "떠돌이 여고생이 도로를 걷고 있습니다.\n혼자인 것 같습니다.",
     "Selection1ID": "10001_1",
     "Selection2ID": "10001_2",
     "Selection3ID": null
   },
-  {
+  "10002": {
     "ID": "10002",
     "EventName": "Slaver",
     "SpriteName": "WaveringEyes",
-    "Description": "노예상이다. 무언가 구매할 수 있을 것 같다.",
+    "Description": "노예상이 사슬을 짤랑이며 서있습니다.",
     "Selection1ID": "10002_1",
     "Selection2ID": "10002_2",
-    "Selection3ID": null
+    "Selection3ID": "10002_3"
   },
-  {
+  "10003": {
     "ID": "10003",
     "EventName": "HumanTrafficker",
     "SpriteName": "UnendingNightmare",
-    "Description": "인신매매상이다.",
+    "Description": "배회자가 당신에게 몰래 뒷거래를 제안합니다.\n동료를 팔면 큰 돈을 주겠다고 합니다.",
     "Selection1ID": "10003_1",
     "Selection2ID": "10003_2",
-    "Selection3ID": null
+    "Selection3ID": "10003_3"
   },
-  {
+  "10004": {
     "ID": "10004",
     "EventName": "BloodSelling",
     "SpriteName": "Hypnosister",
-    "Description": "\"여고생 피 최고가 매입합니다!\"\n헌혈에 동참한다면 큰 보상을 받을 수 있을 것 같다.",
+    "Description": "\"여고생 피 최고가 매입합니다!\"\n피를 팔면 돈을 챙길 수 있을 것 같습니다.",
     "Selection1ID": "10004_1",
     "Selection2ID": "10004_2",
+    "Selection3ID": "10004_3"
+  },
+  "10005": {
+    "ID": "10005",
+    "EventName": "OrganTrafficker",
+    "SpriteName": null,
+    "Description": "\"장기 종류별로 삽니다.\"\n불법 의료 수술 홍보 전단을 주웠습니다. 근처에 수술장이 있는 것 같습니다.",
+    "Selection1ID": "10005_1",
+    "Selection2ID": "10005_2",
+    "Selection3ID": null
+  },
+  "10006": {
+    "ID": "10006",
+    "EventName": "Feast",
+    "SpriteName": null,
+    "Description": "빈 집에 들어가자 만찬이 놓여진 식탁이 놓여있습니다.\n주인은 아직 돌아오지 않은 것 같습니다.",
+    "Selection1ID": "10006_1",
+    "Selection2ID": "10006_2",
+    "Selection3ID": null
+  },
+  "10007": {
+    "ID": "10007",
+    "EventName": "School",
+    "SpriteName": null,
+    "Description": "학원 앞에 차를 세웠습니다.\n정문 쪽에서 학생 둘이 허술하게 경비를 서고 있습니다.",
+    "Selection1ID": "10007_1",
+    "Selection2ID": "10007_2",
+    "Selection3ID": null
+  },
+  "10008": {
+    "ID": "10008",
+    "EventName": "Mercenary",
+    "SpriteName": null,
+    "Description": "용병 조합 앞에 차를 세웠습니다.\n때묻은 장비와 흉터에서 오랜 전투의 경험이 느껴집니다.",
+    "Selection1ID": "10008_1",
+    "Selection2ID": "10008_2",
+    "Selection3ID": null
+  },
+  "10009": {
+    "ID": "10009",
+    "EventName": "Delivery",
+    "SpriteName": null,
+    "Description": "도로 위에 차량 하나가 멈춰서있습니다.\n속도를 늦추자 배달부가 곤란한 표정으로 부탁해옵니다.",
+    "Selection1ID": "10009_1",
+    "Selection2ID": "10009_2",
+    "Selection3ID": null
+  },
+  "10010": {
+    "ID": "10010",
+    "EventName": "Remain",
+    "SpriteName": null,
+    "Description": "시체입니다.\n상태를 보아하니 죽은 지 얼마 안 된 것 같습니다.",
+    "Selection1ID": "10010_1",
+    "Selection2ID": "10010_2",
+    "Selection3ID": null
+  },
+  "10011": {
+    "ID": "10011",
+    "EventName": "IdentityCollector",
+    "SpriteName": null,
+    "Description": "떠돌이 하나가 학생증을 판다며 다가왔다.\n흘린 침이 바닥에 길을 만들었다.",
+    "Selection1ID": "10011_1",
+    "Selection2ID": "10011_2",
+    "Selection3ID": null
+  },
+  "10012": {
+    "ID": "10012",
+    "EventName": "Moneybag",
+    "SpriteName": null,
+    "Description": "멤버 하나가 돈이 들어있는 주머니를 주운 모양이다.",
+    "Selection1ID": "10012_1",
+    "Selection2ID": "10012_2",
+    "Selection3ID": null
+  },
+  "10013": {
+    "ID": "10013",
+    "EventName": "Highwayman",
+    "SpriteName": null,
+    "Description": "노상강도에 습격당했다!",
+    "Selection1ID": "10013_1",
+    "Selection2ID": null,
+    "Selection3ID": null
+  },
+  "10014": {
+    "ID": "10014",
+    "EventName": "Mutant",
+    "SpriteName": null,
+    "Description": "녹색으로 빛나는 거대한 돌이다.\n손대지 않는게 좋아보인다...",
+    "Selection1ID": "10014_1",
+    "Selection2ID": "10014_2",
+    "Selection3ID": "10014_3"
+  },
+  "10015": {
+    "ID": "10015",
+    "EventName": "IlligalCarUpgrade",
+    "SpriteName": null,
+    "Description": "폐창고에 불법 차량 개조가 이뤄지고 있다.\n차량 개조를 부탁할 수 있을 것 같다.",
+    "Selection1ID": "10015_1",
+    "Selection2ID": "10015_2",
+    "Selection3ID": null
+  },
+  "10016": {
+    "ID": "10016",
+    "EventName": "IlligalMemberUpgrade",
+    "SpriteName": null,
+    "Description": "\"강해지고 싶은 자, 나에게로.\"\n불법 의료 수술 홍보 전단을 주웠다. 근처에 수술장이 있는 모양이다.",
+    "Selection1ID": "10016_1",
+    "Selection2ID": "10016_2",
+    "Selection3ID": null
+  },
+  "10017": {
+    "ID": "10017",
+    "EventName": "BountyHunter",
+    "SpriteName": null,
+    "Description": "\"악의는 없다...\"\n어둠 속에서 현상금 사냥꾼이 모습을 드러냈다.",
+    "Selection1ID": "10017_1",
+    "Selection2ID": null,
+    "Selection3ID": null
+  },
+  "10018": {
+    "ID": "10018",
+    "EventName": "Parasite",
+    "SpriteName": null,
+    "Description": null,
+    "Selection1ID": null,
+    "Selection2ID": null,
     "Selection3ID": null
   }
-]
+}

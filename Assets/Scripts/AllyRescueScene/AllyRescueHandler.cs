@@ -9,26 +9,19 @@ public class AllyRescueHandler : MonoBehaviour, IResetable {
     [SerializeField] private Button[] _rescueButtons = null;
     private EntityInfo[] _entityInfoArray;
     private EntityInfo[] _currentAllies;
-    private HashSet<EntityInfo> _appearableAlliesSet;
 
     private void Awake() {
-        _appearableAlliesSet = Resources.LoadAll<EntityInfo>("ScriptableObjects/Allies")
-                                .ToHashSet();
         _currentAllies = new EntityInfo[3];
     }
 
     public void InitializeAllies() {
-        foreach (EntityInfo playerAlly in GameMain.PlayerData.Allies) {
-            if (_appearableAlliesSet.Contains(playerAlly)) {
-                _appearableAlliesSet.Remove(playerAlly);
-            }
-        }
-
-        for (int i = 0; (i < _rescueButtons.Length) && (_appearableAlliesSet.Count > 0); ++i) {
+        for (int i = 0; i < _rescueButtons.Length; ++i) {
             int selectedIdx = i;
 
-            EntityInfo entityInfo = GetRandomEntityFromSet();
-            _appearableAlliesSet.Remove(entityInfo);
+            EntityInfo entityInfo = GameMain.RewardData.GetRandomAlly(true);
+            if (!entityInfo) {
+                break;
+            }
 
             _allyImages[i].sprite = entityInfo.BodySprite;
             _currentAllies[i] = entityInfo;
@@ -57,16 +50,11 @@ public class AllyRescueHandler : MonoBehaviour, IResetable {
                 continue;
             }
             _rescueButtons[i].gameObject.SetActive(false);
-            if (_currentAllies[i] != null)
-                _appearableAlliesSet.Add(_currentAllies[i]);
+            if (_currentAllies[i] != null) {
+                GameMain.RewardData.AddAllyData(_currentAllies[i]);
+            }
         }
         _rescueButtons[selectedIndex].interactable = false;
         GameMain.PlayerData.Allies.Add(_currentAllies[selectedIndex]);
-    }
-
-    private EntityInfo GetRandomEntityFromSet() {
-        int numOfEntities = _appearableAlliesSet.Count;
-        int index = Random.Range(0, numOfEntities);
-        return _appearableAlliesSet.ElementAt(index);
     }
 }

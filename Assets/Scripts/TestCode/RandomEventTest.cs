@@ -17,7 +17,7 @@ public class RandomEventTest : MonoBehaviour {
     }
 
     private void Update() {
-        if (Input.GetKeyDown(KeyCode.Z)) {
+        if (IsStageLoadedCompleted() && Input.GetKeyDown(KeyCode.Z)) {
             _eventEncounter.Reset();
             _eventEncounter.OnEncounter();
         }

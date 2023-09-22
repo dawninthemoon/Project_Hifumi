@@ -5,24 +5,29 @@
     "Effects": "LoseMember(),AddRandomMember()"
   },
   "10001_2": {
-    "Name": "망각",
+    "Name": null,
     "Text": "무시하고 지나간다.",
     "Effects": null
   },
   "10002_1": {
-    "Name": "구매",
-    "Text": "멤버를 제거한다. 골드를 많이 얻는다.",
-    "Effects": "GainGold(100,130)"
+    "Name": "판매",
+    "Text": "동료를 팔아치운다. 골드를 얻는다.",
+    "Effects": "GainGold(40,60)"
   },
   "10002_2": {
     "Name": null,
     "Text": "동료를 팔 수는 없다. 그냥 지나간다.",
     "Effects": null
   },
+  "10002_3": {
+    "Name": "구매",
+    "Text": "50골드에 노예 하나를 구매한다.",
+    "Effects": "ReduceGold(50),AddRandomMemeber()"
+  },
   "10003_1": {
-    "Name": "어둠의 거래",
-    "Text": "최대 체력을 잃는다. 골드를 획득한다.",
-    "Effects": "ReduceMaxHPByPercent(8),GainGold(70,80)"
+    "Name": "매매",
+    "Text": "동료 하나를 판다. 골드를 얻는다.",
+    "Effects": "LoseMember(),GainGold(70,80)"
   },
   "10003_2": {
     "Name": null,
@@ -31,12 +36,137 @@
   },
   "10004_1": {
     "Name": "매혈",
-    "Text": "체력을 잃는다.",
-    "Effects": "ExitIfRepeatedFor(3),ReduceHP(40),GainGold(40)"
+    "Text": "체력을 40 잃는다. 골드를 얻는다.",
+    "Effects": "ExitIfRepeatedFor(3),ReduceHP(40),GainGold(20)"
   },
   "10004_2": {
     "Name": null,
     "Text": "돌아간다.",
+    "Effects": null
+  },
+  "10005_1": {
+    "Name": "조사",
+    "Text": "최대 체력을 20% 잃는다. 골드를 얻는다.",
+    "Effects": "ReduceMaxHPByPercent(20),GainGold(30,40)"
+  },
+  "10005_2": {
+    "Name": null,
+    "Text": "떠난다.",
+    "Effects": null
+  },
+  "10011_1": {
+    "Name": "구매",
+    "Text": "학생증을 획득한다. 디저트 하나를 잃는다.",
+    "Effects": null
+  },
+  "10011_2": {
+    "Name": null,
+    "Text": "떠난다.",
+    "Effects": null
+  },
+  "10010_1": {
+    "Name": "조사",
+    "Text": "학생증을 획득한다. 동료 한 명의 정신력이 감소한다.",
+    "Effects": null
+  },
+  "10010_2": {
+    "Name": null,
+    "Text": "떠난다.",
+    "Effects": null
+  },
+  "10006_1": {
+    "Name": "만찬",
+    "Text": "만찬을 즐긴다. 모든 동료들의 체력을 전부 회복한다.",
+    "Effects": null
+  },
+  "10006_2": {
+    "Name": null,
+    "Text": "함정인 것 같다. 떠난다.",
+    "Effects": null
+  },
+  "10007_1": {
+    "Name": "모집",
+    "Text": "게시판에서 동료를 모집한다.",
+    "Effects": null
+  },
+  "10007_2": {
+    "Name": null,
+    "Text": "동료는 충분하다. 떠난다.",
+    "Effects": null
+  },
+  "10008_1": {
+    "Name": "용병 계약",
+    "Text": "200골드를 주고 용병과 계약한다.",
+    "Effects": null
+  },
+  "10008_2": {
+    "Name": null,
+    "Text": "떠난다.",
+    "Effects": null
+  },
+  "10009_1": {
+    "Name": "물건 운반",
+    "Text": "물건 운반을 도와줍니다.",
+    "Effects": "GainBaggage()"
+  },
+  "10009_2": {
+    "Name": null,
+    "Text": "떠난다.",
+    "Effects": null
+  },
+  "10012_1": {
+    "Name": "신뢰",
+    "Text": "100골드를 얻는다.",
+    "Effects": null
+  },
+  "10012_2": {
+    "Name": "추궁",
+    "Text": "300골드를 얻는다. 모든 동료들의 정신력이 감소한다.",
+    "Effects": null
+  },
+  "10013_1": {
+    "Name": null,
+    "Text": "싸운다.",
+    "Effects": null
+  },
+  "10014_1": {
+    "Name": "조사",
+    "Text": "동료 하나를 강화한다.",
+    "Effects": null
+  },
+  "10014_2": {
+    "Name": null,
+    "Text": "떠난다.",
+    "Effects": null
+  },
+  "10014_3": {
+    "Name": "파괴",
+    "Text": "부숴서 안에 뭐가 있는지 확인한다.",
+    "Effects": "(아이템 1개 개조 장착한 동료 획득)"
+  },
+  "10015_1": {
+    "Name": "개조",
+    "Text": "50골드를 내고 차량 개조를 진행한다.",
+    "Effects": null
+  },
+  "10015_2": {
+    "Name": null,
+    "Text": "떠난다.",
+    "Effects": null
+  },
+  "10016_1": {
+    "Name": "개조",
+    "Text": "50골드를 내고 아이템 1개를 개조 장착한다.",
+    "Effects": null
+  },
+  "10016_2": {
+    "Name": null,
+    "Text": "떠난다.",
+    "Effects": null
+  },
+  "10017_1": {
+    "Name": null,
+    "Text": "싸운다.",
     "Effects": null
   }
 }

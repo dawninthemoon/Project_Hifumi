@@ -22,6 +22,9 @@ public class CombatReward : MonoBehaviour {
 
         for (int i = 0; i < 3; ++i) {
             Belongings item = GameMain.RewardData.GetRandomItem(true);
+            if (!item) {
+                break;
+            }
             int curr = i;
 
             Vector3 position = _truckTransform.position + _belongingsPosition[curr];

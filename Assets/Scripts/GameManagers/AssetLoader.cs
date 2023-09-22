@@ -32,8 +32,13 @@ public class AssetLoader : Singleton<AssetLoader> {
     }
 
     public void LoadAssetsAsync<T>(string key, System.Action<AsyncOperationHandle<IList<T>>> callback) where T : Object {
-        AsyncOperationHandle<IList<T>> handle = Addressables.LoadAssetsAsync<T>(key, (op) => {});
-        handle.Completed += callback;
+        try {
+            AsyncOperationHandle<IList<T>> handle = Addressables.LoadAssetsAsync<T>(key, (op) => {});
+            handle.Completed += callback;
+        }
+        catch (System.Exception e) {
+            Debug.LogError(e.Message);
+        }
     }
 
     public async UniTask<T> InstantiateAsync<T>(string key) where T : Object {
