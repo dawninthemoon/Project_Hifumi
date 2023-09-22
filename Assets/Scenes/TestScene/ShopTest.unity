@@ -460,6 +460,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 129148945649557695, guid: 491aa64bc50774d4c82d01728ec6f8e6, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 129148945649557695, guid: 491aa64bc50774d4c82d01728ec6f8e6, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 129148945649557695, guid: 491aa64bc50774d4c82d01728ec6f8e6, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 129148945649557695, guid: 491aa64bc50774d4c82d01728ec6f8e6, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: UnityEngine.UI.Text, UnityEngine.UI
+      objectReference: {fileID: 0}
     - target: {fileID: 511443800383054447, guid: 491aa64bc50774d4c82d01728ec6f8e6, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
