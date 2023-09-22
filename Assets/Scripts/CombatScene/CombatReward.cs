@@ -7,6 +7,7 @@ public class CombatReward : MonoBehaviour {
     [SerializeField] private Transform _truckTransform = null;
     private Vector3[] _belongingsPosition = null;
     private BelongingObject[] _currentBelongingObjArr;
+    private int _numOfRewards;
 
     private void Awake() {
         _belongingsPosition = new Vector3[] {
@@ -19,6 +20,7 @@ public class CombatReward : MonoBehaviour {
 
     public void OpenRewardSet(System.Action<Belongings> onRewardSelected) {
         InteractiveEntity.SetInteractive(InteractiveEntity.Type.Reward, true);
+        _numOfRewards = 0;
 
         for (int i = 0; i < 3; ++i) {
             Belongings item = GameMain.RewardData.GetRandomItem(true);
@@ -35,6 +37,7 @@ public class CombatReward : MonoBehaviour {
                 .AddListener(() => OnRewardSelected(curr, onRewardSelected));
 
             _currentBelongingObjArr[curr] = obj;
+            _numOfRewards = i + 1;
         }
     }
 
@@ -50,7 +53,7 @@ public class CombatReward : MonoBehaviour {
         InteractiveEntity.SetInteractive(InteractiveEntity.Type.Reward, false);
         onRewardSelected.Invoke(item.ItemData);
 
-        for (int i = 0; i < 3; ++i) {
+        for (int i = 0; i < _numOfRewards; ++i) {
             if (i != index) {
                 GameMain.RewardData.AddItemData(_currentBelongingObjArr[i].ItemData);
             }
