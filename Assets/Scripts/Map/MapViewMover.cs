@@ -8,6 +8,8 @@ public class MapViewMover : MonoBehaviour {
     [SerializeField] private float _width = 640f;
     [SerializeField] private float _height = 360f;
     [SerializeField] private float _moveAmount = 50f;
+    [SerializeField] private float _minHeight = 0f;
+    [SerializeField] private float _maxHeight = 1600f;
     private Camera _mainCamera;
     private Vector3 _lastCameraPosition = new Vector3(0f, 0f, -10f);
 
@@ -21,7 +23,12 @@ public class MapViewMover : MonoBehaviour {
 
     private void Update() {
         Vector3 direction = GetCameraDirection(MouseUtils.GetMouseWorldPosition());
-        _mainCamera.transform.position += direction * _moveAmount * Time.deltaTime;
+        
+        Vector3 cameraPosition = direction * _moveAmount * Time.deltaTime;
+        cameraPosition += _mainCamera.transform.position;
+        cameraPosition.y =  Mathf.Clamp(cameraPosition.y, _minHeight, _maxHeight);
+
+        _mainCamera.transform.position = cameraPosition;
         _lastCameraPosition = _mainCamera.transform.position;
     }
 
@@ -43,7 +50,7 @@ public class MapViewMover : MonoBehaviour {
             dir += Vector3.right;
         }
         */
-        return dir.normalized;
+        return dir;
     }
 
     private bool IsOverlapedWithTop(Vector2 position) {
