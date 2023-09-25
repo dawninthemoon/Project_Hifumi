@@ -21,15 +21,18 @@ public class PlayerData : ObserverSubject {
 
     public void AddAlly(EntityInfo ally) {
         _allies.Add(ally);
+        Notify();
     }
 
     public void RemoveAlly(EntityInfo ally) {
         _allies.Remove(ally);
+        Notify();
     }
 
     public void RemoveRandomAlly() {
         int randomIndex = Random.Range(0, _allies.Count);
         _allies.RemoveAt(randomIndex);
+        Notify();
     }
 
     public List<Belongings> GetBelongingsList(string entityID) {

@@ -338,6 +338,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _shopHandler: {fileID: 2746291361810934770}
+  _shopUICanvas: {fileID: 2746291360192296607}
 --- !u!95 &9085369758665134797
 Animator:
   serializedVersion: 4

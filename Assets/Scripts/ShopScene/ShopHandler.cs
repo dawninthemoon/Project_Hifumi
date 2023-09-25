@@ -42,6 +42,7 @@ public class ShopHandler : MonoBehaviour, IResetable {
         EntityInfo member = GameMain.RewardData.GetRandomAlly(true);
         if (member) {
             GameMain.PlayerData.AddAlly(member);
+            Debug.Log(member.name);
         }
     }
 }
