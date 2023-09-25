@@ -2,13 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameMapMemberUIHandle : MonoBehaviour, IObserver {
+public class MemberUIHandler : MonoBehaviour, IObserver {
     [SerializeField] private Transform _memberScrollviewContent;
-    [SerializeField] private GameMapMemberUIElement _memberInfoPrefab;
-    private ObjectPool<GameMapMemberUIElement> _memberUIPool;
+    [SerializeField] private MemberUIElement _memberInfoPrefab;
+    private ObjectPool<MemberUIElement> _memberUIPool;
 
     private void Awake() {
-        _memberUIPool = new ObjectPool<GameMapMemberUIElement>(
+        _memberUIPool = new ObjectPool<MemberUIElement>(
             10,
             () => Instantiate(_memberInfoPrefab, _memberScrollviewContent),
             (x) => x.gameObject.SetActive(true),

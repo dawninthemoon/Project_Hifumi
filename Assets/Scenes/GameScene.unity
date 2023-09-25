@@ -347,6 +347,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _allies: []
   _belongingsInventory: []
+--- !u!1 &1065983902 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1325405858, guid: 89cf32535804990489a7f19b513a64d2, type: 3}
+  m_PrefabInstance: {fileID: 3997029782628173078}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1065983905
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1065983902}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba302f725a25acd43814afdf23b58aa3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1340934939
 GameObject:
   m_ObjectHideFlags: 0
@@ -429,6 +446,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1325405858, guid: 89cf32535804990489a7f19b513a64d2, type: 3}
+      propertyPath: m_Name
+      value: UIHandler
+      objectReference: {fileID: 0}
     - target: {fileID: 3997029781137347714, guid: 89cf32535804990489a7f19b513a64d2, type: 3}
       propertyPath: m_RootOrder
       value: 4

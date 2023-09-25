@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class GameMapMemberUIElement : MonoBehaviour {
+public class MemberUIElement : MonoBehaviour {
     [SerializeField] private Image _portrait;
     [SerializeField] private TMP_Text _maxHPText;
     [SerializeField] private TMP_Text _attackText;
