@@ -521,7 +521,10 @@ MonoBehaviour:
   _knockbackForce: 1.25
   _knockbackMin: 300
   _knockbackDamage: 30
+  _upgradedKnockbackDamage: 70
   _freezeDuration: 0.08
+  _stunConfig: {fileID: 11400000, guid: 3ccbdddab904c594385429f6e3475a8c, type: 2}
+  _upgradedStunConfig: {fileID: 11400000, guid: f2b68abfdc558d3448a8a94a53686751, type: 2}
 --- !u!212 &927705428833246824
 SpriteRenderer:
   m_ObjectHideFlags: 0
