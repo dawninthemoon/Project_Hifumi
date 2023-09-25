@@ -19,7 +19,7 @@ public class EntityBase : MonoBehaviour, IObserver {
     }
     public float Radius {
         get {
-            if (_entityDecorator != null) {
+            if (_entityDecorator == null) {
                 return 20f;
             }
             return Info.BodyRadius;
