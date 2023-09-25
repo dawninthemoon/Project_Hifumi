@@ -11,7 +11,11 @@ public class Truck : EntityBase, ITargetable {
     [SerializeField] private float _knockbackForce = 20f;
     [SerializeField] private float _knockbackMin = 20f;
     [SerializeField] private int _knockbackDamage = 60;
+    [SerializeField] private int _upgradedKnockbackDamage = 150;
     [SerializeField] private float _freezeDuration = 0.08f;
+    [SerializeField] private DebuffConfig _stunConfig;
+    [SerializeField] private DebuffConfig _upgradedStunConfig;
+
     public float Width {
         get { return _width; }
     }
@@ -27,6 +31,8 @@ public class Truck : EntityBase, ITargetable {
     private int _collisionCount;
     private float _freezeTimeAgo;
     public bool MoveProgressEnd { get; private set; }
+    public static bool IsStunDurationUpgraded;
+    public static bool IsDamageUpgraded;
 
     public void StartMove(Vector3 position, Vector3 direction, float angle, System.Action onTruckmoveEnd) {
         transform.eulerAngles = new Vector3(0f, 0f, angle);
@@ -90,7 +96,18 @@ public class Truck : EntityBase, ITargetable {
             float finalForce = _knockbackMin + speed * _knockbackForce;
             
             _freezeTimeAgo = _freezeDuration;
-            other.GetComponent<HitEffect>().ApplyKnockback(direction, finalForce, _knockbackDamage, _freezeDuration);
+
+            var hitEffect = other.GetComponent<HitEffect>();
+            DebuffConfig stunEffect = IsStunDurationUpgraded ? _upgradedStunConfig : _stunConfig;
+            int knockbackDamage = IsDamageUpgraded ? _upgradedKnockbackDamage : _knockbackDamage;
+
+            hitEffect.ApplyKnockback(
+                direction,
+                finalForce, 
+                knockbackDamage, 
+                _freezeDuration,
+                stunEffect
+            );
         }
         else if (other.gameObject.tag.Equals("Obstacle")) {
             _currentSpeed = 0f;

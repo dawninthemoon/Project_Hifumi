@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d4cd09f86a8e8b94388850a6d7be89ff, type: 3}
-  m_Name: DebuffStun
+  m_Name: DebuffStunDuration1
   m_EditorClassIdentifier: 
   _debuffInfo:
     stun:

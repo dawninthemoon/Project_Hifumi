@@ -5,16 +5,21 @@ using UnityEngine;
 public class PlayerData : ObserverSubject {
     [SerializeField, Tooltip("For Test Code")] private List<EntityInfo> _allies;
     [SerializeField, Tooltip("For Test Code")] private List<Belongings> _belongingsInventory;
+    [SerializeField] private int _defaultMaxMemberCount = 5;
     private Dictionary<string, List<Belongings>> _itemInventory;
-
     public List<EntityDecorator> Member { 
         get;
         private set;
+    }
+    public int MaximumMemberCount {
+        get;
+        set;
     }
     public List<Belongings> BelongingsInventory { get { return _belongingsInventory; } }
     public Dictionary<string, List<Belongings>> BelongingsDictionary { get { return _itemInventory; } }
 
     private void Awake() {
+        MaximumMemberCount = _defaultMaxMemberCount;
         InitializeMember();
 
         if (_belongingsInventory == null)

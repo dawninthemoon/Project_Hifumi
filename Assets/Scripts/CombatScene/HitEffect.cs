@@ -36,17 +36,11 @@ public class HitEffect : MonoBehaviour {
         }
     }
 
-    public void ApplyKnockback(Vector2 direction, float force, int damage, float freezeDuration) {
-        /*
-        if (_applyKnockback) {
-            ApplyReflect(direction);
-            return;
-        }
-        */
-        StartCoroutine(ApplyHitEffect(direction, force, damage, freezeDuration));
+    public void ApplyKnockback(Vector2 direction, float force, int damage, float freezeDuration, DebuffConfig debuff) {
+        StartCoroutine(ApplyHitEffect(direction, force, damage, freezeDuration, debuff));
     }
 
-    private IEnumerator ApplyHitEffect(Vector2 direction, float force, int damage, float freezeDuration) {
+    private IEnumerator ApplyHitEffect(Vector2 direction, float force, int damage, float freezeDuration, DebuffConfig debuff) {
         _bodyRenderer.material.SetFloat(FlashAmountKey, 1f);
 
         yield return YieldInstructionCache.WaitForSeconds(freezeDuration);
@@ -59,6 +53,7 @@ public class HitEffect : MonoBehaviour {
         _applyKnockback = true;
 
         _entityBase.ReceiveDamage(damage);
+        _entityBase.BuffControl.StartAddDebuff(debuff);
     }
 
     private void ApplyReflect(Vector2 normal) {

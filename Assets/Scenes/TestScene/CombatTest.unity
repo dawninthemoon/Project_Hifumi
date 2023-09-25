@@ -385,6 +385,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 5d10cb6cc6358cf40bc6f05ad516407b, type: 2}
   - {fileID: 11400000, guid: fe000cc9b7f39ee46840e11ce338e63d, type: 2}
   - {fileID: 11400000, guid: e404a50ee16986b4db9830ba7d14f3f3, type: 2}
+  _defaultMaxMemberCount: 5
 --- !u!114 &1044040251 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 761707034604478930, guid: a9e0072a9fdafd049aa4fd033701536f, type: 3}
@@ -452,8 +453,20 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 904384175881963102, guid: a9e0072a9fdafd049aa4fd033701536f, type: 3}
+      propertyPath: _stunConfig
+      value: 
+      objectReference: {fileID: 11400000, guid: 3ccbdddab904c594385429f6e3475a8c, type: 2}
+    - target: {fileID: 904384175881963102, guid: a9e0072a9fdafd049aa4fd033701536f, type: 3}
       propertyPath: _freezeDuration
       value: 0.08
+      objectReference: {fileID: 0}
+    - target: {fileID: 904384175881963102, guid: a9e0072a9fdafd049aa4fd033701536f, type: 3}
+      propertyPath: _upgradedStunConfig
+      value: 
+      objectReference: {fileID: 11400000, guid: f2b68abfdc558d3448a8a94a53686751, type: 2}
+    - target: {fileID: 904384175881963102, guid: a9e0072a9fdafd049aa4fd033701536f, type: 3}
+      propertyPath: _upgradedKnockbackDamage
+      value: 70
       objectReference: {fileID: 0}
     - target: {fileID: 2099263800896522176, guid: a9e0072a9fdafd049aa4fd033701536f, type: 3}
       propertyPath: m_AnchorMax.y
