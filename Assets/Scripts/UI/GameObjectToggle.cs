@@ -3,8 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class GameObjectToggle : MonoBehaviour {
-    public void Toggle() {
+    public void ToggleSelf() {
+        Toggle(gameObject);
+    }
+
+    public void Toggle(GameObject obj) {
         bool oppositeState = !gameObject.activeSelf;
-        gameObject.SetActive(oppositeState);
+        obj.SetActive(oppositeState);
     }
 }
