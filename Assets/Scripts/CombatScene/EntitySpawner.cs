@@ -35,9 +35,9 @@ public class EntitySpawner : ILoadable {
         IsLoadCompleted = true;
     }
 
-    public EntityBase CreateAlly(EntityInfo entityInfo) {
+    public EntityBase CreateAlly(EntityDecorator entity) {
         EntityBase instance = _allyObjectPool.GetObject();
-        instance.Initialize(entityInfo);
+        instance.Initialize(entity);
         return instance;
     }
 
@@ -45,9 +45,9 @@ public class EntitySpawner : ILoadable {
         _allyObjectPool.ReturnObject(entity);
     }
 
-    public EntityBase CreateEnemy(EntityInfo entityInfo) {
+    public EntityBase CreateEnemy(EntityDecorator entityDecorator) {
         EntityBase instance = _enemyObjectPool.GetObject();
-        instance.Initialize(entityInfo);
+        instance.Initialize(entityDecorator);
         return instance;
     }
 

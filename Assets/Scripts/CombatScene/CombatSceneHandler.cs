@@ -127,7 +127,7 @@ public class CombatSceneHandler : MonoBehaviour, IResetable {
     }
 
     private void OnRewardSelected(Belongings selectedStuff) {
-        GameMain.PlayerData.AddBelongingsInInventory(selectedStuff);
+        GameMain.PlayerData.AddItemInInventory(selectedStuff);
 
         _combatResultUI.ShowResultUI(true, Mathf.FloorToInt(_stageTimeAgo).ToString());
 

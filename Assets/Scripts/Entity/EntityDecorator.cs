@@ -2,30 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EntityStatusDecorator : IEntityStatus {
-    private EntityInfo _entityInfo;
+public class EntityDecorator : IEntityStatus {
     private List<BuffConfig> _buffList;
-    public List<Belongings> BelongingsList {
+    public EntityInfo Info {
+        get;
+        private set;
+    }
+    public Belongings Item {
         get;
         set;
     }
 
-    public EntityStatusDecorator() {
-        BelongingsList = new List<Belongings>();
+    public EntityDecorator(EntityInfo entityInfo) {
         _buffList = new List<BuffConfig>();
+        Info = entityInfo;
     }
 
     public void Initialize(EntityInfo entityInfo) {
-        _entityInfo = entityInfo;
+        Info = entityInfo;
         _buffList.Clear();
-    }
-
-    public void AddBelongings(Belongings belongings) {
-        BelongingsList.Add(belongings);
-    }
-
-    public void RemoveBelongings(Belongings belongings) {
-        BelongingsList.Remove(belongings);
     }
 
     public void AddBuff(BuffConfig config) {
@@ -38,10 +33,10 @@ public class EntityStatusDecorator : IEntityStatus {
 
     public int Health { 
         get {
-            int finalHealth = _entityInfo.Health;
-            foreach (Belongings augments in BelongingsList) {
-                finalHealth += augments.Health;
-            }
+            int finalHealth = Info.Health;
+
+            if (Item)
+                finalHealth += Item.Health;
             foreach (IEntityStatus buff in _buffList) {
                 finalHealth += buff.Health;
             }
@@ -50,10 +45,10 @@ public class EntityStatusDecorator : IEntityStatus {
     }
     public int Mana { 
         get {
-            int finalMana = _entityInfo.Mana;
-            foreach (Belongings augments in BelongingsList) {
-                finalMana += augments.Mana;
-            }
+            int finalMana = Info.Mana;
+
+            if (Item)
+                finalMana += Item.Mana;
             foreach (IEntityStatus buff in _buffList) {
                 finalMana += buff.Mana;
             }
@@ -62,22 +57,22 @@ public class EntityStatusDecorator : IEntityStatus {
     }
     public int Morale { 
         get {
-            int finalStress = _entityInfo.Morale;
-            foreach (Belongings augments in BelongingsList) {
-                finalStress += augments.Morale;
-            }
+            int finalMorale = Info.Morale;
+
+            if (Item)
+                finalMorale += Item.Morale;
             foreach (IEntityStatus buff in _buffList) {
-                finalStress += buff.Morale;
+                finalMorale += buff.Morale;
             }
-            return finalStress;
+            return finalMorale;
         }
     }
     public int Block {
         get {
-            int finalBlock = _entityInfo.Block;
-            foreach (Belongings augments in BelongingsList) {
-                finalBlock += augments.Block;
-            }
+            int finalBlock = Info.Block;
+
+            if (Item)
+                finalBlock += Item.Block;
             foreach (IEntityStatus buff in _buffList) {
                 finalBlock += buff.Block;
             }
@@ -86,11 +81,12 @@ public class EntityStatusDecorator : IEntityStatus {
     }
     public int AttackDamage { 
         get {
-            int finalDamage = _entityInfo.AttackDamage;
+            int finalDamage = Info.AttackDamage;
+            
             float damageMultiplier = 0f;
-            foreach (Belongings augments in BelongingsList) {
-                finalDamage += augments.AttackDamage;
-            }
+
+            if (Item)
+                finalDamage += Item.AttackDamage;
             foreach (IEntityStatus buff in _buffList) {
                 finalDamage += buff.AttackDamage;
             }
@@ -103,24 +99,24 @@ public class EntityStatusDecorator : IEntityStatus {
     }
     public float AttackSpeed { 
         get {
-            float finalAttackSpeed = _entityInfo.AttackSpeed;
+            float finalAttackSpeed = Info.AttackSpeed;
             float attackSpeedMultiplier = 0f;
-            foreach (Belongings augments in BelongingsList) {
-                attackSpeedMultiplier += augments.AttackSpeed;
-            }
+
+            if (Item)
+                attackSpeedMultiplier += Item.AttackSpeed;
             foreach (IEntityStatus buff in _buffList) {
                 attackSpeedMultiplier += buff.AttackSpeed;
             }
-            finalAttackSpeed += _entityInfo.AttackSpeed * attackSpeedMultiplier;
+            finalAttackSpeed += Info.AttackSpeed * attackSpeedMultiplier;
             return finalAttackSpeed;
         }
     }
     public int MoveSpeed { 
         get {
-            int finalMoveSpeed = _entityInfo.MoveSpeed;
-            foreach (Belongings augments in BelongingsList) {
-                finalMoveSpeed += augments.MoveSpeed;
-            }
+            int finalMoveSpeed = Info.MoveSpeed;
+
+            if (Item)
+                finalMoveSpeed += Item.MoveSpeed;
             foreach (IEntityStatus buff in _buffList) {
                 finalMoveSpeed += buff.MoveSpeed;
             }
@@ -130,10 +126,10 @@ public class EntityStatusDecorator : IEntityStatus {
 
     public int AttackRange {
         get { 
-            int finalAttackRange = _entityInfo.AttackRange;
-            foreach (Belongings augments in BelongingsList) {
-                finalAttackRange += augments.AttackRange;
-            }
+            int finalAttackRange = Info.AttackRange;
+
+            if (Item)
+                finalAttackRange += Item.AttackRange;
             foreach (IEntityStatus buff in _buffList) {
                 finalAttackRange += buff.AttackRange;
             }
@@ -154,11 +150,8 @@ public class EntityStatusDecorator : IEntityStatus {
     public SynergyType ExtraSynergy {
         get {
             SynergyType extraSynergy = SynergyType.None;
-            foreach (Belongings item in BelongingsList) {
-                if (!item.ExtraSynergy.Equals(SynergyType.None)) {
-                    extraSynergy = item.ExtraSynergy;
-                    break;
-                }
+            if (Item && !Item.ExtraSynergy.Equals(SynergyType.None)) {
+                extraSynergy = Item.ExtraSynergy;
             }
             return extraSynergy;
         }

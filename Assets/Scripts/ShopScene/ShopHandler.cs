@@ -29,7 +29,7 @@ public class ShopHandler : MonoBehaviour, IResetable {
 
         Belongings item = GameMain.RewardData.GetRandomItem(true);
         if (item) {
-            GameMain.PlayerData.AddBelongingsInInventory(item);
+            GameMain.PlayerData.AddItemInInventory(item);
             Debug.Log(item.name);
         }
     }
@@ -41,7 +41,7 @@ public class ShopHandler : MonoBehaviour, IResetable {
 
         EntityInfo member = GameMain.RewardData.GetRandomAlly(true);
         if (member) {
-            GameMain.PlayerData.AddAlly(member);
+            GameMain.PlayerData.AddMember(member);
             Debug.Log(member.name);
         }
     }

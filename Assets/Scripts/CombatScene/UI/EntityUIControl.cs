@@ -7,25 +7,11 @@ public class EntityUIControl : MonoBehaviour {
     [SerializeField] private Transform _hpBarTransform = null;
     [SerializeField] private Transform _mpBarTransform = null;
     [SerializeField] private GameObject _moraleGameObject = null;
-    [SerializeField] private SpriteRenderer[] _belongingsSlots = null;
     private TMP_Text _moraleText;
 
     private void Awake() {
         if (_moraleGameObject)
             _moraleText = _moraleGameObject.GetComponentInChildren<TMP_Text>();
-    }
-
-    public void UpdateBelongingSprites(List<Belongings> belingingsList) {
-        int slotSize = _belongingsSlots.Length;
-        int belongingsCount = (belingingsList != null) ? belingingsList.Count : 0;
-        for (int i = 0; i < slotSize; ++i) {
-            if (i < belongingsCount) {
-                _belongingsSlots[i].sprite = belingingsList[i].Sprite;
-            }
-            else {
-                _belongingsSlots[i].sprite = null;
-            }
-        }
     }
 
     public void UpdateHealthBar(int health, int maxHealth) {

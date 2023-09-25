@@ -29,7 +29,7 @@ public class GameMain : MonoBehaviour, ILoadable {
         var alliesData = await assetLoader.LoadAssetsAsync<EntityInfo>(AllyDataKey);
         var itemsData = await assetLoader.LoadAssetsAsync<Belongings>(ItemDataKey);
 
-        _playerData.Allies.Add(alliesData[0]);
+        _playerData.AddMember(alliesData[0]);
 
         RewardData = new RewardData(alliesData, itemsData);
 

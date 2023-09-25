@@ -59,8 +59,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1325405859}
   - component: {fileID: 1325405860}
+  - component: {fileID: 1065983905}
   m_Layer: 0
-  m_Name: GameMapAllyUIHandle
+  m_Name: UIHandler
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -95,6 +96,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _memberScrollviewContent: {fileID: 6198654055943404866}
   _memberInfoPrefab: {fileID: 8746438808607672446, guid: 30d15e9ea2e0d774bb61d63acb5d1218, type: 3}
+--- !u!114 &1065983905
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1325405858}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba302f725a25acd43814afdf23b58aa3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &272212458321602015
 GameObject:
   m_ObjectHideFlags: 0
@@ -701,7 +714,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: -1738356269
-  m_SortingOrder: 0
+  m_SortingOrder: 10
   m_TargetDisplay: 0
 --- !u!114 &193908314507688798
 MonoBehaviour:

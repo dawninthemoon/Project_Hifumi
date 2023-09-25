@@ -3,69 +3,55 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerData : ObserverSubject {
-    [SerializeField] private List<EntityInfo> _allies;
-    [SerializeField] private List<Belongings> _belongingsInventory;
-    private Dictionary<string, List<Belongings>> _belongingsDictionary;
+    [SerializeField, Tooltip("For Test Code")] private List<EntityInfo> _allies;
+    [SerializeField, Tooltip("For Test Code")] private List<Belongings> _belongingsInventory;
+    private Dictionary<string, List<Belongings>> _itemInventory;
 
-    public List<EntityInfo> Allies { get { return _allies; } }
+    public List<EntityDecorator> Member { 
+        get;
+        private set;
+    }
     public List<Belongings> BelongingsInventory { get { return _belongingsInventory; } }
-    public Dictionary<string, List<Belongings>> BelongingsDictionary { get { return _belongingsDictionary; } }
+    public Dictionary<string, List<Belongings>> BelongingsDictionary { get { return _itemInventory; } }
 
     private void Awake() {
-        if (_allies == null)
-            _allies = new List<EntityInfo>();
+        InitializeMember();
+
         if (_belongingsInventory == null)
             _belongingsInventory = new List<Belongings>();
-        _belongingsDictionary = new Dictionary<string, List<Belongings>>();
+        _itemInventory = new Dictionary<string, List<Belongings>>();
     }
 
-    public void AddAlly(EntityInfo ally) {
-        _allies.Add(ally);
-        Notify();
-    }
-
-    public void RemoveAlly(EntityInfo ally) {
-        _allies.Remove(ally);
-        Notify();
-    }
-
-    public void RemoveRandomAlly() {
-        int randomIndex = Random.Range(0, _allies.Count);
-        _allies.RemoveAt(randomIndex);
-        Notify();
-    }
-
-    public List<Belongings> GetBelongingsList(string entityID) {
-        if (!_belongingsDictionary.TryGetValue(entityID, out List<Belongings> belongingsList)) {
-            belongingsList = new List<Belongings>();
-            _belongingsDictionary.Add(entityID, belongingsList);
-        }
-        return belongingsList;
-    }
-
-    public void AddBelongings(string entityID, Belongings belongings) {
-        if (!_belongingsDictionary.TryGetValue(entityID, out List<Belongings> belongingsList)) {
-            _belongingsDictionary.Add(entityID, new List<Belongings>());
-        }
-        _belongingsDictionary[entityID].Add(belongings);
-        Notify();
-    }
-
-    public void AddBelongingsInInventory(Belongings belongings) {
-        _belongingsInventory.Add(belongings);
-    }
-
-    public void RemoveBelongingsInInventory(Belongings belongings) {
-        _belongingsInventory.Remove(belongings);
-    }
-
-    public void UnequipBelongings(string entityID, Belongings belongings) {
-        if (!_belongingsDictionary.TryGetValue(entityID, out List<Belongings> belongingsList)) {
-            Debug.LogError("Belongings Not Exists!");
+    private void InitializeMember() {
+        Member = new List<EntityDecorator>();
+        if (_allies == null) {
             return;
         }
-        belongingsList.Remove(belongings);
-        AddBelongingsInInventory(belongings);
+
+        foreach (EntityInfo entity in _allies) {
+            EntityDecorator decorator = new EntityDecorator(entity);
+            Member.Add(decorator);
+        }
+    }
+
+    public void AddMember(EntityInfo entity) {
+        Member.Add(new EntityDecorator(entity));
+        Notify();
+    }
+
+    public void RemoveRandomMember() {
+        int randomIndex = Random.Range(0, Member.Count);
+        Member.RemoveAt(randomIndex);
+        Notify();
+    }
+
+    public void AddItemInInventory(Belongings belongings) {
+        _belongingsInventory.Add(belongings);
+        Notify();
+    }
+
+    public void RemoveItemInInventory(Belongings belongings) {
+        _belongingsInventory.Remove(belongings);
         Notify();
     }
 }

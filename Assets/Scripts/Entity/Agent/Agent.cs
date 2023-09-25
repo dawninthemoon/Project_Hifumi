@@ -12,7 +12,7 @@ public class Agent : MonoBehaviour, ITargetable {
     [SerializeField] private float _moveDurationWhileAttack = 1f;
     [SerializeField] private float _stopDurationWhileAttack = 0.5f;
     private AIData _aiData;
-    private EntityStatusDecorator _entityStatus;
+    private EntityDecorator _entityStatus;
     private Rigidbody2D _rigidbody;
     private Vector2 _movementInput;
     public UnityEvent OnAttackRequested { get; set; } = new UnityEvent();
@@ -33,7 +33,7 @@ public class Agent : MonoBehaviour, ITargetable {
         OnAttackRequested.AddListener(StartMovementStopProgress);
     }
 
-    public void Initialize(EntityStatusDecorator status, float radius) {
+    public void Initialize(EntityDecorator status, float radius) {
         _entityStatus = status;
         Radius = radius;
         _aiData.Radius = radius;

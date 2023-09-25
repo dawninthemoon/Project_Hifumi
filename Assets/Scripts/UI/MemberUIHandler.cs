@@ -38,9 +38,9 @@ public class MemberUIHandler : MonoBehaviour, IObserver {
     private void UpdateMemberUIElements() {
         _memberUIPool.Clear();
 
-        foreach (EntityInfo entityInfo in GameMain.PlayerData.Allies) {
+        foreach (EntityDecorator entityDecorator in GameMain.PlayerData.Member) {
             var memberUIElement = _memberUIPool.GetObject();
-            memberUIElement.SetEntityInfo(entityInfo);
+            memberUIElement.SetTargetEntity(entityDecorator);
             memberUIElement.UpdateMemberInfo();
         }
     }

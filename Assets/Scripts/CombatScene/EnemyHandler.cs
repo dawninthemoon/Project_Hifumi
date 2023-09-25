@@ -76,7 +76,8 @@ public class EnemyHandler : MonoBehaviour, ILoadable {
             }
             
             EntityInfo selectedInfo = _enemyInfoDictionary[selectedWave.enemyIDArray[i]];
-            EntityBase enemy = entitySpanwer.CreateEnemy(selectedInfo);
+            EntityDecorator decorator = new EntityDecorator(selectedInfo);
+            EntityBase enemy = entitySpanwer.CreateEnemy(decorator);
             enemy.transform.position = new Vector3(randX, y);
 
             _activeEnemies.Add(enemy);

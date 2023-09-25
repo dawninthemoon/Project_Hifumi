@@ -48,8 +48,8 @@ public class AllyHandler : MonoBehaviour {
     }
 
     public void InitalizeAllies(EntitySpawner spawner) {
-        foreach (EntityInfo info in GameMain.PlayerData.Allies) {
-            EntityBase newEntity = spawner.CreateAlly(info);
+        foreach (EntityDecorator entity in GameMain.PlayerData.Member) {
+            EntityBase newEntity = spawner.CreateAlly(entity);
             newEntity.gameObject.SetActive(false);
             _inactiveAllies.Add(newEntity);
         }

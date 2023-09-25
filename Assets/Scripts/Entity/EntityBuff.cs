@@ -5,10 +5,10 @@ using RieslingUtils;
 
 public class EntityBuff {
     private MonoBehaviour _executer;
-    private EntityStatusDecorator _status;
+    private EntityDecorator _status;
     private HashSet<string> _currentDebuffSet;
 
-    public EntityBuff(MonoBehaviour executer, EntityStatusDecorator status) {
+    public EntityBuff(MonoBehaviour executer, EntityDecorator status) {
         _currentDebuffSet = new HashSet<string>();
         _executer = executer;
         _status = status;

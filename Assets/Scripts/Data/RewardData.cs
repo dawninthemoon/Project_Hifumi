@@ -11,9 +11,9 @@ public class RewardData {
         _appearableAlliesSet = allyList.ToHashSet();
         _appearableItemsSet = itemList.ToHashSet();
 
-        foreach (EntityInfo playerAlly in GameMain.PlayerData.Allies) {
-            if (_appearableAlliesSet.Contains(playerAlly)) {
-                _appearableAlliesSet.Remove(playerAlly);
+        foreach (var playerAlly in GameMain.PlayerData.Member) {
+            if (_appearableAlliesSet.Contains(playerAlly.Info)) {
+                _appearableAlliesSet.Remove(playerAlly.Info);
             }
         }
     }

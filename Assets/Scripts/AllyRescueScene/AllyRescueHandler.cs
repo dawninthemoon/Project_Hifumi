@@ -55,6 +55,6 @@ public class AllyRescueHandler : MonoBehaviour, IResetable {
             }
         }
         _rescueButtons[selectedIndex].interactable = false;
-        GameMain.PlayerData.Allies.Add(_currentAllies[selectedIndex]);
+        GameMain.PlayerData.AddMember(_currentAllies[selectedIndex]);
     }
 }
