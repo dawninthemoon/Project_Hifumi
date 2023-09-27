@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class RandomEventEncounter : EncounterBase {
     [SerializeField] private RandomEventHandler _randomeEncounterHandler = null;
@@ -9,7 +10,7 @@ public class RandomEventEncounter : EncounterBase {
         
     }
 
-    public override void Initialize(Action roomExitCallback) {
+    public override void Initialize(UnityAction roomExitCallback) {
         _randomeEncounterHandler.SetRoomExitCallback(roomExitCallback);
         gameObject.SetActive(false);
     }

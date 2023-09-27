@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class CombatEncounter : EncounterBase, ILoadable {
     [SerializeField] private CombatSceneHandler _combatHandler = null;
@@ -34,7 +35,7 @@ public class CombatEncounter : EncounterBase, ILoadable {
         );
     }
 
-    public override void Initialize(System.Action roomExitCallback) {
+    public override void Initialize(UnityAction roomExitCallback) {
         gameObject.SetActive(false);
     }
 

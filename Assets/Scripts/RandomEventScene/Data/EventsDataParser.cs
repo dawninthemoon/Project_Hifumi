@@ -17,6 +17,7 @@ namespace RandomEvent {
 
         private static readonly char commaChar = ',';
         private static readonly string blankStr = "";
+        private static readonly char[] BracketChar = { '(', ')' };
         private static readonly string RegexStr = "\\([^)]*\\)";
         private Regex _effectVariableRegex;
 
@@ -68,7 +69,7 @@ namespace RandomEvent {
                 for (int i = 0; i < splitedEffects.Length; ++i) {
                     string variableStr = _effectVariableRegex.Match(splitedEffects[i]).ToString();
                     string eventName = _effectVariableRegex.Replace(splitedEffects[i], blankStr);
-                    variableStr.Trim();
+                    variableStr = variableStr.Trim(BracketChar);
                     effectsArray[i] = new EventEffects(eventName, variableStr.Split(commaChar));
                 }
                 selection.Effects = effectsArray;

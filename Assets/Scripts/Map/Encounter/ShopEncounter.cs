@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class ShopEncounter : EncounterBase {
@@ -11,7 +12,7 @@ public class ShopEncounter : EncounterBase {
         _shopUICanvas.worldCamera = Camera.main;
     }
 
-    public override void Initialize(Action roomExitCallback) {
+    public override void Initialize(UnityAction roomExitCallback) {
         gameObject.SetActive(false);
     }
 

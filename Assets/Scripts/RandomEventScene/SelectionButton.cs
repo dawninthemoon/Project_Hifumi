@@ -14,6 +14,9 @@ public class SelectionButton : MonoBehaviour {
     private static readonly string ColorTextSuffix = "</color>";
     private static readonly int ColorPrefixStartIndex = 7;
     private EventSelections _selectionData;
+    public EventSelections SelectionData {
+        get { return _selectionData; }
+    }
 
     private void Awake() {
         _button = GetComponent<Button>();
@@ -32,11 +35,11 @@ public class SelectionButton : MonoBehaviour {
     }
 
     public void Initialize(EventSelections selectionData) {
-        if (selectionData == null) {
+        _selectionData = selectionData;
+        if (_selectionData == null) {
             gameObject.SetActive(false);
             return;
         }
-        _selectionData = selectionData;
 
         if (selectionData.Name != null) {
             AddText("[ ", "red");

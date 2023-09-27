@@ -386,6 +386,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f324d3ec9e210264fb26a6157514fb73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _targetEventID: 10004
   _illust: {fileID: 944764680}
   _descriptionText: {fileID: 664371506}
   _selectionButtons:
@@ -1303,6 +1304,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 5682ab4d22cd4eb4a89ef7429a644f89, type: 2}
   - {fileID: 11400000, guid: 445c91abc6f96aa4a9f8084e1d9a207f, type: 2}
   _belongingsInventory: []
+  _defaultMaxMemberCount: 5
 --- !u!114 &1185842736
 MonoBehaviour:
   m_ObjectHideFlags: 0

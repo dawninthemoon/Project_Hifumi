@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 using RandomEvent;
 using TMPro;
@@ -9,6 +10,7 @@ using System.Linq;
 using Cysharp.Threading.Tasks;
 
 public class RandomEventHandler : MonoBehaviour, IResetable, ILoadable {
+    [SerializeField, Tooltip("For Test")] private string _targetEventID;
     [SerializeField] private Image _illust;
     [SerializeField] private TextMeshProUGUI _descriptionText;
     [SerializeField] private SelectionButton[] _selectionButtons;
@@ -16,7 +18,7 @@ public class RandomEventHandler : MonoBehaviour, IResetable, ILoadable {
     private EventsData[] _eventsDataArray;
     private Dictionary<string, IRandomEvent> _eventEffectDictionary;
     private Dictionary<string, Sprite> _eventSpriteDictionary;
-    private System.Action _roomExitCallback;
+    private UnityEvent _roomExitEvent;
     public static bool IsLoadCompleted {
         get;
         private set;
@@ -27,6 +29,8 @@ public class RandomEventHandler : MonoBehaviour, IResetable, ILoadable {
         _parser = new EventsDataParser();
 
         _eventEffectDictionary = new Dictionary<string, IRandomEvent>();
+        _roomExitEvent = new UnityEvent();
+        _roomExitEvent.AddListener(ResetEvents);
         
         string eventsFileName = "EventsData";
         string selectionsFileName = "EventSelections";
@@ -54,12 +58,22 @@ public class RandomEventHandler : MonoBehaviour, IResetable, ILoadable {
         }
     }
 
-    public void SetRoomExitCallback(System.Action roomExitCallback) {
-        _roomExitCallback = roomExitCallback;
+    public void SetRoomExitCallback(UnityAction roomExitCallback) {
+        _roomExitEvent.AddListener(roomExitCallback);
     }
 
     public void Initialize() {
         int randomIndex = Random.Range(0, _eventsDataArray.Length);
+
+        // Only For Test
+        if (_targetEventID != null) {
+            for (int i = 0; i < _eventsDataArray.Length; ++i) {
+                EventsData e = _eventsDataArray[i];
+                if (e.ID.Equals(_targetEventID))
+                    randomIndex = i;
+            }
+        }
+
         EventsData randomEvent = _eventsDataArray[randomIndex];
 
         if (randomEvent.SpriteName != null)
@@ -77,23 +91,54 @@ public class RandomEventHandler : MonoBehaviour, IResetable, ILoadable {
     }
 
     private void OnSelectionButtonClicked(EventEffects[] effects) {
+        bool repeatEvent = false;
         if (effects != null) {
             foreach (EventEffects effect in effects) {
-                if (_eventEffectDictionary.TryGetValue(effect.eventName, out IRandomEvent instance)) {
-                    instance.Execute(effect.variables);
+                ExecuteEvent(effect.eventName, effect.variables, ref repeatEvent);
+            }
+        }
+        
+        if (!repeatEvent) {
+            _roomExitEvent.Invoke();
+        }
+    }
+
+    private void ExecuteEvent(string eventName, string[] variables, ref bool repeatEvent) {
+        if (_eventEffectDictionary.TryGetValue(eventName, out IRandomEvent instance)) {
+            IEnumerator routine = instance.Execute(variables);
+            while (routine.MoveNext()) {
+                var nestRoutine = routine?.Current as YieldInstruction;
+                if (nestRoutine is RepeatEvent) {
+                    repeatEvent = true;
                 }
             }
         }
-        _roomExitCallback.Invoke();
+    }
+
+    private void ResetEvents() {
+        foreach (SelectionButton selection in _selectionButtons) {
+            EventSelections selectionData = selection.SelectionData;
+            if (selectionData == null) continue;
+            if (selectionData.Effects != null) {
+                foreach (EventEffects effect in selectionData.Effects) {
+                    string eventName = effect.eventName;
+                    if (_eventEffectDictionary.TryGetValue(eventName, out IRandomEvent instance)) {
+                        IResetable resetableEvent = instance as IResetable;
+                        resetableEvent?.Reset();
+                    }
+                }
+            }
+        }
     }
 
     private void InitializeRandomEventEffects() {
         string namespaceName = "RandomEvent";
+        string interfaceName = "IRandomEvent";
         var eventTypes = Assembly.GetExecutingAssembly().GetTypes();
         _eventEffectDictionary 
             = eventTypes
-                .Where(type => (type.Namespace == namespaceName))
-                .Select(type => type)
+                .Where(type => (type.Namespace == namespaceName) && !type.IsInterface)
+                .Where(type => (type.GetInterface(interfaceName) != null))
                 .ToDictionary(type => type.Name, type => System.Activator.CreateInstance(type) as IRandomEvent);
     }
 }

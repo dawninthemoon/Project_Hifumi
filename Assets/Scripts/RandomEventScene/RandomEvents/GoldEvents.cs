@@ -4,7 +4,8 @@ using UnityEngine;
 
 namespace RandomEvent {
     public class GainGold : IRandomEvent {
-        public void Execute(string[] variables) {
+
+        public IEnumerator Execute(string[] variables) {
             int parameterCount = variables.Length;
             if (parameterCount == 1) {
                 int amount = int.Parse(variables[0]);
@@ -15,6 +16,8 @@ namespace RandomEvent {
                 int max = int.Parse(variables[1]);
                 Gain(min, max);
             }
+
+            yield break;
         }
         
         private void Gain(int amount) {
@@ -28,12 +31,14 @@ namespace RandomEvent {
     }
 
     public class ReduceGold : IRandomEvent {
-        public void Execute(string[] variables) {
+        public IEnumerator Execute(string[] variables) {
             int parameterCount = variables.Length;
             if (parameterCount == 1) {
                 int amount = int.Parse(variables[0]);
                 Reduce(amount);
             } 
+
+            yield break;
         }
 
         private void Reduce(int amount) {

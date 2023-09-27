@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class AllyRescueEncounter : EncounterBase {
     [SerializeField] private AllyRescueHandler _allyRescueHandler = null;
@@ -9,7 +10,7 @@ public class AllyRescueEncounter : EncounterBase {
 
     }
 
-    public override void Initialize(Action roomExitCallback) {
+    public override void Initialize(UnityAction roomExitCallback) {
         gameObject.SetActive(false);
     }
 

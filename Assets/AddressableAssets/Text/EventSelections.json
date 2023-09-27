@@ -37,7 +37,7 @@
   "10004_1": {
     "Name": "매혈",
     "Text": "체력을 40 잃는다. 골드를 얻는다.",
-    "Effects": "ExitIfRepeatedFor(3),ReduceHP(40),GainGold(20)"
+    "Effects": "ReduceHP(40),GainGold(20),Repeat(3)"
   },
   "10004_2": {
     "Name": null,
