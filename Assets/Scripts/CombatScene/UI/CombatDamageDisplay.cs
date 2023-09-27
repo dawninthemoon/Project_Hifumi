@@ -4,7 +4,7 @@ using UnityEngine;
 using TMPro;
 using RieslingUtils;
 
-public class CombatDamageDisplay : SingletonWithMonoBehaviour<CombatDamageDisplay> {
+public class CombatDamageDisplay : MonoBehaviour, IObserver {
     private static readonly string PrefabPath = "DamageDisplayText";
     private ObjectPool<TMP_Text> _damageTextPool;
 
@@ -18,6 +18,18 @@ public class CombatDamageDisplay : SingletonWithMonoBehaviour<CombatDamageDispla
                 (x) => x.gameObject.SetActive(false)
             );
         });
+    }
+
+    public void Notify(ObserverSubject subject) {
+        DamageInfo damageInfo = subject as DamageInfo;
+        if (damageInfo != null) {
+            Vector3 pos = damageInfo.Self.transform.position;
+            pos.y += damageInfo.Self.Radius;
+
+            string text = damageInfo.FinalDamage.ToString();
+
+            StartDisplayText(text, pos, 0.3f);
+        }
     }
 
     public void StartDisplayText(string text, Vector3 position, float duration) {
