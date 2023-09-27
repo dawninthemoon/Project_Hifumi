@@ -7,8 +7,11 @@ public class DamageInfo : ObserverSubject {
     public EntityBase Caster;
     public int FinalDamage;
 
-    public void ReceiveDamage(int damage, EntityBase self, EntityBase caster) {
+    public DamageInfo(EntityBase self) {
         Self = self;
+    }
+
+    public void ReceiveDamage(int damage, EntityBase caster) {
         Caster = caster;
         FinalDamage = damage;
         Notify();

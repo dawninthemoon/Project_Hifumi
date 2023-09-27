@@ -11,6 +11,10 @@ public class EntityBase : MonoBehaviour {
     private EntityHealthMana _healthManaControl;
     private float _currentMorale;
     public EntityInfo Info { get { return _entityDecorator.Info; } }
+    public DamageInfo FinalDamageInfo {
+        get;
+        private set;
+    }
     public EntityBuff BuffControl {
         get;
         private set;
@@ -52,7 +56,7 @@ public class EntityBase : MonoBehaviour {
         _agent = GetComponent<Agent>();
         _animationControl = GetComponent<EntityAnimationControl>();
         _healthManaControl = new EntityHealthMana(GetComponent<EntityUIControl>());
-        gameObject.AddComponent<DamageInfo>();
+        FinalDamageInfo = new DamageInfo(this);
 
         BuffControl = new EntityBuff(this, _entityDecorator);
 
@@ -145,7 +149,7 @@ public class EntityBase : MonoBehaviour {
         int finalDamage = Mathf.Max(1, damage - _entityDecorator.Block);
 
         _healthManaControl.ReceiveDamage(finalDamage);
-        GetComponent<DamageInfo>().ReceiveDamage(damage, this, caster);
+        FinalDamageInfo.ReceiveDamage(damage, caster);
 
         if (Health <= 0) {
            OnEntityDead();

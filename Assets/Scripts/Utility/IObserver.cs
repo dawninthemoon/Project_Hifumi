@@ -1,3 +1,3 @@
 public interface IObserver {
-    void Notify(ObserverSubject subject);
+    void Notify(IObserverSubject subject);
 }

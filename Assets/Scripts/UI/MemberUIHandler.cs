@@ -31,7 +31,7 @@ public class MemberUIHandler : MonoBehaviour, IObserver {
         UpdateMemberUIElements();
     }
 
-    public void Notify(ObserverSubject subject) {
+    public void Notify(IObserverSubject subject) {
         UpdateMemberUIElements();
     }
 

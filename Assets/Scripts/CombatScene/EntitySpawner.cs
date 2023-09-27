@@ -65,13 +65,13 @@ public class EntitySpawner : ILoadable {
 
     private void OnEntityActive(EntityBase entity) {
         entity.gameObject.SetActive(true);
-        entity.GetComponent<DamageInfo>().Attach(_damageDisplayer);
+        entity.FinalDamageInfo?.Attach(_damageDisplayer);
         //GameMain.PlayerData.Attach(entity);
     }
 
     private void OnEntityDisable(EntityBase entity) {
         entity.gameObject.SetActive(false);
-        entity.GetComponent<DamageInfo>().Detach(_damageDisplayer);
+        entity.FinalDamageInfo?.Detach(_damageDisplayer);
         entity.SetTarget(null);
         //GameMain.PlayerData.Detach(entity);
     }

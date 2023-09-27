@@ -20,7 +20,7 @@ public class CombatDamageDisplay : MonoBehaviour, IObserver {
         });
     }
 
-    public void Notify(ObserverSubject subject) {
+    public void Notify(IObserverSubject subject) {
         DamageInfo damageInfo = subject as DamageInfo;
         if (damageInfo != null) {
             Vector3 pos = damageInfo.Self.transform.position;
