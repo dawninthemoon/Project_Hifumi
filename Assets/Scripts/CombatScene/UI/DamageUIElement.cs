@@ -18,6 +18,13 @@ public class DamageUIElement : MonoBehaviour {
         _maxDamageBarWidth = _damageBar.rectTransform.rect.width;
     }
 
+    public void Reset() {
+        _portrait.sprite = null;
+        DamageSum = 0;
+        _damageText.text = null;
+        gameObject.SetActive(false);
+    }
+
     public void SetPortrait(Sprite sprite) {
         _portrait.sprite = sprite;
     }

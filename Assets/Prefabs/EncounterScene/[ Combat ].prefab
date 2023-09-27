@@ -280,6 +280,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8a35d47838ef504e990bf6270cd9ca0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _damageDisplayCanvas: {fileID: 533048763}
   _damageDisplayContent: {fileID: 2082915449}
   _damageTextDuration: 0.3
 --- !u!1 &2082915448

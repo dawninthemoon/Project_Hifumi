@@ -408,6 +408,26 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 519420031}
+    - target: {fileID: 1724135504, guid: a9e0072a9fdafd049aa4fd033701536f, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1724135504, guid: a9e0072a9fdafd049aa4fd033701536f, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1724135504, guid: a9e0072a9fdafd049aa4fd033701536f, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1724135504, guid: a9e0072a9fdafd049aa4fd033701536f, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2082915449, guid: a9e0072a9fdafd049aa4fd033701536f, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3448247648369328793, guid: a9e0072a9fdafd049aa4fd033701536f, type: 3}
       propertyPath: m_RootOrder
       value: 2

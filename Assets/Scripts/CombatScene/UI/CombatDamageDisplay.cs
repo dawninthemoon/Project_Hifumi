@@ -5,6 +5,7 @@ using TMPro;
 using RieslingUtils;
 
 public class CombatDamageDisplay : MonoBehaviour, IObserver {
+    [SerializeField] private Canvas _damageDisplayCanvas;
     [SerializeField] private Transform _damageDisplayContent;
     [SerializeField] private float _damageTextDuration = 0.3f;
     private static readonly string TextPrefabName = "DamageDisplayText";
@@ -18,6 +19,7 @@ public class CombatDamageDisplay : MonoBehaviour, IObserver {
     private void Awake() {
         _uiElementDictionary = new Dictionary<string, DamageUIElement>();
         _sortedUIElementList = new List<DamageUIElement>();
+        _damageDisplayCanvas.worldCamera = Camera.main;
 
         AssetLoader.Instance.LoadAssetAsync<GameObject>(TextPrefabName, (handle) => {
             var prefab = handle.Result.GetComponent<TMP_Text>();
@@ -34,12 +36,13 @@ public class CombatDamageDisplay : MonoBehaviour, IObserver {
                 10,
                 () => Instantiate(uiElementPrefab, _damageDisplayContent),
                 (x) => x.gameObject.SetActive(true),
-                (x) => x.gameObject.SetActive(false)
+                (x) => x.Reset()
             );
         });
     }
 
     public void Reset() {
+        _damageTextPool.Clear();
         _uiElementDictionary.Clear();
         _sortedUIElementList.Clear();
         _uiElementPool.Clear();
@@ -67,7 +70,6 @@ public class CombatDamageDisplay : MonoBehaviour, IObserver {
                 int sum = selectedElement.AddDamage(damageInfo.FinalDamage);
                 _maxDamageSum = Mathf.Max(_maxDamageSum, sum);
             }
-
             
             _sortedUIElementList.Sort((a, b) => b.DamageSum.CompareTo(a.DamageSum));
             int uiElementsCount = _sortedUIElementList.Count;
