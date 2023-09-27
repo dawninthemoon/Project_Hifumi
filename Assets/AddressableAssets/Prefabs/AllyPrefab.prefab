@@ -990,10 +990,6 @@ MonoBehaviour:
   _hpBarTransform: {fileID: 9100749336996969131}
   _mpBarTransform: {fileID: 7869432828650510218}
   _moraleGameObject: {fileID: 1019348710558012159}
-  _belongingsSlots:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
 --- !u!210 &6756375924567392600
 SortingGroup:
   m_ObjectHideFlags: 0
@@ -1041,7 +1037,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 16
+  m_Radius: 12
 --- !u!114 &-6134280753618378484
 MonoBehaviour:
   m_ObjectHideFlags: 0

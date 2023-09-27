@@ -3,16 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public class EntityBase : MonoBehaviour, IObserver {
+public class EntityBase : MonoBehaviour {
     [SerializeField] private Transform _bulletPosition = null;
     private Agent _agent;
     private EntityAnimationControl _animationControl;
-    private EntityUIControl _uiControl;
     private EntityDecorator _entityDecorator;
-    private int _currentHealth;
-    private int _currentMana;
+    private EntityHealthMana _healthManaControl;
     private float _currentMorale;
     public EntityInfo Info { get { return _entityDecorator.Info; } }
+    public DamageInfo FinalDamageInfo {
+        get;
+        private set;
+    }
     public EntityBuff BuffControl {
         get;
         private set;
@@ -29,25 +31,10 @@ public class EntityBase : MonoBehaviour, IObserver {
         get { return Info.EntityID; }
     }
     public int Health { 
-        get { return _currentHealth; }
-        set { 
-            _currentHealth = value;
-            _uiControl.UpdateHealthBar(_currentHealth, _entityDecorator.Health);
-        }
+        get { return _healthManaControl.Health; }
     }
     public int Mana { 
-        get { return _currentMana; }
-        set { 
-            _currentMana = value;
-            _uiControl.UpdateManaBar(_currentMana, _entityDecorator.Mana);
-        }
-    }
-    public float Morale {
-        get { return _currentMorale; }
-        set {
-            _currentMorale = value;
-            _uiControl.UpdateMoraleUI(Mathf.FloorToInt(_currentMorale), _entityDecorator.Morale);
-        }
+        get { return _healthManaControl.Mana; }
     }
     public SynergyType Synergy1 {
         get { return Info.Synergy1; }
@@ -59,6 +46,7 @@ public class EntityBase : MonoBehaviour, IObserver {
         get { return _entityDecorator.ExtraSynergy; }
     }
 
+    public Vector2 HandDirection { get; private set; }
     public int AttackDamage { get { return _entityDecorator.AttackDamage; } }
     public Vector3 BulletPosition { get { return _bulletPosition.position; } }
     public bool IsUnloadCompleted { get; set; }
@@ -67,7 +55,8 @@ public class EntityBase : MonoBehaviour, IObserver {
     private void Awake() {
         _agent = GetComponent<Agent>();
         _animationControl = GetComponent<EntityAnimationControl>();
-        _uiControl = GetComponent<EntityUIControl>();
+        _healthManaControl = new EntityHealthMana(GetComponent<EntityUIControl>());
+        FinalDamageInfo = new DamageInfo(this);
 
         BuffControl = new EntityBuff(this, _entityDecorator);
 
@@ -80,18 +69,12 @@ public class EntityBase : MonoBehaviour, IObserver {
         _entityDecorator = entityDecorator;
         _bulletPosition.localPosition = Info.BulletOffset;
 
+        _healthManaControl.Initialize(entityDecorator);
         _animationControl.Initialize(Info.BodySprite, Info.WeaponSprite, Info.AnimatorController);
         
         _agent.Initialize(_entityDecorator, Radius);
 
         InitalizeStatus();
-    }
-
-    public void Notify(ObserverSubject subject) {
-        PlayerData data = subject as PlayerData;
-        if (data == null) {
-            return;
-        }
     }
 
     private void Update() {
@@ -100,14 +83,9 @@ public class EntityBase : MonoBehaviour, IObserver {
         }
     }
 
-    public void SetEntitySelected(bool active) {
-        _uiControl.SetMoraleUIActive(active);
-    }
-
     private void InitalizeStatus() {
-        _currentHealth = _entityDecorator.Health;
-        _currentMana = 0;
-        _currentMorale = _entityDecorator.Morale;
+        _healthManaControl.Health = _entityDecorator.Health;
+        _healthManaControl.Mana = 0;
     }
 
     public void SetTarget(ITargetable target) {
@@ -136,14 +114,12 @@ public class EntityBase : MonoBehaviour, IObserver {
             return;
         }
 
-        Mana = Mathf.Min(Mana + 10, _entityDecorator.Mana);
-
-        //DoingAttack = true;
+        _healthManaControl.AddMana(10);
 
         AttackConfig config = Info.EntityAttackConfig;
-        if (Mana == _entityDecorator.Mana) {
+        if (_healthManaControl.IsManaFull) {
             // Use Skill
-            Mana = 0;
+            _healthManaControl.Mana = 0;
             config = Info.EntitySkillConfig;
         }
         _animationControl.PlayAttackAnimation();
@@ -158,19 +134,23 @@ public class EntityBase : MonoBehaviour, IObserver {
 
         if (targets.Count > 0) {
             Vector2 direction = (targets[0].transform.position - transform.position).normalized;
+            HandDirection = direction;
             _animationControl.SetFaceDir(direction);
+
+            SoundManager.Instance.PlayGameSe(config.soundEffectName);
+            config.attackBehaviour.Behaviour(this, targets, effects);
         }
-        
-        SoundManager.Instance.PlayGameSe(config.soundEffectName);
-        config.attackBehaviour.Behaviour(this, targets, effects);
     }
 
-    public void ReceiveDamage(int damage) {
+    public void ReceiveDamage(int damage, EntityBase caster = null) {
         if (Health <= 0) return;
 
-        Mana = Mathf.Min(Mana + 10, _entityDecorator.Mana);
+        _healthManaControl.AddMana(10);
         int finalDamage = Mathf.Max(1, damage - _entityDecorator.Block);
-        Health -= finalDamage;
+
+        _healthManaControl.ReceiveDamage(finalDamage);
+        FinalDamageInfo.ReceiveDamage(damage, caster);
+
         if (Health <= 0) {
            OnEntityDead();
         }

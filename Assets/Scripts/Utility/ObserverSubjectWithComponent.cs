@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class ObserverSubject : IObserverSubject {
+public class ObserverSubjectWithComponent : MonoBehaviour, IObserverSubject {
     private readonly List<IObserver> _observers = new List<IObserver>();
 
     public void Attach(IObserver observer) {

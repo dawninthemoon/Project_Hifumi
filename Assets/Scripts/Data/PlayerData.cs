@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerData : ObserverSubject {
+public class PlayerData : ObserverSubjectWithComponent {
     [SerializeField, Tooltip("For Test Code")] private List<EntityInfo> _allies;
     [SerializeField, Tooltip("For Test Code")] private List<Belongings> _belongingsInventory;
     [SerializeField] private int _defaultMaxMemberCount = 5;

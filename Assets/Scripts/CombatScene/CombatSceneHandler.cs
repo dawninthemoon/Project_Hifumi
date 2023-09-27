@@ -6,11 +6,12 @@ using RieslingUtils;
 
 public class CombatSceneHandler : MonoBehaviour, IResetable {
     [SerializeField] private float _targetDetectionDelay = 0.05f;
-    [SerializeField] private Truck _truck = null;
-    [SerializeField] private AllyHandler _allyHandler = null;
-    [SerializeField] private EnemyHandler _enemyHandler = null;
-    [SerializeField] private CombatReward _combatReward = null;
-    [SerializeField] private CombatResultUI _combatResultUI = null;
+    [SerializeField] private Truck _truck;
+    [SerializeField] private AllyHandler _allyHandler;
+    [SerializeField] private EnemyHandler _enemyHandler;
+    [SerializeField] private CombatReward _combatReward;
+    [SerializeField] private CombatResultUI _combatResultUI;
+    [SerializeField] private CombatDamageDisplay _damageDisplayer;
     private CombatStageConfig _currentStageConfig;
     private EntitySpawner _entitySpawner;
     private UnityEvent _onStageEnd;
@@ -37,7 +38,7 @@ public class CombatSceneHandler : MonoBehaviour, IResetable {
     
     private void Awake() {
         _timeCounter = new ExTimeCounter();
-        _entitySpawner = new EntitySpawner(transform);
+        _entitySpawner = new EntitySpawner(transform, _damageDisplayer);
         _onStageEnd = new UnityEvent();
         _onStageEnd.AddListener(OnStageEnd);
     }
@@ -47,6 +48,7 @@ public class CombatSceneHandler : MonoBehaviour, IResetable {
         _allyHandler.RemoveAllAllies(_entitySpawner);
         _enemyHandler.RemoveAllEnemies(_entitySpawner);
         _combatResultUI.Reset();
+        _damageDisplayer.Reset();
 
         _currentWave = 0;
         _targetDetectionCounter = 0f;

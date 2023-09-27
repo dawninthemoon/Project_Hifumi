@@ -782,7 +782,6 @@ MonoBehaviour:
   _hpBarTransform: {fileID: 2863251678379950189}
   _mpBarTransform: {fileID: 415993465750348160}
   _moraleGameObject: {fileID: 0}
-  _belongingsSlots: []
 --- !u!58 &9171948919997775683
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -796,9 +795,9 @@ CircleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: -8}
   serializedVersion: 2
-  m_Radius: 8
+  m_Radius: 6
 --- !u!50 &-378373790608198248
 Rigidbody2D:
   serializedVersion: 4
@@ -834,8 +833,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _bodyRenderer: {fileID: 5038725929268388063}
   _knockbackDuration: 2
-  _freezeDuration: 0.08
-  _flashDuration: 0.018
   _friction: 800
 --- !u!1 &7640125064768720678
 GameObject:

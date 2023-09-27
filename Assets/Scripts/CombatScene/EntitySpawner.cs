@@ -6,6 +6,7 @@ using Cysharp.Threading.Tasks;
 public class EntitySpawner : ILoadable {
     private ObjectPool<EntityBase> _allyObjectPool;
     private ObjectPool<EntityBase> _enemyObjectPool;
+    private CombatDamageDisplay _damageDisplayer;
     
     private static readonly string AllyPrefabName = "AllyPrefab";
     private static readonly string EnemyPrefabName = "EnemyPrefab";
@@ -14,7 +15,9 @@ public class EntitySpawner : ILoadable {
         private set;
     }
 
-    public EntitySpawner(Transform entityParent) {
+    public EntitySpawner(Transform entityParent, CombatDamageDisplay damageDisplayer) {
+        _damageDisplayer = damageDisplayer;
+
         AssetLoader.Instance.LoadAssetAsync<GameObject>(
             AllyPrefabName,
             (op) => OnPrefabLoadCompleted(ref _allyObjectPool, op.Result.GetComponent<EntityBase>(), entityParent)
@@ -62,12 +65,14 @@ public class EntitySpawner : ILoadable {
 
     private void OnEntityActive(EntityBase entity) {
         entity.gameObject.SetActive(true);
-        GameMain.PlayerData.Attach(entity);
+        entity.FinalDamageInfo?.Attach(_damageDisplayer);
+        //GameMain.PlayerData.Attach(entity);
     }
 
     private void OnEntityDisable(EntityBase entity) {
         entity.gameObject.SetActive(false);
+        entity.FinalDamageInfo?.Detach(_damageDisplayer);
         entity.SetTarget(null);
-        GameMain.PlayerData.Detach(entity);
+        //GameMain.PlayerData.Detach(entity);
     }
 }

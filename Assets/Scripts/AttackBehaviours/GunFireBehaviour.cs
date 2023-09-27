@@ -29,7 +29,7 @@ namespace AttackBehaviours {
         }
 
         private void SpawnBullet(EntityBase caster, List<EntityBase> targets, Effects.IAttackEffect[] effects) {
-            float defaultAngle = ExVector.GetDegree(caster.transform.position, targets[0].transform.position);
+            float defaultAngle = Mathf.Atan2(caster.HandDirection.y, caster.HandDirection.x) * Mathf.Rad2Deg;
             float finalAngle = defaultAngle + Random.Range(-_bulletSpreading, _bulletSpreading);
 
             ProjectileBase projectile = ProjectileSpawner.Instance.GetProjectile(_projectilePrefabName);

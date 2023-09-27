@@ -36,7 +36,6 @@ public class GameMain : MonoBehaviour, ILoadable {
         IsLoadCompleted = true;
 
         var spawner = ProjectileSpawner.Instance;
-        var display = CombatDamageDisplay.Instance;
         var sound = SoundManager.Instance;
     }
 

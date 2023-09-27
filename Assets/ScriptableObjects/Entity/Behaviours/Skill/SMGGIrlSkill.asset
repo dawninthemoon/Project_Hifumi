@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: SMGGIrlSkill
   m_EditorClassIdentifier: 
   _projectilePrefabName: SimpleProjectile
-  _aimingEfficiency: 3
+  _bulletSpreading: 0
   _bulletCount: 1
   _burstCount: 20
   _burstDelay: 0.1
-  _projectileSpeed: 80
+  _projectileSpeed: 200

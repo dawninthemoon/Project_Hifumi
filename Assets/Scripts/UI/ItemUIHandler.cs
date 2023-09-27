@@ -7,7 +7,7 @@ public class ItemUIHandler : MonoBehaviour, IObserver {
         GameMain.PlayerData.Attach(this);
     }
     
-    public void Notify(ObserverSubject subject) {
+    public void Notify(IObserverSubject subject) {
 
     }
 }
