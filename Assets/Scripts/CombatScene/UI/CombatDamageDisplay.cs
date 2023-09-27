@@ -39,6 +39,12 @@ public class CombatDamageDisplay : MonoBehaviour, IObserver {
         });
     }
 
+    public void Reset() {
+        _uiElementDictionary.Clear();
+        _sortedUIElementList.Clear();
+        _uiElementPool.Clear();
+    }
+
     public void Notify(IObserverSubject subject) {
         DamageInfo damageInfo = subject as DamageInfo;
         if (damageInfo != null) {
@@ -53,6 +59,8 @@ public class CombatDamageDisplay : MonoBehaviour, IObserver {
             if (damageInfo.Caster && damageInfo.Caster.CompareTag("Ally")) {
                 if (!_uiElementDictionary.TryGetValue(damageInfo.Caster.ID, out selectedElement)) {
                     selectedElement = _uiElementPool.GetObject();
+                    selectedElement.SetPortrait(damageInfo.Caster.Info.BodySprite);
+
                     _uiElementDictionary.Add(damageInfo.Caster.ID, selectedElement);
                     _sortedUIElementList.Add(selectedElement);
                 }

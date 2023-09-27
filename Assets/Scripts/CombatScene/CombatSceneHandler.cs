@@ -48,6 +48,7 @@ public class CombatSceneHandler : MonoBehaviour, IResetable {
         _allyHandler.RemoveAllAllies(_entitySpawner);
         _enemyHandler.RemoveAllEnemies(_entitySpawner);
         _combatResultUI.Reset();
+        _damageDisplayer.Reset();
 
         _currentWave = 0;
         _targetDetectionCounter = 0f;

@@ -18,6 +18,10 @@ public class DamageUIElement : MonoBehaviour {
         _maxDamageBarWidth = _damageBar.rectTransform.rect.width;
     }
 
+    public void SetPortrait(Sprite sprite) {
+        _portrait.sprite = sprite;
+    }
+
     public int AddDamage(int amount) {
         DamageSum += amount;
         _damageText.text = DamageSum.ToString();
