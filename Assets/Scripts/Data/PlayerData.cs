@@ -15,6 +15,10 @@ public class PlayerData : ObserverSubject {
         get;
         set;
     }
+    public int Gold {
+        get;
+        private set;
+    }
     public List<Belongings> BelongingsInventory { get { return _belongingsInventory; } }
     public Dictionary<string, List<Belongings>> BelongingsDictionary { get { return _itemInventory; } }
 
@@ -58,5 +62,9 @@ public class PlayerData : ObserverSubject {
     public void RemoveItemInInventory(Belongings belongings) {
         _belongingsInventory.Remove(belongings);
         Notify();
+    }
+
+    public void AddGold(int amount) {
+        Gold += amount;
     }
 }

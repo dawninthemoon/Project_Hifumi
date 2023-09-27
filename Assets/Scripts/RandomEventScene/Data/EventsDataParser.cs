@@ -11,6 +11,12 @@ namespace RandomEvent {
         private static readonly string SpriteNameColumn = "SpriteName";
         private static readonly string DescriptionColumn = "Description";
 
+        private static readonly string SelectionNameColumn = "Name";
+        private static readonly string SelectionTextColumn = "Text";
+        private static readonly string SelectionEffectsColumn = "Effects";
+
+        private static readonly char commaChar = ',';
+        private static readonly string blankStr = "";
         private static readonly string RegexStr = "\\([^)]*\\)";
         private Regex _effectVariableRegex;
 
@@ -51,19 +57,19 @@ namespace RandomEvent {
 
             EventSelections selection = new EventSelections();
             selection.ID = selectionID;
-            selection.Name = selectionJsonObj.GetField("Name").stringValue;
-            selection.Text = selectionJsonObj.GetField("Text").stringValue;
+            selection.Name = selectionJsonObj.GetField(SelectionNameColumn).stringValue;
+            selection.Text = selectionJsonObj.GetField(SelectionTextColumn).stringValue;
 
-            string effects = selectionJsonObj.GetField("Effects").stringValue;
+            string effects = selectionJsonObj.GetField(SelectionEffectsColumn).stringValue;
             if (effects != null) {
                 string[] splitedEffects = effects.Split(',');
                 EventEffects[] effectsArray = new EventEffects[splitedEffects.Length];
 
                 for (int i = 0; i < splitedEffects.Length; ++i) {
                     string variableStr = _effectVariableRegex.Match(splitedEffects[i]).ToString();
-                    string eventName = _effectVariableRegex.Replace(splitedEffects[i], "");
+                    string eventName = _effectVariableRegex.Replace(splitedEffects[i], blankStr);
                     variableStr.Trim();
-                    effectsArray[i] = new EventEffects(eventName, variableStr.Split(','));
+                    effectsArray[i] = new EventEffects(eventName, variableStr.Split(commaChar));
                 }
                 selection.Effects = effectsArray;
             }
