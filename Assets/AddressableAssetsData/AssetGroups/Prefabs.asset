@@ -38,6 +38,10 @@ MonoBehaviour:
     m_Address: EnemyPrefab
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: b5f47466bc5a1c844a8527634e319343
+    m_Address: DamageUIElement
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 31982e3aaaeb4cb4e84e15aa5125e12c, type: 2}
   m_SchemaSet:
