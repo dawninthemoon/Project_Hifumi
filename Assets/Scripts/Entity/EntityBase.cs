@@ -59,6 +59,7 @@ public class EntityBase : MonoBehaviour, IObserver {
         get { return _entityDecorator.ExtraSynergy; }
     }
 
+    public Vector2 HandDirection { get; private set; }
     public int AttackDamage { get { return _entityDecorator.AttackDamage; } }
     public Vector3 BulletPosition { get { return _bulletPosition.position; } }
     public bool IsUnloadCompleted { get; set; }
@@ -158,11 +159,12 @@ public class EntityBase : MonoBehaviour, IObserver {
 
         if (targets.Count > 0) {
             Vector2 direction = (targets[0].transform.position - transform.position).normalized;
+            HandDirection = direction;
             _animationControl.SetFaceDir(direction);
+
+            SoundManager.Instance.PlayGameSe(config.soundEffectName);
+            config.attackBehaviour.Behaviour(this, targets, effects);
         }
-        
-        SoundManager.Instance.PlayGameSe(config.soundEffectName);
-        config.attackBehaviour.Behaviour(this, targets, effects);
     }
 
     public void ReceiveDamage(int damage) {
