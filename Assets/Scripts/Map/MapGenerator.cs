@@ -95,7 +95,7 @@ public class MapGenerator : MonoBehaviour {
         Vector3 prevPosition = prev.transform.position;
         Vector3 currentPosition = cur.transform.position;
 
-        LineRenderer lineRenderer = new GameObject().AddComponent<LineRenderer>();
+        LineRenderer lineRenderer = new GameObject("vertex").AddComponent<LineRenderer>();
         lineRenderer.transform.SetParent(_gameMapParent);
 
         lineRenderer.positionCount = 2;

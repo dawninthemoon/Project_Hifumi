@@ -31,6 +31,11 @@ public class PlayerData : ObserverSubjectWithComponent {
         _itemInventory = new Dictionary<string, List<Belongings>>();
     }
 
+    private void Start() {
+        AddGold(400);
+    }
+    
+
     private void InitializeMember() {
         Member = new List<EntityDecorator>();
         if (_allies == null) {
